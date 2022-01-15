@@ -2,13 +2,19 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
-import { BrowserRouter } from "react-router-dom";
+import { Main, Login, Register } from "./Pages";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+const rootElement = document.getElementById("root");
 
 ReactDOM.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </React.StrictMode>,
-  document.getElementById("root")
+  <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<App />} />
+      <Route path="main" element={<Main />} />
+      <Route path="login" element={<Login />} />
+      <Route path="register" element={<Register />} />
+    </Routes>
+  </BrowserRouter>,
+  rootElement
 );
