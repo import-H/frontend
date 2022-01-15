@@ -1,10 +1,11 @@
 import React from "react";
-import Register from "./Pages/Register";
+import { Link } from "react-router-dom";
 
 const App = () => {
   return (
     <div>
-      <Register />
+      <div>hi</div>
+      <Link to="/main">메인</Link>
     </div>
   );
 };
