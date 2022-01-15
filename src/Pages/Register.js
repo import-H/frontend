@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-//  html에 클래스 줘도 되나요 ? ? ? ? ? ? ?? ?
 const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
