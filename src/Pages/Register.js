@@ -29,6 +29,22 @@ const Register = () => {
     setAuthInfo({ ...authInfo, [name]: value });
   };
 
+  /* 예외처리
+ - 입력 안한 input 란이 있을 때
+ => Object.values(authInfo).includes('')
+
+ - 비밀번호, 비밀번호 확인 일치하는지 확인
+ => authInfo.password!==authInfo.confirmPassword ? 'true' : 'false'
+
+ - 이메일 형식 확인(홍익대학교 이메일) 
+    -> 메일 인증번호? 받는 부분도 있어야할지도
+       상대적으로 홍익대학교 이메일 잘 사용 안해서 알림 받을 이메일 적는 곳도 필요할듯
+ => let reg = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@hongik.ac.kr/
+    reg.test(email)
+
+ - Select를 사용한 전공 선택 처리가 필요할듯
+ */
+
   return (
     <div>
       <form onSubmit={registerEvent}>
