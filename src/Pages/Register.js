@@ -8,7 +8,6 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [nickname, setNickname] = useState("");
   const [major, setMajor] = useState("");
-  console.log(email);
 
   const registerEvent = (e) => {
     e.preventDefault();
@@ -31,6 +30,7 @@ const Register = () => {
           name="email"
           onChange={(e) => {
             setEmail(e.target.value);
+            console.log(e.target.value);
           }}
         />
         <div>비밀번호</div>
@@ -38,7 +38,7 @@ const Register = () => {
           type="password"
           name="password"
           onChange={(e) => {
-            setPassword(e.target.vlaue);
+            setPassword(e.target.value);
           }}
         />
         <div>비밀번호 확인</div>
@@ -46,7 +46,7 @@ const Register = () => {
           type="password"
           name="confirm_password"
           onChange={(e) => {
-            setConfirmPassword(e.target.vlaue);
+            setConfirmPassword(e.target.value);
           }}
         />
         <div>별명</div>
@@ -54,7 +54,7 @@ const Register = () => {
           type="text"
           name="nickname"
           onChange={(e) => {
-            setNickname(e.target.vlaue);
+            setNickname(e.target.value);
           }}
         />
         <div>전공</div>
@@ -62,7 +62,7 @@ const Register = () => {
           type="text"
           name="major"
           onChange={(e) => {
-            setMajor(e.target.vlaue);
+            setMajor(e.target.value);
           }}
         />
         <button type="submit">회원가입</button>
