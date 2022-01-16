@@ -15,7 +15,7 @@ const GlobalStyle = createGlobalStyle`
     }
     html, body{
         font-size: 10px; // 1rem = 10px
-        font-family: 'Poppins', "Noto Sans KR' , sans-serif;
+        font-family: 'Poppins', 'Noto Sans KR' , 'sans-serif';
         color: #333;
     }
 `;
