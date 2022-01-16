@@ -9,10 +9,9 @@ import GlobalStyle from "./Styles/Globalstyle";
 const App = () => {
   return (
     <div>
-      <div>hi</div>
-      {/* <Link to="/main">메인</Link> */}
       <GlobalStyle />
       <Register />
+      {/* <Link to="/register">Register</Link> */}
     </div>
   );
 };
