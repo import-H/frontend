@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+import axios from "axios";
+
 const initialState = {
   isLoading: false,
   error: false,
@@ -25,11 +27,39 @@ const slice = createSlice({
 });
 
 export default slice.reducer;
-export const { getMoreComments } = slice.actions;
+
+// export function register(data) {
+//   return async (dispatch) => {
+//     dispatch(slice.actions.startLoading());
+//     await dispatch(slice.actions.registerSuccess(data));
+//   };
+// }
 
 export function register(data) {
   return async (dispatch) => {
     dispatch(slice.actions.startLoading());
-    await dispatch(slice.actions.registerSuccess(data));
+
+    try {
+      await axios.post("http://localhost:3001/user", {
+        id: 2,
+        ...data
+      });
+      //console.log("res", response);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+}
+
+export function login() {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+
+    try {
+      const response = await axios.get("http://localhost:3001/user?id=1");
+      console.log("res", response);
+    } catch (e) {
+      console.log(e);
+    }
   };
 }
