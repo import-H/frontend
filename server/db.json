@@ -1,0 +1,12 @@
+{
+  "user": [
+    {
+      "id": 1,
+      "email": "00osos@naver.com",
+      "password": 123123,
+      "confirmPassword": 123123,
+      "nickname": "jamong",
+      "major": "소프트웨어융합"
+    }
+  ]
+}
