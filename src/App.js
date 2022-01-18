@@ -1,5 +1,4 @@
-import React from "react";
-
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 import Register from "./Pages/Register";
@@ -9,9 +8,9 @@ import GlobalStyle from "./Styles/Globalstyle";
 const App = () => {
   return (
     <div>
-      <GlobalStyle />
-      <Register />
-      {/* <Link to="/register">Register</Link> */}
+      <Link to="/main">메인</Link>
+      <Link to="/register">회원가입</Link>
+      <Link to="/login">로그인</Link>
     </div>
   );
 };
