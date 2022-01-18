@@ -2,9 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import axios from "axios";
 
+const API_URL = "http://localhost:3001";
+
 const initialState = {
   isLoading: false,
   error: false,
+  token: "",
   login: false
 };
 
@@ -20,9 +23,14 @@ const slice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
-    registerSuccess(state, action) {
+    registerSuccess(state) {
       state.isLoading = false;
-      state.user = action.payload;
+    },
+    loginSuccess(state, action) {
+      const [token, , name] = action.payload;
+      state.user = name;
+      state.token = token;
+      state.isLoading = false;
     }
   }
 });
@@ -37,10 +45,12 @@ export function register(data) {
     dispatch(slice.actions.startLoading());
 
     try {
-      await axios.post("http://localhost:3001/user", {
-        id: 2,
+      const response = await axios.post(`${API_URL}/auth/register`, {
         ...data
       });
+      if (response.success) {
+        dispatch(slice.actions.registerSuccess());
+      }
     } catch (e) {
       console.log(e);
     }
@@ -48,13 +58,17 @@ export function register(data) {
 }
 
 // login 비동기 처리(임시)
-export function login() {
+export function login(data) {
   return async (dispatch) => {
     dispatch(slice.actions.startLoading());
 
     try {
-      const response = await axios.get("http://localhost:3001/user?id=1");
-      console.log("res", response);
+      const response = await axios.post(`${API_URL}/auth/register`, {
+        ...data
+      });
+      if (response.success) {
+        dispatch(slice.actions.loginSuccess(response));
+      }
     } catch (e) {
       console.log(e);
     }
