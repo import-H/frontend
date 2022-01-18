@@ -8,7 +8,7 @@ import { register } from "../reducers/slices/authSlice";
 // styled-components
 import styled from "styled-components";
 import GlobalStyle from "../Styles/Globalstyle.js";
-import { DefaultButton, DefaultInput } from "../Styles/theme.js";
+import { Button, Input } from "../Styles/theme.js";
 
 const Container = styled.div`
   width: 100%;
@@ -19,13 +19,13 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
 `;
-const InputLabel = styled.div`
+const Label = styled.div`
   font-size: 1.4em;
   margin: 10px 0 5px 0;
   color: #666;
 `;
 
-const SubmitButton = styled(DefaultButton)`
+const SubmitButton = styled(Button)`
   width: 100%;
   margin-top: 25px;
 `;
@@ -50,14 +50,14 @@ const Register = () => {
 
     // 이메일 검사(RegExp)
     let reg =
-      /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@hongik.ac.kr|@g.hongik.ac.kr|@mail.hongik.ac.kr/;
+      /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])@hongik.ac.kr|@g.hongik.ac.kr|@mail.hongik.ac.kr/;
 
     // form 검사
     // if else 말고 조금 더 효율적인 방법 있을지 고민 필요
     if (Object.values(authInfo).includes("") === true) {
       alert("입력하지 않은 정보가 있습니다.");
     } else if (reg.test(authInfo.email) === false) {
-      alert("이메일 형식이 잘못 되었습니다.");
+      alert("홍익대학교 이메일로 입력해주세요.");
     } else if (authInfo.password !== authInfo.confirmPassword) {
       alert("비밀번호가 일치하지 않습니다.");
     } else if (authInfo.name.length > 8) {
@@ -98,20 +98,16 @@ const Register = () => {
     <Container>
       <GlobalStyle />
       <form onSubmit={registerEvent}>
-        <InputLabel>이메일</InputLabel>
-        <DefaultInput type="text" name="email" onChange={onChange} />
-        <InputLabel>비밀번호</InputLabel>
-        <DefaultInput type="password" name="password" onChange={onChange} />
-        <InputLabel>비밀번호 확인</InputLabel>
-        <DefaultInput
-          type="password"
-          name="confirmPassword"
-          onChange={onChange}
-        />
-        <InputLabel>별명</InputLabel>
-        <DefaultInput type="text" name="name" onChange={onChange} />
-        <InputLabel>전공</InputLabel>
-        <DefaultInput type="text" name="major" onChange={onChange} />
+        <Label>이메일(홍익대학교)</Label>
+        <Input type="text" name="email" onChange={onChange} />
+        <Label>비밀번호</Label>
+        <Input type="password" name="password" onChange={onChange} />
+        <Label>비밀번호 확인</Label>
+        <Input type="password" name="confirmPassword" onChange={onChange} />
+        <Label>별명</Label>
+        <Input type="text" name="name" onChange={onChange} />
+        <Label>전공</Label>
+        <Input type="text" name="major" onChange={onChange} />
         <SubmitButton type="submit">회원가입</SubmitButton>
       </form>
       <div>{showError}</div>
