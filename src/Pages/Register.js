@@ -12,38 +12,52 @@ const Register = () => {
     major: ""
   });
 
+  const [showError, setShowError] = useState("sdfsdf");
+
   const registerEvent = (e) => {
     e.preventDefault();
-    const data = {
-      email: authInfo.email,
-      password: authInfo.password,
-      confirmPassword: authInfo.confirmPassword,
-      nickname: authInfo.nickname,
-      major: authInfo.major
-    };
-    dispatch(register(data));
+
+    let reg =
+      /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@hongik.ac.kr|@g.hongik.ac.kr|@mail.hongik.ac.kr/;
+
+    if (Object.values(authInfo).includes("") === true) {
+      alert("입력하지 않은 정보가 있습니다.");
+    } else if (reg.test(authInfo.email) === false) {
+      alert("이메일 형식이 잘못 되었습니다.");
+    } else if (authInfo.password !== authInfo.confirmPassword) {
+      alert("비밀번호가 일치하지 않습니다.");
+    } else if (authInfo.nickname.length > 8) {
+      alert("별명의 길이가 너무 깁니다.");
+    } else {
+      const data = {
+        email: authInfo.email,
+        password: authInfo.password,
+        confirmPassword: authInfo.confirmPassword,
+        nickname: authInfo.nickname,
+        major: authInfo.major
+      };
+      dispatch(register(data));
+    }
   };
 
   const onChange = (e) => {
     const { value, name } = e.target;
     setAuthInfo({ ...authInfo, [name]: value });
+
+    if (name === "password") {
+      if (authInfo.password.length < 8)
+        setShowError("비밀번호는 8자 이상이여야 합니다.");
+      else if (authInfo.password.length > 15) {
+        setShowError("비밀번호는 15자 이하여야 합니다.");
+      } else setShowError("");
+    }
+
+    if (name === "nickname") {
+      if (authInfo.nickname.length > 8) {
+        setShowError("별명은 8자 이하여야 합니다.");
+      } else setShowError("");
+    }
   };
-
-  /* 예외처리
- - 입력 안한 input 란이 있을 때
- => Object.values(authInfo).includes('')
-
- - 비밀번호, 비밀번호 확인 일치하는지 확인
- => authInfo.password!==authInfo.confirmPassword ? 'true' : 'false'
-
- - 이메일 형식 확인(홍익대학교 이메일) 
-    -> 메일 인증번호? 받는 부분도 있어야할지도
-       상대적으로 홍익대학교 이메일 잘 사용 안해서 알림 받을 이메일 적는 곳도 필요할듯
- => let reg = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@hongik.ac.kr/
-    reg.test(email)
-
- - Select를 사용한 전공 선택 처리가 필요할듯
- */
 
   return (
     <div>
@@ -60,6 +74,7 @@ const Register = () => {
         <input type="text" name="major" onChange={onChange} />
         <button type="submit">회원가입</button>
       </form>
+      <div>{showError}</div>
     </div>
   );
 };

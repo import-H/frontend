@@ -7,6 +7,14 @@
       "confirmPassword": 123123,
       "nickname": "jamong",
       "major": "소프트웨어융합"
+    },
+    {
+      "id": 2,
+      "email": "asd",
+      "password": "asd",
+      "confirmPassword": "asd",
+      "nickname": "asd",
+      "major": "asd"
     }
   ]
 }
