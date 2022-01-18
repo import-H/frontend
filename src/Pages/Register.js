@@ -12,7 +12,7 @@ const Register = () => {
     major: ""
   });
 
-  const [showError, setShowError] = useState("sdfsdf");
+  const [showError, setShowError] = useState("");
 
   const registerEvent = (e) => {
     e.preventDefault();
