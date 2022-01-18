@@ -1,12 +1,15 @@
+// react
 import React, { useEffect, useState } from "react";
-// styled-components 불러오기
-import styled from "styled-components";
-import GlobalStyle from "../Styles/Globalstyle.js";
-import { DefaultButton, DefaultInput } from "../Styles/theme.js";
+
+// redux
 import { useSelector, useDispatch } from "react-redux";
 import { register } from "../reducers/slices/authSlice";
 
-//r컴포넌트 스타일
+// styled-components
+import styled from "styled-components";
+import GlobalStyle from "../Styles/Globalstyle.js";
+import { DefaultButton, DefaultInput } from "../Styles/theme.js";
+
 const Container = styled.div`
   width: 100%;
   max-width: 1200px;
@@ -27,45 +30,51 @@ const SubmitButton = styled(DefaultButton)`
   margin-top: 25px;
 `;
 
+// auth form으로 변경해도 좋을듯(공통 기능 많아서)
 const Register = () => {
   const dispatch = useDispatch();
+
+  const [showError, setShowError] = useState("");
 
   const [authInfo, setAuthInfo] = useState({
     email: "",
     password: "",
     confirmPassword: "",
-    nickname: "",
+    name: "",
     major: ""
   });
 
-  const [showError, setShowError] = useState("");
-
+  // 회원가입 버튼 클릭했을 때, 발생하는 이벤트
   const registerEvent = (e) => {
     e.preventDefault();
 
+    // 이메일 검사(RegExp)
     let reg =
-      /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@hongik.ac.kr|@g.hongik.ac.kr|@mail.hongik.ac.kr/;
+      /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@hongik.ac.kr|@g.hongik.ac.kr|@mail.hongik.ac.kr/;
 
+    // form 검사
+    // if else 말고 조금 더 효율적인 방법 있을지 고민 필요
     if (Object.values(authInfo).includes("") === true) {
       alert("입력하지 않은 정보가 있습니다.");
     } else if (reg.test(authInfo.email) === false) {
       alert("이메일 형식이 잘못 되었습니다.");
     } else if (authInfo.password !== authInfo.confirmPassword) {
       alert("비밀번호가 일치하지 않습니다.");
-    } else if (authInfo.nickname.length > 8) {
+    } else if (authInfo.name.length > 8) {
       alert("별명의 길이가 너무 깁니다.");
     } else {
       const data = {
         email: authInfo.email,
         password: authInfo.password,
         confirmPassword: authInfo.confirmPassword,
-        nickname: authInfo.nickname,
+        name: authInfo.name,
         major: authInfo.major
       };
       dispatch(register(data));
     }
   };
 
+  // input에 변경이 생겼을 경우, 발생하는 이벤트
   const onChange = (e) => {
     const { value, name } = e.target;
     setAuthInfo({ ...authInfo, [name]: value });
@@ -78,8 +87,8 @@ const Register = () => {
       } else setShowError("");
     }
 
-    if (name === "nickname") {
-      if (authInfo.nickname.length > 8) {
+    if (name === "name") {
+      if (authInfo.name.length > 8) {
         setShowError("별명은 8자 이하여야 합니다.");
       } else setShowError("");
     }
@@ -100,7 +109,7 @@ const Register = () => {
           onChange={onChange}
         />
         <InputLabel>별명</InputLabel>
-        <DefaultInput type="text" name="nickname" onChange={onChange} />
+        <DefaultInput type="text" name="name" onChange={onChange} />
         <InputLabel>전공</InputLabel>
         <DefaultInput type="text" name="major" onChange={onChange} />
         <SubmitButton type="submit">회원가입</SubmitButton>
