@@ -25,9 +25,9 @@ const Board = () => {
     <div>
       {samplePosts.map((post) => (
         <div style={{ border: "1px solid black", padding: 20, margin: 20 }}>
-          <div>{post.title}</div>
-          <div>{post.text}</div>
-          <div>{post.author}</div>
+          <div>제목: {post.title}</div>
+          <div>내용: {post.text}</div>
+          <div>만든이: {post.author}</div>
         </div>
       ))}
     </div>
