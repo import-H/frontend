@@ -1,7 +1,12 @@
 import React from "react";
+import PostForm from "../Components/PostForm";
 
 const Main = () => {
-  return <div>메인 페이지</div>;
+  return (
+    <div>
+      <PostForm />
+    </div>
+  );
 };
 
 export default Main;
