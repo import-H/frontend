@@ -8,12 +8,12 @@ const initialState = {
   isLoading: false,
   error: false,
   token: "",
-  login: false
+  isAuth: false
 };
 
 // redux-toolkit 가이드: https://redux-toolkit.js.org/tutorials/quick-start
 const slice = createSlice({
-  name: "register",
+  name: "auth",
   initialState,
   reducers: {
     startLoading(state) {
