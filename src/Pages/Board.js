@@ -5,7 +5,7 @@ const samplePosts = [
   {
     id: 1,
     title: "프로그래밍 스터디 이름",
-    text: "프로그래밍 스터디 이름은 import_H입니다.!!",
+    content: "프로그래밍 스터디 이름은 import_H입니다.!!",
     thumbnail: "",
     create_at: "2022-01-21",
     author: "자몽"
@@ -13,7 +13,7 @@ const samplePosts = [
   {
     id: 2,
     title: "프로그래밍 스터디 이름",
-    text: "프로그래밍 스터디 이름은 import_H입니다.!!",
+    content: "프로그래밍 스터디 이름은 import_H입니다.!!",
     thumbnail: "",
     create_at: "2022-01-21",
     author: "자몽"
@@ -26,7 +26,7 @@ const Board = () => {
       {samplePosts.map((post) => (
         <div style={{ border: "1px solid black", padding: 20, margin: 20 }}>
           <div>제목: {post.title}</div>
-          <div>내용: {post.text}</div>
+          <div>내용: {post.content}</div>
           <div>만든이: {post.author}</div>
         </div>
       ))}

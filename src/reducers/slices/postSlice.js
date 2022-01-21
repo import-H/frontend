@@ -7,7 +7,8 @@ const API_URL = "http://localhost:3001";
 const initialState = {
   isLoading: false,
   error: false,
-  token: "",
+  refreshToken: "",
+  accessToken: "",
   login: false
 };
 
@@ -23,16 +24,7 @@ const slice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
-    registerSuccess(state) {
-      state.isLoading = false;
-    },
-    loginSuccess(state, action) {
-      const [accessToken, refreshToken, , name] = action.payload;
-      state.user = name;
-      state.accessToken = accessToken;
-      state.refreshToken = refreshToken;
-      state.isLoading = false;
-    }
+    addPostSuccess(state, action) {}
   }
 });
 
