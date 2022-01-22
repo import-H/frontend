@@ -1,0 +1,6 @@
+/* NavBar */
+header {position: fixed; top: 0; left:0; right: 0; background-color: white;}
+header #logo {float: left;}
+header #logo a, header #log a, .inner a {text-decoration: none; color: black;}
+header #log {float:right; margin: 1%;}
+header #log .element {float:left; margin-right:10px;}

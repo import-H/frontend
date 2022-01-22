@@ -1,25 +1,24 @@
 import React from "react";
-import './App.css'
-import { Route, Routes } from "react-router-dom";
-import NavBar from "./Pages/Sections/NavBar";
-import { Main, Login, Register, Board } from "./Pages";
+import GlobalStyle from "./Styles/Globalstyle";
+import styled from "styled-components";
+
+const Container = styled.div`
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  min-width: 300px;
+  padding: 20px 25px;
+  display: flex;
+  justify-content: center;
+`;
 
 const App = () => {
   return (
-    <div className="App">
-      <header>
-        <NavBar />
-      </header>
-      {/* <Link to="/main">메인</Link>
-      <Link to="/register">회원가입</Link>
-      <Link to="/login">로그인</Link> */}
-      <Routes>
-        <Route path="/" element={<Main />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/board" element={<Board />} />
-      </Routes>
-    </div>
+    <Container>
+      <GlobalStyle>        
+        랜딩페이지
+      </GlobalStyle>
+    </Container>
   );
 };
 
