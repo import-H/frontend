@@ -33,10 +33,10 @@ const slice = createSlice({
       state.isLoading = false;
     },
     updateToken(state, action) {
-      const [accessToken, , name] = action.payload;
-      state.user = name;
-      state.token = accessToken;
+      state.user = action.payload.user;
       state.isLoading = false;
+      state.token = action.payload.accessToken;
+      state.isAuth = true;
     }
   }
 });
@@ -69,12 +69,13 @@ export function login(data) {
     dispatch(slice.actions.startLoading());
 
     try {
-      const response = await axios.post(`${API_URL}/auth/register`, {
+      const response = await axios.post(`http://localhost:8090/v1/login`, {
         ...data
       });
+      console.log("res", response);
       if (response.success) {
         dispatch(slice.actions.loginSuccess(response));
-        localStorage.setItem("authToken", JSON.stringify(response));
+        localStorage.setItem("authToken", JSON.stringify(response.data));
       }
     } catch (e) {
       console.log(e);
