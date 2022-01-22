@@ -3,7 +3,7 @@ import React, { useEffect, useState, useRef } from "react";
 
 // redux
 import { useSelector, useDispatch } from "react-redux";
-import { addPost } from "../reducers/slices/authSlice";
+import { addPost } from "../reducers/slices/postSlice";
 
 // styled-components
 import styled from "styled-components";
