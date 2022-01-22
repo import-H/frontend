@@ -6,8 +6,7 @@ const API_URL = "http://localhost:8090";
 const initialState = {
   isLoading: false,
   error: false,
-  accessToken: "",
-  refreshToken: "",
+  authTokens: "",
   isAuth: false
 };
 
@@ -35,11 +34,11 @@ const slice = createSlice({
     updateToken(state, action) {
       state.user = action.payload.user;
       state.isLoading = false;
-      state.token = action.payload.accessToken;
+      state.authTokens = action.payload;
       state.isAuth = true;
     },
     logoutSuccess(state, action) {
-      Object.assign(state, initialState);
+      Object.assign(state, initialState); // state 리셋
     }
   }
 });
@@ -95,6 +94,18 @@ export function logout() {
     try {
       dispatch(slice.actions.logoutSuccess());
       localStorage.clear();
+    } catch (e) {
+      console.log(e);
+      dispatch(slice.actions.hasError(e));
+    }
+  };
+}
+
+export function refresh() {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+
+    try {
     } catch (e) {
       console.log(e);
       dispatch(slice.actions.hasError(e));
