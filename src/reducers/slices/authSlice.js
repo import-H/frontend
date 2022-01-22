@@ -31,6 +31,12 @@ const slice = createSlice({
       state.user = name;
       state.token = token;
       state.isLoading = false;
+    },
+    updateToken(state, action) {
+      const [accessToken, , name] = action.payload;
+      state.user = name;
+      state.token = accessToken;
+      state.isLoading = false;
     }
   }
 });
@@ -68,9 +74,25 @@ export function login(data) {
       });
       if (response.success) {
         dispatch(slice.actions.loginSuccess(response));
+        localStorage.setItem("authToken", JSON.stringify(response));
       }
     } catch (e) {
       console.log(e);
     }
+  };
+}
+
+export function sampleToken() {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    const response = {
+      user: "oseung",
+      accessToken:
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYmNAaG9uZ2lrLmFjLmtyIiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTY0MjY5NjI3MywiZXhwIjoxNjQyNjk5ODczfQ.jGML5KAcgWo4EOAcu7NpBty_8HpFl87OmH2s7fkeHco",
+      refreshToken:
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYmNAaG9uZ2lrLmFjLmtyIiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTY0MjY5NjI3MywiZXhwIjoxNjQzOTA1ODczfQ.Q00obCIagjBV9FWrVVTadNb1VrngFkceKvaOkHLaaww"
+    };
+    dispatch(slice.actions.updateToken(response));
+    localStorage.setItem("authToken", JSON.stringify(response));
   };
 }
