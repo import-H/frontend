@@ -8,17 +8,8 @@ import { login } from "../reducers/slices/authSlice";
 // styled-components
 import styled from "styled-components";
 import GlobalStyle from "../Styles/Globalstyle.js";
-import { Button, Input } from "../Styles/theme.js";
+import { Button, Input, Container } from "../Styles/theme.js";
 
-const Container = styled.div`
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  min-width: 300px;
-  padding: 20px 25px;
-  display: flex;
-  justify-content: center;
-`;
 const Label = styled.div`
   font-size: 1.4em;
   margin: 10px 0 5px 0;
