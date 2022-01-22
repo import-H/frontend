@@ -38,7 +38,7 @@ const slice = createSlice({
       state.isAuth = true;
     },
     logoutSuccess(state, action) {
-      state = initialState;
+      Object.assign(state, initialState);
     }
   }
 });
@@ -47,7 +47,7 @@ export default slice.reducer;
 
 // redux-toolkit 비동기 처리하는 방법 고민중 => 내장된 thunk 사용 가능성 높음
 
-// register 비동기 처리(임시)
+// register 비동기 처리
 export function register(data) {
   return async (dispatch) => {
     dispatch(slice.actions.startLoading());
@@ -61,11 +61,12 @@ export function register(data) {
       }
     } catch (e) {
       console.log(e);
+      dispatch(slice.actions.hasError(e));
     }
   };
 }
 
-// login 비동기 처리(임시)
+// login 비동기 처리
 export function login(data) {
   return async (dispatch) => {
     dispatch(slice.actions.startLoading());
@@ -80,6 +81,7 @@ export function login(data) {
       }
     } catch (e) {
       console.log(e);
+      dispatch(slice.actions.hasError(e));
     }
   };
 }
@@ -89,8 +91,11 @@ export function logout() {
     dispatch(slice.actions.startLoading());
 
     try {
+      dispatch(slice.actions.logoutSuccess());
+      localStorage.clear();
     } catch (e) {
       console.log(e);
+      dispatch(slice.actions.hasError(e));
     }
   };
 }
