@@ -8,12 +8,12 @@ const initialState = {
   isLoading: false,
   error: false,
   token: "",
-  login: false
+  isAuth: false
 };
 
 // redux-toolkit 가이드: https://redux-toolkit.js.org/tutorials/quick-start
 const slice = createSlice({
-  name: "register",
+  name: "auth",
   initialState,
   reducers: {
     startLoading(state) {
@@ -32,6 +32,12 @@ const slice = createSlice({
       state.accessToken = accessToken;
       state.refreshToken = refreshToken;
       state.isLoading = false;
+    },
+    updateToken(state, action) {
+      state.user = action.payload.user;
+      state.isLoading = false;
+      state.token = action.payload.accessToken;
+      state.isAuth = true;
     }
   }
 });
@@ -64,14 +70,31 @@ export function login(data) {
     dispatch(slice.actions.startLoading());
 
     try {
-      const response = await axios.post(`${API_URL}/auth/register`, {
+      const response = await axios.post(`http://localhost:8090/v1/login`, {
         ...data
       });
+      console.log("res", response);
       if (response.success) {
         dispatch(slice.actions.loginSuccess(response));
+        localStorage.setItem("authToken", JSON.stringify(response.data));
       }
     } catch (e) {
       console.log(e);
     }
+  };
+}
+
+export function sampleToken() {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    const response = {
+      user: "oseung",
+      accessToken:
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYmNAaG9uZ2lrLmFjLmtyIiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTY0MjY5NjI3MywiZXhwIjoxNjQyNjk5ODczfQ.jGML5KAcgWo4EOAcu7NpBty_8HpFl87OmH2s7fkeHco",
+      refreshToken:
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYmNAaG9uZ2lrLmFjLmtyIiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTY0MjY5NjI3MywiZXhwIjoxNjQzOTA1ODczfQ.Q00obCIagjBV9FWrVVTadNb1VrngFkceKvaOkHLaaww"
+    };
+    dispatch(slice.actions.updateToken(response));
+    localStorage.setItem("authToken", JSON.stringify(response));
   };
 }

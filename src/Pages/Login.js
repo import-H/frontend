@@ -31,17 +31,14 @@ const SubmitButton = styled(Button)`
 `;
 
 // auth form으로 변경해도 좋을듯(공통 기능 많아서)
-const Register = () => {
+const Login = () => {
   const dispatch = useDispatch();
 
   const [showError, setShowError] = useState("");
 
   const [authInfo, setAuthInfo] = useState({
     email: "",
-    password: "",
-    confirmPassword: "",
-    name: "",
-    major: ""
+    password: ""
   });
 
   // 회원가입 버튼 클릭했을 때, 발생하는 이벤트
@@ -49,26 +46,12 @@ const Register = () => {
     e.preventDefault();
 
     // 이메일 검사(RegExp)
-    let reg =
-      /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])@hongik.ac.kr|@g.hongik.ac.kr|@mail.hongik.ac.kr/;
 
-    // form 검사
-    // if else 말고 조금 더 효율적인 방법 있을지 고민 필요
-    if (Object.values(authInfo).includes("") === true) {
-      alert("입력하지 않은 정보가 있습니다.");
-    } else if (reg.test(authInfo.email) === false) {
-      alert("홍익대학교 이메일로 입력해주세요.");
-    } else if (authInfo.password !== authInfo.confirmPassword) {
-      alert("비밀번호가 일치하지 않습니다.");
-    } else if (authInfo.name.length > 8) {
-      alert("별명의 길이가 너무 깁니다.");
-    } else {
-      const data = {
-        email: authInfo.email,
-        password: authInfo.password
-      };
-      dispatch(login(data));
-    }
+    const data = {
+      email: authInfo.email,
+      password: authInfo.password
+    };
+    dispatch(login(data));
   };
 
   // input에 변경이 생겼을 경우, 발생하는 이벤트
@@ -93,4 +76,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Login;
