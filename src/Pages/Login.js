@@ -1,8 +1,8 @@
 // react
 import React, { useEffect, useState } from "react";
-
 // redux
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { login } from "../reducers/slices/authSlice";
 
 // styled-components
@@ -32,6 +32,8 @@ const SubmitButton = styled(Button)`
 
 // auth form으로 변경해도 좋을듯(공통 기능 많아서)
 const Login = () => {
+  const navigate = useNavigate();
+  const isAuth = useSelector((state) => state.auth.isAuth);
   const dispatch = useDispatch();
 
   const [showError, setShowError] = useState("");
@@ -42,7 +44,7 @@ const Login = () => {
   });
 
   // 회원가입 버튼 클릭했을 때, 발생하는 이벤트
-  const loginEvent = (e) => {
+  const loginEvent = async (e) => {
     e.preventDefault();
 
     // 이메일 검사(RegExp)
@@ -51,7 +53,7 @@ const Login = () => {
       email: authInfo.email,
       password: authInfo.password
     };
-    dispatch(login(data));
+    await dispatch(login(data));
   };
 
   // input에 변경이 생겼을 경우, 발생하는 이벤트
@@ -59,6 +61,12 @@ const Login = () => {
     const { value, name } = e.target;
     setAuthInfo({ ...authInfo, [name]: value });
   };
+
+  useEffect(() => {
+    if (isAuth) {
+      navigate("/");
+    }
+  }, [isAuth, navigate]);
 
   return (
     <Container>
