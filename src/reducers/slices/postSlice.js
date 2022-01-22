@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-
+import useAxios from "../../utils/useAxios";
 const API_URL = "http://localhost:3001";
 
 const initialState = {
@@ -38,11 +38,7 @@ export function addPost(data) {
     dispatch(slice.actions.startLoading());
 
     try {
-      const response = await axios.post(`${API_URL}/auth/register`, ...data, {
-        params: {
-          token: "123"
-        }
-      });
+      const response = await useAxios().post(`${API_URL}/post`, ...data);
       if (response.success) {
         dispatch(slice.actions.registerSuccess());
       }
