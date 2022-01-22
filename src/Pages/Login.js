@@ -47,13 +47,16 @@ const Login = () => {
   const loginEvent = async (e) => {
     e.preventDefault();
 
-    // 이메일 검사(RegExp)
-
-    const data = {
-      email: authInfo.email,
-      password: authInfo.password
-    };
-    await dispatch(login(data));
+    // form 검사
+    if (Object.values(authInfo).includes("") === true) {
+      alert("입력하지 않은 정보가 있습니다");
+    } else {
+      const data = {
+        email: authInfo.email,
+        password: authInfo.password
+      };
+      await dispatch(login(data));
+    }
   };
 
   // input에 변경이 생겼을 경우, 발생하는 이벤트
@@ -62,6 +65,7 @@ const Login = () => {
     setAuthInfo({ ...authInfo, [name]: value });
   };
 
+  // isAuth가 true 인 경우(로그인 완료), 랜딩페이지로 이동
   useEffect(() => {
     if (isAuth) {
       navigate("/");
