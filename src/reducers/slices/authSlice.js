@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-const API_URL = "http://localhost:3001";
+const API_URL = "http://localhost:8090";
 
+// 임시로 refreshToken도 여기에 저장해둠
 const initialState = {
   isLoading: false,
   error: false,
@@ -53,7 +54,7 @@ export function register(data) {
     dispatch(slice.actions.startLoading());
 
     try {
-      const response = await axios.post(`${API_URL}/auth/register`, {
+      const response = await axios.post(`${API_URL}/v1/register`, {
         ...data
       });
       if (response.success) {
@@ -71,13 +72,13 @@ export function login(data) {
   return async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.post(`http://localhost:8090/v1/login`, {
+      const response = await axios.post(`${API_URL}/v1/login`, {
         ...data
       });
       console.log("res", response.data.data);
       if (response.data.success) {
         dispatch(slice.actions.loginSuccess(response.data.data));
-        localStorage.setItem("authToken", JSON.stringify(response.data.data));
+        localStorage.setItem("authTokens", JSON.stringify(response.data.data));
       }
     } catch (e) {
       console.log(e);
@@ -86,6 +87,7 @@ export function login(data) {
   };
 }
 
+// logout 비동기 처리
 export function logout() {
   return async (dispatch) => {
     dispatch(slice.actions.startLoading());

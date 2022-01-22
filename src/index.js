@@ -1,19 +1,25 @@
+// react
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
+
+// component
 import App from "./App";
 import { Main, Login, Register } from "./Pages";
-import PrivateRoute from "./utils/PrivateRoute"; //로그인한 사용자만 들어갈 수 있음
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Provider } from "react-redux";
-import { store } from "./reducers/store";
 import Header from "./Components/Header";
 
+// route
+import PrivateRoute from "./utils/PrivateRoute"; //로그인한 사용자만 들어갈 수 있음
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+// redux
+import { Provider } from "react-redux";
+import { store } from "./reducers/store";
+
+// redux-persist
 import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
 
 let persistor = persistStore(store);
-const rootElement = document.getElementById("root");
 
 ReactDOM.render(
   <Provider store={store}>
@@ -29,5 +35,5 @@ ReactDOM.render(
       </BrowserRouter>
     </PersistGate>
   </Provider>,
-  rootElement
+  document.getElementById("root")
 );
