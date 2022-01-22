@@ -7,7 +7,9 @@ const initialState = {
   isLoading: false,
   error: false,
   refreshToken: "",
-  accessToken: "",
+  accessToken: localStorage.getItem("authTokens")
+    ? JSON.parse(localStorage.getItem("authTokens"))
+    : null,
   login: false
 };
 
