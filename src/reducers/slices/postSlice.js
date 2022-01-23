@@ -36,21 +36,17 @@ export default slice.reducer;
 
 // redux-toolkit 비동기 처리하는 방법 고민중 => 내장된 thunk 사용 가능성 높음
 
-// addPost 비동기 처리(임시)
-// export function addPost(data) {
-//   return async (dispatch) => {
-//     dispatch(slice.actions.startLoading());
+//addPost 비동기 처리(임시)
+export function addPost(data) {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
 
-//     try {
-//       const response = await useAxios().post(`${API_URL}/post`, ...data);
-//       if (response.success) {
-//         dispatch(slice.actions.registerSuccess());
-//       }
-//     } catch (e) {
-//       console.log(e);
-//     }
-//   };
-// }
+    try {
+    } catch (e) {
+      console.log(e);
+    }
+  };
+}
 
 export function getUser() {
   return async (dispatch) => {

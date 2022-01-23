@@ -34,7 +34,7 @@ axiosInstance.interceptors.request.use(async (req) => {
     accessToken: authTokens.accessToken,
     refreshToken: authTokens.refreshToken
   });
-  console.log("in", authTokens, response.data);
+  authTokens = response.data.data;
   localStorage.setItem("authTokens", JSON.stringify(response.data.data));
   req.headers.Authorization = `Bearer ${authTokens?.accessToken}`;
   return req;
