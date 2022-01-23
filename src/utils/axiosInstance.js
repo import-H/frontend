@@ -17,6 +17,7 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(async (req) => {
   console.log("interceptor is working");
+  req.headers.Authorization = `${authTokens?.accessToken}`;
   if (!authTokens) {
     authTokens = localStorage.getItem("authTokens")
       ? JSON.parse(localStorage.getItem("authTokens"))
@@ -25,21 +26,22 @@ axiosInstance.interceptors.request.use(async (req) => {
   }
 
   const user = jwt_decode(authTokens.accessToken);
-  const isExpired = dayjs.unix(user.exp).diff(dayjs()) < 1;
-
+  let isExpired = dayjs.unix(user.exp).diff(dayjs()) < 1;
   console.log("isExpired", isExpired, dayjs.unix(user.exp).diff(dayjs()));
-  if (!isExpired) return req;
+  if (!isExpired) {
+    return req;
+  } else {
+    const response = await axios.post(`${baseURL}/v1/reissue`, {
+      accessToken: authTokens.accessToken,
+      refreshToken: authTokens.refreshToken
+    });
 
-  const response = await axios.post(`${baseURL}/v1/reissue`, {
-    accessToken: authTokens.accessToken,
-    refreshToken: authTokens.refreshToken
-  });
+    localStorage.setItem("authTokens", JSON.stringify(response.data.data));
 
-  localStorage.setItem("authTokens", JSON.stringify(response.data.data));
-  authTokens = JSON.parse(localStorage.getItem("authTokens"));
-  console.log(authTokens);
-  req.headers.Authorization = `${authTokens?.accessToken}`;
-  return req;
+    authTokens = response.data.data;
+    req.headers.Authorization = `${authTokens?.accessToken}`;
+    return req;
+  }
 });
 
 export default axiosInstance;
