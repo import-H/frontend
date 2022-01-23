@@ -28,10 +28,10 @@ ReactDOM.render(
         <Header />
         <Routes>
           <Route path="/" element={<App />} />
-          <Route path="main" element={<PrivateRoute component={Main} />} />
+          <Route path="main" element={<Main />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
-          <Route path="board" element={<Board />} />
+          <Route path="board" element={<PrivateRoute component={Board} />} />
         </Routes>
       </BrowserRouter>
     </PersistGate>

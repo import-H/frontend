@@ -10,7 +10,7 @@ let authTokens = localStorage.getItem("authTokens")
 
 const axiosInstance = axios.create({
   baseURL,
-  headers: { Authorization: `Bearer ${authTokens?.accessToken}` }
+  headers: { Authorization: `${authTokens?.accessToken}` }
 });
 
 // localStorage 말고, redux에 접근해서 dispatch와 select를 할 수 있는 방법은 없을까?
@@ -21,7 +21,7 @@ axiosInstance.interceptors.request.use(async (req) => {
     authTokens = localStorage.getItem("authTokens")
       ? JSON.parse(localStorage.getItem("authTokens"))
       : null;
-    req.headers.Authorization = `Bearer ${authTokens?.accessToken}`;
+    req.headers.Authorization = `${authTokens?.accessToken}`;
   }
 
   const user = jwt_decode(authTokens.accessToken);
@@ -34,9 +34,11 @@ axiosInstance.interceptors.request.use(async (req) => {
     accessToken: authTokens.accessToken,
     refreshToken: authTokens.refreshToken
   });
-  authTokens = response.data.data;
+
   localStorage.setItem("authTokens", JSON.stringify(response.data.data));
-  req.headers.Authorization = `Bearer ${authTokens?.accessToken}`;
+  authTokens = JSON.parse(localStorage.getItem("authTokens"));
+  console.log(authTokens);
+  req.headers.Authorization = `${authTokens?.accessToken}`;
   return req;
 });
 

@@ -12,8 +12,8 @@ const Header = () => {
   };
   return (
     <div style={{ padding: "1rem", borderBottom: "1px solid black" }}>
-      <Link to="/main" style={{ padding: "1rem" }}>
-        메인
+      <Link to="/board" style={{ padding: "1rem" }}>
+        게시판
       </Link>
       <Link to="/register" style={{ padding: "1rem" }}>
         회원가입
