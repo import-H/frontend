@@ -1,4 +1,6 @@
 // redux-toolkit
+import { useSelector } from "react-redux";
+
 import { configureStore } from "@reduxjs/toolkit";
 
 // slices
@@ -34,7 +36,6 @@ const persistConfig = {
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
-
 // store 생성
 export const store = configureStore({
   reducer: persistedReducer,
