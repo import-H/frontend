@@ -7,15 +7,12 @@ const API_URL = "http://localhost:8090";
 const initialState = {
   isLoading: false,
   error: false,
-  refreshToken: "",
-  accessToken: localStorage.getItem("authTokens")
-    ? JSON.parse(localStorage.getItem("authTokens"))
-    : null,
-  login: false
+  login: false,
+  nickname: ""
 };
 
 const slice = createSlice({
-  name: "register",
+  name: "post",
   initialState,
   reducers: {
     startLoading(state) {
@@ -28,6 +25,7 @@ const slice = createSlice({
     addPostSuccess(state, action) {},
     getuserSuccess(state, action) {
       state.isLoading = true;
+      state.nickname = action.payload.nickName;
     }
   }
 });
@@ -55,8 +53,8 @@ export function getUser() {
     try {
       const response = await axiosInstance.get(`${API_URL}/v1/user/id/1`);
       if (response.data.success) {
-        dispatch(slice.actions.getuserSuccess());
-        console.log(response.data);
+        dispatch(slice.actions.getuserSuccess(response.data.data));
+        console.log(response.data.data);
       }
     } catch (e) {
       console.log(e);
