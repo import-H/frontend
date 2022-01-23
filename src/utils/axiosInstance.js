@@ -1,6 +1,5 @@
 import axios from "axios";
-
-const baseURL = "http://localhost:3001";
+const baseURL = "http://localhost:8090";
 
 let authTokens = localStorage.getItem("authTokens")
   ? JSON.parse(localStorage.getItem("authTokens"))
@@ -20,10 +19,12 @@ axiosInstance.interceptors.request.use(async (req) => {
     req.headers.Authorization = `Bearer ${authTokens?.accessToken}`;
   }
 
-  const response = await axios.post(`${baseURL}/v1/refresh`, {
-    refresh: authTokens.refreshToken
+  const response = await axios.post(`${baseURL}/v1/reissue`, {
+    accessToken: authTokens.accessToken,
+    refreshToken: authTokens.refreshToken
   });
-  localStorage.setItme("authTokens", JSON.stringify(response.data));
+  console.log("in", authTokens, response.data);
+  localStorage.setItem("authTokens", JSON.stringify(response.data.data));
   req.headers.Authorization = `Bearer ${authTokens?.accessToken}`;
   return req;
 });

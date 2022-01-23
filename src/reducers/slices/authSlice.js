@@ -6,7 +6,7 @@ const API_URL = "http://localhost:8090";
 const initialState = {
   isLoading: false,
   error: false,
-  authTokens: "",
+  authTokens: {},
   isAuth: false
 };
 
@@ -26,10 +26,9 @@ const slice = createSlice({
       state.isLoading = false;
     },
     loginSuccess(state, action) {
-      state.accessToken = action.payload.accessToken;
-      state.refreshToken = action.payload.refreshToken;
       state.isAuth = true;
       state.isLoading = false;
+      state.authTokens = action.payload;
     },
     updateToken(state, action) {
       state.user = action.payload.user;
@@ -92,6 +91,7 @@ export function logout() {
     dispatch(slice.actions.startLoading());
 
     try {
+      localStorage.clear();
       dispatch(slice.actions.logoutSuccess());
       localStorage.clear();
     } catch (e) {

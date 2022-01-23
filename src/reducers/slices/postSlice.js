@@ -1,7 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import useAxios from "../../utils/useAxios";
-const API_URL = "http://localhost:3001";
+
+import axiosInstance from "../../utils/axiosInstance";
+const API_URL = "http://localhost:8090";
 
 const initialState = {
   isLoading: false,
@@ -24,7 +26,10 @@ const slice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
-    addPostSuccess(state, action) {}
+    addPostSuccess(state, action) {},
+    getuserSuccess(state, action) {
+      state.isLoading = true;
+    }
   }
 });
 
@@ -41,6 +46,22 @@ export function addPost(data) {
       const response = await useAxios().post(`${API_URL}/post`, ...data);
       if (response.success) {
         dispatch(slice.actions.registerSuccess());
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+}
+
+export function getUser() {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+
+    try {
+      const response = await axiosInstance.get(`${API_URL}/v1/user/id/1`);
+      if (response.data.success) {
+        dispatch(slice.actions.getuserSuccess());
+        console.log(response.data);
       }
     } catch (e) {
       console.log(e);
