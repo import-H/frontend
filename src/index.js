@@ -4,7 +4,7 @@ import ReactDOM from "react-dom";
 
 // component
 import App from "./App";
-import { Main, Login, Register } from "./Pages";
+import { Main, Login, Register, Board } from "./Pages";
 import Header from "./Components/Header";
 
 // route
@@ -31,6 +31,7 @@ ReactDOM.render(
           <Route path="main" element={<PrivateRoute component={Main} />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
+          <Route path="board" element={<Board />} />
         </Routes>
       </BrowserRouter>
     </PersistGate>

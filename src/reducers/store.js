@@ -19,13 +19,21 @@ const reducers = combineReducers({
   post: postReducer // postSlice
 });
 
+const rootReducer = (state, action) => {
+  //console.log(action.type);
+  if (action.type === "auth/logoutSuccess") {
+    state = undefined;
+  }
+  return reducers(state, action);
+};
+
 // localStorage root에 redux 저장
 const persistConfig = {
   key: "root",
   storage
 };
 
-const persistedReducer = persistReducer(persistConfig, reducers);
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 // store 생성
 export const store = configureStore({
