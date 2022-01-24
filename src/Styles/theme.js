@@ -38,9 +38,9 @@ const Container = styled.div`
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  margin-top: 1%;
+  margin-top: 50px;
   min-width: 300px;
-  padding: 20px 25px;
+  padding: 30px 0px;
   display: flex;
   justify-content: center;
 `;
