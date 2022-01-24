@@ -1,31 +1,37 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 import axiosInstance from "../../utils/axiosInstance";
 const API_URL = "http://localhost:8090";
 
 const initialState = {
-  isLoading: false,
-  error: false,
-  login: false,
+  status: null,
   nickname: ""
 };
+
+export const getUser = createAsyncThunk(
+  "post/getUser",
+  async (data, dispatch, getState) => {
+    const response = await axiosInstance.get(`${API_URL}/v1/user/id/1`);
+    return response.data.data;
+  }
+);
 
 const slice = createSlice({
   name: "post",
   initialState,
-  reducers: {
-    startLoading(state) {
-      state.isLoading = true;
+  reducers: {},
+  extraReducers: {
+    [getUser.pending]: (state, action) => {
+      state.status = "loading";
     },
-    hasError(state, action) {
-      state.isLoading = false;
-      state.error = action.payload;
-    },
-    addPostSuccess(state, action) {},
-    getuserSuccess(state, action) {
-      state.isLoading = true;
+    [getUser.fulfilled]: (state, action) => {
+      state.status = "success";
       state.nickname = action.payload.nickName;
+    },
+    [getUser.rejected]: (state, action) => {
+      state.status = "failed";
+      state.error = action.error;
     }
   }
 });
@@ -40,22 +46,6 @@ export function addPost(data) {
     dispatch(slice.actions.startLoading());
 
     try {
-    } catch (e) {
-      console.log(e);
-    }
-  };
-}
-
-export function getUser() {
-  return async (dispatch) => {
-    dispatch(slice.actions.startLoading());
-
-    try {
-      const response = await axiosInstance.get(`${API_URL}/v1/user/id/1`);
-      if (response.data.success) {
-        dispatch(slice.actions.getuserSuccess(response.data.data));
-        console.log(response.data.data);
-      }
     } catch (e) {
       console.log(e);
     }
