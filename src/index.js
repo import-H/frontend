@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import "./Nav.css"
 import App from "./App";
 import { Main, Login, Register, Sample } from "./Pages";
 import PrivateRoute from "./utils/PrivateRoute"; //로그인한 사용자만 들어갈 수 있음

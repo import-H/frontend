@@ -6,7 +6,7 @@ const App = () => {
   return (
     <Container>
       <GlobalStyle />        
-      <div style={{marginTop: '5%'}}>랜딩페이지</div>
+      랜딩 페이지
     </Container>
   );
 };
