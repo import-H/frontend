@@ -40,7 +40,7 @@ const Container = styled.div`
   margin: 0 auto;
   margin-top: 50px;
   min-width: 300px;
-  padding: 30px 0px;
+  padding: 50px 0;
   display: flex;
   justify-content: center;
 `;
