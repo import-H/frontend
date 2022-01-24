@@ -38,7 +38,7 @@ const Container = styled.div`
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  margin-top: 1%;
+  margin-top: 3%;
   min-width: 300px;
   padding: 20px 25px;
   display: flex;
