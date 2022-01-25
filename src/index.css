@@ -11,3 +11,42 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* NavBar */
+header {position: fixed; top: 0; left:0; right: 0; background-color: white;  height: 50px; box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.05);}
+header nav {
+  width: 100%;
+  height: 100%;
+}
+header #content { 
+  width: 100%;
+  height: 100%;
+  padding: 0 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;}
+header #logo {float: left}
+header #logo a{
+  display: flex;
+  align-items: center;
+  transform: translateY(2px);
+}
+header #logo a, header #log a, .inner a {text-decoration: none; color: black;}
+header #log {float: right; transform: translateX(22px);}
+header #log .element {float:left;}
+header #log .element:first-child {
+  margin-right: 10px;
+}
+header #log .element a {
+  display: block;
+  min-width: 72px;
+  padding: 7px 15px;
+  text-align: center;
+  font-size: 1.1em;
+  background-color: #7973ce;
+  color: #fff;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+header #log .element a:hover {background-color: #ffc90a; color: #222;}

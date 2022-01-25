@@ -34,4 +34,15 @@ const Button = styled.button`
   }
 `;
 
-export { Button, Input };
+const Container = styled.div`
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-top: 50px;
+  min-width: 300px;
+  padding: 50px 0;
+  display: flex;
+  justify-content: center;
+`;
+
+export { Button, Input, Container };

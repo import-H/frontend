@@ -1,8 +1,14 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import GlobalStyle from "./Styles/Globalstyle";
+import { Container } from "./Styles/theme";
 
 const App = () => {
-  return <div>app.js</div>;
+  return (
+    <Container>
+      <GlobalStyle />        
+      랜딩 페이지
+    </Container>
+  );
 };
 
 export default App;
