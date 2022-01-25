@@ -7,8 +7,8 @@ import { login } from "../reducers/slices/authSlice";
 
 // styled-components
 import styled from "styled-components";
-import GlobalStyle from "../Styles/Globalstyle";
-import { Button, Input, Container } from "../Styles/theme";
+import GlobalStyle from "../Styles/Globalstyle.js";
+import { Button, Input, Container } from "../Styles/theme.js";
 
 const Label = styled.div`
   font-size: 1.4em;
