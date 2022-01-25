@@ -1,21 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API_URL = "http://localhost:3001";
+import axiosInstance from "../../utils/axiosInstance";
+const API_URL = "http://localhost:8090";
 
 const initialState = {
   isLoading: false,
   error: false,
-  refreshToken: "",
-  accessToken: localStorage.getItem("authTokens")
-    ? JSON.parse(localStorage.getItem("authTokens"))
-    : null,
-  login: false
+  login: false,
+  nickname: ""
 };
 
-// redux-toolkit 가이드: https://redux-toolkit.js.org/tutorials/quick-start
 const slice = createSlice({
-  name: "register",
+  name: "post",
   initialState,
   reducers: {
     startLoading(state) {
@@ -25,7 +22,11 @@ const slice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
-    addPostSuccess(state, action) {}
+    addPostSuccess(state, action) {},
+    getuserSuccess(state, action) {
+      state.isLoading = true;
+      state.nickname = action.payload.nickName;
+    }
   }
 });
 
@@ -33,40 +34,32 @@ export default slice.reducer;
 
 // redux-toolkit 비동기 처리하는 방법 고민중 => 내장된 thunk 사용 가능성 높음
 
-// register 비동기 처리(임시)
+//addPost 비동기 처리(임시)
 export function addPost(data) {
   return async (dispatch) => {
     dispatch(slice.actions.startLoading());
 
     try {
-      const response = await axios.post(`${API_URL}/auth/register`, ...data, {
-        params: {
-          token: "123"
-        }
-      });
-      if (response.success) {
-        dispatch(slice.actions.registerSuccess());
-      }
     } catch (e) {
       console.log(e);
     }
   };
 }
 
-// login 비동기 처리(임시)
-export function login(data) {
+export function getUser() {
   return async (dispatch) => {
     dispatch(slice.actions.startLoading());
 
     try {
-      const response = await axios.post(`${API_URL}/auth/register`, {
-        ...data
-      });
-      if (response.success) {
-        dispatch(slice.actions.loginSuccess(response));
+      const response = await axiosInstance.get(`${API_URL}/v1/user/id/1`);
+      if (response.data.success) {
+        dispatch(slice.actions.getuserSuccess(response.data.data));
+        console.log(response.data.data);
       }
     } catch (e) {
       console.log(e);
     }
   };
 }
+
+// redux-toolkit 가이드: https://redux-toolkit.js.org/tutorials/quick-start

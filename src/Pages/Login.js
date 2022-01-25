@@ -1,8 +1,8 @@
 // react
 import React, { useEffect, useState } from "react";
-
 // redux
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { login } from "../reducers/slices/authSlice";
 
 // styled-components
@@ -23,6 +23,8 @@ const SubmitButton = styled(Button)`
 
 // auth form으로 변경해도 좋을듯(공통 기능 많아서)
 const Login = () => {
+  const navigate = useNavigate();
+  const isAuth = useSelector((state) => state.auth.isAuth);
   const dispatch = useDispatch();
 
   const [showError, setShowError] = useState("");
@@ -33,16 +35,19 @@ const Login = () => {
   });
 
   // 회원가입 버튼 클릭했을 때, 발생하는 이벤트
-  const loginEvent = (e) => {
+  const loginEvent = async (e) => {
     e.preventDefault();
 
-    // 이메일 검사(RegExp)
-
-    const data = {
-      email: authInfo.email,
-      password: authInfo.password
-    };
-    dispatch(login(data));
+    // form 검사
+    if (Object.values(authInfo).includes("") === true) {
+      alert("입력하지 않은 정보가 있습니다");
+    } else {
+      const data = {
+        email: authInfo.email,
+        password: authInfo.password
+      };
+      await dispatch(login(data));
+    }
   };
 
   // input에 변경이 생겼을 경우, 발생하는 이벤트
@@ -50,6 +55,13 @@ const Login = () => {
     const { value, name } = e.target;
     setAuthInfo({ ...authInfo, [name]: value });
   };
+
+  // isAuth가 true 인 경우(로그인 완료), 랜딩페이지로 이동
+  useEffect(() => {
+    if (isAuth) {
+      navigate("/");
+    }
+  }, [isAuth, navigate]);
 
   return (
     <Container>

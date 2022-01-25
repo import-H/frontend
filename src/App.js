@@ -3,12 +3,7 @@ import GlobalStyle from "./Styles/Globalstyle";
 import { Container } from "./Styles/theme";
 
 const App = () => {
-  return (
-    <Container>
-      <GlobalStyle />        
-      랜딩 페이지
-    </Container>
-  );
+  return <div>app.js</div>;
 };
 
 export default App;
