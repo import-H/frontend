@@ -2,6 +2,10 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../reducers/slices/postSlice";
 // api가 아직 정해지지 않아 임시로 samplePosts 만들어둠
+
+import GlobalStyle from "../Styles/Globalstyle.js";
+import { Button, Input, Container } from "../Styles/theme";
+
 const samplePosts = [
   {
     id: 1,
@@ -29,7 +33,9 @@ const Board = () => {
     dispatch(getUser());
   };
   return (
-    <div>
+    <Container>
+      <GlobalStyle />
+
       <div>
         user nickname: <b>{nickname}</b>
       </div>
@@ -41,7 +47,7 @@ const Board = () => {
           <div>만든이: {post.author}</div>
         </div>
       ))} */}
-    </div>
+    </Container>
   );
 };
 
