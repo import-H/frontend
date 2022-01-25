@@ -89,11 +89,10 @@ export function login(data) {
 export function logout() {
   return async (dispatch) => {
     dispatch(slice.actions.startLoading());
-
     try {
       localStorage.clear();
       dispatch(slice.actions.logoutSuccess());
-      localStorage.clear();
+      window.location.reload();
     } catch (e) {
       console.log(e);
       dispatch(slice.actions.hasError(e));
