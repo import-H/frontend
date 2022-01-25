@@ -19,7 +19,7 @@ import { store } from "./reducers/store";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
 
-import NavBar from "./Pages/Sections/NavBar";
+import NavBar from "./Components/NavBar";
 import "./index.css";
 
 let persistor = persistStore(store);
