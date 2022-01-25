@@ -19,13 +19,18 @@ import { store } from "./reducers/store";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
 
+import NavBar from "./Pages/Sections/NavBar";
+import "./index.css";
+
 let persistor = persistStore(store);
 
 ReactDOM.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
       <BrowserRouter>
-        <Header />
+        <header>
+          <NavBar />
+        </header>
         <Routes>
           <Route path="/" element={<App />} />
           <Route path="main" element={<Main />} />
