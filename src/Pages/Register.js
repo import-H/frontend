@@ -10,49 +10,30 @@ import styled from "styled-components";
 import GlobalStyle from "../Styles/Globalstyle";
 import { Button, Input, Container } from "../Styles/theme";
 
+const AuthForm = styled.form`
+  min-width: 300px;
+  max-width: 1200px;
+`;
+
 const Label = styled.div`
   font-size: 1.4em;
-  margin: 10px 0 5px 0;
+  margin: 5px 0 5px 0;
   color: #666;
 `;
 
 const SubmitButton = styled(Button)`
   width: 100%;
+  margin-top: 2rem;
+  pointer-events: ${(props) => (props.submitState ? "auto" : "none")};
+  background-color: ${(props) => (props.submitState ? "black" : "#ddd")};
 `;
 
-const InputEmail = styled(Input)`
+const AuthInput = styled(Input)`
   &:active,
   &:focus,
   &:focus-visible {
-    border-color: ${(props) => (props.valid ? "green" : "red")};
+    border-color: ${(props) => (props.valid.length === 0 ? "green" : "red")};
   }
-`;
-
-const InputPW = styled(Input)`
-  &:active,
-  &:focus,
-  &:focus-visible {
-    border-color: ${(props) =>
-      props.valid > 8 && props.valid < 15 ? "green" : "red"};
-  }
-`;
-
-const InputConfirmPW = styled(Input)`
-  &:active,
-  &:focus,
-  &:focus-visible {
-    border-color: ${(props) => (props.valid ? "green" : "red")};
-  }
-`;
-
-const InputName = styled(Input)`
-  &:active,
-  &:focus,
-  &:focus-visible {
-    border-color: ${(props) =>
-      props.valid > 1 && props.valid < 8 ? "green" : "red"};
-  }
-  console.log(e.target.value)
 `;
 
 const ErrorMsg = styled.div`
@@ -66,10 +47,9 @@ const ErrorMsg = styled.div`
 
 // auth form으로 변경해도 좋을듯(공통 기능 많아서)
 const Register = () => {
-  const [submitState, setSubmitState] = useState(false);
   const dispatch = useDispatch();
-
-  const [showError, setShowError] = useState("");
+  // 회원가입 form를 모두 입력했을 때, true로 바뀜
+  const [submitState, setSubmitState] = useState(false);
 
   const [authInfo, setAuthInfo] = useState({
     email: "",
@@ -79,6 +59,15 @@ const Register = () => {
     major: ""
   });
 
+  const [errorInfo, setErrorInfo] = useState({
+    email: "",
+    password: "",
+    confirmPassword: "",
+    name: "",
+    major: ""
+  });
+
+  // 유효성 검사에 사용됨
   const reg =
     /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 
@@ -97,77 +86,102 @@ const Register = () => {
   };
 
   // input에 변경이 생겼을 경우, 발생하는 이벤트
-  const onChange = (e) => {
+  const onChange = async (e) => {
     const { value, name } = e.target;
-    setAuthInfo({ ...authInfo, [name]: value });
+    console.log(value, name);
+    await setAuthInfo({ ...authInfo, [name]: value });
 
     if (name === "password") {
-      if (authInfo.password.length < 8)
-        setShowError("비밀번호는 8자 이상이여야 합니다.");
-      else if (authInfo.password.length >= 14) {
-        setShowError("비밀번호는 15자 이하여야 합니다.");
-      } else setShowError("");
+      if (value.length < 8)
+        setErrorInfo({
+          ...errorInfo,
+          [name]: "비밀번호는 8자 이상이여야 합니다."
+        });
+      else if (value.length >= 14) {
+        setErrorInfo({
+          ...errorInfo,
+          [name]: "비밀번호는 15자 이하여야 합니다."
+        });
+      } else setErrorInfo({ ...errorInfo, [name]: "" });
     }
 
     if (name === "name") {
-      if (authInfo.name.length < 1) {
-        setShowError("별명은 2자 이상이여야 합니다.");
-      } else if (authInfo.name.length >= 7) {
-        setShowError("별명은 8자 이하여야 합니다.");
-      } else setShowError("");
+      if (value.length < 1) {
+        setErrorInfo({ ...errorInfo, [name]: "별명은 2자 이상이여야 합니다." });
+      } else if (value.length >= 7) {
+        setErrorInfo({ ...errorInfo, [name]: "별명은 8자 이하여야 합니다." });
+      } else setErrorInfo({ ...errorInfo, [name]: "" });
     }
 
     if (name === "email") {
-      if (!reg.test(authInfo.email)) {
-        setShowError("이메일 형식에 맞게 입력해주세요.");
-      } else setShowError("");
+      if (!reg.test(value)) {
+        setErrorInfo({
+          ...errorInfo,
+          [name]: "이메일 형식에 맞게 입력해주세요."
+        });
+      } else setErrorInfo({ ...errorInfo, [name]: "" });
     }
     if (name === "confirmPassword") {
-      if (authInfo.password !== authInfo.confirmPassword) {
-        setShowError("비밀번호가 일치하지 않습니다.");
-      } else setShowError("");
+      if (authInfo.password !== value) {
+        setErrorInfo({ ...errorInfo, [name]: "비밀번호가 일치하지 않습니다." });
+      } else setErrorInfo({ ...errorInfo, [name]: "" });
     }
   };
+
+  // authInfo와 errorInfo를 감지해 submitState 상태 수정
+  useEffect(() => {
+    if (
+      Object.values(errorInfo).every((err) => err === "") &&
+      !Object.values(authInfo).includes("")
+    ) {
+      setSubmitState(true);
+    } else {
+      setSubmitState(false);
+    }
+  }, [authInfo, errorInfo]);
 
   return (
     <Container>
       <GlobalStyle />
-      <form onSubmit={registerEvent}>
+      <AuthForm onSubmit={registerEvent}>
         <Label>이메일(홍익대학교)</Label>
-        <InputEmail
+        <AuthInput
           type="text"
           name="email"
           onChange={onChange}
-          valid={reg.test(authInfo.email)}
+          valid={errorInfo.email}
         />
+        <ErrorMsg>{errorInfo.email}</ErrorMsg>
         <Label>비밀번호</Label>
-        <InputPW
+        <AuthInput
           type="password"
           name="password"
           onChange={onChange}
-          valid={authInfo.password.length}
+          valid={errorInfo.password}
         />
+        <ErrorMsg>{errorInfo.password}</ErrorMsg>
         <Label>비밀번호 확인</Label>
-        <InputConfirmPW
+        <AuthInput
           type="password"
           name="confirmPassword"
           onChange={onChange}
-          valid={authInfo.password === authInfo.confirmPassword}
+          valid={errorInfo.confirmPassword}
         />
+        <ErrorMsg>{errorInfo.confirmPassword}</ErrorMsg>
         <Label>별명</Label>
-        <InputName
+        <AuthInput
           type="text"
           name="name"
           onChange={onChange}
-          valid={authInfo.name.length}
+          valid={errorInfo.major}
         />
+        <ErrorMsg>{errorInfo.major}</ErrorMsg>
         <Label>전공</Label>
         <Input type="text" name="major" onChange={onChange} />
-        <ErrorMsg>{showError}</ErrorMsg>
         <SubmitButton type="submit" submitState={submitState}>
           회원가입
         </SubmitButton>
-      </form>
+      </AuthForm>
     </Container>
   );
 };
