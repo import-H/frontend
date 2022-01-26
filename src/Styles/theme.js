@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 // 기본 input
 const Input = styled.input`
-  min-width: 300px;
+  width: 100%;
   height: 37px;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -39,7 +39,7 @@ const Container = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   margin-top: 50px;
-
+  min-width: 300px;
   padding: 50px 0;
   display: flex;
   justify-content: center;
