@@ -6,6 +6,7 @@ import { configureStore } from "@reduxjs/toolkit";
 // slices
 import authReducer from "./slices/authSlice";
 import postReducer from "./slices/postSlice";
+import sampleAuthReudcer from "./slices/sampleAuthSlice";
 
 //https://edvins.io/how-to-use-redux-persist-with-redux-toolkit 참고
 
@@ -18,12 +19,13 @@ import thunk from "redux-thunk";
 // reducers
 const reducers = combineReducers({
   auth: authReducer, // authSlice
-  post: postReducer // postSlice
+  post: postReducer, // postSlice
+  sample: sampleAuthReudcer
 });
 
 const rootReducer = (state, action) => {
   //console.log(action.type);
-  if (action.type === "auth/logoutSuccess") {
+  if (action.type === "auth/logout/fulfilled") {
     state = undefined;
   }
   return reducers(state, action);
