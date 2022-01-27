@@ -87,3 +87,7 @@ header #log .element a:hover {
   background-color: #ffc90a;
   color: #222;
 }
+
+header #navMenu {
+  float: left;
+}
