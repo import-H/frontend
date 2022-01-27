@@ -34,8 +34,6 @@ header #content {
   align-items: center;
   justify-content: space-between;
 }
-header #logo {
-}
 header #logo a {
   display: flex;
   align-items: center;
@@ -88,5 +86,5 @@ header #log .element a:hover {
 
 header #navMenu {
   display: flex;
-  width: 50%;
+  width: 75%;
 }
