@@ -35,7 +35,6 @@ header #content {
   justify-content: space-between;
 }
 header #logo {
-  float: left;
 }
 header #logo a {
   display: flex;
@@ -49,8 +48,7 @@ header #log a,
   color: black;
 }
 header #log {
-  float: right;
-  transform: translateX(22px);
+  display: flex;
 }
 header #log .element {
   float: left;
@@ -89,5 +87,6 @@ header #log .element a:hover {
 }
 
 header #navMenu {
-  float: left;
+  display: flex;
+  width: 50%;
 }
