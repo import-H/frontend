@@ -1,25 +1,25 @@
 // react
-import React from "react";
-import ReactDOM from "react-dom";
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 // component
-import App from "./App";
-import { Main, Login, Register, Board } from "./Pages";
+import App from './App';
+import { Main, Login, Register, Board } from './Pages';
 
 // route
-import PrivateRoute from "./utils/PrivateRoute"; //로그인한 사용자만 들어갈 수 있음
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import PrivateRoute from './utils/PrivateRoute'; //로그인한 사용자만 들어갈 수 있음
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 // redux
-import { Provider } from "react-redux";
-import { store } from "./reducers/store";
+import { Provider } from 'react-redux';
+import { store } from './reducers/store';
 
 // redux-persist
-import { PersistGate } from "redux-persist/integration/react";
-import { persistStore } from "redux-persist";
+import { PersistGate } from 'redux-persist/integration/react';
+import { persistStore } from 'redux-persist';
 
-import NavBar from "./Components/NavBar";
-import "./index.css";
+import NavBar from './Components/NavBar';
+import './index.css';
 
 let persistor = persistStore(store);
 
@@ -41,5 +41,5 @@ ReactDOM.render(
       </BrowserRouter>
     </PersistGate>
   </Provider>,
-  document.getElementById("root")
+  document.getElementById('root'),
 );
