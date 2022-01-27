@@ -7,7 +7,7 @@ import App from './App';
 import { Main, Login, Register, Board } from './Pages';
 
 // route
-import PrivateRoute from './utils/PrivateRoute'; //로그인한 사용자만 들어갈 수 있음
+//import PrivateRoute from './utils/PrivateRoute'; //로그인한 사용자만 들어갈 수 있음
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 // redux
