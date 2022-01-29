@@ -21,6 +21,7 @@ import { store } from "./reducers/store";
 import NavBar from "./Components/NavBar";
 import "./index.css";
 import WritePost from "./Components/WritePost";
+import Post from "./Pages/Post";
 
 let persistor = persistStore(store);
 
@@ -39,6 +40,7 @@ ReactDOM.render(
           {/* <Route path="board" element={<PrivateRoute component={Board} />} /> */}
           <Route path="board" element={<Board />} />
           <Route path="write" element={<WritePost />} />
+          <Route path="posts" element={<Post />} />
         </Routes>
       </BrowserRouter>
     </PersistGate>
