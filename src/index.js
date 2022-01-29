@@ -20,6 +20,7 @@ import { persistStore } from 'redux-persist';
 
 import NavBar from './Components/NavBar';
 import './index.css';
+import WritePost from './Components/WritePost';
 
 let persistor = persistStore(store);
 
@@ -37,6 +38,7 @@ ReactDOM.render(
           <Route path="register" element={<Register />} />
           {/* <Route path="board" element={<PrivateRoute component={Board} />} /> */}
           <Route path="board" element={<Board />} />
+          <Route path="write" element={<WritePost />} />
         </Routes>
       </BrowserRouter>
     </PersistGate>
