@@ -5,6 +5,8 @@ import GlobalStyle from "../Styles/Globalstyle.js";
 import { Container } from "../Styles/theme";
 import { Viewer } from "@toast-ui/react-editor";
 
+import { Link } from "react-router-dom";
+
 const samplePosts = [
   {
     id: 1,
@@ -32,22 +34,31 @@ const samplePosts = [
 
 const Board = () => {
   //const nickname = useSelector(state => state.post.nickname);
-
+  const getPostBtn = e => {};
   return (
     <Container>
       <GlobalStyle />
 
-      <div stlye={{ display: "flex", flexDirection: "column" }}>
+      <div>
         {samplePosts.map(post => (
-          <div style={{ border: "1px solid black", padding: 20, margin: 20 }}>
-            <div>제목: {post.title}</div>
-            <Viewer initialValue={post.content} />
-            <div>만든이: {post.author}</div>
-            <div>생성 시간: {post.create_at}</div>
-            <div>작성자: {post.author}</div>
-            <div>좋아요: {post.like}</div>
-            <div>댓글: {post.comments.length}</div>
-          </div>
+          <Link to={{ pathname: "/posts", search: "?postId=3" }}>
+            <div
+              style={{
+                border: "1px solid black",
+                padding: 20,
+                margin: 20,
+                cursor: "pointer",
+              }}
+            >
+              <div>제목: {post.title}</div>
+              <Viewer initialValue={post.content} />
+              <div>만든이: {post.author}</div>
+              <div>생성 시간: {post.create_at}</div>
+              <div>작성자: {post.author}</div>
+              <div>좋아요: {post.like}</div>
+              <div>댓글: {post.comments.length}</div>
+            </div>
+          </Link>
         ))}
       </div>
     </Container>

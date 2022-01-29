@@ -26,11 +26,21 @@ export const addPost = createAsyncThunk(
     return data;
   },
 );
-export const getPost = createAsyncThunk(
-  "post/getPost",
+export const getPosts = createAsyncThunk(
+  "post/getPosts",
   async (data, dispatch, getState) => {
     await axios.get("http://localhost:3001/posts");
     return data;
+  },
+);
+
+export const getPost = createAsyncThunk(
+  "post/getPost",
+  async (postId, dispatch, getState) => {
+    //const response = await axiosInstance.post(`${API_URL}/v1/post/${postId}`);
+    const response = await axios.get("http://localhost:3001/posts/1");
+    console.elog(response);
+    return response.data;
   },
 );
 

@@ -33,6 +33,7 @@ const WritePost = () => {
     e.preventDefault();
 
     const instance = editorRef.current.getInstance();
+    console.log(instance.getMarkdown());
     setPost({ ...post, content: instance.getMarkdown() });
     dispatch(addPost(post));
   };
