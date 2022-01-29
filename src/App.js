@@ -5,7 +5,7 @@ import { Container } from "./Styles/theme";
 const App = () => {
   return (
     <Container>
-      <GlobalStyle />        
+      <GlobalStyle />
       랜딩 페이지
     </Container>
   );

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const Header = () => {
   const dispatch = useDispatch();
-  const authData = useSelector((state) => state.auth);
+  const authData = useSelector(state => state.auth);
   const logoutBtn = () => {
     dispatch(logout());
     console.log(authData);

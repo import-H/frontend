@@ -1,14 +1,15 @@
 {
+  "root": true,
   "env": {
     "browser": true,
     "es2021": true,
     "node": true
   },
   "extends": [
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "airbnb",
-    "plugin:prettier/recommended"
+    //"eslint:recommended",
+    //"plugin:react/recommended",
+    // "plugin:prettier/recommended"
+    "prettier"
   ],
   "parserOptions": {
     "ecmaFeatures": {
@@ -18,5 +19,9 @@
     "sourceType": "module"
   },
   "plugins": ["react"],
-  "rules": {}
+  "rules": {
+    // "prettier/prettier": "error",
+    "react/jsx-filename-extension": [0],
+    "import/extensions": "off"
+  }
 }

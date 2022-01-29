@@ -19,10 +19,10 @@ const PostForm = () => {
 
   const [post, setPost] = useState({
     title: "",
-    content: ""
+    content: "",
   });
 
-  const postSubmit = (e) => {
+  const postSubmit = e => {
     e.preventDefault();
 
     const instance = editorRef.current.getInstance();
@@ -38,14 +38,14 @@ const PostForm = () => {
           display: "flex",
           flexDirection: "column",
           width: "80%",
-          margin: "3rem"
+          margin: "3rem",
         }}
       >
         <label>title</label>
         <input
           type="text"
           name="email"
-          onChange={(e) => setPost({ ...post, title: e.target.value })}
+          onChange={e => setPost({ ...post, title: e.target.value })}
         />
         <label>content</label>
         <Editor
