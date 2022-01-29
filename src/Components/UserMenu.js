@@ -5,7 +5,7 @@ import { logout } from "../reducers/slices/authSlice";
 
 function UserMenu() {
   const dispatch = useDispatch();
-  const isAuth = useSelector((state) => state.auth.isAuth);
+  const isAuth = useSelector(state => state.auth.isAuth);
   const logoutBtn = () => {
     dispatch(logout());
   };
