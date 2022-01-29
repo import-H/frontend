@@ -16,5 +16,111 @@
       "nickname": "asd",
       "major": "asd"
     }
+  ],
+  "posts": [
+    {
+      "title": "sample post1",
+      "tags": [
+        "aa",
+        "bb"
+      ],
+      "content": "hello react editor world!12312312",
+      "author": "자몽",
+      "view": 3,
+      "like": 2,
+      "comments": [],
+      "id": 1
+    },
+    {
+      "title": "sample post1",
+      "tags": [
+        "aa",
+        "bb"
+      ],
+      "content": "sample post1",
+      "author": "자몽",
+      "view": 3,
+      "like": 2,
+      "comments": [],
+      "id": 2
+    },
+    {
+      "title": "sample post1",
+      "tags": [
+        "aa",
+        "bb"
+      ],
+      "content": "sample post1d",
+      "author": "자몽",
+      "view": 3,
+      "like": 2,
+      "comments": [],
+      "id": 3
+    },
+    {
+      "title": "sample post1",
+      "tags": [
+        "aa",
+        "bb"
+      ],
+      "content": "sample post1d333ddddddd",
+      "author": "자몽",
+      "view": 3,
+      "like": 2,
+      "comments": [],
+      "id": 4
+    },
+    {
+      "title": "sample post1",
+      "tags": [
+        "aa",
+        "bb"
+      ],
+      "content": "sample post1d333ddddddd",
+      "author": "자몽",
+      "view": 3,
+      "like": 2,
+      "comments": [],
+      "id": 5
+    },
+    {
+      "title": "sample post1",
+      "tags": [
+        "aa",
+        "bb"
+      ],
+      "content": "hello react editor world!",
+      "author": "자몽",
+      "view": 3,
+      "like": 2,
+      "comments": [],
+      "id": 6
+    },
+    {
+      "title": "123",
+      "tags": [
+        "aa",
+        "bb"
+      ],
+      "content": "",
+      "author": "자몽",
+      "view": 3,
+      "like": 2,
+      "comments": [],
+      "id": 7
+    },
+    {
+      "title": "",
+      "tags": [
+        "aa",
+        "bb"
+      ],
+      "content": "",
+      "author": "자몽",
+      "view": 3,
+      "like": 2,
+      "comments": [],
+      "id": 8
+    }
   ]
 }
