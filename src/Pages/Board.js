@@ -6,6 +6,7 @@ import { Container } from "../Styles/theme";
 import { Viewer } from "@toast-ui/react-editor";
 
 import { Link } from "react-router-dom";
+import BoardForm from "../Components/BoardForm.js";
 
 const samplePosts = [
   {
@@ -38,29 +39,11 @@ const Board = () => {
   return (
     <Container>
       <GlobalStyle />
+      <Link to={{ pathname: "/board/free" }}>자유게시판</Link>
+      <Link to={{ pathname: "/board/qna" }}>qna 게시판</Link>
+      <Link to={{ pathname: "/board/personal" }}>개인 활동 게시판</Link>
 
-      <div>
-        {samplePosts.map(post => (
-          <Link to={{ pathname: "/posts", search: "?postId=3" }}>
-            <div
-              style={{
-                border: "1px solid black",
-                padding: 20,
-                margin: 20,
-                cursor: "pointer",
-              }}
-            >
-              <div>제목: {post.title}</div>
-              <Viewer initialValue={post.content} />
-              <div>만든이: {post.author}</div>
-              <div>생성 시간: {post.create_at}</div>
-              <div>작성자: {post.author}</div>
-              <div>좋아요: {post.like}</div>
-              <div>댓글: {post.comments.length}</div>
-            </div>
-          </Link>
-        ))}
-      </div>
+      <BoardForm />
     </Container>
   );
 };
