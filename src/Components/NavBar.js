@@ -12,7 +12,7 @@ function NavBar() {
           </Link>
         </div>
         <div id="navMenu">
-          <Link to="/board">게시판</Link>
+          <Link to="/board/1">게시판</Link>
         </div>
         <div id="log">
           <UserMenu />

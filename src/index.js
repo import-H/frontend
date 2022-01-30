@@ -34,13 +34,13 @@ ReactDOM.render(
         </header>
         <Routes>
           <Route path="/" element={<App />} />
-          <Route path="main" element={<Main />} />
-          <Route path="login" element={<Login />} />
-          <Route path="register" element={<Register />} />
+          <Route path="/main" element={<Main />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           {/* <Route path="board" element={<PrivateRoute component={Board} />} /> */}
-          <Route path="board" element={<Board />} />
-          <Route path="write" element={<WritePost />} />
-          <Route path="posts" element={<Post />} />
+          <Route path="/board/:id" element={<Board />} />
+          <Route path="/write/:id" element={<WritePost />} />
+          <Route path="/posts" element={<Post />} />
         </Routes>
       </BrowserRouter>
     </PersistGate>
