@@ -14,28 +14,28 @@ import "@toast-ui/editor/dist/toastui-editor.css";
 import { Editor } from "@toast-ui/react-editor";
 import { useDispatch } from "react-redux";
 
+import { useParams } from "react-router-dom";
+
 // auth form으로 변경해도 좋을듯(공통 기능 많아서)
 const WritePost = () => {
   const dispatch = useDispatch();
   const editorRef = useRef(null);
 
+  const boardId = useParams().id;
+
   const [post, setPost] = useState({
     title: "",
     tags: ["aa", "bb"],
     content: "",
-    author: "자몽",
-    view: 3,
-    like: 2,
-    comments: [],
   });
 
-  const postSubmit = e => {
+  const postSubmit = async e => {
     e.preventDefault();
 
     const instance = editorRef.current.getInstance();
-    console.log(instance.getMarkdown());
-    setPost({ ...post, content: instance.getMarkdown() });
-    dispatch(addPost(post));
+    console.log(instance.getMarkdown(), post);
+    await setPost({ ...post, content: instance.getMarkdown() });
+    dispatch(addPost({ boardId, post }));
   };
 
   return (
