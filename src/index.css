@@ -92,3 +92,7 @@ header #navMenu {
 
   display: flex;
 }
+
+header #navMenu a{
+  font-size: 1.2em;
+}
