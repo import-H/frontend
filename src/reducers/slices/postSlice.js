@@ -7,6 +7,8 @@ const API_URL = "http://localhost:8090";
 const initialState = {
   status: null,
   nickname: "",
+  posts: [],
+  post: {},
 };
 
 export const getUser = createAsyncThunk(
@@ -37,9 +39,9 @@ export const addPost = createAsyncThunk(
 );
 export const getPosts = createAsyncThunk(
   "post/getPosts",
-  async (data, dispatch, getState) => {
-    await axios.get("http://localhost:3001/posts");
-    return data;
+  async (boardId, dispatch, getState) => {
+    const response = await axios.get(`${API_URL}/v1/boards/${boardId}/posts`);
+    return response.data.data;
   },
 );
 
@@ -74,9 +76,20 @@ const slice = createSlice({
     },
     [addPost.fulfilled]: (state, action) => {
       state.status = "success";
-      state.post = action.payload;
+      // state.post = action.payload;
     },
     [addPost.rejected]: (state, action) => {
+      state.status = "failed";
+      state.error = action.error;
+    },
+    [getPosts.pending]: (state, action) => {
+      state.status = "loading";
+    },
+    [getPosts.fulfilled]: (state, action) => {
+      state.status = "success";
+      state.posts = action.payload;
+    },
+    [getPosts.rejected]: (state, action) => {
       state.status = "failed";
       state.error = action.error;
     },
