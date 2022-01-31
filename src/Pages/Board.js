@@ -5,12 +5,12 @@ import React from "react";
 import { Link, useParams } from "react-router-dom";
 
 // style
-import GlobalStyle from "../Styles/Globalstyle.js";
-import { Container } from "../Styles/theme";
+import GlobalStyle from "../styles/Globalstyle.js";
+import { Container } from "../styles/theme";
 import styled from "styled-components";
 
 // component
-import BoardForm from "../Components/BoardForm.js";
+import BoardForm from "../components/BoardForm.js";
 
 // style-compoents
 const MenuBar = styled.div`

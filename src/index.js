@@ -8,7 +8,7 @@ import { persistStore } from "redux-persist";
 
 // component
 import App from "./App";
-import { Main, Login, Register, Board } from "./Pages";
+import { Main, Login, Register, Board } from "./pages";
 
 // route
 //import PrivateRoute from './utils/PrivateRoute'; //로그인한 사용자만 들어갈 수 있음
@@ -18,11 +18,11 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./reducers/store";
 
-import NavBar from "./Components/NavBar";
+import NavBar from "./components/NavBar";
 import "./index.css";
-import WritePost from "./Components/WritePost";
-import Posts from "./Pages/Posts";
-import Post from "./Pages/Post";
+import WritePost from "./components/WritePost";
+import Posts from "./pages/Posts";
+import Post from "./pages/Post";
 
 let persistor = persistStore(store);
 

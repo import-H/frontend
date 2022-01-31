@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import GlobalStyle from "../Styles/Globalstyle.js";
-import { Container } from "../Styles/theme";
+import GlobalStyle from "../styles/Globalstyle.js";
+import { Container } from "../styles/theme";
 import { Viewer } from "@toast-ui/react-editor";
 import styled from "styled-components";
 
