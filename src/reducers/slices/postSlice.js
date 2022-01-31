@@ -11,6 +11,7 @@ const initialState = {
   post: {},
 };
 
+// 유저 데이터 가져오기(api 테스트용)
 export const getUser = createAsyncThunk(
   "post/getUser",
   async (data, dispatch, getState) => {
@@ -19,6 +20,7 @@ export const getUser = createAsyncThunk(
   },
 );
 
+// 게시글 추가하기
 export const addPost = createAsyncThunk(
   "post/addPost",
   async (data, dispatch, getState) => {
@@ -37,6 +39,8 @@ export const addPost = createAsyncThunk(
     // return data;
   },
 );
+
+// 게시판 내에 있는 전체 게시글 가져오기
 export const getPosts = createAsyncThunk(
   "post/getPosts",
   async (boardId, dispatch, getState) => {
@@ -45,21 +49,25 @@ export const getPosts = createAsyncThunk(
   },
 );
 
+// 게시글 가져오기
 export const getPost = createAsyncThunk(
   "post/getPost",
-  async (postId, dispatch, getState) => {
-    //const response = await axiosInstance.post(`${API_URL}/v1/post/${postId}`);
-    const response = await axios.get("http://localhost:3001/posts/1");
-    console.elog(response);
-    return response.data;
+  async (data, dispatch, getState) => {
+    const { boardId, postId } = data;
+    const response = await axios.get(
+      `${API_URL}/v1/boards/${boardId}/posts/${postId}`,
+    );
+    return response.data.data;
   },
 );
 
+// createSlice
 const slice = createSlice({
   name: "post",
   initialState,
   reducers: {},
   extraReducers: {
+    // getUser
     [getUser.pending]: (state, action) => {
       state.status = "loading";
     },
@@ -71,6 +79,7 @@ const slice = createSlice({
       state.status = "failed";
       state.error = action.error;
     },
+    // addPost
     [addPost.pending]: (state, action) => {
       state.status = "loading";
     },
@@ -82,6 +91,7 @@ const slice = createSlice({
       state.status = "failed";
       state.error = action.error;
     },
+    // getPosts
     [getPosts.pending]: (state, action) => {
       state.status = "loading";
     },
@@ -90,6 +100,18 @@ const slice = createSlice({
       state.posts = action.payload;
     },
     [getPosts.rejected]: (state, action) => {
+      state.status = "failed";
+      state.error = action.error;
+    },
+    // getPost
+    [getPost.pending]: (state, action) => {
+      state.status = "loading";
+    },
+    [getPost.fulfilled]: (state, action) => {
+      state.status = "success";
+      state.post = action.payload;
+    },
+    [getPost.rejected]: (state, action) => {
       state.status = "failed";
       state.error = action.error;
     },

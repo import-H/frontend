@@ -1,14 +1,18 @@
+// react
 import React from "react";
-// api가 아직 정해지지 않아 임시로 samplePosts 만들어둠
 
+// react-router-dom
+import { Link, useParams } from "react-router-dom";
+
+// style
 import GlobalStyle from "../Styles/Globalstyle.js";
 import { Container } from "../Styles/theme";
-import { Viewer } from "@toast-ui/react-editor";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
-import BoardForm from "../Components/BoardForm.js";
-import { useParams } from "react-router-dom";
 
+// component
+import BoardForm from "../Components/BoardForm.js";
+
+// style-compoents
 const MenuBar = styled.div`
   width: 80%;
   margin: 0 auto;
@@ -35,6 +39,7 @@ const BoardWrapper = styled.div`
   align-items: center;
 `;
 
+// main
 const Board = () => {
   const boardId = useParams().id;
   const getPostBtn = e => {};
