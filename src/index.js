@@ -42,7 +42,7 @@ ReactDOM.render(
           <Route path="/board/:id" element={<Board />} />
           <Route path="/write/:id" element={<WritePost />} />
           <Route path="/posts" element={<Posts />} />
-          <Route path="/post/:id" element={<Post />} />
+          <Route path="/board/:boardId/:postId" element={<Post />} />
         </Routes>
       </BrowserRouter>
     </PersistGate>
