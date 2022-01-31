@@ -12,13 +12,17 @@ import { Container } from "../Styles/theme";
 // toast-ui editor
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { Editor } from "@toast-ui/react-editor";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-import { useParams } from "react-router-dom";
+// react-router-dom
+import { useParams, useNavigate } from "react-router-dom";
 
 // auth form으로 변경해도 좋을듯(공통 기능 많아서)
 const WritePost = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const addPostStatus = useSelector(state => state.post.status);
   const editorRef = useRef(null);
 
   const boardId = useParams().id;
@@ -36,6 +40,9 @@ const WritePost = () => {
     console.log(instance.getMarkdown(), post);
     await setPost({ ...post, content: instance.getMarkdown() });
     dispatch(addPost({ boardId, post }));
+    if (addPostStatus === "success") {
+      navigate(-1);
+    }
   };
 
   return (
