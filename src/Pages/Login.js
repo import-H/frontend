@@ -7,8 +7,8 @@ import { login } from "../reducers/slices/authSlice";
 
 // styled-components
 import styled from "styled-components";
-import GlobalStyle from "../Styles/Globalstyle.js";
-import { Button, Input, Container } from "../Styles/theme.js";
+import GlobalStyle from "../styles/Globalstyle.js";
+import { Button, Input, Container } from "../styles/theme.js";
 
 const Label = styled.div`
   font-size: 1.4em;
@@ -24,18 +24,18 @@ const SubmitButton = styled(Button)`
 // auth form으로 변경해도 좋을듯(공통 기능 많아서)
 const Login = () => {
   const navigate = useNavigate();
-  const isAuth = useSelector((state) => state.auth.isAuth);
+  const isAuth = useSelector(state => state.auth.isAuth);
   const dispatch = useDispatch();
 
   const [showError, setShowError] = useState("");
 
   const [authInfo, setAuthInfo] = useState({
     email: "",
-    password: ""
+    password: "",
   });
 
   // 회원가입 버튼 클릭했을 때, 발생하는 이벤트
-  const loginEvent = async (e) => {
+  const loginEvent = async e => {
     e.preventDefault();
 
     // form 검사
@@ -44,14 +44,14 @@ const Login = () => {
     } else {
       const data = {
         email: authInfo.email,
-        password: authInfo.password
+        password: authInfo.password,
       };
       await dispatch(login(data));
     }
   };
 
   // input에 변경이 생겼을 경우, 발생하는 이벤트
-  const onChange = (e) => {
+  const onChange = e => {
     const { value, name } = e.target;
     setAuthInfo({ ...authInfo, [name]: value });
   };

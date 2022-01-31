@@ -6,8 +6,8 @@ import { addPost } from "../reducers/slices/postSlice";
 
 // styled-components
 // import styled from 'styled-components';
-import GlobalStyle from "../Styles/Globalstyle.js";
-import { Container } from "../Styles/theme";
+import GlobalStyle from "../styles/Globalstyle.js";
+import { Container } from "../styles/theme";
 
 // toast-ui editor
 import "@toast-ui/editor/dist/toastui-editor.css";

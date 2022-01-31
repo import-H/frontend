@@ -1,6 +1,6 @@
 import React from "react";
-import GlobalStyle from "./Styles/Globalstyle";
-import { Container } from "./Styles/theme";
+import GlobalStyle from "./styles/Globalstyle";
+import { Container } from "./styles/theme";
 import { Link } from "react-router-dom";
 
 const App = () => {

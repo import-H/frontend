@@ -1,10 +1,10 @@
-// import PostForm from "../Components/PostForm";
+// import PostForm from "../components/PostForm";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../reducers/slices/postSlice";
 
 const Main = () => {
   const dispatch = useDispatch();
-  const nickname = useSelector((state) => state.post.nickname);
+  const nickname = useSelector(state => state.post.nickname);
   const userBtn = () => {
     dispatch(getUser());
   };
