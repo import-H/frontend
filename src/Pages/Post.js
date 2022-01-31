@@ -1,9 +1,22 @@
+// react
 import React, { useEffect } from "react";
+
+// redux
+import { useDispatch } from "react-redux";
+import { getPost } from "../reducers/slices/postSlice.js";
+
+// react-router-dom
+import { Link, useParams } from "react-router-dom";
+
+// style
 import GlobalStyle from "../Styles/Globalstyle.js";
 import { Container } from "../Styles/theme";
-import { Viewer } from "@toast-ui/react-editor";
 import styled from "styled-components";
 
+// toast-ui editor
+import { Viewer } from "@toast-ui/react-editor";
+
+// sample data
 const samplePost = {
   id: 1,
   title: "title",
@@ -19,7 +32,21 @@ const samplePost = {
     { author: "Dever", content: "댓글 샘플2" },
   ],
 };
+
+// main
 const Post = () => {
+  const boardId = useParams().boardId;
+  const postId = useParams().postId;
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(
+      getPost({
+        postId: postId,
+        boardId: boardId,
+      }),
+    );
+  }, []);
   return (
     <Container>
       <GlobalStyle />

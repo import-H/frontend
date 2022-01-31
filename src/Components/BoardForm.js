@@ -107,7 +107,10 @@ const BoardForm = () => {
         <Link to={{ pathname: `/write/${boardId}` }}>글 작성하기</Link>
         <div>
           {posts?.map(post => (
-            <Link to={{ pathname: `/post/${post.id}` }} key={post.id}>
+            <Link
+              to={{ pathname: `/board/${boardId}/${post.id}` }}
+              key={post.id}
+            >
               <BoardList>
                 <BoardTitle>
                   {post.title}
