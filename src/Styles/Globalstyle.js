@@ -19,6 +19,19 @@ const GlobalStyle = createGlobalStyle`
         color: #333;
         background-color: #fefefe;
     }
+
+    .flex{
+        display: flex;
+    }
+    .flex-d-c{
+        flex-direction: column;
+    }
+    .flex-jc-c{
+        justify-content: center;
+    }
+    .flex-ai-c{
+        align-items: center;
+    }
 `;
 
 export default GlobalStyle;
