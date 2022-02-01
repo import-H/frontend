@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect } from "react";
 
 // redux
-import { addPost } from "../reducers/slices/postSlice";
+import { addPost, getPost } from "../reducers/slices/postSlice";
 
 // styled-components
 // import styled from 'styled-components';
@@ -22,7 +22,7 @@ const EditPost = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const addPostStatus = useSelector(state => state.post.status);
+  const postData = useSelector(state => state.post.post);
   const [nav, setNav] = useState(false);
   const editorRef = useRef(null);
 
@@ -34,7 +34,7 @@ const EditPost = () => {
     content: "",
   });
 
-  const postSubmit = async e => {
+  const editPost = async e => {
     e.preventDefault();
 
     const instance = editorRef.current.getInstance();
@@ -58,11 +58,15 @@ const EditPost = () => {
     }
   }, [addPostStatus, navigate]);
 
+  useEffect(() => {
+    dispatch(getPost());
+  }, []);
+
   return (
     <Container>
       <GlobalStyle />
       <form
-        onSubmit={postSubmit}
+        onSubmit={editPost}
         style={{
           display: "flex",
           flexDirection: "column",
@@ -72,15 +76,16 @@ const EditPost = () => {
       >
         <label>title</label>
         <input
+          initialValue={postData?.title}
           type="text"
           name="email"
           onChange={e => setPost({ ...post, title: e.target.value })}
         />
         <label>tags</label>
-        <input />
+        <input initialValue={postData?.tags} />
         <label>content</label>
         <Editor
-          initialValue="hello react editor world!"
+          initialValue={postData?.content}
           previewStyle="vertical"
           height="600px"
           initialEditType="markdown"
