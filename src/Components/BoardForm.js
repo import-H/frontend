@@ -93,7 +93,6 @@ const samplePosts = [
 const BoardForm = () => {
   const dispatch = useDispatch();
   const posts = useSelector(state => state.post.posts);
-  const getPostBtn = e => {};
   const boardId = useParams().id;
 
   useEffect(() => {
@@ -136,11 +135,14 @@ const BoardForm = () => {
               </BoardList>
             </Link>
           ))}
-          {posts?.length !== 0 ? (
+          {posts?.length === 0 ? (
             <></>
           ) : (
             samplePosts.map(post => (
-              <Link to={{ pathname: `/posts/${post.id}` }} key={post.id}>
+              <Link
+                to={{ pathname: `/board/${boardId}/${post.id}` }}
+                key={post.id}
+              >
                 <BoardList>
                   <BoardTitle>
                     {post.title}
