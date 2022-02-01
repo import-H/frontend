@@ -67,7 +67,7 @@ const Post = () => {
           <div>
             <h3>수정/삭제 ( 이 부분은 지울 것)</h3>
 
-            <Link to={{ pathname: `/edit/{boardId}/{post.id}` }}>수정</Link>
+            <Link to={{ pathname: `/edit/${boardId}/${postId}` }}>수정</Link>
             <div onClick={deletePost}>삭제</div>
           </div>
 
