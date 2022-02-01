@@ -10,7 +10,7 @@ import styled from "styled-components";
 import GlobalStyle from "../Styles/Globalstyle";
 import { Button, Input, Container } from "../Styles/theme";
 
-const AuthForm = styled.form`
+const AuthForm = styled.div`
   min-width: 300px;
   max-width: 1200px;
 `;
@@ -23,16 +23,16 @@ const Label = styled.div`
 
 const SubmitButton = styled(Button)`
   width: 100%;
-  margin-top: 2rem;
-  pointer-events: ${(props) => (props.submitState ? "auto" : "none")};
-  background-color: ${(props) => (props.submitState ? "black" : "#ddd")};
+  margin-top: 1rem;
+  pointer-events: ${props => (props.submitState ? "auto" : "none")};
+  background-color: ${props => (props.submitState ? "black" : "#ddd")};
 `;
 
 const AuthInput = styled(Input)`
   &:active,
   &:focus,
   &:focus-visible {
-    border-color: ${(props) => (props.valid.length === 0 ? "green" : "red")};
+    border-color: ${props => (props.valid.length === 0 ? "green" : "red")};
   }
 `;
 
@@ -43,6 +43,17 @@ const ErrorMsg = styled.div`
   margin-bottom: 1rem;
   color: red;
   font-size: 1.2rem;
+`;
+
+const CheckboxArea = styled.div`
+  display: flex;
+  margin-top: 20px;
+  flex-direction: row;
+  align-items: center;
+`;
+
+const CheckInput = styled.input`
+  width: 2rem;
 `;
 
 // auth form으로 변경해도 좋을듯(공통 기능 많아서)
@@ -56,7 +67,7 @@ const Register = () => {
     password: "",
     confirmPassword: "",
     name: "",
-    major: ""
+    agree: false,
   });
 
   const [errorInfo, setErrorInfo] = useState({
@@ -64,7 +75,6 @@ const Register = () => {
     password: "",
     confirmPassword: "",
     name: "",
-    major: ""
   });
 
   // 유효성 검사에 사용됨
@@ -72,7 +82,7 @@ const Register = () => {
     /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 
   // 회원가입 버튼 클릭했을 때, 발생하는 이벤트
-  const registerEvent = (e) => {
+  const registerEvent = e => {
     e.preventDefault();
 
     const data = {
@@ -80,27 +90,28 @@ const Register = () => {
       password: authInfo.password,
       confirmPassword: authInfo.confirmPassword,
       name: authInfo.name,
-      major: authInfo.major
+      agree: authInfo.agree,
     };
+    console.log(data);
     dispatch(register(data));
   };
 
   // input에 변경이 생겼을 경우, 발생하는 이벤트
-  const onChange = async (e) => {
+  const onChange = async e => {
     const { value, name } = e.target;
-    console.log(value, name);
-    await setAuthInfo({ ...authInfo, [name]: value });
+    if (name === "agree") setAuthInfo({ ...authInfo, [name]: !authInfo.agree });
+    else await setAuthInfo({ ...authInfo, [name]: value });
 
     if (name === "password") {
       if (value.length < 8)
         setErrorInfo({
           ...errorInfo,
-          [name]: "비밀번호는 8자 이상이여야 합니다."
+          [name]: "비밀번호는 8자 이상이여야 합니다.",
         });
       else if (value.length >= 14) {
         setErrorInfo({
           ...errorInfo,
-          [name]: "비밀번호는 15자 이하여야 합니다."
+          [name]: "비밀번호는 15자 이하여야 합니다.",
         });
       } else setErrorInfo({ ...errorInfo, [name]: "" });
     }
@@ -117,7 +128,7 @@ const Register = () => {
       if (!reg.test(value)) {
         setErrorInfo({
           ...errorInfo,
-          [name]: "이메일 형식에 맞게 입력해주세요."
+          [name]: "이메일 형식에 맞게 입력해주세요.",
         });
       } else setErrorInfo({ ...errorInfo, [name]: "" });
     }
@@ -131,7 +142,7 @@ const Register = () => {
   // authInfo와 errorInfo를 감지해 submitState 상태 수정
   useEffect(() => {
     if (
-      Object.values(errorInfo).every((err) => err === "") &&
+      Object.values(errorInfo).every(err => err === "") &&
       !Object.values(authInfo).includes("")
     ) {
       setSubmitState(true);
@@ -143,7 +154,7 @@ const Register = () => {
   return (
     <Container>
       <GlobalStyle />
-      <AuthForm onSubmit={registerEvent}>
+      <AuthForm>
         <Label>이메일(홍익대학교)</Label>
         <AuthInput
           type="text"
@@ -173,12 +184,17 @@ const Register = () => {
           type="text"
           name="name"
           onChange={onChange}
-          valid={errorInfo.major}
+          valid={errorInfo.name}
         />
-        <ErrorMsg>{errorInfo.major}</ErrorMsg>
-        <Label>전공</Label>
-        <Input type="text" name="major" onChange={onChange} />
-        <SubmitButton type="submit" submitState={submitState}>
+        <CheckboxArea>
+          <CheckInput type="checkbox" name="agree" onChange={onChange} />
+          <Label>주 1회 이상 활동하실 계획이 있으시면 체크해주세요.</Label>
+        </CheckboxArea>
+        <SubmitButton
+          type="submit"
+          submitState={submitState}
+          onClick={registerEvent}
+        >
           회원가입
         </SubmitButton>
       </AuthForm>

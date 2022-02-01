@@ -1,66 +1,58 @@
+// react
 import React from "react";
-// api가 아직 정해지지 않아 임시로 samplePosts 만들어둠
 
+// react-router-dom
+import { Link, useParams } from "react-router-dom";
+
+// style
 import GlobalStyle from "../Styles/Globalstyle.js";
 import { Container } from "../Styles/theme";
-import { Viewer } from "@toast-ui/react-editor";
+import styled from "styled-components";
 
-import { Link } from "react-router-dom";
+// component
+import BoardForm from "../Components/BoardForm.js";
 
-const samplePosts = [
-  {
-    id: 1,
-    title: "title",
-    content: "content",
-    thumbnail: "",
-    create_at: "2022-01-21",
-    author: "자몽",
-    view: 3,
-    like: 2,
-    comments: [],
-  },
-  {
-    id: 2,
-    title: "프로그래밍 스터디 이름",
-    content: "프로그래밍 스터디 이름은 `import_H`입니다.!!",
-    thumbnail: "",
-    create_at: "2022-01-21",
-    author: "자몽",
-    view: 3,
-    like: 2,
-    comments: ["123123", "123123"],
-  },
-];
+// style-compoents
+const MenuBar = styled.div`
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+  * {
+    padding: 20px;
+  }
+  > a:nth-child(1) {
+    color: ${props => (props.boardId === "free" ? "blue" : "black")};
+  }
+  > a:nth-child(2) {
+    color: ${props => (props.boardId === "qna" ? "blue" : "black")};
+  }
+`;
 
+const BoardWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+// main
 const Board = () => {
-  //const nickname = useSelector(state => state.post.nickname);
+  const boardId = useParams().id;
   const getPostBtn = e => {};
   return (
     <Container>
       <GlobalStyle />
-
-      <div>
-        {samplePosts.map(post => (
-          <Link to={{ pathname: "/posts", search: "?postId=3" }}>
-            <div
-              style={{
-                border: "1px solid black",
-                padding: 20,
-                margin: 20,
-                cursor: "pointer",
-              }}
-            >
-              <div>제목: {post.title}</div>
-              <Viewer initialValue={post.content} />
-              <div>만든이: {post.author}</div>
-              <div>생성 시간: {post.create_at}</div>
-              <div>작성자: {post.author}</div>
-              <div>좋아요: {post.like}</div>
-              <div>댓글: {post.comments.length}</div>
-            </div>
-          </Link>
-        ))}
-      </div>
+      <BoardWrapper>
+        <MenuBar boardId={boardId}>
+          <Link to={{ pathname: "/board/free" }}>자유게시판</Link>
+          <Link to={{ pathname: "/board/qna" }}>qna 게시판</Link>
+        </MenuBar>
+        <BoardForm />
+      </BoardWrapper>
     </Container>
   );
 };
