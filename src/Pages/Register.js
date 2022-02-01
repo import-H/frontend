@@ -3,12 +3,15 @@ import React, { useEffect, useState } from "react";
 
 // redux
 import { useSelector, useDispatch } from "react-redux";
-import { register } from "../reducers/slices/authSlice";
+import { signup } from "../reducers/slices/authSlice";
 
 // styled-components
 import styled from "styled-components";
 import GlobalStyle from "../Styles/Globalstyle";
 import { Button, Input, Container } from "../Styles/theme";
+
+// react-router-dom
+import { useNavigate } from "react-router-dom";
 
 const AuthForm = styled.div`
   min-width: 300px;
@@ -59,14 +62,17 @@ const CheckInput = styled.input`
 // auth form으로 변경해도 좋을듯(공통 기능 많아서)
 const Register = () => {
   const dispatch = useDispatch();
+  const registerStatus = useSelector(state => state.auth?.status);
+  const navigate = useNavigate();
+
   // 회원가입 form를 모두 입력했을 때, true로 바뀜
   const [submitState, setSubmitState] = useState(false);
 
   const [authInfo, setAuthInfo] = useState({
     email: "",
+    nickname: "",
     password: "",
     confirmPassword: "",
-    name: "",
     agree: false,
   });
 
@@ -74,7 +80,7 @@ const Register = () => {
     email: "",
     password: "",
     confirmPassword: "",
-    name: "",
+    nickname: "",
   });
 
   // 유효성 검사에 사용됨
@@ -82,18 +88,20 @@ const Register = () => {
     /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 
   // 회원가입 버튼 클릭했을 때, 발생하는 이벤트
-  const registerEvent = e => {
+  const registerEvent = async e => {
     e.preventDefault();
 
     const data = {
       email: authInfo.email,
+      nickname: authInfo.nickname,
       password: authInfo.password,
       confirmPassword: authInfo.confirmPassword,
-      name: authInfo.name,
       agree: authInfo.agree,
     };
-    console.log(data);
-    dispatch(register(data));
+    await dispatch(signup(data));
+    if (registerStatus === "success") {
+      navigate("/");
+    }
   };
 
   // input에 변경이 생겼을 경우, 발생하는 이벤트
@@ -182,9 +190,9 @@ const Register = () => {
         <Label>별명</Label>
         <AuthInput
           type="text"
-          name="name"
+          name="nickname"
           onChange={onChange}
-          valid={errorInfo.name}
+          valid={errorInfo.nickname}
         />
         <CheckboxArea>
           <CheckInput type="checkbox" name="agree" onChange={onChange} />

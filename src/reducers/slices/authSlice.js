@@ -7,28 +7,28 @@ const API_URL = "http://localhost:8090";
 const initialState = {
   status: null,
   authTokens: {},
-  isAuth: false
+  isAuth: false,
 };
 
 export const login = createAsyncThunk(
   "auth/login",
   async (data, dispatch, getState) => {
     const response = await axios.post(`${API_URL}/v1/login`, {
-      ...data
+      ...data,
     });
     localStorage.setItem("authTokens", JSON.stringify(response.data.data));
     return response.data.data;
-  }
+  },
 );
 
-export const register = createAsyncThunk(
-  "auth/register",
+export const signup = createAsyncThunk(
+  "auth/signup",
   async (data, dispatch, getState) => {
-    const response = await axios.post(`${API_URL}/v1/register`, {
-      ...data
+    const response = await axios.post(`${API_URL}/v1/signup`, {
+      ...data,
     });
     return response.data.data;
-  }
+  },
 );
 
 export const logout = createAsyncThunk(
@@ -37,14 +37,14 @@ export const logout = createAsyncThunk(
     if (getState.isAuth === true) {
       return;
     }
-  }
+  },
 );
 
 const slice = createSlice({
   name: "sample",
   initialState,
   reducers: {
-    logout: (state, action) => {}
+    logout: (state, action) => {},
   },
   extraReducers: {
     [login.pending]: (state, action) => {
@@ -59,13 +59,13 @@ const slice = createSlice({
       state.status = "failed";
       state.error = action.error;
     },
-    [register.pending]: (state, action) => {
+    [signup.pending]: (state, action) => {
       state.status = "loading";
     },
-    [register.fulfilled]: (state, action) => {
+    [signup.fulfilled]: (state, action) => {
       state.status = "success";
     },
-    [register.rejected]: (state, action) => {
+    [signup.rejected]: (state, action) => {
       state.status = "failed";
       state.error = action.error;
     },
@@ -73,14 +73,14 @@ const slice = createSlice({
     [logout.fulfilled]: (state, action) => {
       Object.assign(state, initialState);
     },
-    [logout.rejected]: (state, action) => {}
-  }
+    [logout.rejected]: (state, action) => {},
+  },
 });
 
 export default slice.reducer;
 
 export function refresh() {
-  return async (dispatch) => {
+  return async dispatch => {
     dispatch(slice.actions.startLoading());
 
     try {
