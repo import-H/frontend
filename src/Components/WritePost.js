@@ -1,5 +1,5 @@
 // react
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 // redux
 import { addPost } from "../reducers/slices/postSlice";
@@ -23,6 +23,7 @@ const WritePost = () => {
   const navigate = useNavigate();
 
   const addPostStatus = useSelector(state => state.post.status);
+  const [nav, setNav] = useState(false);
   const editorRef = useRef(null);
 
   const boardId = useParams().id;
@@ -37,13 +38,25 @@ const WritePost = () => {
     e.preventDefault();
 
     const instance = editorRef.current.getInstance();
-    console.log(instance.getMarkdown(), post);
-    await setPost({ ...post, content: instance.getMarkdown() });
-    dispatch(addPost({ boardId, post }));
-    if (addPostStatus === "success") {
+    await setPost({ ...post });
+    const postData = {
+      ...post,
+      content: instance.getMarkdown(), //setPost에서 content 수정하면 바로 반영안되는 문제로 이렇게 해결함
+    };
+    await dispatch(addPost({ boardId, postData }));
+  };
+
+  useEffect(() => {
+    if (addPostStatus === "loading") {
+      setNav(true);
+    }
+    if (addPostStatus === "failed") {
+      setNav(false);
+    }
+    if (nav && addPostStatus === "success") {
       navigate(-1);
     }
-  };
+  }, [addPostStatus, navigate]);
 
   return (
     <Container>

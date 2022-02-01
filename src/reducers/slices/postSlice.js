@@ -24,13 +24,11 @@ export const getUser = createAsyncThunk(
 export const addPost = createAsyncThunk(
   "post/addPost",
   async (data, dispatch, getState) => {
-    const { boardId, post } = data;
-    const response = await axiosInstance.post(
-      `${API_URL}/v1/boards/${boardId}/posts`,
-      {
-        ...post,
-      },
-    );
+    const { boardId, postData } = data;
+    console.log(boardId, data);
+    const response = await axiosInstance.post(`${API_URL}/v1/boards/1/posts`, {
+      ...postData,
+    });
     return response.data.data;
     // await axios.post("http://localhost:3001/posts", {
     //   boardId: boardId,
