@@ -135,7 +135,7 @@ const BoardForm = () => {
               </BoardList>
             </Link>
           ))}
-          {posts?.length === 0 ? (
+          {posts?.length !== 0 ? (
             <></>
           ) : (
             samplePosts.map(post => (
