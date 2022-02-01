@@ -11,7 +11,6 @@ import { Link, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faCommentAlt } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { getPosts } from "../reducers/slices/postSlice.js";
 
 const BoardWrap = styled.div`
   width: 80%;
@@ -92,20 +91,15 @@ const samplePosts = [
 
 const BoardForm = () => {
   const dispatch = useDispatch();
-  const posts = useSelector(state => state.post.posts);
   const boardId = useParams().id;
 
-  useEffect(() => {
-    dispatch(getPosts(boardId));
-    console.log("getposts");
-  }, []);
   return (
     <>
       <GlobalStyle />
       <BoardWrap>
         <Link to={{ pathname: `/write/${boardId}` }}>글 작성하기</Link>
         <div>
-          {posts?.map(post => (
+          {samplePosts.map(post => (
             <Link
               to={{ pathname: `/board/${boardId}/${post.id}` }}
               key={post.id}
@@ -135,40 +129,6 @@ const BoardForm = () => {
               </BoardList>
             </Link>
           ))}
-          {posts?.length !== 0 ? (
-            <></>
-          ) : (
-            samplePosts.map(post => (
-              <Link
-                to={{ pathname: `/board/${boardId}/${post.id}` }}
-                key={post.id}
-              >
-                <BoardList>
-                  <BoardTitle>
-                    {post.title}
-                    {/* 제목 */}
-                    <span className="date">{post.create_at}</span>
-                    {/* 생성 시간 */}
-                  </BoardTitle>
-                  {/* 글쓴이 */}
-                  <div className="boardAuthor">{post.author}</div>
-                  <Viewer initialValue={post.content} />
-                  <div className="commentWrap flex flex-ai-c">
-                    {/* 좋아요 */}
-                    <div className="boardLike">
-                      <FontAwesomeIcon icon={faHeart} />
-                      {post.like}
-                    </div>
-                    {/* 코멘트 */}
-                    <div className="boardComment">
-                      <FontAwesomeIcon icon={faCommentAlt} />{" "}
-                      {post.comments.length}
-                    </div>
-                  </div>
-                </BoardList>
-              </Link>
-            ))
-          )}
         </div>
       </BoardWrap>
     </>
