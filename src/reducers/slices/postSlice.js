@@ -68,6 +68,15 @@ export const deletePost = createAsyncThunk("post/deletePost", async data => {
   return response.data.data;
 });
 
+// 게시글 수정하기
+export const editPost = createAsyncThunk("post/editPost", async data => {
+  const { boardId, postId } = data;
+  const response = await axios.put(
+    `${API_URL}/v1/boards/${boardId}/posts/${postId}`,
+  );
+  return response.data.data;
+});
+
 // createSlice
 const slice = createSlice({
   name: "post",
@@ -119,6 +128,18 @@ const slice = createSlice({
       state.post = action.payload;
     },
     [getPost.rejected]: (state, action) => {
+      state.status = "failed";
+      state.error = action.error;
+    },
+    // editPost
+    [editPost.pending]: (state, action) => {
+      state.status = "loading";
+    },
+    [editPost.fulfilled]: (state, action) => {
+      state.status = "success";
+      state.post = action.payload;
+    },
+    [editPost.rejected]: (state, action) => {
       state.status = "failed";
       state.error = action.error;
     },
