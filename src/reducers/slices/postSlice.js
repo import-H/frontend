@@ -59,6 +59,15 @@ export const getPost = createAsyncThunk(
   },
 );
 
+// 게시글 삭제하기
+export const deletePost = createAsyncThunk("post/deletePost", async data => {
+  const { boardId, postId } = data;
+  const response = await axiosInstance.delete(
+    `/v1/boards/${boardId}/posts/${postId}`,
+  );
+  return response.data.data;
+});
+
 // createSlice
 const slice = createSlice({
   name: "post",

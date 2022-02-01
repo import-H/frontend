@@ -35,10 +35,14 @@ const samplePost = {
 
 // main
 const Post = () => {
+  const dispatch = useDispatch();
   const boardId = useParams().boardId;
   const postId = useParams().postId;
 
-  const dispatch = useDispatch();
+  const deletePost = () => {
+    dispatch(deletePost({ boardId, postId }));
+  };
+
   useEffect(() => {
     dispatch(
       getPost({
@@ -58,6 +62,13 @@ const Post = () => {
             {samplePost.tags.map(tag => (
               <span>{tag},</span>
             ))}
+          </div>
+
+          <div>
+            <h3>수정/삭제 ( 이 부분은 지울 것)</h3>
+
+            <Link to={{ pathname: `/edit/{boardId}/{post.id}` }}>수정</Link>
+            <div onClick={deletePost}>삭제</div>
           </div>
 
           <div>
