@@ -38,15 +38,6 @@ export const addPost = createAsyncThunk(
   },
 );
 
-// 게시판 내에 있는 전체 게시글 가져오기
-export const getPosts = createAsyncThunk(
-  "post/getPosts",
-  async (boardId, dispatch, getState) => {
-    const response = await axios.get(`${API_URL}/v1/boards/${boardId}/posts`);
-    return response.data.data;
-  },
-);
-
 // 게시글 가져오기
 export const getPost = createAsyncThunk(
   "post/getPost",
@@ -104,18 +95,6 @@ const slice = createSlice({
       // state.post = action.payload;
     },
     [addPost.rejected]: (state, action) => {
-      state.status = "failed";
-      state.error = action.error;
-    },
-    // getPosts
-    [getPosts.pending]: (state, action) => {
-      state.status = "loading";
-    },
-    [getPosts.fulfilled]: (state, action) => {
-      state.status = "success";
-      state.posts = action.payload;
-    },
-    [getPosts.rejected]: (state, action) => {
       state.status = "failed";
       state.error = action.error;
     },
