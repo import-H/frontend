@@ -7,8 +7,8 @@ import { register } from "../reducers/slices/authSlice";
 
 // styled-components
 import styled from "styled-components";
-import GlobalStyle from "../styles/Globalstyle";
-import { Button, Input, Container } from "../styles/theme";
+import GlobalStyle from "../Styles/Globalstyle";
+import { Button, Input, Container } from "../Styles/theme";
 
 const AuthForm = styled.div`
   min-width: 300px;
@@ -188,7 +188,7 @@ const Register = () => {
         />
         <CheckboxArea>
           <CheckInput type="checkbox" name="agree" onChange={onChange} />
-          <Label>주 1회 이상 활동은 필수입니다. (동의)</Label>
+          <Label>주 1회 이상 활동하실 계획이 있으시면 체크해주세요.</Label>
         </CheckboxArea>
         <SubmitButton
           type="submit"
