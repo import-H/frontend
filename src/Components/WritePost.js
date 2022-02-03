@@ -58,6 +58,34 @@ const WritePost = () => {
     }
   }, [addPostStatus, navigate]);
 
+  useEffect(() => {
+    if (editorRef.current) {
+      // 기존에 Image 를 Import 하는 Hook 을 제거한다.
+      editorRef.current.getInstance().removeHook("addImageBlobHook");
+
+      // 새롭게 Image 를 Import 하는 Hook 을 생성한다.
+      editorRef.current
+        .getInstance()
+        .addHook("addImageBlobHook", (blob, callback) => {
+          (async () => {
+            let formData = new FormData();
+            formData.append("file", blob);
+
+            console.log("이미지가 업로드 됐습니다.");
+
+            const imageUrl = "http://localhost:8080/file/upload/";
+
+            // Image 를 가져올 수 있는 URL 을 callback 메서드에 넣어주면 자동으로 이미지를 가져온다.
+            callback(imageUrl, "iamge");
+          })();
+
+          return false;
+        });
+    }
+
+    return () => {};
+  }, [editorRef]);
+
   return (
     <Container>
       <GlobalStyle />
@@ -82,7 +110,7 @@ const WritePost = () => {
         <Editor
           initialValue="hello react editor world!"
           previewStyle="vertical"
-          height="600px"
+          height="800px"
           initialEditType="markdown"
           useCommandShortcut={true}
           ref={editorRef}
