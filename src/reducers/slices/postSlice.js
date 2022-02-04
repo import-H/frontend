@@ -44,8 +44,10 @@ export const getPost = createAsyncThunk(
   async (data, dispatch, getState) => {
     const { boardId, postId } = data;
     const response = await axios.get(
-      `${API_URL}/v1/boards/${boardId}/posts/${postId}`,
+      // `${API_URL}/v1/boards/${boardId}/posts/${postId}`,
+      `${API_URL}/v1/boards/1/posts/${postId}`,
     );
+    console.log("post", response.data.data);
     return response.data.data;
   },
 );
@@ -67,6 +69,22 @@ export const editPost = createAsyncThunk("post/editPost", async data => {
   );
   return response.data.data;
 });
+
+// 댓글 추가하기
+export const addComment = createAsyncThunk(
+  "post/addComment",
+  async (data, dispatch, getState) => {
+    const { postId, commentData } = data;
+    console.log(data);
+    const response = await axiosInstance.post(
+      `${API_URL}/v1/posts/${postId}/comments`,
+      {
+        content: commentData,
+      },
+    );
+    return response.data.data;
+  },
+);
 
 // createSlice
 const slice = createSlice({
@@ -100,14 +118,14 @@ const slice = createSlice({
     },
     // getPost
     [getPost.pending]: (state, action) => {
-      state.status = "loading";
+      state.getPost = "loading";
     },
     [getPost.fulfilled]: (state, action) => {
-      state.status = "success";
+      state.getPost = "success";
       state.post = action.payload;
     },
     [getPost.rejected]: (state, action) => {
-      state.status = "failed";
+      state.getPost = "failed";
       state.error = action.error;
     },
     // editPost
@@ -122,11 +140,20 @@ const slice = createSlice({
       state.status = "failed";
       state.error = action.error;
     },
+    // addComment
+    [addComment.pending]: (state, action) => {
+      state.status = "loading";
+    },
+    [addComment.fulfilled]: (state, action) => {
+      state.status = "success";
+    },
+    [addComment.rejected]: (state, action) => {
+      state.status = "failed";
+      state.error = action.error;
+    },
   },
 });
 
 export default slice.reducer;
-
-// redux-toolkit 비동기 처리하는 방법 고민중 => 내장된 thunk 사용 가능성 높음
 
 // redux-toolkit 가이드: https://redux-toolkit.js.org/tutorials/quick-start

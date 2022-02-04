@@ -21,12 +21,12 @@ const MenuBar = styled.div`
   flex-direction: row;
   justify-content: left;
   align-items: center;
-  
-  & a{
+
+  & a {
     font-size: 1.5em;
     padding: 0 20px;
     position: relative;
-    &::after{
+    &::after {
       position: absolute;
       display: block;
       content: "";
@@ -37,7 +37,7 @@ const MenuBar = styled.div`
       left: 100%;
       transform: translateY(-50%);
     }
-    &:last-child::after{
+    &:last-child::after {
       display: none;
     }
   }
@@ -67,7 +67,7 @@ const Board = () => {
       <BoardWrapper>
         <MenuBar boardId={boardId}>
           <Link to={{ pathname: "/board/free" }}>자유게시판</Link>
-          <Link to={{ pathname: "/board/qna" }}>qna 게시판</Link>          
+          <Link to={{ pathname: "/board/qna" }}>qna 게시판</Link>
         </MenuBar>
         <BoardForm />
       </BoardWrapper>

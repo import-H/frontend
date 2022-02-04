@@ -80,8 +80,8 @@ const WritePost = () => {
             //     header: { "content-type": "multipart/formdata" },
             //   },
             // );
-            // const imageUrl = "http://localhost:8080/file/upload/" + filename;
-            const imageUrl = "http://localhost:8080/file/upload/";
+            // const imageUrl = "http://localhost:8090/file/upload/" + filename;
+            const imageUrl = "http://localhost:8090/file/upload/";
 
             callback(imageUrl, "Image");
           })();

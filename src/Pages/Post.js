@@ -1,9 +1,9 @@
 // react
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 // redux
-import { useDispatch } from "react-redux";
-import { getPost } from "../reducers/slices/postSlice.js";
+import { useDispatch, useSelector } from "react-redux";
+import { addComment, getPost } from "../reducers/slices/postSlice.js";
 
 // react-router-dom
 import { Link, useParams } from "react-router-dom";
@@ -14,11 +14,15 @@ import { Container } from "../Styles/theme";
 import styled from "styled-components";
 // icon
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart, faUser, faEye, faClock } from "@fortawesome/free-solid-svg-icons";
+import {
+  faHeart,
+  faUser,
+  faEye,
+  faClock,
+} from "@fortawesome/free-solid-svg-icons";
 
 // toast-ui editor
 import { Viewer } from "@toast-ui/react-editor";
-
 
 // sample data
 const samplePost = {
@@ -39,104 +43,102 @@ const samplePost = {
 
 // style
 const PostView = styled.div`
- width: 80%;
- margin: 0 auto;
- position: relative;
+  width: 80%;
+  margin: 0 auto;
+  position: relative;
 
- /* 하단 수정 버튼 */
- & .btnWrap{
-   margin-top: 34px;
-   & .linkBtn{
-     display: inline-block;
-     margin-right: 10px;
-     &:last-child{
-       margin-right: 0;
-     }
-   }
- }
-
-
+  /* 하단 수정 버튼 */
+  & .btnWrap {
+    margin-top: 34px;
+    & .linkBtn {
+      display: inline-block;
+      margin-right: 10px;
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
 `;
 
 const PostHead = styled.div`
-padding-bottom: 20px;
-margin-bottom: 20px;
-border-bottom: 1px solid #ddd;
- & .postInfo{
-   margin-bottom: 34px;
-    & .postTitle{
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+  & .postInfo {
+    margin-bottom: 34px;
+    & .postTitle {
       font-size: 4em;
       font-weight: 600;
-    }   
-    & .infoWrap{
+    }
+    & .infoWrap {
       font-size: 1.4em;
       color: #aaa;
-      & span{
+      & span {
         margin-right: 15px;
       }
-      & svg{
+      & svg {
         display: inline-block;
         margin-right: 3px;
       }
     }
   }
 
-  & .postTag{      
-      & > span{
-        padding: 5px 7px;
-        margin-right: 15px;
-        border-radius: 5px;
-        background: #ddd;
-        color: #666;
-        font-size: 1.1em;
-      }
-      &::before{
-        content: "Tags";
-        display: inline-block;
-        margin-right: 15px;
-        color: #666;
-        font-size: 1.2em;
-      }
+  & .postTag {
+    & > span {
+      padding: 5px 7px;
+      margin-right: 15px;
+      border-radius: 5px;
+      background: #ddd;
+      color: #666;
+      font-size: 1.1em;
     }
+    &::before {
+      content: "Tags";
+      display: inline-block;
+      margin-right: 15px;
+      color: #666;
+      font-size: 1.2em;
+    }
+  }
 `;
 
 const PostContent = styled.article`
   padding: 20px 0;
- /* 토스트ui viewer */
-  .toastui-editor-contents{
+  /* 토스트ui viewer */
+  .toastui-editor-contents {
     font-size: 1.6em;
   }
 `;
 
 const CommentWrap = styled.div`
   border-top: 1px solid #ddd;
-  padding: 20px 0;  
+  padding: 20px 0;
 
-  & h3{
+  & h3 {
     font-size: 1.8em;
     margin-bottom: 15px;
-    & span{
-      color: #FF6C26;
+    & span {
+      color: #ff6c26;
     }
   }
 
-  & .comment{
+  & .comment {
     font-size: 1.5em;
     padding: 10px 15px;
     border: 1px solid #ccc;
     border-radius: 7px;
     margin-bottom: 10px;
 
-    & .commentAuthor{
+    & .commentAuthor {
       font-weight: 600;
       margin-bottom: 5px;
-      & svg{
+      & svg {
         font-size: 0.9em;
         margin-right: 5px;
       }
     }
 
-    & .commentContent{
+    & .commentContent {
       color: #666;
       padding-left: 15px;
     }
@@ -146,7 +148,7 @@ const CommentWrap = styled.div`
 const UserInfo = styled.div`
   padding: 20px 0;
 
-  & .authorName{
+  & .authorName {
     font-size: 1.6em;
     margin-right: 10px;
     font-weight: 500;
@@ -160,10 +162,10 @@ const AuthorImg = styled.div`
   border-radius: 100%;
   overflow: hidden;
   position: relative;
-  & img{
+  & img {
     width: 100%;
     height: 100%;
-    object-fit : cover;
+    object-fit: cover;
     object-position: center;
   }
 `;
@@ -171,60 +173,72 @@ const AuthorImg = styled.div`
 const SideBar = styled.div`
   position: fixed;
   top: 40%;
-  left: 50px; 
+  left: 50px;
 `;
 
-const LikeWrap = styled.div`   
-    padding: 15px;
-    border: 1px solid #aaa;
-    border-radius: 100%;
-    background:#fff;
-    cursor: pointer;  
+const LikeWrap = styled.div`
+  padding: 15px;
+  border: 1px solid #aaa;
+  border-radius: 100%;
+  background: #fff;
+  cursor: pointer;
 
-    & svg{
-      color: ${props => (props.Liked ? "#FF4444" : "#aaa")};  
-      font-size: 2.6em;  
-      display: block;
-      transition: color 0.3s, transform 0.3s, opacity 0.3s; 
-      margin-bottom: -2px;
-    }
+  & svg {
+    color: ${props => (props.Liked ? "#FF4444" : "#aaa")};
+    font-size: 2.6em;
+    display: block;
+    transition: color 0.3s, transform 0.3s, opacity 0.3s;
+    margin-bottom: -2px;
+  }
 
-    &:hover svg{     
-      transform: scale(0.85);
-      transform-origin: center;   
-      opacity: 0.8;
-      color: ${props => (props.Liked ? "aaa" : "#FF4444")};
-    }
+  &:hover svg {
+    transform: scale(0.85);
+    transform-origin: center;
+    opacity: 0.8;
+    color: ${props => (props.Liked ? "aaa" : "#FF4444")};
+  }
 
-    & .num{
-      color: #222;
-      position: absolute;
-      font-size: 1.3em;
-      top: 105%;
-      left: 50%;
-      transform: translateX(-50%);
-      white-space: nowrap;
-      &::after{
-        content: "Likes";
-        display: inline-block;
-        margin-left: 3px;
-        color: #aaa;
-      }
+  & .num {
+    color: #222;
+    position: absolute;
+    font-size: 1.3em;
+    top: 105%;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    &::after {
+      content: "Likes";
+      display: inline-block;
+      margin-left: 3px;
+      color: #aaa;
     }
+  }
 `;
 
 const LikeIcon = styled(FontAwesomeIcon)`
-  color: ${props => (props.Liked ? "#FF4444" : "#aaa")};  
-  font-size: 2em;  
+  color: ${props => (props.Liked ? "#FF4444" : "#aaa")};
+  font-size: 2em;
   display: block;
-  transition: color 0.3s, transform 0.3s;  
+  transition: color 0.3s, transform 0.3s;
 `;
 
 // main
 const Post = () => {
+  const { post, status } = useSelector(state => state.post);
   const dispatch = useDispatch();
   const boardId = useParams().boardId;
   const postId = useParams().postId;
+
+  const [commentData, setCommentData] = useState("");
+
+  const changeCommentData = e => {
+    setCommentData(e.target.value);
+  };
+
+  const postCommentData = async () => {
+    await dispatch(addComment({ postId, commentData }));
+    setCommentData("");
+  };
 
   const deletePost = () => {
     dispatch(deletePost({ boardId, postId }));
@@ -237,71 +251,96 @@ const Post = () => {
         boardId: boardId,
       }),
     );
-  }, []);
+  }, [status]);
   return (
     <Container>
       <GlobalStyle />
       <PostView>
-      <PostHead>
-        <div className="postInfo flex flex-jc-b flex-ai-c">
-          {/* 게시물 제목 */}
-          <div className="postTitle">{samplePost.title}</div>
-          <div className="infoWrap">
-            {/* 조회수 */}
-            <span><FontAwesomeIcon icon={faEye} />{samplePost.view}</span>
-            {/* 글 등록 시각 */}
-            <span><FontAwesomeIcon icon={faClock} /> {samplePost.create_at}</span>
-          </div>          
-        </div>
-        
-        {/* 태그 */}
-        <div className="postTag">           
-         {samplePost.tags.map(tag => (
-        <span>{tag}</span>
-        ))}
-        </div>
-      </PostHead>
-      
-      {/* 게시물 본문 */}
-      <PostContent>
-        <Viewer initialValue={samplePost.content} />
-      </PostContent>  
+        <PostHead>
+          <div className="postInfo flex flex-jc-b flex-ai-c">
+            {/* 게시물 제목 */}
+            <div className="postTitle">{post.responseInfo.title}</div>
+            <div className="infoWrap">
+              {/* 조회수 */}
+              <span>
+                <FontAwesomeIcon icon={faEye} />
+                {samplePost.view}
+              </span>
+              {/* 글 등록 시각 */}
+              <span>
+                <FontAwesomeIcon icon={faClock} /> {post.responseInfo.createdAt}
+              </span>
+            </div>
+          </div>
 
-      {/* 작성자 정보 */}
-      <UserInfo className="flex flex-ai-c flex-jc-e">        
-        {/* 작성자 이름 */}
-        <div className="authorName">{samplePost.author}</div> 
-        {/* 프로필 이미지 */}
-        <AuthorImg></AuthorImg>    
-      </UserInfo>       
+          {/* 태그 */}
+          <div className="postTag">
+            {post.responseInfo.tags.map(tag => (
+              <span>{tag.name}</span>
+            ))}
+          </div>
+        </PostHead>
+
+        {/* 게시물 본문 */}
+        <PostContent>
+          <Viewer initialValue={post.responseInfo.content} />
+        </PostContent>
+
+        {/* 작성자 정보 */}
+        <UserInfo className="flex flex-ai-c flex-jc-e">
+          {/* 작성자 이름 */}
+          <div className="authorName">{post.responseInfo.author}</div>
+          {/* 프로필 이미지 */}
+          <AuthorImg></AuthorImg>
+        </UserInfo>
 
         {/* 코멘트 */}
         <CommentWrap>
-          <h3><span>{samplePost.comments.length}</span> Comment</h3>
-          {samplePost.comments.map((comment, id) => (
-            <div className="comment">
+          <h3>
+            <span>{post.comments.length}</span> Comment
+          </h3>
+          {post.comments.map((comment, id) => (
+            <div
+              className="comment"
+              key={id} //api 문서대로 id, createAt, account 추가해야함
+            >
               {/* 코멘트 작성자 */}
-              <div  className="commentAuthor"><FontAwesomeIcon icon={faUser} />{comment.author}</div> 
+              <div className="commentAuthor">
+                <FontAwesomeIcon icon={faUser} />
+                {comment.nickname}
+              </div>
               {/* 코멘트 내용 */}
               <div className="commentContent">{comment.content}</div>
-                          
             </div>
           ))}
+          <input
+            placeholder="댓글을 작성하세요"
+            onChange={changeCommentData}
+            value={commentData}
+          />
+          <button onClick={postCommentData}>댓글 작성</button>
         </CommentWrap>
-      
+
         {/* 사이드바 */}
         <SideBar>
           {/* 좋아요 */}
           <LikeWrap>
-            <FontAwesomeIcon icon={faHeart}/> 
+            <FontAwesomeIcon icon={faHeart} />
             <span className="num"> {samplePost.like}</span>
           </LikeWrap>
         </SideBar>
-      
-      {/* 수정, 삭제버튼 */}
-        <div className="btnWrap flex flex-jc-e">      
-            <Link className="linkBtn black" to={{ pathname: `/edit/${boardId}/${postId}` }}>수정</Link>
-            <div className="linkBtn black" onClick={deletePost}>삭제</div>
+
+        {/* 수정, 삭제버튼 */}
+        <div className="btnWrap flex flex-jc-e">
+          <Link
+            className="linkBtn black"
+            to={{ pathname: `/edit/${boardId}/${postId}` }}
+          >
+            수정
+          </Link>
+          <div className="linkBtn black" onClick={deletePost}>
+            삭제
+          </div>
         </div>
       </PostView>
     </Container>
