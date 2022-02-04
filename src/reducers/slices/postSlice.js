@@ -53,19 +53,24 @@ export const getPost = createAsyncThunk(
 );
 
 // 게시글 삭제하기
-export const deletePost = createAsyncThunk("post/deletePost", async data => {
-  const { boardId, postId } = data;
-  const response = await axiosInstance.delete(
-    `/v1/boards/${boardId}/posts/${postId}`,
-  );
-  return response.data.data;
-});
+export const deletePost = createAsyncThunk(
+  "post/deletePost",
+  async (data, dispatch, getState) => {
+    const { boardId, postId } = data;
+    const response = await axiosInstance.delete(
+      // `/v1/boards/${boardId}/posts/${postId}`,
+      `${API_URL}/v1/boards/1/posts/${postId}`,
+    );
+    return response.data.data;
+  },
+);
 
 // 게시글 수정하기
 export const editPost = createAsyncThunk("post/editPost", async data => {
   const { boardId, postId } = data;
   const response = await axios.put(
-    `${API_URL}/v1/boards/${boardId}/posts/${postId}`,
+    // `${API_URL}/v1/boards/${boardId}/posts/${postId}`,
+    `${API_URL}/v1/boards/1/posts/${postId}`,
   );
   return response.data.data;
 });
@@ -103,7 +108,6 @@ export const editComment = createAsyncThunk(
   "post/editComment",
   async (data, dispatch, getState) => {
     const { postId, commentId, content } = data;
-    console.log(data);
     const response = await axiosInstance.put(
       `${API_URL}/v1/posts/${postId}/comments/${commentId}`,
       {
