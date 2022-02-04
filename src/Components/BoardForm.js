@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 // api가 아직 정해지지 않아 임시로 samplePosts 만들어둠
 
 import GlobalStyle from "../Styles/Globalstyle.js";
@@ -11,6 +11,7 @@ import { Link, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faCommentAlt } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 
 const BoardWrap = styled.div`
   width: 80%;
@@ -64,34 +65,19 @@ const BoardTitle = styled.div`
   }
 `;
 
-const samplePosts = [
-  {
-    id: 1,
-    title: "title",
-    content: "content",
-    thumbnail: "",
-    create_at: "2022-01-21",
-    author: "자몽",
-    view: 3,
-    like: 2,
-    comments: [],
-  },
-  {
-    id: 2,
-    title: "프로그래밍 스터디 이름",
-    content: "프로그래밍 스터디 이름은 `import_H`입니다.!!",
-    thumbnail: "",
-    create_at: "2022-01-21",
-    author: "자몽",
-    view: 3,
-    like: 2,
-    comments: ["123123", "123123"],
-  },
-];
-
 const BoardForm = () => {
   const dispatch = useDispatch();
   const boardId = useParams().id;
+
+  const [samplePosts, setSamplePosts] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://localhost:3001/posts')
+      .then(res => {
+        console.log(res.data);
+        setSamplePosts(res.data);
+      })
+  }, [])
 
   return (
     <>
