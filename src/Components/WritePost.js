@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 // react-router-dom
 import { useParams, useNavigate } from "react-router-dom";
+import arrayToObject from "redux-actions/lib/utils/arrayToObject";
 
 // auth form으로 변경해도 좋을듯(공통 기능 많아서)
 const WritePost = () => {
@@ -28,22 +29,25 @@ const WritePost = () => {
 
   const boardId = useParams().id;
 
-  const [post, setPost] = useState({
-    title: "",
-    tags: ["aa", "bb"],
-    content: "",
-  });
+  const [title, setTitle] = useState("");
+  const [currentTag, setCurrentTag] = useState("");
+  const [tags, setTags] = useState([]);
 
   const postSubmit = async e => {
     e.preventDefault();
 
     const instance = editorRef.current.getInstance();
-    await setPost({ ...post });
     const postData = {
-      ...post,
+      title: title,
+      tags: tags,
       content: instance.getMarkdown(), //setPost에서 content 수정하면 바로 반영안되는 문제로 이렇게 해결함
     };
     await dispatch(addPost({ boardId, postData }));
+  };
+
+  const onTagPush = () => {
+    if (!tags.includes(currentTag)) setTags([...tags, currentTag]);
+    setCurrentTag("");
   };
 
   useEffect(() => {
@@ -96,8 +100,7 @@ const WritePost = () => {
   return (
     <Container>
       <GlobalStyle />
-      <form
-        onSubmit={postSubmit}
+      <div
         style={{
           display: "flex",
           flexDirection: "column",
@@ -109,10 +112,30 @@ const WritePost = () => {
         <input
           type="text"
           name="email"
-          onChange={e => setPost({ ...post, title: e.target.value })}
+          onChange={e => setTitle(e.target.value)}
         />
         <label>tags</label>
-        <input />
+        {/* tagArea/ */}
+        <div>
+          {tags.map((tag, id) => (
+            <div
+              onClick={() => {
+                setTags(tags.filter(t => t !== tag));
+              }}
+            >
+              {tag}
+            </div>
+          ))}
+          <input
+            onChange={e => setCurrentTag(e.target.value)}
+            value={currentTag}
+            onKeyPress={e => {
+              if (e.key === "Enter") {
+                onTagPush();
+              }
+            }}
+          />
+        </div>
         <label>content</label>
         <Editor
           initialValue="hello react editor world!"
@@ -122,8 +145,8 @@ const WritePost = () => {
           useCommandShortcut={true}
           ref={editorRef}
         />
-        <button type="submit">작성 완료</button>
-      </form>
+        <button onClick={postSubmit}>작성 완료</button>
+      </div>
     </Container>
   );
 };
