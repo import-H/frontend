@@ -14,12 +14,24 @@ import { useDispatch, useSelector } from "react-redux";
 
 const BoardWrap = styled.div`
   width: 80%;
+  padding: 20px 0;
+
+  & .writeBtn{
+    display: inline-block;
+    margin-bottom: 20px;
+
+    &:last-of-type{
+      margin-top: 20px;
+    }
+
+  }
+
 `;
 
 const BoardList = styled.div`
   width: 100%;
   margin: 0 auto;
-  padding: 20px;
+  padding: 20px 0;
   box-sizing: border-box;
   border-bottom: 1px solid #ddd;
   margin-bottom: 2em;
@@ -50,12 +62,17 @@ const BoardList = styled.div`
   }
   & .boardComment {
   }
+
+  &:hover .boardTitle{
+    color: #FF6C26;
+  }
 `;
 const BoardTitle = styled.div`
   font-size: 2.2em;
   font-weight: 500;
   display: flex;
   justify-content: space-between;
+  transition: all 0.3s;
 
   & .date {
     display: block;
@@ -96,8 +113,10 @@ const BoardForm = () => {
   return (
     <>
       <GlobalStyle />
-      <BoardWrap>
-        <Link to={{ pathname: `/write/${boardId}` }}>글 작성하기</Link>
+      <BoardWrap> 
+      {/* <div className="flex flex-jc-e">
+        <Link to={{ pathname: `/write/${boardId}` }} className="writeBtn linkBtn">글 작성하기</Link> 
+        </div>    */}
         <div>
           {samplePosts.map(post => (
             <Link
@@ -105,7 +124,8 @@ const BoardForm = () => {
               key={post.id}
             >
               <BoardList>
-                <BoardTitle>
+                
+                <BoardTitle className="boardTitle">
                   {post.title}
                   {/* 제목 */}
                   <span className="date">{post.create_at}</span>
@@ -129,6 +149,9 @@ const BoardForm = () => {
               </BoardList>
             </Link>
           ))}
+        </div>
+        <div className="flex flex-jc-e">
+        <Link to={{ pathname: `/write/${boardId}` }} className="writeBtn linkBtn black">글 작성하기</Link> 
         </div>
       </BoardWrap>
     </>

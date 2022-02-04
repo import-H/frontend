@@ -9,7 +9,7 @@ function NavBar() {
     <nav>
       <div id="content">
         <div id="logo">
-          <Link to="/" style={{ padding: "1rem" }}>
+          <Link to="/">
             <img src={logoImg} alt="import-H" />
           </Link>
         </div>

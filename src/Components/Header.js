@@ -15,10 +15,10 @@ const Header = () => {
       <Link to="/board" style={{ padding: "1rem" }}>
         게시판
       </Link>
-      <Link to="/register" style={{ padding: "1rem" }}>
+      <Link className="linkBtn" to="/register">
         회원가입
       </Link>
-      <Link to="/login" style={{ padding: "1rem" }}>
+      <Link className="linkBtn" to="/login">
         로그인
       </Link>
       <button onClick={logoutBtn}>로그아웃</button>
