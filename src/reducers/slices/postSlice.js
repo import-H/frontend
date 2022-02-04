@@ -86,6 +86,34 @@ export const addComment = createAsyncThunk(
   },
 );
 
+// 댓글 삭제하기
+export const deleteComment = createAsyncThunk(
+  "post/deleteComment",
+  async (data, dispatch, getState) => {
+    const { postId, commentId } = data;
+    const response = await axiosInstance.delete(
+      `${API_URL}/v1/posts/${postId}/comments/${commentId}`,
+    );
+    return response.data.data;
+  },
+);
+
+// 댓글 수정하기
+export const editComment = createAsyncThunk(
+  "post/editComment",
+  async (data, dispatch, getState) => {
+    const { postId, commentId, content } = data;
+    console.log(data);
+    const response = await axiosInstance.put(
+      `${API_URL}/v1/posts/${postId}/comments/${commentId}`,
+      {
+        content: content,
+      },
+    );
+    return response.data.data;
+  },
+);
+
 // createSlice
 const slice = createSlice({
   name: "post",

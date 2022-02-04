@@ -136,7 +136,7 @@ const BoardForm = () => {
                     <FontAwesomeIcon icon={faHeart} />
                     {post.responseInfo.like}
                   </div>
-                  {/* 코멘트 */}
+                  {/* 댓글 */}
                   <div className="boardComment">
                     <FontAwesomeIcon icon={faCommentAlt} /> {post.commentsCount}
                   </div>
