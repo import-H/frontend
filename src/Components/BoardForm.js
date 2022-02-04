@@ -17,16 +17,14 @@ const BoardWrap = styled.div`
   width: 80%;
   padding: 20px 0;
 
-  & .writeBtn{
+  & .writeBtn {
     display: inline-block;
     margin-bottom: 20px;
 
-    &:last-of-type{
+    &:last-of-type {
       margin-top: 20px;
     }
-
   }
-
 `;
 
 const BoardList = styled.div`
@@ -64,8 +62,8 @@ const BoardList = styled.div`
   & .boardComment {
   }
 
-  &:hover .boardTitle{
-    color: #FF6C26;
+  &:hover .boardTitle {
+    color: #ff6c26;
   }
 `;
 const BoardTitle = styled.div`
@@ -88,47 +86,59 @@ const BoardForm = () => {
 
   const [samplePosts, setSamplePosts] = useState([]);
 
+  const simplyContent = content => {
+    const regex = /!\[Image\]\([\w\/:]+\)/;
+    let imgStr;
+    while ((imgStr = content.match(regex)) !== null) {
+      content =
+        content.slice(0, imgStr.index - 1) +
+        content.slice(imgStr.index + imgStr[0].length);
+    }
+    return content;
+  };
+
   useEffect(() => {
-    axios.get('http://localhost:3001/posts')
-      .then(res => {
-        setSamplePosts(res.data);
-      })
-  }, [])
+    axios.get("http://localhost:8090/v1/boards/1/posts").then(res => {
+      console.log(res.data.list);
+      setSamplePosts(res.data.list);
+    });
+  }, []);
 
   return (
     <>
       <GlobalStyle />
-      <BoardWrap> 
-      {/* <div className="flex flex-jc-e">
+      <BoardWrap>
+        {/* <div className="flex flex-jc-e">
         <Link to={{ pathname: `/write/${boardId}` }} className="writeBtn linkBtn">글 작성하기</Link> 
         </div>    */}
         <div>
           {samplePosts.map(post => (
             <Link
-              to={{ pathname: `/board/${boardId}/${post.id}` }}
-              key={post.id}
+              // to={{ pathname: `/board/${boardId}/${post.id}` }}
+              to={{ pathname: `/board/${boardId}/${post.responseInfo.id}` }}
+              key={post.responseInfo.id}
             >
               <BoardList>
-                
                 <BoardTitle className="boardTitle">
-                  {post.title}
+                  {post.responseInfo.title}
                   {/* 제목 */}
-                  <span className="date">{post.create_at}</span>
+                  <span className="date">{post.responseInfo.create_at}</span>
                   {/* 생성 시간 */}
                 </BoardTitle>
                 {/* 글쓴이 */}
-                <div className="boardAuthor">{post.author}</div>
-                <Viewer initialValue={post.content} />
+                <div className="boardAuthor">{post.responseInfo.author}</div>
+                <Viewer
+                  initialValue={simplyContent(post.responseInfo.content)}
+                />
                 <div className="commentWrap flex flex-ai-c">
                   {/* 좋아요 */}
                   <div className="boardLike">
                     <FontAwesomeIcon icon={faHeart} />
-                    {post.like}
+                    {post.responseInfo.like}
                   </div>
                   {/* 코멘트 */}
                   <div className="boardComment">
-                    <FontAwesomeIcon icon={faCommentAlt} />{" "}
-                    {post.comments.length}
+                    <FontAwesomeIcon icon={faCommentAlt} /> {post.commentsCount}
                   </div>
                 </div>
               </BoardList>
@@ -136,7 +146,12 @@ const BoardForm = () => {
           ))}
         </div>
         <div className="flex flex-jc-e">
-        <Link to={{ pathname: `/write/${boardId}` }} className="writeBtn linkBtn black">글 작성하기</Link> 
+          <Link
+            to={{ pathname: `/write/${boardId}` }}
+            className="writeBtn linkBtn black"
+          >
+            글 작성하기
+          </Link>
         </div>
       </BoardWrap>
     </>
