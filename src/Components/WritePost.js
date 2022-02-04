@@ -67,16 +67,23 @@ const WritePost = () => {
       editorRef.current
         .getInstance()
         .addHook("addImageBlobHook", (blob, callback) => {
-          (async () => {
+          (async function () {
             let formData = new FormData();
             formData.append("file", blob);
 
             console.log("이미지가 업로드 됐습니다.");
 
+            // const { data: filename } = await axios.post(
+            //   "/file/upload",
+            //   formData,
+            //   {
+            //     header: { "content-type": "multipart/formdata" },
+            //   },
+            // );
+            // const imageUrl = "http://localhost:8080/file/upload/" + filename;
             const imageUrl = "http://localhost:8080/file/upload/";
 
-            // Image 를 가져올 수 있는 URL 을 callback 메서드에 넣어주면 자동으로 이미지를 가져온다.
-            callback(imageUrl, "iamge");
+            callback(imageUrl, "Image");
           })();
 
           return false;
