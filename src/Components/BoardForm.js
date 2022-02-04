@@ -91,7 +91,6 @@ const BoardForm = () => {
   useEffect(() => {
     axios.get('http://localhost:3001/posts')
       .then(res => {
-        console.log(res.data);
         setSamplePosts(res.data);
       })
   }, [])
