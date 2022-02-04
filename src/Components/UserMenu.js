@@ -14,7 +14,7 @@ function UserMenu() {
       {isAuth ? (
         <span>
           <span className="element">
-            <div style={{ padding: "1rem" }} onClick={logoutBtn}>
+            <div  className="linkBtn" onClick={logoutBtn}>
               로그아웃
             </div>
           </span>
@@ -22,12 +22,12 @@ function UserMenu() {
       ) : (
         <span>
           <span className="element">
-            <Link to="/login" style={{ padding: "1rem" }}>
+            <Link to="/login" className="linkBtn">
               로그인
             </Link>
           </span>
           <span className="element">
-            <Link to="/register" style={{ padding: "1rem" }}>
+            <Link to="/register" className="linkBtn">
               회원가입
             </Link>
           </span>
