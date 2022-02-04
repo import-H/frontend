@@ -3,7 +3,12 @@ import React, { useEffect, useState } from "react";
 
 // redux
 import { useDispatch, useSelector } from "react-redux";
-import { addComment, getPost } from "../reducers/slices/postSlice.js";
+import {
+  addComment,
+  editComment,
+  deleteComment,
+  getPost,
+} from "../reducers/slices/postSlice.js";
 
 // react-router-dom
 import { Link, useParams } from "react-router-dom";
@@ -244,6 +249,14 @@ const Post = () => {
     dispatch(deletePost({ boardId, postId }));
   };
 
+  const onRemoveComment = commentId => {
+    dispatch(deleteComment({ postId, commentId }));
+  };
+
+  const onEditComment = (commentId, content) => {
+    dispatch(editComment({ postId, commentId, content }));
+  };
+
   useEffect(() => {
     dispatch(
       getPost({
@@ -294,7 +307,7 @@ const Post = () => {
           <AuthorImg></AuthorImg>
         </UserInfo>
 
-        {/* 코멘트 */}
+        {/* 댓글 */}
         <CommentWrap>
           <h3>
             <span>{post.comments.length}</span> Comment
@@ -304,13 +317,16 @@ const Post = () => {
               className="comment"
               key={id} //api 문서대로 id, createAt, account 추가해야함
             >
-              {/* 코멘트 작성자 */}
+              {/* 댓글 작성자 */}
               <div className="commentAuthor">
                 <FontAwesomeIcon icon={faUser} />
                 {comment.nickname}
               </div>
-              {/* 코멘트 내용 */}
+              {/* 댓글 내용 */}
               <div className="commentContent">{comment.content}</div>
+              <div className="commentCreateAt">2020.01.02</div>
+              <button onClick={onRemoveComment(id)}>댓글 삭제</button>
+              <button onClick={onEditComment(id)}>댓글 수정</button>
             </div>
           ))}
           <input
