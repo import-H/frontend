@@ -25,7 +25,9 @@
     "web-vitals": "^2.1.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "frontend": "react-scripts start",
+    "json-server": "json-server --watch server/db.json --port 3001",
+    "start": "concurrently \"yarn frontend\" \"yarn json-server \"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -49,6 +51,7 @@
     ]
   },
   "devDependencies": {
+    "concurrently": "^7.0.0",
     "eslint": "8.2.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.3.0",
