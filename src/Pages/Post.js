@@ -8,10 +8,11 @@ import {
   editComment,
   deleteComment,
   getPost,
+  deletePost,
 } from "../reducers/slices/postSlice.js";
 
 // react-router-dom
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 
 // style
 import GlobalStyle from "../Styles/Globalstyle.js";
@@ -58,6 +59,7 @@ const PostView = styled.div`
     & .linkBtn {
       display: inline-block;
       margin-right: 10px;
+      cursor: pointer;
       &:last-child {
         margin-right: 0;
       }
@@ -231,6 +233,9 @@ const LikeIcon = styled(FontAwesomeIcon)`
 const Post = () => {
   const { post, status } = useSelector(state => state.post);
   const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
   const boardId = useParams().boardId;
   const postId = useParams().postId;
 
@@ -245,8 +250,9 @@ const Post = () => {
     setCommentData("");
   };
 
-  const deletePost = () => {
-    dispatch(deletePost({ boardId, postId }));
+  const onDeletePost = async () => {
+    await dispatch(deletePost({ boardId, postId }));
+    navigate(-1);
   };
 
   const onRemoveComment = commentId => {
@@ -325,8 +331,20 @@ const Post = () => {
               {/* 댓글 내용 */}
               <div className="commentContent">{comment.content}</div>
               <div className="commentCreateAt">2020.01.02</div>
-              <button onClick={onRemoveComment(id)}>댓글 삭제</button>
-              <button onClick={onEditComment(id)}>댓글 수정</button>
+              <button
+                onClick={() => {
+                  onRemoveComment(id);
+                }}
+              >
+                댓글 삭제
+              </button>
+              <button
+                onClick={() => {
+                  onEditComment(id);
+                }}
+              >
+                댓글 수정
+              </button>
             </div>
           ))}
           <input
@@ -354,7 +372,7 @@ const Post = () => {
           >
             수정
           </Link>
-          <div className="linkBtn black" onClick={deletePost}>
+          <div className="linkBtn black" onClick={onDeletePost}>
             삭제
           </div>
         </div>
