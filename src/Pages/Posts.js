@@ -39,7 +39,7 @@ const BoardWrap = styled.div`
 const BoardList = styled.div`
   width: 100%;
   margin: 0 auto;
-  padding: 20px;
+  padding: 20px 0;
   box-sizing: border-box;
   border-bottom: 1px solid #ddd;
   margin-bottom: 2em;
@@ -70,6 +70,8 @@ const BoardList = styled.div`
   }
   & .boardComment {
   }
+
+
 `;
 const BoardTitle = styled.div`
   font-size: 2.2em;
