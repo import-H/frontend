@@ -89,9 +89,9 @@ const BoardForm = () => {
   const [samplePosts, setSamplePosts] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:3001/posts')
+    axios.get('http://localhost:8090/v1/boards/1/posts')
       .then(res => {
-        setSamplePosts(res.data);
+        setSamplePosts(res.data.list);
       })
   }, [])
 
@@ -105,7 +105,7 @@ const BoardForm = () => {
         <div>
           {samplePosts.map(post => (
             <Link
-              to={{ pathname: `/board/${boardId}/${post.id}` }}
+              to={{ pathname: `/board/${boardId}/${post.responseInfo.id}` }}
               key={post.id}
             >
               <BoardList>
@@ -113,22 +113,22 @@ const BoardForm = () => {
                 <BoardTitle className="boardTitle">
                   {post.title}
                   {/* 제목 */}
-                  <span className="date">{post.create_at}</span>
+                  <span className="date">{post.responseInfo.create_at}</span>
                   {/* 생성 시간 */}
                 </BoardTitle>
                 {/* 글쓴이 */}
-                <div className="boardAuthor">{post.author}</div>
-                <Viewer initialValue={post.content} />
+                <div className="boardAuthor">{post.responseInfo.author}</div>
+                <Viewer initialValue={post.responseInfo.content} />
                 <div className="commentWrap flex flex-ai-c">
                   {/* 좋아요 */}
                   <div className="boardLike">
                     <FontAwesomeIcon icon={faHeart} />
-                    {post.like}
+                    {post.responseInfo.like}
                   </div>
                   {/* 코멘트 */}
                   <div className="boardComment">
                     <FontAwesomeIcon icon={faCommentAlt} />{" "}
-                    {post.comments.length}
+                    {post.commentsCount}
                   </div>
                 </div>
               </BoardList>
