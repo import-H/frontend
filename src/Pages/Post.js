@@ -3,13 +3,7 @@ import React, { useEffect, useState } from "react";
 
 // redux
 import { useDispatch, useSelector } from "react-redux";
-import {
-  addComment,
-  editComment,
-  deleteComment,
-  getPost,
-  deletePost,
-} from "../reducers/slices/postSlice.js";
+import { getPost, deletePost } from "../reducers/slices/postSlice.js";
 
 // react-router-dom
 import { Link, useParams, useNavigate } from "react-router-dom";
@@ -30,6 +24,7 @@ import {
 
 // toast-ui editor
 import { Viewer } from "@toast-ui/react-editor";
+import Comment from "../Components/Comment.js";
 
 // sample data
 const samplePost = {
@@ -115,41 +110,6 @@ const PostContent = styled.article`
   /* 토스트ui viewer */
   .toastui-editor-contents {
     font-size: 1.6em;
-  }
-`;
-
-const CommentWrap = styled.div`
-  border-top: 1px solid #ddd;
-  padding: 20px 0;
-
-  & h3 {
-    font-size: 1.8em;
-    margin-bottom: 15px;
-    & span {
-      color: #ff6c26;
-    }
-  }
-
-  & .comment {
-    font-size: 1.5em;
-    padding: 10px 15px;
-    border: 1px solid #ccc;
-    border-radius: 7px;
-    margin-bottom: 10px;
-
-    & .commentAuthor {
-      font-weight: 600;
-      margin-bottom: 5px;
-      & svg {
-        font-size: 0.9em;
-        margin-right: 5px;
-      }
-    }
-
-    & .commentContent {
-      color: #666;
-      padding-left: 15px;
-    }
   }
 `;
 
@@ -241,28 +201,9 @@ const Post = () => {
   const boardId = useParams().boardId;
   const postId = useParams().postId;
 
-  const [commentData, setCommentData] = useState("");
-
-  const onChangeComment = e => {
-    setCommentData(e.target.value);
-  };
-
-  const onPostComment = async () => {
-    await dispatch(addComment({ postId, commentData }));
-    setCommentData("");
-  };
-
   const onDeletePost = async () => {
     await dispatch(deletePost({ boardId, postId }));
     navigate(-1);
-  };
-
-  const onRemoveComment = commentId => {
-    dispatch(deleteComment({ postId, commentId }));
-  };
-
-  const onEditComment = (commentId, content) => {
-    dispatch(editComment({ postId, commentId, content }));
   };
 
   useEffect(async () => {
@@ -309,7 +250,7 @@ const Post = () => {
             {/* 태그 */}
             <div className="postTag">
               {post.responseInfo.tags.map(tag => (
-                <span>{tag.name}</span>
+                <span key={tag.name}>{tag.name}</span>
               ))}
             </div>
           </PostHead>
@@ -328,46 +269,7 @@ const Post = () => {
           </UserInfo>
 
           {/* 댓글 */}
-          <CommentWrap>
-            <h3>
-              <span>{post.comments.length}</span> Comment
-            </h3>
-            {post.comments.map((comment, id) => (
-              <div
-                className="comment"
-                key={id} //api 문서대로 id, createAt, account 추가해야함
-              >
-                {/* 댓글 작성자 */}
-                <div className="commentAuthor">
-                  <FontAwesomeIcon icon={faUser} />
-                  {comment.nickname}
-                </div>
-                {/* 댓글 내용 */}
-                <div className="commentContent">{comment.content}</div>
-                <div className="commentCreateAt">2020.01.02</div>
-                <button
-                  onClick={() => {
-                    onRemoveComment(id);
-                  }}
-                >
-                  댓글 삭제
-                </button>
-                <button
-                  onClick={() => {
-                    onEditComment(id);
-                  }}
-                >
-                  댓글 수정
-                </button>
-              </div>
-            ))}
-            <input
-              placeholder="댓글을 작성하세요"
-              onChange={onChangeComment}
-              value={commentData}
-            />
-            <button onClick={onPostComment}>댓글 작성</button>
-          </CommentWrap>
+          <Comment post={post} postId={postId} />
 
           {/* 사이드바 */}
           <SideBar>
