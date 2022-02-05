@@ -233,6 +233,7 @@ const LikeIcon = styled(FontAwesomeIcon)`
 // main
 const Post = () => {
   const { post, status } = useSelector(state => state.post);
+  const [postData, setPostData] = useState();
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -264,6 +265,16 @@ const Post = () => {
     dispatch(editComment({ postId, commentId, content }));
   };
 
+  useEffect(async () => {
+    await dispatch(
+      getPost({
+        postId: postId,
+        boardId: boardId,
+      }),
+    );
+    setPostData(post);
+  }, []);
+
   useEffect(() => {
     dispatch(
       getPost({
@@ -275,109 +286,112 @@ const Post = () => {
   return (
     <Container>
       <GlobalStyle />
-      <PostView>
-        <PostHead>
-          <div className="postInfo flex flex-jc-b flex-ai-c">
-            {/* 게시물 제목 */}
-            <div className="postTitle">{post.responseInfo.title}</div>
-            <div className="infoWrap">
-              {/* 조회수 */}
-              <span>
-                <FontAwesomeIcon icon={faEye} />
-                {samplePost.view}
-              </span>
-              {/* 글 등록 시각 */}
-              <span>
-                <FontAwesomeIcon icon={faClock} /> {post.responseInfo.createdAt}
-              </span>
-            </div>
-          </div>
-
-          {/* 태그 */}
-          <div className="postTag">
-            {post.responseInfo.tags.map(tag => (
-              <span>{tag.name}</span>
-            ))}
-          </div>
-        </PostHead>
-
-        {/* 게시물 본문 */}
-        <PostContent>
-          <Viewer initialValue={post.responseInfo.content} />
-        </PostContent>
-
-        {/* 작성자 정보 */}
-        <UserInfo className="flex flex-ai-c flex-jc-e">
-          {/* 작성자 이름 */}
-          <div className="authorName">{post.responseInfo.author}</div>
-          {/* 프로필 이미지 */}
-          <AuthorImg></AuthorImg>
-        </UserInfo>
-
-        {/* 댓글 */}
-        <CommentWrap>
-          <h3>
-            <span>{post.comments.length}</span> Comment
-          </h3>
-          {post.comments.map((comment, id) => (
-            <div
-              className="comment"
-              key={id} //api 문서대로 id, createAt, account 추가해야함
-            >
-              {/* 댓글 작성자 */}
-              <div className="commentAuthor">
-                <FontAwesomeIcon icon={faUser} />
-                {comment.nickname}
+      {postData && (
+        <PostView>
+          <PostHead>
+            <div className="postInfo flex flex-jc-b flex-ai-c">
+              {/* 게시물 제목 */}
+              <div className="postTitle">{post.responseInfo.title}</div>
+              <div className="infoWrap">
+                {/* 조회수 */}
+                <span>
+                  <FontAwesomeIcon icon={faEye} />
+                  {samplePost.view}
+                </span>
+                {/* 글 등록 시각 */}
+                <span>
+                  <FontAwesomeIcon icon={faClock} />{" "}
+                  {post.responseInfo.createdAt}
+                </span>
               </div>
-              {/* 댓글 내용 */}
-              <div className="commentContent">{comment.content}</div>
-              <div className="commentCreateAt">2020.01.02</div>
-              <button
-                onClick={() => {
-                  onRemoveComment(id);
-                }}
-              >
-                댓글 삭제
-              </button>
-              <button
-                onClick={() => {
-                  onEditComment(id);
-                }}
-              >
-                댓글 수정
-              </button>
             </div>
-          ))}
-          <input
-            placeholder="댓글을 작성하세요"
-            onChange={onChangeComment}
-            value={commentData}
-          />
-          <button onClick={onPostComment}>댓글 작성</button>
-        </CommentWrap>
 
-        {/* 사이드바 */}
-        <SideBar>
-          {/* 좋아요 */}
-          <LikeWrap>
-            <FontAwesomeIcon icon={faHeart} />
-            <span className="num"> {samplePost.like}</span>
-          </LikeWrap>
-        </SideBar>
+            {/* 태그 */}
+            <div className="postTag">
+              {post.responseInfo.tags.map(tag => (
+                <span>{tag.name}</span>
+              ))}
+            </div>
+          </PostHead>
 
-        {/* 수정, 삭제버튼 */}
-        <div className="btnWrap flex flex-jc-e">
-          <Link
-            className="linkBtn black"
-            to={{ pathname: `/edit/${boardId}/${postId}` }}
-          >
-            수정
-          </Link>
-          <div className="linkBtn black" onClick={onDeletePost}>
-            삭제
+          {/* 게시물 본문 */}
+          <PostContent>
+            <Viewer initialValue={post.responseInfo.content} />
+          </PostContent>
+
+          {/* 작성자 정보 */}
+          <UserInfo className="flex flex-ai-c flex-jc-e">
+            {/* 작성자 이름 */}
+            <div className="authorName">{post.responseInfo.author}</div>
+            {/* 프로필 이미지 */}
+            <AuthorImg></AuthorImg>
+          </UserInfo>
+
+          {/* 댓글 */}
+          <CommentWrap>
+            <h3>
+              <span>{post.comments.length}</span> Comment
+            </h3>
+            {post.comments.map((comment, id) => (
+              <div
+                className="comment"
+                key={id} //api 문서대로 id, createAt, account 추가해야함
+              >
+                {/* 댓글 작성자 */}
+                <div className="commentAuthor">
+                  <FontAwesomeIcon icon={faUser} />
+                  {comment.nickname}
+                </div>
+                {/* 댓글 내용 */}
+                <div className="commentContent">{comment.content}</div>
+                <div className="commentCreateAt">2020.01.02</div>
+                <button
+                  onClick={() => {
+                    onRemoveComment(id);
+                  }}
+                >
+                  댓글 삭제
+                </button>
+                <button
+                  onClick={() => {
+                    onEditComment(id);
+                  }}
+                >
+                  댓글 수정
+                </button>
+              </div>
+            ))}
+            <input
+              placeholder="댓글을 작성하세요"
+              onChange={onChangeComment}
+              value={commentData}
+            />
+            <button onClick={onPostComment}>댓글 작성</button>
+          </CommentWrap>
+
+          {/* 사이드바 */}
+          <SideBar>
+            {/* 좋아요 */}
+            <LikeWrap>
+              <FontAwesomeIcon icon={faHeart} />
+              <span className="num"> {samplePost.like}</span>
+            </LikeWrap>
+          </SideBar>
+
+          {/* 수정, 삭제버튼 */}
+          <div className="btnWrap flex flex-jc-e">
+            <Link
+              className="linkBtn black"
+              to={{ pathname: `/edit/${boardId}/${postId}` }}
+            >
+              수정
+            </Link>
+            <div className="linkBtn black" onClick={onDeletePost}>
+              삭제
+            </div>
           </div>
-        </div>
-      </PostView>
+        </PostView>
+      )}
     </Container>
   );
 };
