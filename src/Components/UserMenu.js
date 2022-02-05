@@ -1,5 +1,10 @@
+// react
 import React from "react";
+
+// react-router-dom
 import { Link } from "react-router-dom";
+
+// redux
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../reducers/slices/authSlice";
 
@@ -14,7 +19,7 @@ function UserMenu() {
       {isAuth ? (
         <span>
           <span className="element">
-            <div  className="linkBtn" onClick={logoutBtn}>
+            <div className="linkBtn" onClick={logoutBtn}>
               로그아웃
             </div>
           </span>

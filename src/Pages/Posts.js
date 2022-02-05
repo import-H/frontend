@@ -1,12 +1,19 @@
+// react
 import React, { useEffect } from "react";
+
+// toast-ui viewer
+import { Viewer } from "@toast-ui/react-editor";
+
+// style
 import GlobalStyle from "../Styles/Globalstyle.js";
 import { Container } from "../Styles/theme";
-import { Viewer } from "@toast-ui/react-editor";
 import styled from "styled-components";
 
+// icon
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faCommentAlt } from "@fortawesome/free-solid-svg-icons";
 
+// sample Posts Data
 const samplePosts = [
   {
     id: 1,
@@ -32,6 +39,7 @@ const samplePosts = [
   },
 ];
 
+// style
 const BoardWrap = styled.div`
   width: 80%;
 `;
@@ -70,8 +78,6 @@ const BoardList = styled.div`
   }
   & .boardComment {
   }
-
-
 `;
 const BoardTitle = styled.div`
   font-size: 2.2em;
