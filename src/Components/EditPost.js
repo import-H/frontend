@@ -5,7 +5,6 @@ import React, { useState, useRef, useEffect } from "react";
 import { addPost, getPost } from "../reducers/slices/postSlice";
 
 // styled-components
-// import styled from 'styled-components';
 import GlobalStyle from "../Styles/Globalstyle.js";
 import { Container } from "../Styles/theme";
 
@@ -34,7 +33,7 @@ const EditPost = () => {
     content: "",
   });
 
-  const editPost = async e => {
+  const onEditPost = async e => {
     e.preventDefault();
 
     const instance = editorRef.current.getInstance();
@@ -66,7 +65,7 @@ const EditPost = () => {
     <Container>
       <GlobalStyle />
       <form
-        onSubmit={editPost}
+        onSubmit={onEditPost}
         style={{
           display: "flex",
           flexDirection: "column",

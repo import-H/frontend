@@ -1,6 +1,5 @@
 // redux-toolkit
 import { useSelector } from "react-redux";
-
 import { configureStore } from "@reduxjs/toolkit";
 
 // slices
@@ -20,7 +19,7 @@ import thunk from "redux-thunk";
 const reducers = combineReducers({
   auth: authReducer, // authSlice
   post: postReducer, // postSlice
-  sample: sampleAuthReudcer
+  sample: sampleAuthReudcer,
 });
 
 const rootReducer = (state, action) => {
@@ -34,7 +33,7 @@ const rootReducer = (state, action) => {
 // localStorage root에 redux 저장
 const persistConfig = {
   key: "root",
-  storage
+  storage,
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -42,7 +41,7 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 export const store = configureStore({
   reducer: persistedReducer,
   devTools: process.env.NODE_ENV !== "production",
-  middleware: [thunk]
+  middleware: [thunk],
 });
 
 // redux-persist 가이드: https://edvins.io/how-to-use-redux-persist-with-redux-toolkit 참고

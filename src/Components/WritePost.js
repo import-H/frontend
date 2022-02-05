@@ -18,7 +18,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import arrayToObject from "redux-actions/lib/utils/arrayToObject";
 
-// auth form으로 변경해도 좋을듯(공통 기능 많아서)
 const WritePost = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();

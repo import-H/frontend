@@ -1,17 +1,25 @@
+// react
 import React, { useEffect, useState } from "react";
-// api가 아직 정해지지 않아 임시로 samplePosts 만들어둠
 
-import GlobalStyle from "../Styles/Globalstyle.js";
-import { Container } from "../Styles/theme";
-import { Viewer } from "@toast-ui/react-editor";
-import styled from "styled-components";
+// redux
+import { useDispatch, useSelector } from "react-redux";
 
+// react-router-dom
 import { Link, useParams } from "react-router-dom";
 
+// toast-ui viewer
+import { Viewer } from "@toast-ui/react-editor";
+
+// axios
+import axios from "axios";
+
+// style
+import GlobalStyle from "../Styles/Globalstyle.js";
+import styled from "styled-components";
+
+// icon
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faCommentAlt } from "@fortawesome/free-solid-svg-icons";
-import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
 
 const BoardWrap = styled.div`
   width: 80%;
@@ -86,6 +94,7 @@ const BoardForm = () => {
 
   const [samplePosts, setSamplePosts] = useState([]);
 
+  // 게시글 목록에서 게시글 formatting
   const simplyContent = content => {
     const regex = /!\[Image\]\([\w\/:]+\)/;
     let imgStr;
@@ -94,6 +103,7 @@ const BoardForm = () => {
         content.slice(0, imgStr.index - 1) +
         content.slice(imgStr.index + imgStr[0].length);
     }
+    content = content.slice(0, 50);
     return content;
   };
 

@@ -1,7 +1,13 @@
+// react
 import React from "react";
-import UserMenu from "./UserMenu";
+
+// react-router-dom
 import { Link } from "react-router-dom";
 
+// component
+import UserMenu from "./UserMenu";
+
+// image
 import logoImg from "../images/logo.png";
 
 function NavBar() {

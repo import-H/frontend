@@ -18,6 +18,7 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import GlobalStyle from "../Styles/Globalstyle.js";
 import { Container } from "../Styles/theme";
 import styled from "styled-components";
+
 // icon
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -241,11 +242,11 @@ const Post = () => {
 
   const [commentData, setCommentData] = useState("");
 
-  const changeCommentData = e => {
+  const onChangeComment = e => {
     setCommentData(e.target.value);
   };
 
-  const postCommentData = async () => {
+  const onPostComment = async () => {
     await dispatch(addComment({ postId, commentData }));
     setCommentData("");
   };
@@ -349,10 +350,10 @@ const Post = () => {
           ))}
           <input
             placeholder="댓글을 작성하세요"
-            onChange={changeCommentData}
+            onChange={onChangeComment}
             value={commentData}
           />
-          <button onClick={postCommentData}>댓글 작성</button>
+          <button onClick={onPostComment}>댓글 작성</button>
         </CommentWrap>
 
         {/* 사이드바 */}
