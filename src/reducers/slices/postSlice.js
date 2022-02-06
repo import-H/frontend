@@ -9,8 +9,8 @@ const API_URL = "http://localhost:8090";
 
 const initialState = {
   status: null,
-  posts: {},
-  post: {},
+  posts: "",
+  post: "",
 };
 
 // 유저 데이터 가져오기(api 테스트용)
@@ -80,11 +80,13 @@ export const deletePost = createAsyncThunk(
 
 // 게시글 수정하기
 export const editPost = createAsyncThunk("post/editPost", async data => {
-  const { boardId, postId } = data;
-  const response = await axios.put(
+  const { boardId, postId, postData } = data;
+  const response = await axiosInstance.put(
     // `${API_URL}/v1/boards/${boardId}/posts/${postId}`,
     `${API_URL}/v1/boards/1/posts/${postId}`,
+    postData,
   );
+
   return response.data.data;
 });
 
@@ -154,9 +156,9 @@ const slice = createSlice({
       state.status = "loading";
     },
     [getPosts.fulfilled]: (state, action) => {
+      Object.assign(state, initialState);
       state.status = "success";
       state.posts = action.payload;
-      state.post = "";
     },
     [getPosts.rejected]: (state, action) => {
       state.status = "failed";
@@ -179,6 +181,7 @@ const slice = createSlice({
       state.getPost = "loading";
     },
     [getPost.fulfilled]: (state, action) => {
+      Object.assign(state, initialState);
       state.getPost = "success";
       state.post = action.payload;
     },
@@ -188,14 +191,13 @@ const slice = createSlice({
     },
     // editPost
     [editPost.pending]: (state, action) => {
-      state.status = "loading";
+      state.editStatus = "loading";
     },
     [editPost.fulfilled]: (state, action) => {
-      state.status = "success";
-      state.post = action.payload;
+      state.editStatus = "success";
     },
     [editPost.rejected]: (state, action) => {
-      state.status = "failed";
+      state.editStatus = "failed";
       state.error = action.error;
     },
     // addComment
