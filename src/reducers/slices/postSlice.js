@@ -133,6 +133,20 @@ export const editComment = createAsyncThunk(
   },
 );
 
+// 이미지 파일 보내고 가져오기
+export const uploadFile = createAsyncThunk(
+  "post/uploadFile",
+  async (formData, dispatch, getState) => {
+    const response = await axiosInstance.post(
+      `${API_URL}/v1/file/upload`,
+      formData,
+      { header: { "content-type": "multipart/formdata" } },
+    );
+    console.log(response);
+    return response.data;
+  },
+);
+
 // createSlice
 const slice = createSlice({
   name: "post",
