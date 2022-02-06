@@ -10,8 +10,8 @@ import { Link, useParams } from "react-router-dom";
 // toast-ui viewer
 import { Viewer } from "@toast-ui/react-editor";
 
-// axios
-import axios from "axios";
+// tools
+import { timeElapsed } from "../utils/tools.js";
 
 // style
 import GlobalStyle from "../Styles/Globalstyle.js";
@@ -20,6 +20,7 @@ import styled from "styled-components";
 // icon
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faCommentAlt } from "@fortawesome/free-solid-svg-icons";
+import { getPosts } from "../reducers/slices/postSlice.js";
 
 const BoardWrap = styled.div`
   width: 80%;
@@ -90,9 +91,8 @@ const BoardTitle = styled.div`
 
 const BoardForm = () => {
   const dispatch = useDispatch();
+  const posts = useSelector(state => state.post.posts);
   const boardId = useParams().id;
-
-  const [samplePosts, setSamplePosts] = useState([]);
 
   // 게시글 목록에서 게시글 formatting
   const simplyContent = content => {
@@ -110,11 +110,8 @@ const BoardForm = () => {
     return content;
   };
 
-  useEffect(() => {
-    axios.get("http://localhost:8090/v1/boards/1/posts").then(res => {
-      console.log(res.data.list);
-      setSamplePosts(res.data.list);
-    });
+  useEffect(async () => {
+    await dispatch(getPosts(boardId));
   }, []);
 
   return (
@@ -125,38 +122,42 @@ const BoardForm = () => {
         <Link to={{ pathname: `/write/${boardId}` }} className="writeBtn linkBtn">글 작성하기</Link> 
         </div>    */}
         <div>
-          {samplePosts.map(post => (
-            <Link
-              // to={{ pathname: `/board/${boardId}/${post.id}` }}
-              to={{ pathname: `/board/${boardId}/${post.responseInfo.id}` }}
-              key={post.responseInfo.id}
-            >
-              <BoardList>
-                <BoardTitle className="boardTitle">
-                  {post.responseInfo.title}
-                  {/* 제목 */}
-                  <span className="date">{post.responseInfo.create_at}</span>
-                  {/* 생성 시간 */}
-                </BoardTitle>
-                {/* 글쓴이 */}
-                <div className="boardAuthor">{post.responseInfo.author}</div>
-                <Viewer
-                  initialValue={simplyContent(post.responseInfo.content)}
-                />
-                <div className="commentWrap flex flex-ai-c">
-                  {/* 좋아요 */}
-                  <div className="boardLike">
-                    <FontAwesomeIcon icon={faHeart} />
-                    {post.responseInfo.like}
+          {posts &&
+            posts.map(post => (
+              <Link
+                // to={{ pathname: `/board/${boardId}/${post.id}` }}
+                to={{ pathname: `/board/${boardId}/${post.responseInfo.id}` }}
+                key={post.responseInfo.id}
+              >
+                <BoardList>
+                  <BoardTitle className="boardTitle">
+                    {post.responseInfo.title}
+                    {/* 제목 */}
+                    <span className="date">
+                      {timeElapsed(post.responseInfo.createdAt)}
+                    </span>
+                    {/* 생성 시간 */}
+                  </BoardTitle>
+                  {/* 글쓴이 */}
+                  <div className="boardAuthor">{post.responseInfo.author}</div>
+                  <Viewer
+                    initialValue={simplyContent(post.responseInfo.content)}
+                  />
+                  <div className="commentWrap flex flex-ai-c">
+                    {/* 좋아요 */}
+                    <div className="boardLike">
+                      <FontAwesomeIcon icon={faHeart} />
+                      {post.responseInfo.like}
+                    </div>
+                    {/* 댓글 */}
+                    <div className="boardComment">
+                      <FontAwesomeIcon icon={faCommentAlt} />{" "}
+                      {post.commentsCount}
+                    </div>
                   </div>
-                  {/* 댓글 */}
-                  <div className="boardComment">
-                    <FontAwesomeIcon icon={faCommentAlt} /> {post.commentsCount}
-                  </div>
-                </div>
-              </BoardList>
-            </Link>
-          ))}
+                </BoardList>
+              </Link>
+            ))}
         </div>
         <div className="flex flex-jc-e">
           <Link
