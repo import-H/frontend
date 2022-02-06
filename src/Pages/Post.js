@@ -26,6 +26,9 @@ import {
 import { Viewer } from "@toast-ui/react-editor";
 import Comment from "../Components/Comment.js";
 
+// tools
+import { timeElapsed } from "../utils/tools.js";
+
 // sample data
 const samplePost = {
   id: 1,
@@ -193,7 +196,6 @@ const LikeIcon = styled(FontAwesomeIcon)`
 // main
 const Post = () => {
   const { post, status } = useSelector(state => state.post);
-  const [postData, setPostData] = useState();
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -213,7 +215,6 @@ const Post = () => {
         boardId: boardId,
       }),
     );
-    setPostData(post);
   }, []);
 
   useEffect(() => {
@@ -227,7 +228,7 @@ const Post = () => {
   return (
     <Container>
       <GlobalStyle />
-      {postData && (
+      {post && (
         <PostView>
           <PostHead>
             <div className="postInfo flex flex-jc-b flex-ai-c">
@@ -242,7 +243,7 @@ const Post = () => {
                 {/* 글 등록 시각 */}
                 <span>
                   <FontAwesomeIcon icon={faClock} />{" "}
-                  {post.responseInfo.createdAt}
+                  {timeElapsed(post.responseInfo.createdAt)}
                 </span>
               </div>
             </div>
