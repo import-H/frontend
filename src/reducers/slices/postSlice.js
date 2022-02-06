@@ -142,8 +142,7 @@ export const uploadFile = createAsyncThunk(
       formData,
       { header: { "content-type": "multipart/formdata" } },
     );
-    console.log(response);
-    return response.data;
+    return response.data.data;
   },
 );
 
@@ -180,14 +179,13 @@ const slice = createSlice({
     },
     // addPost
     [addPost.pending]: (state, action) => {
-      state.status = "loading";
+      state.addPost = "loading";
     },
     [addPost.fulfilled]: (state, action) => {
-      state.status = "success";
-      // state.post = action.payload;
+      state.addPost = "success";
     },
     [addPost.rejected]: (state, action) => {
-      state.status = "failed";
+      state.addPost = "failed";
       state.error = action.error;
     },
     // getPost
@@ -222,6 +220,18 @@ const slice = createSlice({
       state.status = "success";
     },
     [addComment.rejected]: (state, action) => {
+      state.status = "failed";
+      state.error = action.error;
+    },
+    // uploadFile
+    [uploadFile.pending]: (state, action) => {
+      state.status = "loading";
+    },
+    [uploadFile.fulfilled]: (state, action) => {
+      state.file = action.payload;
+      state.status = "success";
+    },
+    [uploadFile.rejected]: (state, action) => {
       state.status = "failed";
       state.error = action.error;
     },
