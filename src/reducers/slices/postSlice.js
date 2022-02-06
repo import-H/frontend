@@ -9,8 +9,7 @@ const API_URL = "http://localhost:8090";
 
 const initialState = {
   status: null,
-  nickname: "",
-  posts: [],
+  posts: {},
   post: {},
 };
 
@@ -20,6 +19,17 @@ export const getUser = createAsyncThunk(
   async (data, dispatch, getState) => {
     const response = await axiosInstance.get(`${API_URL}/v1/user/id/1`);
     return response.data.data;
+  },
+);
+
+// 전체 게시글 가져오기
+export const getPosts = createAsyncThunk(
+  "post/getPosts",
+  async (boardId, dispatch, getState) => {
+    // const response = await axios.get(`${API_URL}/v1/boards/${boardId}/posts`);
+
+    const response = await axios.get(`${API_URL}/v1/boards/1/posts`);
+    return response.data.list;
   },
 );
 
@@ -136,6 +146,19 @@ const slice = createSlice({
       state.nickname = action.payload.nickName;
     },
     [getUser.rejected]: (state, action) => {
+      state.status = "failed";
+      state.error = action.error;
+    },
+    //addPosts
+    [getPosts.pending]: (state, action) => {
+      state.status = "loading";
+    },
+    [getPosts.fulfilled]: (state, action) => {
+      state.status = "success";
+      state.posts = action.payload;
+      state.post = "";
+    },
+    [getPosts.rejected]: (state, action) => {
       state.status = "failed";
       state.error = action.error;
     },
