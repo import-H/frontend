@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect } from "react";
 
 // redux
-import { addPost } from "../reducers/slices/postSlice";
+import { addPost, uploadFile } from "../reducers/slices/postSlice";
 
 // styled-components
 // import styled from 'styled-components';
@@ -22,7 +22,10 @@ const WritePost = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const addPostStatus = useSelector(state => state.post.status);
+  const addPostStatus = useSelector(state => state.post.addPost);
+
+  const file = useSelector(state => state.post?.file);
+
   const [nav, setNav] = useState(false);
   const editorRef = useRef(null);
 
@@ -50,16 +53,10 @@ const WritePost = () => {
   };
 
   useEffect(() => {
-    if (addPostStatus === "loading") {
-      setNav(true);
-    }
-    if (addPostStatus === "failed") {
-      setNav(false);
-    }
-    if (nav && addPostStatus === "success") {
+    if (addPostStatus === "success") {
       navigate(-1);
     }
-  }, [addPostStatus, navigate]);
+  }, [addPostStatus]);
 
   useEffect(() => {
     if (editorRef.current) {
@@ -72,21 +69,14 @@ const WritePost = () => {
         .addHook("addImageBlobHook", (blob, callback) => {
           (async function () {
             let formData = new FormData();
-            formData.append("file", blob);
+            formData.append("image", blob);
 
-            console.log("이미지가 업로드 됐습니다.");
+            dispatch(uploadFile(formData));
 
-            // const { data: filename } = await axios.post(
-            //   "/file/upload",
-            //   formData,
-            //   {
-            //     header: { "content-type": "multipart/formdata" },
-            //   },
-            // );
-            // const imageUrl = "http://localhost:8090/file/upload/" + filename;
-            const imageUrl = "http://localhost:8090/file/upload/";
+            console.log(file.imageURL);
+            const url = `http://localhost:8090${file.imageURL}`;
 
-            callback(imageUrl, "Image");
+            callback(url, "Image");
           })();
 
           return false;
