@@ -2,14 +2,11 @@ import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 
 const BannerWrapper = styled.div`
-  margin: 0 auto;
-  border: 1px solid #f0f0f0;
+  background: #fff;
   border-radius: 7px;
-  height: 20rem;
-  position: relative;
-  width: 80%;
-  overflow-x: hidden;
-  overflow-y: hidden;
+  height: 22.5rem;
+  width: 100%;
+  overflow: hidden;
   white-space: nowrap;
   box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.05);
   img {
@@ -18,6 +15,7 @@ const BannerWrapper = styled.div`
 `;
 
 const Content = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -40,6 +38,49 @@ const Content = styled.div`
     display: flex;
     justify-content: right;
   }
+  & .tags {
+    display: flex;
+    flex-direction: row;
+
+    div {
+      color: white;
+      background: #ccc;
+      font-size: 1.3rem;
+      padding: 0.3rem 1rem;
+      margin-left: 1rem;
+      border-radius: 7px;
+    }
+  }
+`;
+
+const BannerArea = styled.div`
+  width: 100%;
+  padding: 1rem;
+  display: inline-block;
+  & .BannerSetting {
+    display: flex;
+    flex-direction: row;
+    white-space: normal;
+    img {
+      height: 20rem;
+    }
+  }
+`;
+
+const SliderDot = styled.div`
+  position: relative;
+  top: -13rem;
+  left: -5rem;
+  > div {
+    margin: 1rem;
+    border-radius: 50%;
+    background: #ccc;
+    width: 1rem;
+    height: 1rem;
+  }
+  > div:nth-child(${props => props.currentSlide}) {
+    background: #000;
+  }
 `;
 
 const sampleBanner = [
@@ -48,13 +89,15 @@ const sampleBanner = [
     title: "믿어봐, 이 노래 아마 처음 들어 봤을걸?",
     explain:
       "개인적으로 이 시리즈 플리를 정말 좋아합니다 :) 신인이거나 국내에는아직 안 알려진 뮤지션분들을 소개해 줄 수 있어서 제 채널 방향성과 잘맞는다고 생각하기 때문이죠,,",
+    tags: ["music", "playlist"],
     url: "https://img.youtube.com/vi/Zjt9go9i75A/mqdefault.jpg",
   },
   {
     id: 2,
     title: "React Testing Library Tutorial #8 - Assertions",
     explain:
-      "Check out Laith's YouTube channel for more tutorials:https://www.youtube.com/channel/UCyLN...🐱‍💻 Access the course files on GitHub:",
+      "Check out Laith's YouTube channel for more tutorials:https://www.youtube.com/chanasdasdasdadasdassdnel/UCyLN...🐱‍💻 Access the course files on GitHub:",
+    tags: ["react", "jest"],
     url: "https://img.youtube.com/vi/3ugQRXRToFA/mqdefault.jpg",
   },
   {
@@ -62,15 +105,10 @@ const sampleBanner = [
     title: "React Testing Library Tutorial #8 - Assertions",
     explain:
       "Check out Laith's YouTube channel for more tutorials:https://www.youtube.com/channel/UCyLN...🐱‍💻 Access the course files on GitHub:",
+    tags: ["react", "jest"],
     url: "https://img.youtube.com/vi/3ugQRXRToFA/mqdefault.jpg",
   },
 ];
-
-const SliderContent = styled.div`
-  width: 100%;
-  padding: 1rem;
-  display: inline-block;
-`;
 
 const Banner = () => {
   const TOTAL_SLIDES = 2;
@@ -85,13 +123,11 @@ const Banner = () => {
       setCurrentSlide(currentSlide + 1);
     }
   };
-  const prevSlide = () => {
-    if (currentSlide === 0) {
-      setCurrentSlide(TOTAL_SLIDES);
-    } else {
-      setCurrentSlide(currentSlide - 1);
-    }
+
+  const onDotClick = index => {
+    setCurrentSlide(index);
   };
+
   useEffect(() => {
     const imageInterval = setInterval(() => {
       nextSlide();
@@ -107,31 +143,43 @@ const Banner = () => {
     slideRef.current.style.transform = `translateX(-${currentSlide}00%)`; // 백틱을 사용하여 슬라이드로 이동하는 애니메이션을 만듭니다.
   }, [currentSlide]);
   return (
-    <div>
+    <div
+      style={{
+        width: "100%",
+        margin: "0 auto",
+      }}
+    >
       <BannerWrapper>
         <div ref={slideRef}>
           {sampleBanner.map(banner => (
-            <SliderContent keys={banner.id}>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  whiteSpace: "normal",
-                }}
-              >
+            <BannerArea key={banner.id}>
+              <div className="BannerSetting">
                 <img src={banner.url} />
                 <Content>
                   <div className="title">{banner.title}</div>
                   <div className="explain">{banner.explain}</div>
+                  <div className="tags">
+                    {banner.tags?.map(tag => (
+                      <div>{tag}</div>
+                    ))}
+                  </div>
                   <div className="author">자몽</div>
                 </Content>
               </div>
-            </SliderContent>
+            </BannerArea>
           ))}
         </div>
       </BannerWrapper>
-      <button onClick={prevSlide}>left</button>
-      <button onClick={nextSlide}>right</button>
+      <SliderDot currentSlide={currentSlide + 1}>
+        {sampleBanner.map((_, index) => (
+          <div
+            key={index}
+            onClick={() => {
+              onDotClick(index);
+            }}
+          ></div>
+        ))}
+      </SliderDot>
     </div>
   );
 };
