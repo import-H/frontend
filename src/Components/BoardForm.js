@@ -72,7 +72,7 @@ const BoardList = styled.div`
   }
 
   &:hover .boardTitle {
-    color: #ff6c26;
+    color: var(--point-color-orange);
   }
 `;
 const BoardTitle = styled.div`
