@@ -16,7 +16,6 @@ import { useDispatch, useSelector } from "react-redux";
 
 // react-router-dom
 import { useParams, useNavigate } from "react-router-dom";
-import arrayToObject from "redux-actions/lib/utils/arrayToObject";
 
 const WritePost = () => {
   const dispatch = useDispatch();
