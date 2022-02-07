@@ -169,7 +169,8 @@ const slice = createSlice({
       state.status = "loading";
     },
     [getPosts.fulfilled]: (state, action) => {
-      Object.assign(state, initialState);
+      state.editStatus="";
+      state.addPost="";
       state.status = "success";
       state.posts = action.payload;
     },
@@ -193,7 +194,9 @@ const slice = createSlice({
       state.getPost = "loading";
     },
     [getPost.fulfilled]: (state, action) => {
+      state.editStatus="";
       Object.assign(state, initialState);
+      // initialState 로 변환안되는 오류 고쳐야함
       state.getPost = "success";
       state.post = action.payload;
     },
