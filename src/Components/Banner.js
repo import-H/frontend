@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const BannerWrapper = styled.div`
   background: #fff;
@@ -53,7 +54,7 @@ const Content = styled.div`
   }
 `;
 
-const BannerArea = styled.div`
+const BannerArea = styled.a`
   width: 100%;
   padding: 1rem;
   display: inline-block;
@@ -85,20 +86,18 @@ const SliderDot = styled.div`
 
 const sampleBanner = [
   {
-    id: 1,
+    id: "Zjt9go9i75A",
     title: "믿어봐, 이 노래 아마 처음 들어 봤을걸?",
     explain:
       "개인적으로 이 시리즈 플리를 정말 좋아합니다 :) 신인이거나 국내에는아직 안 알려진 뮤지션분들을 소개해 줄 수 있어서 제 채널 방향성과 잘맞는다고 생각하기 때문이죠,,",
     tags: ["music", "playlist"],
-    url: "https://img.youtube.com/vi/Zjt9go9i75A/mqdefault.jpg",
   },
   {
-    id: 2,
+    id: "3ugQRXRToFA",
     title: "React Testing Library Tutorial #8 - Assertions",
     explain:
       "Check out Laith's YouTube channel for more tutorials:https://www.youtube.com/chanasdasdasdadasdassdnel/UCyLN...🐱‍💻 Access the course files on GitHub:",
     tags: ["react", "jest"],
-    url: "https://img.youtube.com/vi/3ugQRXRToFA/mqdefault.jpg",
   },
   {
     id: 3,
@@ -106,7 +105,6 @@ const sampleBanner = [
     explain:
       "Check out Laith's YouTube channel for more tutorials:https://www.youtube.com/channel/UCyLN...🐱‍💻 Access the course files on GitHub:",
     tags: ["react", "jest"],
-    url: "https://img.youtube.com/vi/3ugQRXRToFA/mqdefault.jpg",
   },
 ];
 
@@ -152,9 +150,11 @@ const Banner = () => {
       <BannerWrapper>
         <div ref={slideRef}>
           {sampleBanner.map(banner => (
-            <BannerArea key={banner.id}>
+            <BannerArea key={banner.id} href={`https://youtu.be/${banner.id}`}>
               <div className="BannerSetting">
-                <img src={banner.url} />
+                <img
+                  src={`https://img.youtube.com/vi/${banner.id}/mqdefault.jpg`}
+                />
                 <Content>
                   <div className="title">{banner.title}</div>
                   <div className="explain">{banner.explain}</div>
