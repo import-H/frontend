@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect } from "react";
 
 // redux
 import { addPost, uploadFile } from "../reducers/slices/postSlice";
-
+import axiosInstance from "../utils/axiosInstance";
 // styled-components
 // import styled from 'styled-components';
 import GlobalStyle from "../Styles/Globalstyle.js";
@@ -70,10 +70,13 @@ const WritePost = () => {
             let formData = new FormData();
             formData.append("image", blob);
 
-            dispatch(uploadFile(formData));
+            const response = await axiosInstance.post(
+              `http://localhost:8090/v1/file/upload`,
+              formData,
+              { header: { "content-type": "multipart/formdata" } },
+            );
 
-            console.log(file.imageURL);
-            const url = `http://localhost:8090${file.imageURL}`;
+            const url = `http://localhost:8090${response.data.data.imageURL}`;
 
             callback(url, "Image");
           })();
