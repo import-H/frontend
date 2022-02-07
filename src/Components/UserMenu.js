@@ -19,6 +19,11 @@ function UserMenu() {
       {isAuth ? (
         <span>
           <span className="element">
+            <Link to="/mypage" className="linkBtn">
+              마이페이지
+            </Link>
+          </span>
+          <span className="element">
             <div className="linkBtn" onClick={logoutBtn}>
               로그아웃
             </div>
