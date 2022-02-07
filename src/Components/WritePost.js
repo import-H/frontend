@@ -78,6 +78,7 @@ const WritePost = () => {
 
             const url = `http://localhost:8090${response.data.data.imageURL}`;
 
+            console.log(url);
             callback(url, "Image");
           })();
 
