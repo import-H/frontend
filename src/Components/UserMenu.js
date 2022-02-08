@@ -8,9 +8,12 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../reducers/slices/authSlice";
 
+import noneProfileImg from "../images/none_profile_image.png"
+
 function UserMenu() {
   const dispatch = useDispatch();
   const isAuth = useSelector(state => state.auth.isAuth);
+  const profileImg = useSelector(state => state.auth.authTokens.profileImage);
   const logoutBtn = () => {
     dispatch(logout());
   };
@@ -20,7 +23,11 @@ function UserMenu() {
         <span>
           <span className="element">
             <Link to="/mypage" className="linkBtn">
-              마이페이지
+              {profileImg === null ? (
+                <img src={noneProfileImg} width="30" height="30" />
+              ) : (
+                <img src={profileImg} width="30" height="30" />
+              )}
             </Link>
           </span>
           <span className="element">
