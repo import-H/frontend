@@ -45,4 +45,9 @@ const Container = styled.div`
   justify-content: center;
 `;
 
-export { Button, Input, Container };
+const MainContainer = styled(Container)`
+  max-width: unset;
+  margin-top: 0;
+`;
+
+export { Button, Input, Container, MainContainer };
