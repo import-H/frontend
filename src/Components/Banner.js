@@ -1,15 +1,33 @@
 import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
+import { Container } from "../Styles/theme";
 import { Link } from "react-router-dom";
 
 const BannerWrapper = styled.div`
+  width: 100%;
+  height: 400px;
+  background: rgb(140,131,255);
+  background: linear-gradient(45deg, rgba(140,131,255,1) 0%, rgba(50,169,140,1) 100%);  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+`;
+
+const BannerInner = styled.div`
   background: #fff;
   border-radius: 7px;
-  height: 22.5rem;
-  width: 100%;
+  max-width: 1200px;
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 1.5rem;
   overflow: hidden;
   white-space: nowrap;
-  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.05);
+  box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.07);
+  & > div{
+    display: flex;
+  }
   img {
     border-radius: 7px;
   }
@@ -20,21 +38,27 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-left: 1.5rem;
+  height: 200px;
   div {
-    padding: 1rem;
+    /* padding: 1.5rem; */
   }
 
   & .title {
     //color: #ffc90a;
     font-size: 2rem;
+    font-weight: 500;
   }
 
   & .explain {
     //color: white;
     font-size: 1.4rem;
+    margin: 1.6rem 0;
+    margin-bottom: 3rem;
   }
   & .author {
-    font-size: 1.3rem;
+    margin-top: 1rem;
+    font-size: 1.4rem;
     color: #808080;
     display: flex;
     justify-content: right;
@@ -50,37 +74,60 @@ const Content = styled.div`
       padding: 0.3rem 1rem;
       margin-left: 1rem;
       border-radius: 7px;
+      &:first-child{
+        margin-left: 0;
+      }
     }
   }
 `;
 
 const BannerArea = styled.a`
   width: 100%;
-  padding: 1rem;
-  display: inline-block;
+  padding: 1.5rem;
+  display: block;
+  height: 100%;
+  flex-shrink: 0;
   & .BannerSetting {
     display: flex;
+    align-items: center;
     flex-direction: row;
     white-space: normal;
+    height: 100%;
+    & .img-box{
+      width: 360px;
+      height: 200px;
+      overflow: hidden;
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
     img {
-      height: 20rem;
+      width: 100%;
+      object-fit: cover;
     }
+    }    
   }
 `;
 
 const SliderDot = styled.div`
   position: relative;
-  top: -13rem;
-  left: -5rem;
+  display: flex;
+  margin-top: 1.5rem;
   > div {
-    margin: 1rem;
+    margin: 0.8rem;
     border-radius: 50%;
-    background: #ccc;
+    background: #fff;
     width: 1rem;
     height: 1rem;
+    opacity: 0.5;
+    transition: all 0.3s;
+    cursor: pointer;
+    &:hover{
+      opacity: 1;
+    }
   }
   > div:nth-child(${props => props.currentSlide}) {
-    background: #000;
+   opacity: 1;
   }
 `;
 
@@ -141,20 +188,17 @@ const Banner = () => {
     slideRef.current.style.transform = `translateX(-${currentSlide}00%)`; // 백틱을 사용하여 슬라이드로 이동하는 애니메이션을 만듭니다.
   }, [currentSlide]);
   return (
-    <div
-      style={{
-        width: "100%",
-        margin: "0 auto",
-      }}
-    >
-      <BannerWrapper>
+    <BannerWrapper>
+      <BannerInner>
         <div ref={slideRef}>
           {sampleBanner.map(banner => (
             <BannerArea key={banner.id} href={`https://youtu.be/${banner.id}`}>
               <div className="BannerSetting">
+                <div className="img-box">
                 <img
                   src={`https://img.youtube.com/vi/${banner.id}/mqdefault.jpg`}
                 />
+                </div>                
                 <Content>
                   <div className="title">{banner.title}</div>
                   <div className="explain">{banner.explain}</div>
@@ -169,7 +213,7 @@ const Banner = () => {
             </BannerArea>
           ))}
         </div>
-      </BannerWrapper>
+      </BannerInner>
       <SliderDot currentSlide={currentSlide + 1}>
         {sampleBanner.map((_, index) => (
           <div
@@ -180,7 +224,7 @@ const Banner = () => {
           ></div>
         ))}
       </SliderDot>
-    </div>
+    </BannerWrapper>
   );
 };
 
