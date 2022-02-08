@@ -1,15 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+
+// react-router-dom
+import { Link, Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
+// redux
+import { useDispatch, useSelector } from "react-redux";
 
 // styled-components
 import styled from "styled-components";
 import GlobalStyle from "../Styles/Globalstyle.js";
 import { Button, Input, Container } from "../Styles/theme.js";
 
-// react-router-dom
-import { useNavigate } from "react-router-dom";
-
 const MyPage = () => {
+  const navigate = useNavigate();
+  const isAuth = useSelector(state => state.auth.isAuth);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if(!isAuth) {
+      navigate("/");
+    }
+  }, [])
+
   return (
       <Container>
           <GlobalStyle />
