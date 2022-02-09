@@ -5,6 +5,12 @@ const GlobalStyle = createGlobalStyle`
     // font import
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
    
+    :root{
+      --point-color-orange: #FF6C26;
+      --point-color-yellow:#ffc90a;
+      --secondary-color: #7973ce;
+    }
+    
     *{
         margin: 0;
         padding: 0;
@@ -52,13 +58,16 @@ const GlobalStyle = createGlobalStyle`
         padding: 7px 15px;
         text-align: center;
         font-size: 1.1em;
-        background-color: #7973ce;       
+        background-color: var(--secondary-color);       
         color: #fff;
         border-radius: 5px;
         transition: 0.3s;
+        cursor: pointer;
+        outline: none;
+        border: none;
 
         &:hover{
-          background-color: #ffc90a;  
+          background-color: var(--point-color-yellow);  
           color: #222;
         }
 
@@ -67,7 +76,7 @@ const GlobalStyle = createGlobalStyle`
           color: #fff;
 
           &:hover{
-            background: #FF6C26;
+            background: var( --point-color-orange);
           }
         }
     }
@@ -134,7 +143,7 @@ header {
   }
 
   header #navMenu a:hover{
-    color: #7973ce;
+    color: var(--secondary-color);
   }
 `;
 
