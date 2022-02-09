@@ -1,11 +1,12 @@
 // react
-import React from "react";
+import React, { useEffect } from "react";
 
 // redux
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../reducers/slices/postSlice";
 
-import styled, {keyframes} from "styled-components";
+import styled, { keyframes } from "styled-components";
+import { getMainPosts } from "../reducers/slices/mainSlice";
 
 const iconAni = keyframes`
   from{
@@ -23,25 +24,25 @@ const MainWrapper = styled.div`
   margin-top: 2rem;
   //justify-content: center;
 
-  & .secTit{
+  & .secTit {
     font-size: 2.8rem;
-    font-family: 'Noto Sans KR', sans-serif;
+    font-family: "Noto Sans KR", sans-serif;
     font-weight: 500;
     text-align: center;
     width: 100%;
     flex-shrink: 0;
     margin-bottom: 3rem;
-    &>div{
+    & > div {
       transform: translateX(2px) translateY(-3px);
     }
-    & .icon{
+    & .icon {
       display: inline-block;
-      font-size: 1.2em;   
+      font-size: 1.2em;
       transform-origin: right bottom;
       animation: ${iconAni} 2s alternate infinite;
     }
   }
-  & .postArea{
+  & .postArea {
     flex-wrap: wrap;
   }
 `;
@@ -51,7 +52,7 @@ const PostWrapper = styled.div`
   min-width: 30rem;
   height: 20rem;
   display: flex;
-  padding: 1rem; 
+  padding: 1rem;
 `;
 
 const Post = styled.div`
@@ -62,7 +63,7 @@ const Post = styled.div`
   border: 1px solid #ddd;
   border-radius: 7px;
   padding: 1rem;
-  box-shadow: 0px 5px 7px rgba(0,0,0,0.07);
+  box-shadow: 0px 5px 7px rgba(0, 0, 0, 0.07);
 
   & .title {
     font-size: 2rem;
@@ -130,24 +131,40 @@ const samplePosts = [
 
 const Main = () => {
   const dispatch = useDispatch();
-  const nickname = useSelector(state => state.post.nickname);
-  const userBtn = () => {
-    dispatch(getUser());
-  };
+  const posts = useSelector(state => state.main.posts);
+
+  useEffect(() => {
+    dispatch(getMainPosts(0));
+  }, []);
   return (
     <MainWrapper>
-       <h2 className="secTit flex flex-jc-c">지금 인기있는 글들 <div><span className="icon">&#128075;</span></div></h2>
-       <div className="postArea flex">
-       {samplePosts.map(post => (
-        <PostWrapper>         
-          <Post>
-            <div className="title">{post.title}</div>
-            <div className="content">{post.content}</div>
-            <div className="author">{post.author}</div>
-          </Post>
-        </PostWrapper>
-      ))}
-       </div>      
+      <h2 className="secTit flex flex-jc-c">
+        지금 인기있는 글들
+        <div>
+          <span className="icon">&#128075;</span>
+        </div>
+      </h2>
+      <div className="postArea flex">
+        {posts?.length
+          ? posts.map(post => (
+              <PostWrapper>
+                <Post>
+                  <div className="title">{post.responseInfo.title}</div>
+                  <div className="content">{post.responseInfo.content}</div>
+                  <div className="author">{post.responseInfo.nickname}</div>
+                </Post>
+              </PostWrapper>
+            ))
+          : samplePosts.map(post => (
+              <PostWrapper>
+                <Post>
+                  <div className="title">{post.title}</div>
+                  <div className="content">{post.content}</div>
+                  <div className="author">{post.author}</div>
+                </Post>
+              </PostWrapper>
+            ))}
+      </div>
     </MainWrapper>
   );
 };
