@@ -9,8 +9,6 @@ const API_URL = "http://localhost:8090";
 
 const initialState = {
   status: null,
-  posts: "",
-  post: "",
 };
 
 // 배너 추가하기
