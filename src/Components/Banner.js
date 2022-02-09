@@ -2,17 +2,21 @@ import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import { Container } from "../Styles/theme";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
 const BannerWrapper = styled.div`
   width: 100%;
   height: 400px;
-  background: rgb(140,131,255);
-  background: linear-gradient(45deg, rgba(140,131,255,1) 0%, rgba(50,169,140,1) 100%);  
+  background: rgb(140, 131, 255);
+  background: linear-gradient(
+    45deg,
+    rgba(140, 131, 255, 1) 0%,
+    rgba(50, 169, 140, 1) 100%
+  );
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-
 `;
 
 const BannerInner = styled.div`
@@ -25,7 +29,7 @@ const BannerInner = styled.div`
   overflow: hidden;
   white-space: nowrap;
   box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.07);
-  & > div{
+  & > div {
     display: flex;
   }
   img {
@@ -74,7 +78,7 @@ const Content = styled.div`
       padding: 0.3rem 1rem;
       margin-left: 1rem;
       border-radius: 7px;
-      &:first-child{
+      &:first-child {
         margin-left: 0;
       }
     }
@@ -93,7 +97,7 @@ const BannerArea = styled.a`
     flex-direction: row;
     white-space: normal;
     height: 100%;
-    & .img-box{
+    & .img-box {
       width: 360px;
       height: 200px;
       overflow: hidden;
@@ -101,11 +105,11 @@ const BannerArea = styled.a`
       display: flex;
       align-items: center;
       flex-shrink: 0;
-    img {
-      width: 100%;
-      object-fit: cover;
+      img {
+        width: 100%;
+        object-fit: cover;
+      }
     }
-    }    
   }
 `;
 
@@ -122,12 +126,12 @@ const SliderDot = styled.div`
     opacity: 0.5;
     transition: all 0.3s;
     cursor: pointer;
-    &:hover{
+    &:hover {
       opacity: 1;
     }
   }
   > div:nth-child(${props => props.currentSlide}) {
-   opacity: 1;
+    opacity: 1;
   }
 `;
 
@@ -156,6 +160,8 @@ const sampleBanner = [
 ];
 
 const Banner = () => {
+  const dispatch = useDispatch();
+  const banners = useSelector(state => state.main.banners);
   const TOTAL_SLIDES = 2;
   const [currentSlide, setCurrentSlide] = useState(0);
   const slideRef = useRef(null);
@@ -183,6 +189,7 @@ const Banner = () => {
   }, [currentSlide]);
 
   console.log(currentSlide);
+  console.log(banners);
   useEffect(() => {
     slideRef.current.style.transition = "all 0.5s ease-in-out";
     slideRef.current.style.transform = `translateX(-${currentSlide}00%)`; // 백틱을 사용하여 슬라이드로 이동하는 애니메이션을 만듭니다.
@@ -191,38 +198,79 @@ const Banner = () => {
     <BannerWrapper>
       <BannerInner>
         <div ref={slideRef}>
-          {sampleBanner.map(banner => (
-            <BannerArea key={banner.id} href={`https://youtu.be/${banner.id}`}>
-              <div className="BannerSetting">
-                <div className="img-box">
-                <img
-                  src={`https://img.youtube.com/vi/${banner.id}/mqdefault.jpg`}
-                />
-                </div>                
-                <Content>
-                  <div className="title">{banner.title}</div>
-                  <div className="explain">{banner.explain}</div>
-                  <div className="tags">
-                    {banner.tags?.map(tag => (
-                      <div>{tag}</div>
-                    ))}
+          {banners?.length
+            ? banners.map(banner => (
+                <BannerArea
+                  key={banner.bannerId}
+                  href={`https://youtu.be/${banner.bannerId}`}
+                >
+                  <div className="BannerSetting">
+                    <div className="img-box">
+                      <img
+                        src={`https://img.youtube.com/vi/${banner.bannerId}/mqdefault.jpg`}
+                      />
+                    </div>
+                    <Content>
+                      <div className="title">{banner.title}</div>
+                      <div className="explain">{banner.content}</div>
+                      <div className="tags">
+                        {banner.tags?.map(tag => (
+                          <div>{tag}</div>
+                        ))}
+                      </div>
+                      <div className="author">자몽</div>
+                    </Content>
                   </div>
-                  <div className="author">자몽</div>
-                </Content>
-              </div>
-            </BannerArea>
-          ))}
+                </BannerArea>
+              ))
+            : sampleBanner.map(banner => (
+                <BannerArea
+                  key={banner.id}
+                  href={`https://youtu.be/${banner.id}`}
+                >
+                  <div className="BannerSetting">
+                    <div className="img-box">
+                      <img
+                        src={`https://img.youtube.com/vi/${banner.id}/mqdefault.jpg`}
+                      />
+                    </div>
+                    <Content>
+                      <div className="title">{banner.title}</div>
+                      <div className="explain">{banner.explain}</div>
+                      <div className="tags">
+                        {banner.tags?.map(tag => (
+                          <div>{tag}</div>
+                        ))}
+                      </div>
+                      <div className="author">자몽</div>
+                    </Content>
+                  </div>
+                </BannerArea>
+              ))}
         </div>
       </BannerInner>
       <SliderDot currentSlide={currentSlide + 1}>
-        {sampleBanner.map((_, index) => (
-          <div
-            key={index}
-            onClick={() => {
-              onDotClick(index);
-            }}
-          ></div>
-        ))}
+        {banners?.length
+          ? Array(banners.length)
+              .fill(null)
+              .map((_, index) => (
+                <div
+                  key={index}
+                  onClick={() => {
+                    onDotClick(index);
+                  }}
+                ></div>
+              ))
+          : Array(sampleBanner.length)
+              .fill(null)
+              .map((_, index) => (
+                <div
+                  key={index}
+                  onClick={() => {
+                    onDotClick(index);
+                  }}
+                ></div>
+              ))}
       </SliderDot>
     </BannerWrapper>
   );
