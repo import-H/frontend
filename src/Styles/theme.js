@@ -29,7 +29,7 @@ const Button = styled.button`
   outline: none;
   /* & 문자를 사용하여 Sass 처럼 자기 자신 선택이 가능합니다. */
   &:hover {
-    background-color: #ffc90a;
+    background-color: var(--point-color-yellow);
     color: #222;
   }
 `;

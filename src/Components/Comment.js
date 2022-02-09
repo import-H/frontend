@@ -24,7 +24,7 @@ const CommentWrap = styled.div`
     font-size: 1.8em;
     margin-bottom: 15px;
     & span {
-      color: #ff6c26;
+      color: var(--point-color-orange);
     }
   }
 
@@ -37,23 +37,26 @@ const CommentWrap = styled.div`
 
     & .commentContent {
       margin: 1rem;
+      margin-top: 0.2rem;
       color: #333;
     }
     & .commentEdit {
       resize: none;
       width: 100%;
       heigth: 5rem;
-      padding: 2px;
-      margin: 2px;
       border: 1px solid #ccc;
       font-size: 1.4rem;
-      border-radius: 7px;
+      border-radius: 4px;
       outline: none;
+      padding: 10px 15px;
+      font-family: 'Noto Sans KR', sans-serif;
     }
 
     & .commentCreateAt {
       color: #a5a7a9;
       font-size: 1.3rem;
+      margin: 1rem;
+      margin-bottom: 0;
     }
   }
 `;
@@ -78,6 +81,12 @@ const CommentInfo = styled.div`
     div {
       cursor: pointer;
       padding-left: 1rem;
+      font-size: 0.9em;
+      transition: all 0.3s;
+
+      &:hover{
+        color: var(--point-color-orange);
+      }
     }
   }
 `;
@@ -85,18 +94,18 @@ const CommentInfo = styled.div`
 const CommentPush = styled.div`
   width: 100%;
   display: flex;
-  flex-direction: height;
   align-items: center;
 
   & .commentWrite {
     flex: 15;
+    font-family: 'Noto Sans KR', sans-serif;
     resize: none;
     heigth: 5rem;
-    padding: 5px;
+    padding: 10px 15px;
     margin: 2px;
     border: 1px solid #ccc;
     font-size: 1.4rem;
-    border-radius: 7px;
+    border-radius: 4px;
     outline: none;
   }
   .linkBtn {
