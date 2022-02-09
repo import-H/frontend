@@ -9,16 +9,15 @@ const API_URL = "http://localhost:8090";
 
 const initialState = {
   status: null,
-  posts: "",
-  post: "",
+  banners: [],
 };
 
 // 유저 데이터 가져오기(api 테스트용)
-export const getUser = createAsyncThunk(
-  "post/getUser",
-  async (data, dispatch, getState) => {
-    const response = await axiosInstance.get(`${API_URL}/v1/user/id/1`);
-    return response.data.data;
+export const getBanner = createAsyncThunk(
+  "post/getBanner",
+  async (dispatch, getState) => {
+    const response = await axiosInstance.get(`${API_URL}/v1/main/banner`);
+    return response.data.list;
   },
 );
 
@@ -28,14 +27,14 @@ const slice = createSlice({
   reducers: {},
   extraReducers: {
     // getUser
-    [getUser.pending]: (state, action) => {
+    [getBanner.pending]: (state, action) => {
       state.status = "loading";
     },
-    [getUser.fulfilled]: (state, action) => {
+    [getBanner.fulfilled]: (state, action) => {
       state.status = "success";
-      state.nickname = action.payload.nickName;
+      state.banners = action.payload;
     },
-    [getUser.rejected]: (state, action) => {
+    [getBanner.rejected]: (state, action) => {
       state.status = "failed";
       state.error = action.error;
     },
