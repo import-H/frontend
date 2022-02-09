@@ -27,15 +27,30 @@ const MyPage = () => {
     }
   }, [])
 
+  const buttonClick = () => alert('버튼 클릭 임시 함수');
+
   return (
       <Container>
           <GlobalStyle />
-          {profileImg === null ? (
-            <div><img src={noneProfileImg} width="100" height="100" /></div>
-          ): (
-            <div><img src={profileImg} width="100" height="100" /></div>
-          )}
-          <div><h1>{nickname}님의 마이페이지</h1></div>
+          {/* User Info */}
+          <div>
+            <div>
+              {profileImg === null ? (
+                <img src={noneProfileImg} width="100" height="100" />
+              ): (
+                <img src={profileImg} width="100" height="100" />
+              )}
+            </div>
+            <div style={{marginTop: "5%"}}>
+              <Link to="" className="linkBtn" style={{marginBottom: "3%"}} onClick={buttonClick}>사진 변경</Link>
+              <Link to="" div className="linkBtn" onClick={buttonClick}>사진 삭제</Link>
+            </div>
+          </div>
+          <div style={{margin: "0 0 0 3%"}}>
+            <div><h1>{nickname}님</h1></div>
+            <div><h2>자기소개</h2></div>
+            <Link to="">수정하기</Link>
+          </div>
       </Container>
   )
 }
