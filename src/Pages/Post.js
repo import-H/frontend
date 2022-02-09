@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 
 // redux
 import { useDispatch, useSelector } from "react-redux";
-import { getPost, deletePost } from "../reducers/slices/postSlice.js";
+import { getPost, deletePost, editLike } from "../reducers/slices/postSlice.js";
 
 // react-router-dom
 import { Link, useParams, useNavigate } from "react-router-dom";
@@ -197,7 +197,6 @@ const LikeIcon = styled(FontAwesomeIcon)`
 const Post = () => {
   const { post, status } = useSelector(state => state.post);
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
 
   const boardId = useParams().boardId;
@@ -206,6 +205,10 @@ const Post = () => {
   const onDeletePost = async () => {
     await dispatch(deletePost({ boardId, postId }));
     navigate(-1);
+  };
+
+  const onClickLike = () => {
+    dispatch(editLike(postId));
   };
 
   useEffect(async () => {
@@ -275,9 +278,9 @@ const Post = () => {
           {/* 사이드바 */}
           <SideBar>
             {/* 좋아요 */}
-            <LikeWrap>
-              <FontAwesomeIcon icon={faHeart} />
-              <span className="num"> {samplePost.like}</span>
+            <LikeWrap Liked={post.like}>
+              <FontAwesomeIcon icon={faHeart} onClick={onClickLike} />
+              <span className="num"> {post.responseInfo.likeCount}</span>
             </LikeWrap>
           </SideBar>
 
