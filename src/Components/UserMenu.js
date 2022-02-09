@@ -31,9 +31,10 @@ function UserMenu() {
             </Link>
           </span>
           <span className="element">
-            <div className="linkBtn" onClick={logoutBtn}>
+            {/* Link 태그를 사용해야 링크로 인식해서 마우스를 올리면 클릭 표시가 뜸 */}
+            <Link to="" className="linkBtn" onClick={logoutBtn}>
               로그아웃
-            </div>
+            </Link>
           </span>
         </span>
       ) : (
