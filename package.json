@@ -27,9 +27,9 @@
     "web-vitals": "^2.1.0"
   },
   "scripts": {
-    "frontend": "react-scripts start",
+    "start": "react-scripts start",
     "json-server": "json-server --watch server/db.json --port 3001",
-    "start": "concurrently \"yarn frontend\" \"yarn json-server \"",
+    "hybrid": "concurrently \"yarn start\" \"yarn json-server \"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
