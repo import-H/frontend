@@ -5,13 +5,45 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../reducers/slices/postSlice";
 
-import styled from "styled-components";
+import styled, {keyframes} from "styled-components";
+
+const iconAni = keyframes`
+  from{
+    transform: rotate(0deg);
+  }
+  to{
+    transform: rotate(25deg);
+  }
+`;
 
 const MainWrapper = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  margin-top: 2rem;
   //justify-content: center;
+
+  & .secTit{
+    font-size: 2.8rem;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 500;
+    text-align: center;
+    width: 100%;
+    flex-shrink: 0;
+    margin-bottom: 3rem;
+    &>div{
+      transform: translateX(2px) translateY(-3px);
+    }
+    & .icon{
+      display: inline-block;
+      font-size: 1.2em;   
+      transform-origin: right bottom;
+      animation: ${iconAni} 2s alternate infinite;
+    }
+  }
+  & .postArea{
+    flex-wrap: wrap;
+  }
 `;
 
 const PostWrapper = styled.div`
@@ -19,7 +51,7 @@ const PostWrapper = styled.div`
   min-width: 30rem;
   height: 20rem;
   display: flex;
-  padding: 1rem;
+  padding: 1rem; 
 `;
 
 const Post = styled.div`
@@ -27,9 +59,10 @@ const Post = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  border: 1px solid #bdbdbd;
+  border: 1px solid #ddd;
   border-radius: 7px;
   padding: 1rem;
+  box-shadow: 0px 5px 7px rgba(0,0,0,0.07);
 
   & .title {
     font-size: 2rem;
@@ -102,9 +135,11 @@ const Main = () => {
     dispatch(getUser());
   };
   return (
-    <MainWrapper style={{ marginTop: "2rem" }}>
-      {samplePosts.map(post => (
-        <PostWrapper>
+    <MainWrapper>
+       <h2 className="secTit flex flex-jc-c">지금 인기있는 글들 <div><span className="icon">&#128075;</span></div></h2>
+       <div className="postArea flex">
+       {samplePosts.map(post => (
+        <PostWrapper>         
           <Post>
             <div className="title">{post.title}</div>
             <div className="content">{post.content}</div>
@@ -112,6 +147,7 @@ const Main = () => {
           </Post>
         </PostWrapper>
       ))}
+       </div>      
     </MainWrapper>
   );
 };
