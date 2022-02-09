@@ -49,7 +49,7 @@ const CommentWrap = styled.div`
       border-radius: 4px;
       outline: none;
       padding: 10px 15px;
-      font-family: 'Noto Sans KR', sans-serif;
+      font-family: "Noto Sans KR", sans-serif;
     }
 
     & .commentCreateAt {
@@ -84,7 +84,7 @@ const CommentInfo = styled.div`
       font-size: 0.9em;
       transition: all 0.3s;
 
-      &:hover{
+      &:hover {
         color: var(--point-color-orange);
       }
     }
@@ -98,7 +98,7 @@ const CommentPush = styled.div`
 
   & .commentWrite {
     flex: 15;
-    font-family: 'Noto Sans KR', sans-serif;
+    font-family: "Noto Sans KR", sans-serif;
     resize: none;
     heigth: 5rem;
     padding: 10px 15px;
@@ -141,7 +141,6 @@ const Comment = ({ post, postId }) => {
   // 댓글 수정
   const onEditComment = async (commentId, content) => {
     if (commentEdit.id !== "") {
-      console.log(commentEdit.content);
       await dispatch(
         editComment({ postId, commentId, content: commentEdit.content }),
       );
@@ -162,10 +161,10 @@ const Comment = ({ post, postId }) => {
       <h3>
         <span>{post.comments.length}</span> Comment
       </h3>
-      {post.comments.map((comment, id) => (
+      {post.comments.map(comment => (
         <div
           className="comment"
-          key={id} //api 문서대로 id, createAt, account 추가해야함
+          key={comment.id} //api 문서대로 id, createAt, account 추가해야함
         >
           {/* 댓글 작성자 */}
           <CommentInfo>
@@ -177,7 +176,7 @@ const Comment = ({ post, postId }) => {
               {/* 댓글 삭제 */}
               <div
                 onClick={() => {
-                  onRemoveComment(id);
+                  onRemoveComment(comment.id);
                 }}
               >
                 삭제
@@ -186,7 +185,7 @@ const Comment = ({ post, postId }) => {
               {/* 댓글 수정 */}
               <div
                 onClick={() => {
-                  onEditComment(id, comment.content);
+                  onEditComment(comment.id, comment.content);
                 }}
               >
                 수정
@@ -195,7 +194,7 @@ const Comment = ({ post, postId }) => {
           </CommentInfo>
 
           {/* 댓글 내용 */}
-          {commentEdit.id !== id ? (
+          {commentEdit.id !== comment.id ? (
             <div className="commentContent">{comment.content}</div>
           ) : (
             <textarea
