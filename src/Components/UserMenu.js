@@ -22,7 +22,7 @@ function UserMenu() {
       {isAuth ? (
         <span>
           <span className="element">
-            <Link to="/mypage" className="linkBtn">
+            <Link to="/mypage">
               {profileImg === null ? (
                 <img src={noneProfileImg} width="30" height="30" />
               ) : (
