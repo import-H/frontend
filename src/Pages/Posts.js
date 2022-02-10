@@ -42,6 +42,7 @@ const samplePosts = [
 // style
 const BoardWrap = styled.div`
   width: 80%;
+  margin: 0 auto;
 `;
 
 const BoardList = styled.div`
