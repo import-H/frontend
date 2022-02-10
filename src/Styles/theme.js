@@ -53,4 +53,4 @@ const MainContainer = styled(Container)`
   margin-top: 0;
 `;
 
-export { Button, Input, Container, MainContainer };
+export { Button, Input, Container, MainContainer, FlexContainer };
