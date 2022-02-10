@@ -127,6 +127,12 @@ const samplePosts = [
     content: "sample post2 is good asdfjaslfjasdlfkj",
     author: "자몽",
   },
+  {
+    id: 5,
+    title: "TestTestTestTestTestTestTestTestTestTestTestTestTestTestTest",
+    content: "sample post2 is good asdfjaslfjasdlfkj",
+    author: "자몽",
+  },
 ];
 
 const Main = () => {
@@ -158,7 +164,7 @@ const Main = () => {
           : samplePosts.map(post => (
               <PostWrapper>
                 <Post>
-                  <div className="title">{post.title}</div>
+                  <div className="title">{post.title.slice(0,20)}{post.title.length >= 20 ? "..." : ""}</div>
                   <div className="content">{post.content}</div>
                   <div className="author">{post.author}</div>
                 </Post>
