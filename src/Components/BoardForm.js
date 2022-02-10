@@ -96,7 +96,9 @@ const BoardForm = () => {
 
   // 게시글 목록에서 게시글 formatting
   const simplyContent = content => {
-    content = content.slice(0, 100);
+    if (content.length >= 100)
+      content = content.slice(0, 100) + "...";
+      
     const regex = /!\[Image\]\([\w\/:]+\)/;
     let imgStr;
     while ((imgStr = content.match(regex)) !== null) {
