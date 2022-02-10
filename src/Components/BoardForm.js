@@ -126,7 +126,9 @@ const BoardForm = () => {
             posts.map(post => (
               <Link
                 // to={{ pathname: `/board/${boardId}/${post.id}` }}
-                to={{ pathname: `/board/${boardId}/${post.responseInfo.id}` }}
+                to={{
+                  pathname: `/board/${boardId}/${post.responseInfo.postId}`,
+                }}
                 key={post.responseInfo.id}
               >
                 <BoardList>
