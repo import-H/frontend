@@ -12,7 +12,43 @@ import styled from "styled-components";
 import GlobalStyle from "../Styles/Globalstyle.js";
 import { Button, Input, Container } from "../Styles/theme.js";
 
+// icon
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPen } from "@fortawesome/free-solid-svg-icons";
+
 import noneProfileImg from "../images/none_profile_image.png"
+
+// style
+const MyPageWrapper = styled(Container)`
+  & .profileImgArea{
+    margin-right: 1.5rem;
+    & .EditbuttonArea{
+      margin-top: 0.5rem;
+    }
+  }
+
+  & .nicknameArea{
+    margin-bottom: 1rem;
+  }
+
+  & .introductionArea{
+    color: #aaa;
+
+    & h2 {
+      font-weight: 400;
+      margin-right: 5px;
+    }
+
+    & .editIcon{
+      padding: 5px;
+      color: #333;
+      transition: all 0.3s;
+      &:hover{
+        color: var(--point-color-orange);
+      }
+    }
+  }
+`;
 
 const MyPage = () => {
   const navigate = useNavigate();
@@ -30,28 +66,34 @@ const MyPage = () => {
   const buttonClick = () => alert('버튼 클릭 임시 함수');
 
   return (
-      <Container>
+      <MyPageWrapper >
           <GlobalStyle />
           {/* User Info */}
-          <div>
+          <div className="flex flex-jc-c">
+            <div className="profileImgArea">
+              {/* profile image */}
+              <div>
+                {profileImg === null ? (
+                  <img src={noneProfileImg} width="100" height="100" />
+                ): (
+                  <img src={profileImg} width="100" height="100" />
+                )}
+              </div>
+              <div className="EditbuttonArea">
+                {/* profile image edit button */}
+                <Link to="" className="linkBtn" style={{marginBottom: "3%"}} onClick={buttonClick}>사진 변경</Link>
+                <Link to="" div className="linkBtn" onClick={buttonClick}>사진 삭제</Link>
+              </div>
+            </div>
+            {/* 자기소개 */}
             <div>
-              {profileImg === null ? (
-                <img src={noneProfileImg} width="100" height="100" />
-              ): (
-                <img src={profileImg} width="100" height="100" />
-              )}
-            </div>
-            <div style={{marginTop: "5%"}}>
-              <Link to="" className="linkBtn" style={{marginBottom: "3%"}} onClick={buttonClick}>사진 변경</Link>
-              <Link to="" div className="linkBtn" onClick={buttonClick}>사진 삭제</Link>
+              <div className="nicknameArea"><h1>{nickname}님</h1></div>
+              <div className="introductionArea flex flex-ai-c"><h2>자기소개</h2> <Link to="" className="editIcon" ><FontAwesomeIcon icon={faPen} /></Link></div>
+              
             </div>
           </div>
-          <div style={{margin: "0 0 0 3%"}}>
-            <div><h1>{nickname}님</h1></div>
-            <div><h2>자기소개</h2></div>
-            <Link to="">수정하기</Link>
-          </div>
-      </Container>
+          {/* 추가코드 이 밑으로 입력 */}
+      </MyPageWrapper>
   )
 }
 
