@@ -54,14 +54,22 @@ export const addPost = createAsyncThunk(
 // 게시글 가져오기
 export const getPost = createAsyncThunk(
   "post/getPost",
-  async (data, dispatch, getState) => {
+  async (data, { getState }) => {
     const { boardId, postId } = data;
-    const response = await axios.get(
-      // `${API_URL}/v1/boards/${boardId}/posts/${postId}`,
-      `${API_URL}/v1/boards/1/posts/${postId}`,
-    );
+    if (getState().auth.isAuth) {
+      const response = await axiosInstance.get(
+        // `${API_URL}/v1/boards/${boardId}/posts/${postId}`,
+        `${API_URL}/v1/boards/1/posts/${postId}`,
+      );
+      return response.data.data;
+    } else {
+      const response = await axios.get(
+        // `${API_URL}/v1/boards/${boardId}/posts/${postId}`,
+        `${API_URL}/v1/boards/1/posts/${postId}`,
+      );
+      return response.data.data;
+    }
     console.log("post", response.data.data);
-    return response.data.data;
   },
 );
 
