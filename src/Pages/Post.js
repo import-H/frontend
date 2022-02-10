@@ -241,7 +241,7 @@ const Post = () => {
                 {/* 조회수 */}
                 <span>
                   <FontAwesomeIcon icon={faEye} />
-                  {samplePost.view}
+                  {post.responseInfo.viewCount}
                 </span>
                 {/* 글 등록 시각 */}
                 <span>

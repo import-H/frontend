@@ -96,9 +96,8 @@ const BoardForm = () => {
 
   // 게시글 목록에서 게시글 formatting
   const simplyContent = content => {
-    if (content.length >= 100)
-      content = content.slice(0, 100) + "...";
-      
+    if (content.length >= 100) content = content.slice(0, 100) + "...";
+
     const regex = /!\[Image\]\([\w\/:]+\)/;
     let imgStr;
     while ((imgStr = content.match(regex)) !== null) {
@@ -151,7 +150,7 @@ const BoardForm = () => {
                     {/* 좋아요 */}
                     <div className="boardLike">
                       <FontAwesomeIcon icon={faHeart} />
-                      {post.responseInfo.like}
+                      {post.responseInfo.likeCount}
                     </div>
                     {/* 댓글 */}
                     <div className="boardComment">
