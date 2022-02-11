@@ -17,7 +17,7 @@ function UserMenu() {
   return (
     <span>
       {isAuth ? (
-        <span>
+        <span role="afterLogin">
           <span className="element">
             <Link to="/mypage" className="linkBtn">
               마이페이지
@@ -30,7 +30,7 @@ function UserMenu() {
           </span>
         </span>
       ) : (
-        <span>
+        <span role="beforeLogin">
           <span className="element">
             <Link to="/login" className="linkBtn">
               로그인

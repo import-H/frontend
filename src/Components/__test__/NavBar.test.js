@@ -17,24 +17,34 @@ const MockWritePost = () => {
   );
 };
 
-describe("FollowersList", () => {
-  it("check boardElement", () => {
-    // const spy = jest.spyOn(redux, "useSelector");
-    // spy.mockReturnValue({ username: "test" });
+describe("NavBar Unit Test", () => {
+  it("로고 있는지 확인", () => {
+    render(<MockWritePost />);
+    const logoElement = screen.getByAltText(/import-H/i);
+    expect(logoElement).toBeInTheDocument();
+  });
+
+  it("게시판 메뉴 확인", () => {
     render(<MockWritePost />);
     const boardElement = screen.getByText("게시판");
     expect(boardElement).toBeInTheDocument();
   });
 
-  it("check UserBoardElement", () => {
+  it("개인활동 게시판 메뉴 확인", () => {
     render(<MockWritePost />);
     const UserBoardElement = screen.getByText("개인활동 게시판");
     expect(UserBoardElement).toBeInTheDocument();
   });
 
-  it("click boardElement", () => {
+  it("게시판 클릭했을 때 링크 동작 확인", () => {
     render(<MockWritePost />);
     const boardElement = screen.getByText("게시판").closest("a");
     expect(boardElement).toHaveAttribute("href", `/board/free`);
+  });
+
+  it("개인활동 게시판 링크 동작 확인", () => {
+    render(<MockWritePost />);
+    const boardElement = screen.getByText("개인활동 게시판").closest("a");
+    expect(boardElement).toHaveAttribute("href", `/posts`);
   });
 });
