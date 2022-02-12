@@ -8,9 +8,31 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../reducers/slices/authSlice";
 
+// style
+import styled from "styled-components";
+
+const AuthorImg = styled.div`
+  width: 30px;
+  height: 30px;
+  background: #ddd;
+  border-radius: 100%;
+  overflow: hidden;
+  position: relative;
+  & img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+`;
+
+import noneProfileImg from "../images/none_profile_image.png"
+
 function UserMenu() {
   const dispatch = useDispatch();
   const isAuth = useSelector(state => state.auth.isAuth);
+  const nickname = useSelector(state => state.auth.user.nickname);
+  const profileImg = useSelector(state => state.auth.user.profileImage);
   const logoutBtn = () => {
     dispatch(logout());
   };
@@ -18,19 +40,26 @@ function UserMenu() {
     <span>
       {isAuth ? (
         <span>
-          <span className="element">
-            <Link to="/mypage" className="linkBtn">
-              마이페이지
+          <div className="element">
+            <Link to="/mypage">
+              <AuthorImg>
+                {profileImg === "N" ? (
+                  <img src={noneProfileImg} />
+                ) : (
+                  <img src={profileImg} />
+                )}
+              </AuthorImg>
             </Link>
-          </span>
-          <span className="element">
-            <div className="linkBtn" onClick={logoutBtn}>
+          </div>
+          <div className="element">
+            {/* Link 태그를 사용해야 링크로 인식해서 마우스를 올리면 클릭 표시가 뜸 */}
+            <Link to="" className="linkBtn" onClick={logoutBtn}>
               로그아웃
-            </div>
-          </span>
+            </Link>
+          </div>
         </span>
       ) : (
-        <span>
+        <span role="beforeLogin">
           <span className="element">
             <Link to="/login" className="linkBtn">
               로그인

@@ -54,14 +54,22 @@ export const addPost = createAsyncThunk(
 // 게시글 가져오기
 export const getPost = createAsyncThunk(
   "post/getPost",
-  async (data, dispatch, getState) => {
+  async (data, { getState }) => {
     const { boardId, postId } = data;
-    const response = await axios.get(
-      // `${API_URL}/v1/boards/${boardId}/posts/${postId}`,
-      `${API_URL}/v1/boards/1/posts/${postId}`,
-    );
+    if (getState().auth.isAuth) {
+      const response = await axiosInstance.get(
+        // `${API_URL}/v1/boards/${boardId}/posts/${postId}`,
+        `${API_URL}/v1/boards/1/posts/${postId}`,
+      );
+      return response.data.data;
+    } else {
+      const response = await axios.get(
+        // `${API_URL}/v1/boards/${boardId}/posts/${postId}`,
+        `${API_URL}/v1/boards/1/posts/${postId}`,
+      );
+      return response.data.data;
+    }
     console.log("post", response.data.data);
-    return response.data.data;
   },
 );
 
@@ -133,6 +141,17 @@ export const editComment = createAsyncThunk(
   },
 );
 
+// 좋아요 상태 변경하기
+export const editLike = createAsyncThunk(
+  "post/editLike",
+  async (postId, dispatch, getState) => {
+    const response = await axiosInstance.post(
+      `${API_URL}/v1/posts/${postId}/like`,
+    );
+    return response.data.data;
+  },
+);
+
 // 이미지 파일 보내고 가져오기
 export const uploadFile = createAsyncThunk(
   "post/uploadFile",
@@ -152,7 +171,7 @@ const slice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
-    // getUser
+    // 유저 가져오기(test)
     [getUser.pending]: (state, action) => {
       state.status = "loading";
     },
@@ -164,12 +183,13 @@ const slice = createSlice({
       state.status = "failed";
       state.error = action.error;
     },
-    //addPosts
+    // 전체 게시글 가져오기
     [getPosts.pending]: (state, action) => {
       state.status = "loading";
     },
     [getPosts.fulfilled]: (state, action) => {
-      Object.assign(state, initialState);
+      state.editStatus = "";
+      state.addPost = "";
       state.status = "success";
       state.posts = action.payload;
     },
@@ -177,7 +197,7 @@ const slice = createSlice({
       state.status = "failed";
       state.error = action.error;
     },
-    // addPost
+    // 게시글 추가하기
     [addPost.pending]: (state, action) => {
       state.addPost = "loading";
     },
@@ -188,12 +208,14 @@ const slice = createSlice({
       state.addPost = "failed";
       state.error = action.error;
     },
-    // getPost
+    // 게시글(단일) 가져오기
     [getPost.pending]: (state, action) => {
       state.getPost = "loading";
     },
     [getPost.fulfilled]: (state, action) => {
+      state.editStatus = "";
       Object.assign(state, initialState);
+      // initialState 로 변환안되는 오류 고쳐야함
       state.getPost = "success";
       state.post = action.payload;
     },
@@ -201,7 +223,7 @@ const slice = createSlice({
       state.getPost = "failed";
       state.error = action.error;
     },
-    // editPost
+    // 게시글 수정
     [editPost.pending]: (state, action) => {
       state.editStatus = "loading";
     },
@@ -212,7 +234,7 @@ const slice = createSlice({
       state.editStatus = "failed";
       state.error = action.error;
     },
-    // addComment
+    // 댓글 추가
     [addComment.pending]: (state, action) => {
       state.status = "loading";
     },
@@ -220,6 +242,39 @@ const slice = createSlice({
       state.status = "success";
     },
     [addComment.rejected]: (state, action) => {
+      state.status = "failed";
+      state.error = action.error;
+    },
+    // 댓글 삭제
+    [deleteComment.pending]: (state, action) => {
+      state.status = "loading";
+    },
+    [deleteComment.fulfilled]: (state, action) => {
+      state.status = "success";
+    },
+    [deleteComment.rejected]: (state, action) => {
+      state.status = "failed";
+      state.error = action.error;
+    },
+    // 댓글 수정
+    [editComment.pending]: (state, action) => {
+      state.status = "loading";
+    },
+    [editComment.fulfilled]: (state, action) => {
+      state.status = "success";
+    },
+    [editComment.rejected]: (state, action) => {
+      state.status = "failed";
+      state.error = action.error;
+    },
+    // 좋아요 상태 변경하기
+    [editLike.pending]: (state, action) => {
+      state.status = "loading";
+    },
+    [editLike.fulfilled]: (state, action) => {
+      state.status = "success";
+    },
+    [editLike.rejected]: (state, action) => {
       state.status = "failed";
       state.error = action.error;
     },

@@ -72,7 +72,7 @@ const BoardList = styled.div`
   }
 
   &:hover .boardTitle {
-    color: #ff6c26;
+    color: var(--point-color-orange);
   }
 `;
 const BoardTitle = styled.div`
@@ -96,7 +96,8 @@ const BoardForm = () => {
 
   // 게시글 목록에서 게시글 formatting
   const simplyContent = content => {
-    content = content.slice(0, 100);
+    if (content.length >= 100) content = content.slice(0, 100) + "...";
+
     const regex = /!\[Image\]\([\w\/:]+\)/;
     let imgStr;
     while ((imgStr = content.match(regex)) !== null) {
@@ -126,7 +127,9 @@ const BoardForm = () => {
             posts.map(post => (
               <Link
                 // to={{ pathname: `/board/${boardId}/${post.id}` }}
-                to={{ pathname: `/board/${boardId}/${post.responseInfo.id}` }}
+                to={{
+                  pathname: `/board/${boardId}/${post.responseInfo.postId}`,
+                }}
                 key={post.responseInfo.id}
               >
                 <BoardList>
@@ -147,7 +150,7 @@ const BoardForm = () => {
                     {/* 좋아요 */}
                     <div className="boardLike">
                       <FontAwesomeIcon icon={faHeart} />
-                      {post.responseInfo.like}
+                      {post.responseInfo.likeCount}
                     </div>
                     {/* 댓글 */}
                     <div className="boardComment">
