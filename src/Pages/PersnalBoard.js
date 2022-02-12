@@ -92,7 +92,7 @@ const BoardTitle = styled.div`
   }
 `;
 
-const Posts = () => {
+const PersnalBoard = () => {
   return (
     <Container>
       <GlobalStyle />
@@ -126,4 +126,4 @@ const Posts = () => {
   );
 };
 
-export default Posts;
+export default PersnalBoard;
