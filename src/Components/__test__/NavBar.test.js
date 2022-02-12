@@ -5,9 +5,7 @@ import { store } from "../../reducers/store";
 import { BrowserRouter } from "react-router-dom";
 //import * as redux from "react-redux";
 
-const API_URL = "http://localhost:3000";
-
-const MockWritePost = () => {
+const MockNavBar = () => {
   return (
     <Provider store={store}>
       <BrowserRouter>
@@ -19,31 +17,31 @@ const MockWritePost = () => {
 
 describe("NavBar Unit Test", () => {
   it("로고 있는지 확인", () => {
-    render(<MockWritePost />);
+    render(<MockNavBar />);
     const logoElement = screen.getByAltText(/import-H/i);
     expect(logoElement).toBeInTheDocument();
   });
 
   it("게시판 메뉴 확인", () => {
-    render(<MockWritePost />);
+    render(<MockNavBar />);
     const boardElement = screen.getByText("게시판");
     expect(boardElement).toBeInTheDocument();
   });
 
   it("개인활동 게시판 메뉴 확인", () => {
-    render(<MockWritePost />);
+    render(<MockNavBar />);
     const UserBoardElement = screen.getByText("개인활동 게시판");
     expect(UserBoardElement).toBeInTheDocument();
   });
 
   it("게시판 클릭했을 때 링크 동작 확인", () => {
-    render(<MockWritePost />);
+    render(<MockNavBar />);
     const boardElement = screen.getByText("게시판").closest("a");
     expect(boardElement).toHaveAttribute("href", `/board/free`);
   });
 
   it("개인활동 게시판 링크 동작 확인", () => {
-    render(<MockWritePost />);
+    render(<MockNavBar />);
     const boardElement = screen.getByText("개인활동 게시판").closest("a");
     expect(boardElement).toHaveAttribute("href", `/posts`);
   });
