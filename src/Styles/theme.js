@@ -40,7 +40,10 @@ const Container = styled.div`
   margin: 0 auto;
   margin-top: 50px;
   min-width: 300px;
-  padding: 50px 0;
+  padding: 50px 0;  
+`;
+
+const FlexContainer = styled(Container)`
   display: flex;
   justify-content: center;
 `;
@@ -50,4 +53,4 @@ const MainContainer = styled(Container)`
   margin-top: 0;
 `;
 
-export { Button, Input, Container, MainContainer };
+export { Button, Input, Container, MainContainer, FlexContainer };
