@@ -70,7 +70,7 @@ const Login = () => {
     <Container>
       <GlobalStyle />
       <form onSubmit={loginEvent}>
-        <Label>이메일(홍익대학교)</Label>
+        <Label>이메일</Label>
         <Input type="text" name="email" onChange={onChange} />
         <Label>비밀번호</Label>
         <Input type="password" name="password" onChange={onChange} />
