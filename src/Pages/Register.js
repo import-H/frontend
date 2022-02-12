@@ -163,7 +163,7 @@ const Register = () => {
     <Container>
       <GlobalStyle />
       <AuthForm>
-        <Label>이메일(홍익대학교)</Label>
+        <Label>이메일</Label>
         <AuthInput
           type="text"
           name="email"
