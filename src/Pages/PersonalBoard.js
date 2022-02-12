@@ -1,5 +1,5 @@
 // react
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 // toast-ui viewer
 import { Viewer } from "@toast-ui/react-editor";
@@ -12,34 +12,6 @@ import styled from "styled-components";
 // icon
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faCommentAlt } from "@fortawesome/free-solid-svg-icons";
-
-const PostWrite = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: center;
-
-  & .postWrite {
-    flex: 15;
-    font-family: "Noto Sans KR", sans-serif;
-    resize: none;
-    heigth: 5rem;
-    padding: 10px 15px;
-    margin: 2px;
-    border: 1px solid #ccc;
-    font-size: 1.4rem;
-    border-radius: 4px;
-    outline: none;
-  }
-  .linkBtn {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: 1rem;
-    height: 4.3rem;
-    cursor: pointer;
-  }
-`;
 
 // sample Posts Data
 const samplePosts = [
@@ -120,47 +92,82 @@ const BoardTitle = styled.div`
   }
 `;
 
+const CommentWrite = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+
+  & .postWrite {
+    flex: 15;
+    font-family: "Noto Sans KR", sans-serif;
+    resize: none;
+    heigth: 5rem;
+    padding: 10px 15px;
+    margin: 2px;
+    border: 1px solid #ccc;
+    font-size: 1.4rem;
+    border-radius: 4px;
+    outline: none;
+  }
+  .linkBtn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 1rem;
+    height: 4.3rem;
+    cursor: pointer;
+  }
+`;
+
 const PersonalBoard = () => {
+  const [showDetailPost, setShowDetailPost] = useState();
+
+  const onDetailPost = postId => {
+    if (postId === showDetailPost) {
+      setShowDetailPost("");
+    } else {
+      setShowDetailPost(postId);
+    }
+  };
+
   return (
     <Container>
       <GlobalStyle />
       <BoardWrap>
         {samplePosts.map(post => (
-          <BoardList>
-            <BoardTitle>
-              {post.title}
-              {/* 제목 */}
-              <span className="date">{post.create_at}</span>
-              {/* 생성 시간 */}
-            </BoardTitle>
-            {/* 글쓴이 */}
-            <div className="boardAuthor">{post.author}</div>
-            <Viewer initialValue={post.content} />
-            <div className="commentWrap flex flex-ai-c">
-              {/* 좋아요 */}
-              <div className="boardLike">
-                <FontAwesomeIcon icon={faHeart} />
-                {post.like}
+          <div key={post.id}>
+            <BoardList
+              onClick={() => {
+                onDetailPost(post.id);
+              }}
+            >
+              <BoardTitle>
+                {post.title}
+                {/* 제목 */}
+                <span className="date">{post.create_at}</span>
+                {/* 생성 시간 */}
+              </BoardTitle>
+              {/* 글쓴이 */}
+              <div className="boardAuthor">{post.author}</div>
+              <Viewer initialValue={post.content} />
+              <div className="commentWrap flex flex-ai-c">
+                {/* 좋아요 */}
+                <div className="boardLike">
+                  <FontAwesomeIcon icon={faHeart} />
+                  {post.like}
+                </div>
+                {/* 코멘트 */}
+                <div className="boardComment">
+                  <FontAwesomeIcon icon={faCommentAlt} /> {post.comments.length}
+                </div>
               </div>
-              {/* 코멘트 */}
-              <div className="boardComment">
-                <FontAwesomeIcon icon={faCommentAlt} /> {post.comments.length}
-              </div>
-            </div>
-          </BoardList>
-        ))}
-        <PostWrite>
-          <textarea
-            className="postWrite"
-            placeholder="댓글을 작성하세요"
-            onChange
-            value
-          />
-
-          <div className="linkBtn black" onClick>
-            댓글 작성
+            </BoardList>
+            {showDetailPost === post.id && (
+              <Comment post={post} postId={post.id} />
+            )}
           </div>
-        </PostWrite>
+        ))}
       </BoardWrap>
     </Container>
   );
