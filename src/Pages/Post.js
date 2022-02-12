@@ -278,8 +278,8 @@ const Post = () => {
           {/* 사이드바 */}
           <SideBar>
             {/* 좋아요 */}
-            <LikeWrap Liked={post.like}>
-              <FontAwesomeIcon icon={faHeart} onClick={onClickLike} />
+            <LikeWrap Liked={post.like} onClick={onClickLike}>
+              <FontAwesomeIcon icon={faHeart} />
               <span className="num"> {post.responseInfo.likeCount}</span>
             </LikeWrap>
           </SideBar>
