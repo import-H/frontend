@@ -9,7 +9,7 @@ let authTokens = localStorage.getItem("authTokens")
   : null;
 
 const axiosInstance = axios.create({
-  baseURL
+  baseURL,
 });
 
 axiosInstance.defaults.headers.common[
@@ -17,7 +17,7 @@ axiosInstance.defaults.headers.common[
 ] = `${authTokens?.accessToken}`;
 // localStorage 말고, redux에 접근해서 dispatch와 select를 할 수 있는 방법은 없을까?
 
-axiosInstance.interceptors.request.use(async (req) => {
+axiosInstance.interceptors.request.use(async req => {
   console.log("interceptor is working");
   req.headers.Authorization = `${authTokens?.accessToken}`;
   if (!authTokens) {
@@ -35,11 +35,10 @@ axiosInstance.interceptors.request.use(async (req) => {
   } else {
     const response = await axios.post(`${baseURL}/v1/reissue`, {
       accessToken: authTokens.accessToken,
-      refreshToken: authTokens.refreshToken
+      refreshToken: authTokens.refreshToken,
     });
 
     localStorage.setItem("authTokens", JSON.stringify(response.data.data));
-
     authTokens = response.data.data;
     req.headers.Authorization = `${authTokens?.accessToken}`;
     return req;

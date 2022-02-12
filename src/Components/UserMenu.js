@@ -59,7 +59,7 @@ function UserMenu() {
           </div>
         </span>
       ) : (
-        <span>
+        <span role="beforeLogin">
           <span className="element">
             <Link to="/login" className="linkBtn">
               로그인

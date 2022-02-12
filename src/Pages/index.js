@@ -3,7 +3,7 @@ export { default as Login } from "./Login";
 export { default as Register } from "./Register";
 export { default as Board } from "./Board";
 export { default as Post } from "./Post";
-export { default as Posts } from "./Posts";
+export { default as PersonalBoard } from "./PersonalBoard";
 export { default as MyPage } from "./MyPage";
 export { default as Admin } from "./Admin";
 

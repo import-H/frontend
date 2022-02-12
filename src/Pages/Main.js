@@ -5,6 +5,8 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../reducers/slices/postSlice";
 
+import { Link } from "react-router-dom";
+
 import styled, { keyframes } from "styled-components";
 import { getMainPosts } from "../reducers/slices/mainSlice";
 
@@ -127,6 +129,12 @@ const samplePosts = [
     content: "sample post2 is good asdfjaslfjasdlfkj",
     author: "자몽",
   },
+  {
+    id: 5,
+    title: "TestTestTestTestTestTestTestTestTestTestTestTestTestTestTest",
+    content: "sample post2 is good asdfjaslfjasdlfkj",
+    author: "자몽",
+  },
 ];
 
 const Main = () => {
@@ -147,18 +155,25 @@ const Main = () => {
       <div className="postArea flex">
         {posts?.length
           ? posts.map(post => (
-              <PostWrapper>
-                <Post>
-                  <div className="title">{post.responseInfo.title}</div>
-                  <div className="content">{post.responseInfo.content}</div>
-                  <div className="author">{post.responseInfo.nickname}</div>
-                </Post>
-              </PostWrapper>
+              <Link
+                to={`/board/${post.responseInfo.boardId}/${post.responseInfo.postId}`}
+              >
+                <PostWrapper>
+                  <Post>
+                    <div className="title">{post.responseInfo.title}</div>
+                    <div className="content">{post.responseInfo.content}</div>
+                    <div className="author">{post.responseInfo.nickname}</div>
+                  </Post>
+                </PostWrapper>
+              </Link>
             ))
           : samplePosts.map(post => (
               <PostWrapper>
                 <Post>
-                  <div className="title">{post.title}</div>
+                  <div className="title">
+                    {post.title.slice(0, 20)}
+                    {post.title.length >= 20 ? "..." : ""}
+                  </div>
                   <div className="content">{post.content}</div>
                   <div className="author">{post.author}</div>
                 </Post>
