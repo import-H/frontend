@@ -5,6 +5,8 @@ import { configureStore } from "@reduxjs/toolkit";
 // slices
 import authReducer from "./slices/authSlice";
 import postReducer from "./slices/postSlice";
+import mainReducer from "./slices/mainSlice";
+import adminReducer from "./slices/adminSlice";
 import sampleAuthReudcer from "./slices/sampleAuthSlice";
 
 //https://edvins.io/how-to-use-redux-persist-with-redux-toolkit 참고
@@ -15,11 +17,20 @@ import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import thunk from "redux-thunk";
 
+// localStorage root에 redux 저장
+const persistConfig = {
+  key: "root",
+  storage,
+  whitelist: ["auth"],
+};
+
 // reducers
 const reducers = combineReducers({
   auth: authReducer, // authSlice
   post: postReducer, // postSlice
   sample: sampleAuthReudcer,
+  main: mainReducer,
+  admin: adminReducer,
 });
 
 const rootReducer = (state, action) => {
@@ -28,12 +39,6 @@ const rootReducer = (state, action) => {
     state = undefined;
   }
   return reducers(state, action);
-};
-
-// localStorage root에 redux 저장
-const persistConfig = {
-  key: "root",
-  storage,
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

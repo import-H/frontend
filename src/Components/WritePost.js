@@ -3,11 +3,11 @@ import React, { useState, useRef, useEffect } from "react";
 
 // redux
 import { addPost, uploadFile } from "../reducers/slices/postSlice";
-
+import axiosInstance from "../utils/axiosInstance";
 // styled-components
-// import styled from 'styled-components';
+import styled from 'styled-components';
 import GlobalStyle from "../Styles/Globalstyle.js";
-import { Container } from "../Styles/theme";
+import { Container, Input } from "../Styles/theme";
 
 // toast-ui editor
 import "@toast-ui/editor/dist/toastui-editor.css";
@@ -16,6 +16,44 @@ import { useDispatch, useSelector } from "react-redux";
 
 // react-router-dom
 import { useParams, useNavigate } from "react-router-dom";
+
+// style
+const WriteContainer = styled(Container)`
+
+  & .tagCon{
+    margin: 10px 0;
+    margin-top: 25px;
+    & .tagArea{    
+     margin: 10px 0;
+     font-size: 1.2em;
+     flex-wrap: wrap;
+
+     & .postTag{
+      padding: 5px 7px;
+      margin-bottom: 7px;
+      margin-right: 15px;
+      border-radius: 5px;
+      background: #ddd;
+      color: #666;
+      font-size: 1.1em;         
+     }
+   }
+  }
+  
+   & .toastui-editor-defaultUI{
+     margin: 12px 0;
+   }
+
+   & .linkBtn{
+     padding: 7px 30px;
+     font-size: 1.2em;
+   }
+`;
+
+const TagsInput = styled(Input)`
+  width: 100%;
+  flex-shrink: 0;
+`;
 
 const WritePost = () => {
   const dispatch = useDispatch();
@@ -70,11 +108,15 @@ const WritePost = () => {
             let formData = new FormData();
             formData.append("image", blob);
 
-            dispatch(uploadFile(formData));
+            const response = await axiosInstance.post(
+              `http://localhost:8090/v1/file/upload`,
+              formData,
+              { header: { "content-type": "multipart/formdata" } },
+            );
 
-            console.log(file.imageURL);
-            const url = `http://localhost:8090${file.imageURL}`;
+            const url = `http://localhost:8090${response.data.data.imageURL}`;
 
+            console.log(url);
             callback(url, "Image");
           })();
 
@@ -85,8 +127,10 @@ const WritePost = () => {
     return () => {};
   }, [editorRef]);
 
+
+
   return (
-    <Container>
+    <WriteContainer>
       <GlobalStyle />
       <div
         style={{
@@ -96,35 +140,13 @@ const WritePost = () => {
           margin: "3rem",
         }}
       >
-        <label>title</label>
-        <input
+        {/* 글 제목 */}
+        <Input
           type="text"
           name="email"
           onChange={e => setTitle(e.target.value)}
-        />
-        <label>tags</label>
-        {/* tagArea/ */}
-        <div>
-          {tags.map((tag, id) => (
-            <div
-              onClick={() => {
-                setTags(tags.filter(t => t !== tag));
-              }}
-            >
-              {tag}
-            </div>
-          ))}
-          <input
-            onChange={e => setCurrentTag(e.target.value)}
-            value={currentTag}
-            onKeyPress={e => {
-              if (e.key === "Enter") {
-                onTagPush();
-              }
-            }}
-          />
-        </div>
-        <label>content</label>
+          placeholder="Title"/>      
+        {/* content */}
         <Editor
           initialValue="hello react editor world!"
           previewStyle="vertical"
@@ -133,9 +155,36 @@ const WritePost = () => {
           useCommandShortcut={true}
           ref={editorRef}
         />
-        <button onClick={postSubmit}>작성 완료</button>
+         <div className="tagCon">
+          <TagsInput
+            className="tagsInput"
+            placeholder="Tags"
+            onChange={e => setCurrentTag(e.target.value)}
+            value={currentTag}
+            onKeyPress={e => {
+              if (e.key === "Enter") {
+                onTagPush();
+              }
+            }}
+          />
+          {/* tagArea/ */}
+        <div className="tagArea flex flex-ai-c">
+          {tags.map((tag, id) => (
+            <div className="postTag"
+              onClick={() => {
+                setTags(tags.filter(t => t !== tag));
+              }}
+            >
+              {tag}
+            </div>
+          ))}
+          </div>           
+        </div>
+        <div className="submitArea flex flex-jc-e">
+          <button className="linkBtn black" onClick={postSubmit}>작성 완료</button>
+        </div>        
       </div>
-    </Container>
+    </WriteContainer>
   );
 };
 

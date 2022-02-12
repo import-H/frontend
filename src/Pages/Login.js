@@ -7,7 +7,7 @@ import { login } from "../reducers/slices/authSlice";
 // styled-components
 import styled from "styled-components";
 import GlobalStyle from "../Styles/Globalstyle.js";
-import { Button, Input, Container } from "../Styles/theme.js";
+import { Button, Input, FlexContainer } from "../Styles/theme.js";
 
 // react-router-dom
 import { useNavigate } from "react-router-dom";
@@ -67,7 +67,7 @@ const Login = () => {
   }, [isAuth, navigate]);
 
   return (
-    <Container>
+    <FlexContainer>
       <GlobalStyle />
       <form onSubmit={loginEvent}>
         <Label>이메일(홍익대학교)</Label>
@@ -78,7 +78,7 @@ const Login = () => {
         <SubmitButton type="submit">로그인</SubmitButton>
       </form>
       <div>{showError}</div>
-    </Container>
+    </FlexContainer>
   );
 };
 

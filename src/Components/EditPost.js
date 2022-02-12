@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect } from "react";
 
 // redux
 import { editPost, getPost } from "../reducers/slices/postSlice";
-
+import axiosInstance from "../utils/axiosInstance";
 // styled-components
 import GlobalStyle from "../Styles/Globalstyle.js";
 import { Container } from "../Styles/theme";
@@ -64,21 +64,17 @@ const EditPost = () => {
         .addHook("addImageBlobHook", (blob, callback) => {
           (async function () {
             let formData = new FormData();
-            formData.append("file", blob);
+            formData.append("image", blob);
 
-            console.log("이미지가 업로드 됐습니다.");
+            const response = await axiosInstance.post(
+              `http://localhost:8090/v1/file/upload`,
+              formData,
+              { header: { "content-type": "multipart/formdata" } },
+            );
 
-            // const { data: filename } = await axios.post(
-            //   "/file/upload",
-            //   formData,
-            //   {
-            //     header: { "content-type": "multipart/formdata" },
-            //   },
-            // );
-            // const imageUrl = "http://localhost:8090/file/upload/" + filename;
-            const imageUrl = "http://localhost:8090/file/upload/";
+            const url = `http://localhost:8090${response.data.data.imageURL}`;
 
-            callback(imageUrl, "Image");
+            callback(url, "Image");
           })();
 
           return false;

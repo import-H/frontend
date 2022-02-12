@@ -42,10 +42,10 @@ const MenuBar = styled.div`
     }
   }
   > a:nth-child(1) {
-    color: ${props => (props.boardId === "free" ? "#7973ce" : "black")};
+    color: ${props => (props.boardId === "free" ? "var(--secondary-color)" : "black")};
   }
   > a:nth-child(2) {
-    color: ${props => (props.boardId === "qna" ? "#7973ce" : "black")};
+    color: ${props => (props.boardId === "qna" ? "var(--secondary-color)" : "black")};
   }
 `;
 
