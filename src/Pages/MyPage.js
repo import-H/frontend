@@ -53,8 +53,8 @@ const MyPageWrapper = styled(Container)`
 const MyPage = () => {
   const navigate = useNavigate();
   const isAuth = useSelector(state => state.auth.isAuth);
-  const nickname = useSelector(state => state.auth.authTokens.nickname);
-  const profileImg = useSelector(state => state.auth.authTokens.profileImage);
+  const nickname = useSelector(state => state.auth.user.nickname);
+  const profileImg = useSelector(state => state.auth.user.profileImage);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -73,7 +73,7 @@ const MyPage = () => {
             <div className="profileImgArea">
               {/* profile image */}
               <div>
-                {profileImg === null ? (
+                {profileImg === "N" ? (
                   <img src={noneProfileImg} width="100" height="100" />
                 ): (
                   <img src={profileImg} width="100" height="100" />
