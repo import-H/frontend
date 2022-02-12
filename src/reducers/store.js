@@ -17,6 +17,13 @@ import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import thunk from "redux-thunk";
 
+// localStorage root에 redux 저장
+const persistConfig = {
+  key: "root",
+  storage,
+  whitelist: ["auth"],
+};
+
 // reducers
 const reducers = combineReducers({
   auth: authReducer, // authSlice
@@ -32,12 +39,6 @@ const rootReducer = (state, action) => {
     state = undefined;
   }
   return reducers(state, action);
-};
-
-// localStorage root에 redux 저장
-const persistConfig = {
-  key: "root",
-  storage,
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

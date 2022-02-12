@@ -241,7 +241,7 @@ const Post = () => {
                 {/* 조회수 */}
                 <span>
                   <FontAwesomeIcon icon={faEye} />
-                  {samplePost.view}
+                  {post.responseInfo.viewCount}
                 </span>
                 {/* 글 등록 시각 */}
                 <span>
@@ -278,8 +278,8 @@ const Post = () => {
           {/* 사이드바 */}
           <SideBar>
             {/* 좋아요 */}
-            <LikeWrap Liked={post.like}>
-              <FontAwesomeIcon icon={faHeart} onClick={onClickLike} />
+            <LikeWrap Liked={post.like} onClick={onClickLike}>
+              <FontAwesomeIcon icon={faHeart} />
               <span className="num"> {post.responseInfo.likeCount}</span>
             </LikeWrap>
           </SideBar>

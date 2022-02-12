@@ -1,12 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import jwt_decode from "jwt-decode";
 const API_URL = "http://localhost:8090";
 
 // 임시로 refreshToken도 여기에 저장해둠
 
 const initialState = {
   status: null,
-  authTokens: {},
+  user: {},
   isAuth: false,
 };
 
@@ -17,7 +18,9 @@ export const login = createAsyncThunk(
       ...data,
     });
     localStorage.setItem("authTokens", JSON.stringify(response.data.data));
-    return response.data.data;
+    const userData = jwt_decode(response.data.data.accessToken);
+    console.log(response.data.data, userData);
+    return { authTokens: response.data.data, user: userData };
   },
 );
 
@@ -53,7 +56,7 @@ const slice = createSlice({
     [login.fulfilled]: (state, action) => {
       state.status = "success";
       state.isAuth = true;
-      state.authTokens = action.payload;
+      state.user = action.payload.user;
     },
     [login.rejected]: (state, action) => {
       state.status = "failed";
