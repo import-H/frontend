@@ -13,6 +13,34 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faCommentAlt } from "@fortawesome/free-solid-svg-icons";
 
+const PostWrite = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+
+  & .postWrite {
+    flex: 15;
+    font-family: "Noto Sans KR", sans-serif;
+    resize: none;
+    heigth: 5rem;
+    padding: 10px 15px;
+    margin: 2px;
+    border: 1px solid #ccc;
+    font-size: 1.4rem;
+    border-radius: 4px;
+    outline: none;
+  }
+  .linkBtn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 1rem;
+    height: 4.3rem;
+    cursor: pointer;
+  }
+`;
+
 // sample Posts Data
 const samplePosts = [
   {
@@ -121,6 +149,18 @@ const PersonalBoard = () => {
             </div>
           </BoardList>
         ))}
+        <PostWrite>
+          <textarea
+            className="postWrite"
+            placeholder="댓글을 작성하세요"
+            onChange
+            value
+          />
+
+          <div className="linkBtn black" onClick>
+            댓글 작성
+          </div>
+        </PostWrite>
       </BoardWrap>
     </Container>
   );
