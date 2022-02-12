@@ -135,7 +135,7 @@ const SliderDot = styled.div`
   }
 `;
 
-const sampleBanner = [
+export const sampleBanner = [
   {
     id: "Zjt9go9i75A",
     title: "믿어봐, 이 노래 아마 처음 들어 봤을걸?",
@@ -194,6 +194,7 @@ const Banner = () => {
     slideRef.current.style.transition = "all 0.5s ease-in-out";
     slideRef.current.style.transform = `translateX(-${currentSlide}00%)`; // 백틱을 사용하여 슬라이드로 이동하는 애니메이션을 만듭니다.
   }, [currentSlide]);
+
   return (
     <BannerWrapper>
       <BannerInner>
