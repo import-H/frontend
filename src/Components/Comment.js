@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 
 // redux
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   addComment,
   editComment,
@@ -121,6 +121,7 @@ const CommentPush = styled.div`
 
 const Comment = ({ post, postId }) => {
   const dispatch = useDispatch();
+  const isAuth = useSelector(state => state.auth.isAuth);
   const [commentData, setCommentData] = useState("");
   const [commentEdit, setCommentEdit] = useState({
     id: "",
@@ -158,10 +159,10 @@ const Comment = ({ post, postId }) => {
 
   return (
     <CommentWrap>
-      <h3>
-        <span>{post.comments.length}</span> Comment
+      <h3 title="comment">
+        <span>{post?.comments.length}</span> Comment
       </h3>
-      {post.comments.map(comment => (
+      {post?.comments.map(comment => (
         <div
           className="comment"
           key={comment.id} //api 문서대로 id, createAt, account 추가해야함
@@ -209,17 +210,22 @@ const Comment = ({ post, postId }) => {
           <div className="commentCreateAt">2020.01.02</div>
         </div>
       ))}
-      <CommentPush>
-        <textarea
-          className="commentWrite"
-          placeholder="댓글을 작성하세요"
-          onChange={onChangeComment}
-          value={commentData}
-        />
-        <div className="linkBtn black" onClick={onPostComment}>
-          댓글 작성
-        </div>
-      </CommentPush>
+      {isAuth ? (
+        <CommentPush>
+          <textarea
+            className="commentWrite"
+            placeholder="댓글을 작성하세요"
+            onChange={onChangeComment}
+            value={commentData}
+          />
+
+          <div className="linkBtn black" onClick={onPostComment}>
+            댓글 작성
+          </div>
+        </CommentPush>
+      ) : (
+        <></>
+      )}
     </CommentWrap>
   );
 };
