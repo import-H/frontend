@@ -8,7 +8,7 @@ import { signup } from "../reducers/slices/authSlice";
 // styled-components
 import styled from "styled-components";
 import GlobalStyle from "../Styles/Globalstyle";
-import { Button, Input, Container } from "../Styles/theme";
+import { Button, Input, FlexContainer } from "../Styles/theme";
 
 // react-router-dom
 import { useNavigate } from "react-router-dom";
@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 const AuthForm = styled.div`
   min-width: 300px;
   max-width: 1200px;
+
 `;
 
 const Label = styled.div`
@@ -160,7 +161,7 @@ const Register = () => {
   }, [authInfo, errorInfo]);
 
   return (
-    <Container>
+    <FlexContainer>
       <GlobalStyle />
       <AuthForm>
         <Label>이메일</Label>
@@ -206,7 +207,7 @@ const Register = () => {
           회원가입
         </SubmitButton>
       </AuthForm>
-    </Container>
+    </FlexContainer>
   );
 };
 
