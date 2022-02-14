@@ -55,6 +55,7 @@ const MyPage = () => {
   const isAuth = useSelector(state => state.auth.isAuth);
   const nickname = useSelector(state => state.auth.user.nickname);
   const profileImg = useSelector(state => state.auth.user.profileImage);
+  const email = useSelector(state => state.auth.user.sub);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -93,6 +94,15 @@ const MyPage = () => {
             </div>
           </div>
           {/* 추가코드 이 밑으로 입력 */}
+          <div style={{marginTop: '5%'}}>
+            <div>
+              <span style={{fontSize: 20, fontWeight: 'bold'}}>이메일</span>
+              <span style={{fontSize: 20}}>{email}</span>
+            </div>
+            <div>
+              <Link to="" onClick={() => alert('아직 미구현입니다.')}>회원 탈퇴</Link>
+            </div>
+          </div>
       </MyPageWrapper>
   )
 }
