@@ -84,7 +84,7 @@ describe("버튼 클릭 이벤트", () => {
     expect(logout).toHaveBeenCalled();
 
     // mypage
-    const myPageBtn = screen.getByText("마이페이지").closest("a");
+    const myPageBtn = screen.getByTestId("profileLink");
     expect(myPageBtn).toHaveAttribute("href", `/mypage`);
   });
 });

@@ -26,27 +26,26 @@ const AuthorImg = styled.div`
   }
 `;
 
-import noneProfileImg from "../images/none_profile_image.png"
+import noneProfileImg from "../images/none_profile_image.png";
 
 function UserMenu() {
   const dispatch = useDispatch();
-  const isAuth = useSelector(state => state.auth.isAuth);
-  const nickname = useSelector(state => state.auth.user.nickname);
-  const profileImg = useSelector(state => state.auth.user.profileImage);
+  const isAuth = useSelector(state => state.auth?.isAuth);
+  const profileImg = useSelector(state => state.auth?.user?.profileImage);
   const logoutBtn = () => {
     dispatch(logout());
   };
   return (
     <span>
       {isAuth ? (
-        <span>
+        <span role="afterLogin">
           <div className="element">
-            <Link to="/mypage">
+            <Link to="/mypage" data-testid="profileLink">
               <AuthorImg>
                 {profileImg === "N" ? (
                   <img src={noneProfileImg} />
                 ) : (
-                  <img src={profileImg} />
+                  <img src={profileImg} alt="profileImg" />
                 )}
               </AuthorImg>
             </Link>
