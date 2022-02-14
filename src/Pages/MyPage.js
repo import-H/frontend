@@ -50,7 +50,7 @@ const MyPageWrapper = styled(Container)`
   }
 
   & #infoArea {
-    margin-top: 5%;
+    margin-top: 5%; 
 
     & .element {
       display: flex;
@@ -121,7 +121,7 @@ const MyPage = () => {
               <input type="checkbox" />
             </div>
             <div>
-              <Link to="" onClick={() => alert('아직 미구현입니다.')}>회원 탈퇴</Link>
+              <Link to="" onClick={() => alert('아직 미구현입니다.')} className="linkBtn">회원 탈퇴</Link>
             </div>
           </div>
       </MyPageWrapper>
