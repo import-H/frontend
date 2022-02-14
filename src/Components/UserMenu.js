@@ -57,19 +57,25 @@ function UserMenu() {
               로그아웃
             </Link>
           </div>
+          {/* 관리자 페이지 링크 조건부 렌더링 아직 미구현 */}
+          <div className="element">
+            <Link to="/admin" className="linkBtn">
+              관리자 페이지
+            </Link>
+          </div>
         </span>
       ) : (
         <span role="beforeLogin">
-          <span className="element">
+          <div className="element">
             <Link to="/login" className="linkBtn">
               로그인
             </Link>
-          </span>
-          <span className="element">
+          </div>
+          <div className="element">
             <Link to="/register" className="linkBtn">
               회원가입
             </Link>
-          </span>
+          </div>
         </span>
       )}
     </span>
