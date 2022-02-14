@@ -106,8 +106,8 @@ const MyPage = () => {
             </div>
             {/* 자기소개 */}
             <div>
-              <div className="nicknameArea"><h1>{nickname}님</h1></div>
-              <div className="introductionArea flex flex-ai-c"><h2>자기소개</h2> <Link to="" className="editIcon" ><FontAwesomeIcon icon={faPen} /></Link></div>
+              <div className="nicknameArea"><h1>{nickname}</h1> <Link to="" className="editIcon" onClick={buttonClick}><FontAwesomeIcon icon={faPen} /></Link></div>
+              <div className="introductionArea flex flex-ai-c"><h2>자기소개</h2> <Link to="" className="editIcon" onClick={buttonClick}><FontAwesomeIcon icon={faPen} /></Link></div>
             </div>
           </div>
           {/* 추가코드 이 밑으로 입력 */}
@@ -121,7 +121,7 @@ const MyPage = () => {
               <input type="checkbox" />
             </div>
             <div>
-              <Link to="" onClick={() => alert('아직 미구현입니다.')} className="linkBtn">회원 탈퇴</Link>
+              <Link to="" onClick={buttonClick} className="linkBtn">회원 탈퇴</Link>
             </div>
           </div>
       </MyPageWrapper>
