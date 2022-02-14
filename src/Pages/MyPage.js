@@ -48,6 +48,24 @@ const MyPageWrapper = styled(Container)`
       }
     }
   }
+
+  & #infoArea {
+    margin-top: 5%;
+
+    & .element {
+      display: flex;
+
+      & .sub {
+        font-size: 20px;
+        font-weight: bold;
+      }
+
+      & .result {
+        font-size: 20px;
+      }
+    }
+  }
+  
 `;
 
 const MyPage = () => {
@@ -90,14 +108,17 @@ const MyPage = () => {
             <div>
               <div className="nicknameArea"><h1>{nickname}님</h1></div>
               <div className="introductionArea flex flex-ai-c"><h2>자기소개</h2> <Link to="" className="editIcon" ><FontAwesomeIcon icon={faPen} /></Link></div>
-              
             </div>
           </div>
           {/* 추가코드 이 밑으로 입력 */}
-          <div style={{marginTop: '5%'}}>
-            <div>
-              <span style={{fontSize: 20, fontWeight: 'bold'}}>이메일</span>
-              <span style={{fontSize: 20}}>{email}</span>
+          <div id="infoArea">
+            <div className="element">
+              <span className="sub">이메일</span>
+              <span className="result">{email}</span>
+            </div>
+            <div className="element">
+              <span className="sub">이메일 수신 설정</span>
+              <input type="checkbox" />
             </div>
             <div>
               <Link to="" onClick={() => alert('아직 미구현입니다.')}>회원 탈퇴</Link>
