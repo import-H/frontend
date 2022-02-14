@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import GlobalStyle from "../Styles/Globalstyle";
 import { Container } from "../Styles/theme";
 import styled from "styled-components";
@@ -7,6 +7,7 @@ import { addBanner } from "../reducers/slices/adminSlice";
 import axios from "axios";
 import axiosInstance from "../utils/axiosInstance";
 import { sampleBanner } from "../Components/Banner";
+import { getBanner } from "../reducers/slices/mainSlice";
 
 const ImgInput = styled.input`
   position: relative;
@@ -211,6 +212,10 @@ const Admin = () => {
 
   const onAddBanner = () => {};
 
+  useEffect(() => {
+    dispatch(getBanner());
+  }, []);
+
   return (
     <Container>
       <GlobalStyle />
@@ -224,73 +229,34 @@ const Admin = () => {
         <div>관리자 페이지</div>
 
         <Slice>
-          {banners?.length
-            ? banners.map(banner => (
-                <Setting>
-                  <BannerArea
-                    key={banner.bannerId}
-                    href={`https://youtu.be/${banner.bannerId}`}
-                  >
-                    <div className="BannerSetting">
-                      <div className="img-box">
-                        <img
-                          src={`https://img.youtube.com/vi/${banner.bannerId}/mqdefault.jpg`}
-                        />
-                      </div>
-                      <Content>
-                        <div className="title">{banner.title}</div>
-                        <div className="explain">{banner.content}</div>
-                        <div className="tags">
-                          {banner.tags?.map(tag => (
-                            <div>{tag}</div>
-                          ))}
-                        </div>
-                        <div className="author">자몽</div>
-                      </Content>
+          {banners.map(banner => (
+            <Setting>
+              <BannerArea key={banner.bannerId} href={banner.url}>
+                <div className="BannerSetting">
+                  <div className="img-box">
+                    <img src={banner.imgUrl} />
+                  </div>
+                  <Content>
+                    <div className="title">{banner.title}</div>
+                    <div className="explain">{banner.content}</div>
+                    <div className="tags">
+                      {banner.tags?.map(tag => (
+                        <div>{tag.name}</div>
+                      ))}
                     </div>
-                  </BannerArea>
-                  <button
-                    onClick={() => {
-                      onRemoveBanner(banner.bannerId);
-                    }}
-                  >
-                    -
-                  </button>
-                </Setting>
-              ))
-            : sampleBanner.map(banner => (
-                <Setting>
-                  <BannerArea
-                    key={banner.id}
-                    href={`https://youtu.be/${banner.id}`}
-                  >
-                    <div className="BannerSetting">
-                      <div className="img-box">
-                        <img
-                          src={`https://img.youtube.com/vi/${banner.id}/mqdefault.jpg`}
-                        />
-                      </div>
-                      <Content>
-                        <div className="title">{banner.title}</div>
-                        <div className="explain">{banner.explain}</div>
-                        <div className="tags">
-                          {banner.tags?.map(tag => (
-                            <div>{tag}</div>
-                          ))}
-                        </div>
-                        <div className="author">자몽</div>
-                      </Content>
-                    </div>
-                  </BannerArea>
-                  <button
-                    onClick={() => {
-                      onRemoveBanner(banner.id);
-                    }}
-                  >
-                    -
-                  </button>
-                </Setting>
-              ))}
+                    <div className="author">자몽</div>
+                  </Content>
+                </div>
+              </BannerArea>
+              <button
+                onClick={() => {
+                  onRemoveBanner(banner.bannerId);
+                }}
+              >
+                -
+              </button>
+            </Setting>
+          ))}
           <Setting>
             <BannerArea>
               <div className="BannerSetting">

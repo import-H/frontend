@@ -14,8 +14,17 @@ const initialState = {
 // 배너 추가하기
 export const addBanner = createAsyncThunk(
   "admin/addBanner",
-  async (data, dispatch, getState) => {
-    const response = await axiosInstance.post(`${API_URL}/v1/user/id/1`, data);
+  async (data, dispatch) => {
+    const response = await axiosInstance.post(`${API_URL}/v1/banners`, data);
+    return response.data.data;
+  },
+);
+
+// 배너 삭제하기
+export const deleteBanner = createAsyncThunk(
+  "admin/deleteBanner",
+  async (data, dispatch) => {
+    const response = await axiosInstance.delete(`${API_URL}/v1/banners/1`);
     return response.data.data;
   },
 );
