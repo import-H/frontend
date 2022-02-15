@@ -16,7 +16,7 @@ import { Button, Input, Container } from "../Styles/theme.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 
-import noneProfileImg from "../images/none_profile_image.png"
+import noneProfileImg from "../images/none_profile_image.png";
 
 // style
 const MyPageWrapper = styled(Container)`
@@ -121,7 +121,7 @@ const MyPage = () => {
               <input type="checkbox" />
             </div>
             <div>
-              <Link to="" onClick={buttonClick} className="linkBtn">회원 탈퇴</Link>
+              <Link to="/leave" className="linkBtn">회원 탈퇴</Link>
             </div>
           </div>
       </MyPageWrapper>
