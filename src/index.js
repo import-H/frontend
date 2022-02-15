@@ -16,6 +16,7 @@ import {
   PersonalBoard,
   MyPage,
   Admin,
+  Leave
 } from "./Pages";
 import NavBar from "./Components/NavBar";
 import WritePost from "./Components/WritePost";
@@ -54,6 +55,7 @@ ReactDOM.render(
           <Route path="/board/:boardId/:postId" element={<Post />} />
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/leave" element={<Leave />} />
         </Routes>
       </BrowserRouter>
     </PersistGate>
