@@ -81,8 +81,11 @@ const WritePost = () => {
     const instance = editorRef.current.getInstance().getMarkdown();
     const findImage = /!\[Image\]\([A-Za-z0-9\/:\-.]+\)/gi;
 
-    let imgUrls = instance.match(findImage).map(url => url.split("/").pop());
-    imgUrls = imgUrls.map(imgUrl => imgUrl.substring(0, imgUrl.length - 1));
+    let imgUrls =
+      instance.match(findImage) &&
+      instance.match(findImage).map(url => url.split("/").pop());
+    imgUrls =
+      imgUrls && imgUrls.map(imgUrl => imgUrl.substring(0, imgUrl.length - 1));
 
     const postData = {
       title: title,
