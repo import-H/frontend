@@ -26,27 +26,26 @@ const AuthorImg = styled.div`
   }
 `;
 
-import noneProfileImg from "../images/none_profile_image.png"
+import noneProfileImg from "../images/none_profile_image.png";
 
 function UserMenu() {
   const dispatch = useDispatch();
-  const isAuth = useSelector(state => state.auth.isAuth);
-  const nickname = useSelector(state => state.auth.user.nickname);
-  const profileImg = useSelector(state => state.auth.user.profileImage);
+  const isAuth = useSelector(state => state.auth?.isAuth);
+  const profileImg = useSelector(state => state.auth?.user?.profileImage);
   const logoutBtn = () => {
     dispatch(logout());
   };
   return (
     <span>
       {isAuth ? (
-        <span>
+        <span role="afterLogin">
           <div className="element">
-            <Link to="/mypage">
+            <Link to="/mypage" data-testid="profileLink">
               <AuthorImg>
                 {profileImg === "N" ? (
                   <img src={noneProfileImg} />
                 ) : (
-                  <img src={profileImg} />
+                  <img src={profileImg} alt="profileImg" />
                 )}
               </AuthorImg>
             </Link>
@@ -57,19 +56,25 @@ function UserMenu() {
               로그아웃
             </Link>
           </div>
+          {/* 관리자 페이지 링크 조건부 렌더링 아직 미구현 */}
+          <div className="element">
+            <Link to="/admin" className="linkBtn">
+              관리자 페이지
+            </Link>
+          </div>
         </span>
       ) : (
         <span role="beforeLogin">
-          <span className="element">
+          <div className="element">
             <Link to="/login" className="linkBtn">
               로그인
             </Link>
-          </span>
-          <span className="element">
+          </div>
+          <div className="element">
             <Link to="/register" className="linkBtn">
               회원가입
             </Link>
-          </span>
+          </div>
         </span>
       )}
     </span>
