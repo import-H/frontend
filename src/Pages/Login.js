@@ -51,18 +51,12 @@ const Login = () => {
         password: authInfo.password,
       };
 
-      const resultAction = await dispatch(login(data));
-      if (login.fulfilled.match(resultAction)) {
-        // user will have a type signature of User as we passed that as the Returned parameter in createAsyncThunk
-        const user = resultAction.payload;
-        console.log("success", `Updated ${user.first_name} ${user.last_name}`);
-      } else {
-        if (resultAction.payload) {
-          // Being that we passed in ValidationErrors to rejectType in `createAsyncThunk`, those types will be available here.
-          console.log(resultAction.payload);
-        } else {
-          console.log("error", `Update failed: ${resultAction.error}`);
-        }
+      try {
+        const ers = await dispatch(login(data)).unwrap();
+        console.log("rs", ers);
+        navigate("/");
+      } catch (e) {
+        alert(e.msg);
       }
 
       // axios
@@ -89,13 +83,6 @@ const Login = () => {
     const { value, name } = e.target;
     setAuthInfo({ ...authInfo, [name]: value });
   };
-
-  // isAuth가 true 인 경우(로그인 완료), 랜딩페이지로 이동
-  useEffect(() => {
-    if (isAuth) {
-      navigate("/");
-    }
-  }, [isAuth, navigate]);
 
   return (
     <FlexContainer>
