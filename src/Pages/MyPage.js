@@ -48,6 +48,24 @@ const MyPageWrapper = styled(Container)`
       }
     }
   }
+
+  & #infoArea {
+    margin-top: 5%; 
+
+    & .element {
+      display: flex;
+
+      & .sub {
+        font-size: 20px;
+        font-weight: bold;
+      }
+
+      & .result {
+        font-size: 20px;
+      }
+    }
+  }
+  
 `;
 
 const MyPage = () => {
@@ -55,6 +73,7 @@ const MyPage = () => {
   const isAuth = useSelector(state => state.auth.isAuth);
   const nickname = useSelector(state => state.auth.user.nickname);
   const profileImg = useSelector(state => state.auth.user.profileImage);
+  const email = useSelector(state => state.auth.user.sub);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -87,12 +106,24 @@ const MyPage = () => {
             </div>
             {/* 자기소개 */}
             <div>
-              <div className="nicknameArea"><h1>{nickname}님</h1></div>
-              <div className="introductionArea flex flex-ai-c"><h2>자기소개</h2> <Link to="" className="editIcon" ><FontAwesomeIcon icon={faPen} /></Link></div>
-              
+              <div className="nicknameArea"><h1>{nickname}</h1> <Link to="" className="editIcon" onClick={buttonClick}><FontAwesomeIcon icon={faPen} /></Link></div>
+              <div className="introductionArea flex flex-ai-c"><h2>자기소개</h2> <Link to="" className="editIcon" onClick={buttonClick}><FontAwesomeIcon icon={faPen} /></Link></div>
             </div>
           </div>
           {/* 추가코드 이 밑으로 입력 */}
+          <div id="infoArea">
+            <div className="element">
+              <span className="sub">이메일</span>
+              <span className="result">{email}</span>
+            </div>
+            <div className="element">
+              <span className="sub">이메일 수신 설정</span>
+              <input type="checkbox" />
+            </div>
+            <div>
+              <Link to="" onClick={buttonClick} className="linkBtn">회원 탈퇴</Link>
+            </div>
+          </div>
       </MyPageWrapper>
   )
 }

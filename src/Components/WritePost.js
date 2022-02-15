@@ -5,7 +5,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { addPost, uploadFile } from "../reducers/slices/postSlice";
 import axiosInstance from "../utils/axiosInstance";
 // styled-components
-import styled from 'styled-components';
+import styled from "styled-components";
 import GlobalStyle from "../Styles/Globalstyle.js";
 import { Container, Input } from "../Styles/theme";
 
@@ -19,35 +19,34 @@ import { useParams, useNavigate } from "react-router-dom";
 
 // style
 const WriteContainer = styled(Container)`
-
-  & .tagCon{
+  & .tagCon {
     margin: 10px 0;
     margin-top: 25px;
-    & .tagArea{    
-     margin: 10px 0;
-     font-size: 1.2em;
-     flex-wrap: wrap;
+    & .tagArea {
+      margin: 10px 0;
+      font-size: 1.2em;
+      flex-wrap: wrap;
 
-     & .postTag{
-      padding: 5px 7px;
-      margin-bottom: 7px;
-      margin-right: 15px;
-      border-radius: 5px;
-      background: #ddd;
-      color: #666;
-      font-size: 1.1em;         
-     }
-   }
+      & .postTag {
+        padding: 5px 7px;
+        margin-bottom: 7px;
+        margin-right: 15px;
+        border-radius: 5px;
+        background: #ddd;
+        color: #666;
+        font-size: 1.1em;
+      }
+    }
   }
-  
-   & .toastui-editor-defaultUI{
-     margin: 12px 0;
-   }
 
-   & .linkBtn{
-     padding: 7px 30px;
-     font-size: 1.2em;
-   }
+  & .toastui-editor-defaultUI {
+    margin: 12px 0;
+  }
+
+  & .linkBtn {
+    padding: 7px 30px;
+    font-size: 1.2em;
+  }
 `;
 
 const TagsInput = styled(Input)`
@@ -72,14 +71,24 @@ const WritePost = () => {
   const [currentTag, setCurrentTag] = useState("");
   const [tags, setTags] = useState([]);
 
+  const imageFilter = instance => {
+    const regex = /!\[Image\]\([\w\/:]+\)/;
+  };
+
   const postSubmit = async e => {
     e.preventDefault();
 
-    const instance = editorRef.current.getInstance();
+    const instance = editorRef.current.getInstance().getMarkdown();
+    const findImage = /!\[Image\]\([A-Za-z0-9\/:\-.]+\)/gi;
+
+    let imgUrls = instance.match(findImage).map(url => url.split("/").pop());
+    imgUrls = imgUrls.map(imgUrl => imgUrl.substring(0, imgUrl.length - 1));
+
     const postData = {
       title: title,
       tags: tags,
-      content: instance.getMarkdown(), //setPost에서 content 수정하면 바로 반영안되는 문제로 이렇게 해결함
+      content: instance, //setPost에서 content 수정하면 바로 반영안되는 문제로 이렇게 해결함
+      images: imgUrls,
     };
     await dispatch(addPost({ boardId, postData }));
   };
@@ -127,8 +136,6 @@ const WritePost = () => {
     return () => {};
   }, [editorRef]);
 
-
-
   return (
     <WriteContainer>
       <GlobalStyle />
@@ -145,7 +152,8 @@ const WritePost = () => {
           type="text"
           name="email"
           onChange={e => setTitle(e.target.value)}
-          placeholder="Title"/>      
+          placeholder="Title"
+        />
         {/* content */}
         <Editor
           initialValue="hello react editor world!"
@@ -155,7 +163,7 @@ const WritePost = () => {
           useCommandShortcut={true}
           ref={editorRef}
         />
-         <div className="tagCon">
+        <div className="tagCon">
           <TagsInput
             className="tagsInput"
             placeholder="Tags"
@@ -168,21 +176,24 @@ const WritePost = () => {
             }}
           />
           {/* tagArea/ */}
-        <div className="tagArea flex flex-ai-c">
-          {tags.map((tag, id) => (
-            <div className="postTag"
-              onClick={() => {
-                setTags(tags.filter(t => t !== tag));
-              }}
-            >
-              {tag}
-            </div>
-          ))}
-          </div>           
+          <div className="tagArea flex flex-ai-c">
+            {tags.map((tag, id) => (
+              <div
+                className="postTag"
+                onClick={() => {
+                  setTags(tags.filter(t => t !== tag));
+                }}
+              >
+                {tag}
+              </div>
+            ))}
+          </div>
         </div>
         <div className="submitArea flex flex-jc-e">
-          <button className="linkBtn black" onClick={postSubmit}>작성 완료</button>
-        </div>        
+          <button className="linkBtn black" onClick={postSubmit}>
+            작성 완료
+          </button>
+        </div>
       </div>
     </WriteContainer>
   );

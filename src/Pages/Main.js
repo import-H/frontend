@@ -20,11 +20,12 @@ const iconAni = keyframes`
 `;
 
 const MainWrapper = styled.div`
+  width: 100%;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-direction: column;
+  //flex-wrap: wrap;
   margin-top: 2rem;
-  //justify-content: center;
+  /* justify-content: center; */
 
   & .secTit {
     font-size: 2.8rem;
@@ -32,7 +33,6 @@ const MainWrapper = styled.div`
     font-weight: 500;
     text-align: center;
     width: 100%;
-    flex-shrink: 0;
     margin-bottom: 3rem;
     & > div {
       transform: translateX(2px) translateY(-3px);
@@ -45,15 +45,20 @@ const MainWrapper = styled.div`
     }
   }
   & .postArea {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
   }
 `;
 
 const PostWrapper = styled.div`
-  width: calc(100% / 4);
-  min-width: 30rem;
+  //width: calc(100% / 4);
+  //min-width: 30rem;
+  width: 30rem;
   height: 20rem;
   display: flex;
+  flex-direction: row;
   padding: 1rem;
 `;
 
@@ -161,7 +166,9 @@ const Main = () => {
                 <PostWrapper>
                   <Post>
                     <div className="title">{post.responseInfo.title}</div>
-                    <div className="content">{post.responseInfo.content}</div>
+                    <div className="content">
+                      {post.responseInfo.content.slice(0, 100)}
+                    </div>
                     <div className="author">{post.responseInfo.nickname}</div>
                   </Post>
                 </PostWrapper>

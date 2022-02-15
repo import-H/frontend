@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Container } from "../Styles/theme";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { getBanner } from "../reducers/slices/mainSlice";
 
 const BannerWrapper = styled.div`
   width: 100%;
@@ -162,7 +163,7 @@ export const sampleBanner = [
 const Banner = () => {
   const dispatch = useDispatch();
   const banners = useSelector(state => state.main.banners);
-  const TOTAL_SLIDES = 2;
+  const TOTAL_SLIDES = banners.length ? banners.length - 1 : 2;
   const [currentSlide, setCurrentSlide] = useState(0);
   const slideRef = useRef(null);
 
@@ -188,8 +189,12 @@ const Banner = () => {
     };
   }, [currentSlide]);
 
+  useEffect(() => {
+    dispatch(getBanner());
+  }, []);
+
   console.log(currentSlide);
-  console.log(banners);
+
   useEffect(() => {
     slideRef.current.style.transition = "all 0.5s ease-in-out";
     slideRef.current.style.transform = `translateX(-${currentSlide}00%)`; // 백틱을 사용하여 슬라이드로 이동하는 애니메이션을 만듭니다.
@@ -201,14 +206,12 @@ const Banner = () => {
         <div ref={slideRef}>
           {banners?.length
             ? banners.map(banner => (
-                <BannerArea
-                  key={banner.bannerId}
-                  href={`https://youtu.be/${banner.bannerId}`}
-                >
+                <BannerArea key={banner.bannerId} href={banner.url}>
                   <div className="BannerSetting">
                     <div className="img-box">
                       <img
-                        src={`https://img.youtube.com/vi/${banner.bannerId}/mqdefault.jpg`}
+                        //src={`https://img.youtube.com/vi/${banner.bannerId}/mqdefault.jpg`}
+                        src={banner.imgUrl}
                       />
                     </div>
                     <Content>
@@ -216,7 +219,7 @@ const Banner = () => {
                       <div className="explain">{banner.content}</div>
                       <div className="tags">
                         {banner.tags?.map(tag => (
-                          <div>{tag}</div>
+                          <div>{tag.name}</div>
                         ))}
                       </div>
                       <div className="author">자몽</div>
