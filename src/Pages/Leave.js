@@ -27,6 +27,7 @@ const SubmitButton = styled(Button)`
 const Leave = () => {
     const navigate = useNavigate();
     const isAuth = useSelector(state => state.auth.isAuth);
+    const email = useSelector(state => state.auth.user.sub);
     const dispatch = useDispatch();
 
     const [showError, setShowError] = useState("");
@@ -44,6 +45,7 @@ const Leave = () => {
         alert("비밀번호를 입력해주세요.");
         } else {
             const data = {
+                email: email,
                 password: authInfo.password,
             };
             if(window.confirm("정말로 탈퇴할까요? 데이터는 다시 복구되지 않습니다. 신중히 선택해주세요.")) {
@@ -71,12 +73,12 @@ const Leave = () => {
     return (
         <FlexContainer>
             <GlobalStyle />
-                <form onSubmit={leaveEvent}>
-                    <Label>비밀번호</Label>
-                    <Input type="password" name="password" onChange={onChange} />
+            <form onSubmit={leaveEvent}>
+                <Label>비밀번호</Label>
+                <Input type="password" name="password" onChange={onChange} />
 
-                    <SubmitButton type="submit">회원탈퇴</SubmitButton>
-                </form>
+                <SubmitButton type="submit">회원탈퇴</SubmitButton>
+            </form>
         </FlexContainer>
     )
 }
