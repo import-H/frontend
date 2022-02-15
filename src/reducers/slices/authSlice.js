@@ -1,4 +1,8 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  createAsyncThunk,
+  isRejectedWithValue,
+} from "@reduxjs/toolkit";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 const API_URL = "http://localhost:8090";
@@ -13,14 +17,21 @@ const initialState = {
 
 export const login = createAsyncThunk(
   "auth/login",
-  async (data, dispatch, getState) => {
-    const response = await axios.post(`${API_URL}/v1/login`, {
-      ...data,
-    });
-    localStorage.setItem("authTokens", JSON.stringify(response.data.data));
-    const userData = jwt_decode(response.data.data.accessToken);
-    console.log(response.data.data, userData);
-    return { user: userData };
+
+  async (wdata, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(`${API_URL}/v1/login`, {
+        ...wdata,
+      });
+      return response.data.data;
+    } catch (err) {
+      let error = err; // cast the error for access
+      if (!error.response) {
+        throw err;
+      }
+      // We got validation errors, let's return those so we can reference in our component and set form errors
+      return rejectWithValue(error.response.data);
+    }
   },
 );
 
@@ -49,34 +60,19 @@ const slice = createSlice({
   reducers: {
     logout: (state, action) => {},
   },
-  extraReducers: {
-    [login.pending]: (state, action) => {
-      state.status = "loading";
-    },
-    [login.fulfilled]: (state, action) => {
-      state.status = "success";
-      state.isAuth = true;
-      state.user = action.payload.user;
-    },
-    [login.rejected]: (state, action) => {
-      state.status = "failed";
-      state.error = action.error;
-    },
-    [signup.pending]: (state, action) => {
-      state.status = "loading";
-    },
-    [signup.fulfilled]: (state, action) => {
-      state.status = "success";
-    },
-    [signup.rejected]: (state, action) => {
-      state.status = "failed";
-      state.error = action.error;
-    },
-    [logout.pending]: (state, action) => {},
-    [logout.fulfilled]: (state, action) => {
-      Object.assign(state, initialState);
-    },
-    [logout.rejected]: (state, action) => {},
+  extraReducers: builder => {
+    // The `builder` callback form is used here because it provides correctly typed reducers from the action creators
+    builder.addCase(login.fulfilled, (state, { payload }) => {
+      state.abc = payload;
+    });
+    builder.addCase(login.rejected, (state, action) => {
+      if (action.payload) {
+        // Being that we passed in ValidationErrors to rejectType in `createAsyncThunk`, the payload will be available here.
+        state.error = action.payload;
+      } else {
+        state.error = action.error.message;
+      }
+    });
   },
 });
 
