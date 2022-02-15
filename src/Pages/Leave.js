@@ -43,10 +43,16 @@ const Leave = () => {
         if (Object.values(authInfo).includes("") === true) {
         alert("비밀번호를 입력해주세요.");
         } else {
-        const data = {
-            password: authInfo.password,
-        };
-        // await dispatch(login(data));
+            const data = {
+                password: authInfo.password,
+            };
+            if(window.confirm("정말로 탈퇴할까요? 데이터는 다시 복구되지 않습니다. 신중히 선택해주세요.")) {
+                alert("탈퇴가 완료되었습니다.") // 현재는 메시지만 출력하고 아직은 실제로 탈퇴 진행되지 않음.
+                // await dispatch(login(data));
+            } else {
+                alert("취소합니다.");
+                navigate("/mypage");    // 취소하고 마이페이지로 복귀
+            }
         }
     };
 
