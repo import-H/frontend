@@ -188,7 +188,6 @@ const slice = createSlice({
       state.status = "loading";
     },
     [getPosts.fulfilled]: (state, action) => {
-      state.editStatus = "";
       state.addPost = "";
       state.status = "success";
       state.posts = action.payload;
@@ -213,9 +212,6 @@ const slice = createSlice({
       state.getPost = "loading";
     },
     [getPost.fulfilled]: (state, action) => {
-      state.editStatus = "";
-      Object.assign(state, initialState);
-      // initialState 로 변환안되는 오류 고쳐야함
       state.getPost = "success";
       state.post = action.payload;
     },
@@ -225,13 +221,13 @@ const slice = createSlice({
     },
     // 게시글 수정
     [editPost.pending]: (state, action) => {
-      state.editStatus = "loading";
+      state.status = "loading";
     },
     [editPost.fulfilled]: (state, action) => {
-      state.editStatus = "success";
+      state.status = "success";
     },
     [editPost.rejected]: (state, action) => {
-      state.editStatus = "failed";
+      state.status = "failed";
       state.error = action.error;
     },
     // 댓글 추가
