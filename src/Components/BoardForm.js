@@ -130,7 +130,7 @@ const BoardForm = () => {
                 to={{
                   pathname: `/board/${boardId}/${post.responseInfo.postId}`,
                 }}
-                key={post.responseInfo.id}
+                key={post.responseInfo.postId}
               >
                 <BoardList>
                   <BoardTitle className="boardTitle">

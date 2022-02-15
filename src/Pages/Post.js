@@ -195,15 +195,16 @@ const LikeIcon = styled(FontAwesomeIcon)`
 
 // main
 const Post = () => {
-  const { post, status } = useSelector(state => state.post);
+  const status = useSelector(state => state.post.status);
+  const [post, setPost] = useState();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const boardId = useParams().boardId;
   const postId = useParams().postId;
 
-  const onDeletePost = async () => {
-    await dispatch(deletePost({ boardId, postId }));
+  const onDeletePost = () => {
+    dispatch(deletePost({ boardId, postId }));
     navigate(-1);
   };
 
@@ -212,22 +213,22 @@ const Post = () => {
   };
 
   useEffect(async () => {
-    await dispatch(
-      getPost({
-        postId: postId,
-        boardId: boardId,
-      }),
-    );
-  }, []);
+    if (status === "success") {
+      try {
+        const postdata = await dispatch(
+          getPost({
+            postId: postId,
+            boardId: boardId,
+          }),
+        ).unwrap();
 
-  useEffect(() => {
-    dispatch(
-      getPost({
-        postId: postId,
-        boardId: boardId,
-      }),
-    );
+        setPost(postdata);
+      } catch (e) {
+        alert(e);
+      }
+    }
   }, [status]);
+
   return (
     <Container>
       <GlobalStyle />
