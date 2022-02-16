@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
-const API_URL = "http://localhost:8090";
+import { API_URL } from "../../config";
 
 // 임시로 refreshToken도 여기에 저장해둠
 
