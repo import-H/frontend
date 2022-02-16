@@ -15,7 +15,8 @@ import { useNavigate } from "react-router-dom";
 
 // axios with auth
 import axiosInstance from "../utils/axiosInstance";
-const API_URL = "http://localhost:8090";
+
+import { API_URL } from "../config";
 
 // style
 const Label = styled.div`
