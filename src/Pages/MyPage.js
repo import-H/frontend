@@ -71,9 +71,9 @@ const MyPageWrapper = styled(Container)`
 const MyPage = () => {
   const navigate = useNavigate();
   const isAuth = useSelector(state => state.auth.isAuth);
-  const nickname = useSelector(state => state.auth.user.nickname);
-  const profileImg = useSelector(state => state.auth.user.profileImage);
-  const email = useSelector(state => state.auth.user.sub);
+  const nickname = useSelector(state => state.auth.user.user.nickname);
+  const profileImg = useSelector(state => state.auth.user.user.profileImage);
+  const email = useSelector(state => state.auth.user.user.sub);
   const dispatch = useDispatch();
 
   useEffect(() => {
