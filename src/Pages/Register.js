@@ -16,7 +16,6 @@ import { useNavigate } from "react-router-dom";
 const AuthForm = styled.div`
   min-width: 300px;
   max-width: 1200px;
-
 `;
 
 const Label = styled.div`
@@ -99,9 +98,12 @@ const Register = () => {
       confirmPassword: authInfo.confirmPassword,
       agree: authInfo.agree,
     };
-    await dispatch(signup(data));
-    if (registerStatus === "success") {
+    try {
+      await dispatch(signup(data)).unwrap();
       navigate("/");
+    } catch (e) {
+      console.log("err", e);
+      alert(e.msg);
     }
   };
 
