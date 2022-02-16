@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 // redux
 import { useSelector, useDispatch } from "react-redux";
 import { login } from "../reducers/slices/authSlice";
+import { logout } from "../reducers/slices/authSlice";
 
 // styled-components
 import styled from "styled-components";
@@ -11,6 +12,10 @@ import { Button, Input, FlexContainer } from "../Styles/theme.js";
 
 // react-router-dom
 import { useNavigate } from "react-router-dom";
+
+// axios with auth
+import axiosInstance from "../utils/axiosInstance";
+const API_URL = "http://localhost:8090";
 
 // style
 const Label = styled.div`
@@ -27,7 +32,8 @@ const SubmitButton = styled(Button)`
 const Leave = () => {
     const navigate = useNavigate();
     const isAuth = useSelector(state => state.auth.isAuth);
-    const email = useSelector(state => state.auth.user.sub);
+    const email = useSelector(state => state.auth.user?.user?.sub);
+    const userId = useSelector(state => state.auth.user?.user?.userId);
     const dispatch = useDispatch();
 
     const [showError, setShowError] = useState("");
@@ -49,8 +55,16 @@ const Leave = () => {
                 password: authInfo.password,
             };
             if(window.confirm("정말로 탈퇴할까요? 데이터는 다시 복구되지 않습니다. 신중히 선택해주세요.")) {
-                alert("탈퇴가 완료되었습니다.") // 현재는 메시지만 출력하고 아직은 실제로 탈퇴 진행되지 않음.
-                // await dispatch(login(data));
+                try {
+                    const ers = await dispatch(login(data)).unwrap();
+                    console.log("rs", ers);
+                    await axiosInstance.delete(`${API_URL}/v1/users/${userId}`);
+                    alert("탈퇴가 완료되었습니다.");
+                    dispatch(logout());
+                    navigate("/");
+                } catch (e) {
+                    alert("틀린 비밀번호를 입력했습니다. 비밀번호를 확인해주세요.");
+                }
             } else {
                 alert("취소합니다.");
                 navigate("/mypage");    // 취소하고 마이페이지로 복귀
