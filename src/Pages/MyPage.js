@@ -16,6 +16,11 @@ import { Button, Input, Container } from "../Styles/theme.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 
+// axios with auth
+import axiosInstance from "../utils/axiosInstance";
+
+import { API_URL } from "../config";
+
 import noneProfileImg from "../images/none_profile_image.png";
 
 // style
@@ -72,8 +77,14 @@ const MyPage = () => {
   const isAuth = useSelector(state => state.auth.isAuth);
   const nickname = useSelector(state => state.auth.user.user.nickname);
   const profileImg = useSelector(state => state.auth.user.user.profileImage);
-  const email = useSelector(state => state.auth.user.user.sub);
+  const email = useSelector(state => state.auth.user?.user?.sub);
+  const userId = useSelector(state => state.auth.user?.user?.userId);
   const dispatch = useDispatch();
+
+  const [isNicknameChange, setIsNicknameChange] = useState(false);
+  const [isIntroduceChange, setIsIntroduceChange] = useState(false);
+
+  const [newNicknameValue, setNewNicknameValue] = useState("");
 
   useEffect(() => {
     if (!isAuth) {
@@ -82,6 +93,16 @@ const MyPage = () => {
   }, []);
 
   const buttonClick = () => alert("버튼 클릭 임시 함수");
+
+  const onChangeNickname = e => setNewNicknameValue(e.currentTarget.value);
+
+  const changeNickname = () => {
+    const data = {
+      nickname : newNicknameValue
+    }
+    axiosInstance.put(`${API_URL}/v1/users/${userId}`, data);
+    setIsNicknameChange(false);
+  }
 
   return (
     <MyPageWrapper>
@@ -115,10 +136,19 @@ const MyPage = () => {
         {/* 자기소개 */}
         <div>
           <div className="nicknameArea">
-            <h1>{nickname}</h1>{" "}
-            <Link to="" className="editIcon" onClick={buttonClick}>
-              <FontAwesomeIcon icon={faPen} />
-            </Link>
+            {!isNicknameChange ? (
+              <>
+                <h1>{nickname}</h1>
+                <Link to="" className="editIcon" onClick={() => setIsNicknameChange(true)}>
+                  <FontAwesomeIcon icon={faPen} />
+                </Link>
+              </>
+            ) : (
+              <form onSubmit={changeNickname}>
+                <Input type="text" name="nickname" onChange={onChangeNickname} />
+                <button type="submit">확인</button>
+              </form>
+            )}
           </div>
           <div className="introductionArea flex flex-ai-c">
             <h2>자기소개</h2>{" "}
@@ -139,7 +169,7 @@ const MyPage = () => {
           <input type="checkbox" />
         </div>
         <div className="flex flex-jc-c">
-          <Link to="/leave" onClick={buttonClick} className="linkBtn">
+          <Link to="/leave" className="linkBtn">
             회원 탈퇴
           </Link>
         </div>
