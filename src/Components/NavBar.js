@@ -9,11 +9,17 @@ import UserMenu from "./UserMenu";
 
 // image
 import logoImg from "../images/logo.png";
+// icon
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 
 function NavBar() {
   return (
     <nav>
       <div id="content">
+        <div id="menu-btn">
+          <FontAwesomeIcon icon={faBars} />
+        </div>
         <div id="logo">
           <Link to="/">
             <img src={logoImg} alt="import-H" />
