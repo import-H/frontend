@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 // redux
 import { useDispatch, useSelector } from "react-redux";
+import { getProfile } from "../reducers/slices/userSlice";
 
 // styled-components
 import styled from "styled-components";
@@ -69,19 +70,15 @@ const MyPageWrapper = styled(Container)`
 
 const MyPage = () => {
   const navigate = useNavigate();
-  const isAuth = useSelector(state => state.auth.isAuth);
-  const nickname = useSelector(state => state.auth.user.user.nickname);
-  const profileImg = useSelector(state => state.auth.user.user.profileImage);
-  const email = useSelector(state => state.auth.user.user.sub);
+
+  const user = useSelector(state => state.auth.user);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (!isAuth) {
-      navigate("/");
-    }
-  }, []);
-
   const buttonClick = () => alert("버튼 클릭 임시 함수");
+
+  useEffect(() => {
+    dispatch(getProfile(user.userId));
+  }, []);
 
   return (
     <MyPageWrapper>
@@ -91,10 +88,10 @@ const MyPage = () => {
         <div className="profileImgArea">
           {/* profile image */}
           <div>
-            {profileImg === "N" ? (
+            {user.profileImage === "N" ? (
               <img src={noneProfileImg} width="100" height="100" />
             ) : (
-              <img src={profileImg} width="100" height="100" />
+              <img src={user.profileImage} width="100" height="100" />
             )}
           </div>
           <div className="EditbuttonArea">
@@ -115,7 +112,7 @@ const MyPage = () => {
         {/* 자기소개 */}
         <div>
           <div className="nicknameArea">
-            <h1>{nickname}</h1>{" "}
+            <h1>{user.nickname}</h1>{" "}
             <Link to="" className="editIcon" onClick={buttonClick}>
               <FontAwesomeIcon icon={faPen} />
             </Link>
@@ -132,7 +129,7 @@ const MyPage = () => {
       <div id="infoArea">
         <div className="element">
           <span className="sub">이메일</span>
-          <span className="result">{email}</span>
+          <span className="result">{user.email}</span>
         </div>
         <div className="element">
           <span className="sub">이메일 수신 설정</span>
