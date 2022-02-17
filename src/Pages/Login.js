@@ -53,7 +53,7 @@ const Login = () => {
 
       try {
         const ers = await dispatch(login(data)).unwrap();
-        console.log("rs", ers);
+        //console.log("rs", ers);
         navigate("/");
       } catch (e) {
         alert(e.msg);
