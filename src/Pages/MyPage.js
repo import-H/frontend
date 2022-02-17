@@ -20,7 +20,7 @@ import noneProfileImg from "../images/none_profile_image.png"
 
 // style
 const MyPageWrapper = styled(Container)`
-  & .profileImgArea{
+  & .profileImgArea{    
     margin-right: 1.5rem;
     & .EditbuttonArea{
       margin-top: 0.5rem;
@@ -120,7 +120,7 @@ const MyPage = () => {
               <span className="sub">이메일 수신 설정</span>
               <input type="checkbox" />
             </div>
-            <div>
+            <div className="flex flex-jc-c">
               <Link to="" onClick={buttonClick} className="linkBtn">회원 탈퇴</Link>
             </div>
           </div>
