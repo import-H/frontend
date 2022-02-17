@@ -74,13 +74,9 @@ const MyPageWrapper = styled(Container)`
 `;
 
 const MyPage = () => {
-  const navigate = useNavigate();
-  const isAuth = useSelector(state => state.auth.isAuth);
-  const nickname = useSelector(state => state.auth.user.user.nickname);
-  const profileImg = useSelector(state => state.auth.user.user.profileImage);
-  const email = useSelector(state => state.auth.user?.user?.sub);
-  const userId = useSelector(state => state.auth.user?.user?.userId);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const user = useSelector(state => state.auth.user);
 
   const [isNicknameChange, setIsNicknameChange] = useState(false);
   const [isIntroduceChange, setIsIntroduceChange] = useState(false);
@@ -99,19 +95,19 @@ const MyPage = () => {
 
   const changeNickname = () => {
     const data = {
-      nickname : newNicknameValue
-    }
+      nickname: newNicknameValue,
+    };
     axiosInstance.put(`${API_URL}/v1/users/${userId}`, data);
     setIsNicknameChange(false);
-  }
+  };
   const changeIntroduce = () => {
     const data = {
-      nickname : nickname,
-      introduction : newIntroduceValue
-    }
+      nickname: nickname,
+      introduction: newIntroduceValue,
+    };
     axiosInstance.put(`${API_URL}/v1/users/${userId}`, data);
     setIsIntroduceChange(false);
-  }
+  };
 
   return (
     <MyPageWrapper>
@@ -147,14 +143,22 @@ const MyPage = () => {
           <div className="nicknameArea">
             {!isNicknameChange ? (
               <>
-                <h1>{nickname}</h1>
-                <Link to="" className="editIcon" onClick={() => setIsNicknameChange(true)}>
+                <h1>{user.nickname}</h1>
+                <Link
+                  to=""
+                  className="editIcon"
+                  onClick={() => setIsNicknameChange(true)}
+                >
                   <FontAwesomeIcon icon={faPen} />
                 </Link>
               </>
             ) : (
               <form onSubmit={changeNickname}>
-                <Input type="text" name="nickname" onChange={onChangeNickname} />
+                <Input
+                  type="text"
+                  name="nickname"
+                  onChange={onChangeNickname}
+                />
                 <button type="submit">확인</button>
               </form>
             )}
@@ -163,13 +167,20 @@ const MyPage = () => {
             {!isIntroduceChange ? (
               <>
                 <h2>자기소개</h2>{" "}
-                <Link to="" className="editIcon" onClick={() => setIsIntroduceChange(true)}>
+                <div
+                  className="editIcon"
+                  onClick={() => setIsIntroduceChange(true)}
+                >
                   <FontAwesomeIcon icon={faPen} />
-                </Link>
+                </div>
               </>
             ) : (
               <form onSubmit={changeIntroduce}>
-                <Input type="text" name="nickname" onChange={onChangeIntroduce} />
+                <Input
+                  type="text"
+                  name="nickname"
+                  onChange={onChangeIntroduce}
+                />
                 <button type="submit">확인</button>
               </form>
             )}
@@ -180,7 +191,7 @@ const MyPage = () => {
       <div id="infoArea">
         <div className="element">
           <span className="sub">이메일</span>
-          <span className="result">{user.email}</span>
+          <span className="result">{user.sub}</span>
         </div>
         <div className="element">
           <span className="sub">이메일 수신 설정</span>
