@@ -85,6 +85,7 @@ const MyPage = () => {
   const [isIntroduceChange, setIsIntroduceChange] = useState(false);
 
   const [newNicknameValue, setNewNicknameValue] = useState("");
+  const [newIntroduceValue, setNewIntroduceValue] = useState("");
 
   useEffect(() => {
     if (!isAuth) {
@@ -95,6 +96,7 @@ const MyPage = () => {
   const buttonClick = () => alert("버튼 클릭 임시 함수");
 
   const onChangeNickname = e => setNewNicknameValue(e.currentTarget.value);
+  const onChangeIntroduce = e => setNewIntroduceValue(e.currentTarget.value);
 
   const changeNickname = () => {
     const data = {
@@ -102,6 +104,14 @@ const MyPage = () => {
     }
     axiosInstance.put(`${API_URL}/v1/users/${userId}`, data);
     setIsNicknameChange(false);
+  }
+  const changeIntroduce = () => {
+    const data = {
+      nickname : nickname,
+      introduction : newIntroduceValue
+    }
+    axiosInstance.put(`${API_URL}/v1/users/${userId}`, data);
+    setIsIntroduceChange(false);
   }
 
   return (
@@ -151,10 +161,19 @@ const MyPage = () => {
             )}
           </div>
           <div className="introductionArea flex flex-ai-c">
-            <h2>자기소개</h2>{" "}
-            <Link to="" className="editIcon" onClick={buttonClick}>
-              <FontAwesomeIcon icon={faPen} />
-            </Link>
+            {!isIntroduceChange ? (
+              <>
+                <h2>자기소개</h2>{" "}
+                <Link to="" className="editIcon" onClick={() => setIsIntroduceChange(true)}>
+                  <FontAwesomeIcon icon={faPen} />
+                </Link>
+              </>
+            ) : (
+              <form onSubmit={changeIntroduce}>
+                <Input type="text" name="nickname" onChange={onChangeIntroduce} />
+                <button type="submit">확인</button>
+              </form>
+            )}
           </div>
         </div>
       </div>
