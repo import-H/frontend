@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import { API_URL } from "../../config";
+//import { getUser } from "./userSlice";
 
 // 임시로 refreshToken도 여기에 저장해둠
 
@@ -65,6 +66,11 @@ const slice = createSlice({
   name: "auth",
   initialState,
   reducers: {
+    updateUser: state => {
+      state.user = jwt_decode(
+        JSON.parse(localStorage.getItem("authTokens")).accessToken,
+      );
+    },
     logout: (state, action) => {},
   },
   extraReducers: builder => {
@@ -94,4 +100,6 @@ const slice = createSlice({
   },
 });
 
-export default slice.reducer;
+const { actions, reducer } = slice;
+export const { updateUser } = actions;
+export default reducer;
