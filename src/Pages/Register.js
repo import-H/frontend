@@ -41,7 +41,7 @@ const AuthInput = styled(Input)`
 
 const ErrorMsg = styled.div`
   display: flex;
-  align-itmes: center;
+  align-items: center;
   margin-top: 1rem;
   margin-bottom: 1rem;
   color: red;
@@ -73,6 +73,7 @@ const Register = () => {
     nickname: "",
     password: "",
     confirmPassword: "",
+    pathId: "",
     agree: false,
   });
 
@@ -81,6 +82,7 @@ const Register = () => {
     password: "",
     confirmPassword: "",
     nickname: "",
+    pathId: "",
   });
 
   // 유효성 검사에 사용됨
@@ -96,6 +98,7 @@ const Register = () => {
       nickname: authInfo.nickname,
       password: authInfo.password,
       confirmPassword: authInfo.confirmPassword,
+      pathId: authInfo.pathId,
       agree: authInfo.agree,
     };
     try {
@@ -108,10 +111,10 @@ const Register = () => {
   };
 
   // input에 변경이 생겼을 경우, 발생하는 이벤트
-  const onChange = async e => {
+  const onChange = e => {
     const { value, name } = e.target;
     if (name === "agree") setAuthInfo({ ...authInfo, [name]: !authInfo.agree });
-    else await setAuthInfo({ ...authInfo, [name]: value });
+    else setAuthInfo({ ...authInfo, [name]: value });
 
     if (name === "password") {
       if (value.length < 8)
@@ -146,6 +149,22 @@ const Register = () => {
     if (name === "confirmPassword") {
       if (authInfo.password !== value) {
         setErrorInfo({ ...errorInfo, [name]: "비밀번호가 일치하지 않습니다." });
+      } else setErrorInfo({ ...errorInfo, [name]: "" });
+    }
+
+    if (name === "pathId") {
+      const regExp = /[^a-zA-Z0-9]+/gi;
+
+      if (value.length < 3 || value.length > 15)
+        setErrorInfo({
+          ...errorInfo,
+          [name]: "id는 3자~15자 사이여야 합니다.",
+        });
+      else if (regExp.test(value)) {
+        setErrorInfo({
+          ...errorInfo,
+          [name]: "id는 영문과 숫자로만 이루어져야 합니다.",
+        });
       } else setErrorInfo({ ...errorInfo, [name]: "" });
     }
   };
@@ -197,6 +216,16 @@ const Register = () => {
           onChange={onChange}
           valid={errorInfo.nickname}
         />
+        <ErrorMsg></ErrorMsg>
+        <Label>개인페이지 id</Label>
+        <AuthInput
+          type="text"
+          name="pathId"
+          onChange={onChange}
+          valid={errorInfo.pathId}
+          placeholder="개인 페이지에 사용될 id를 입력해주세요(영문)"
+        />
+        <ErrorMsg>{errorInfo.pathId}</ErrorMsg>
         <CheckboxArea>
           <CheckInput type="checkbox" name="agree" onChange={onChange} />
           <Label>주 1회 이상 활동하실 계획이 있으시면 체크해주세요.</Label>
