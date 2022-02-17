@@ -62,7 +62,7 @@ export const logout = createAsyncThunk(
 );
 
 const slice = createSlice({
-  name: "sample",
+  name: "auth",
   initialState,
   reducers: {
     logout: (state, action) => {},
@@ -95,15 +95,3 @@ const slice = createSlice({
 });
 
 export default slice.reducer;
-
-export function refresh() {
-  return async dispatch => {
-    dispatch(slice.actions.startLoading());
-
-    try {
-    } catch (e) {
-      console.log(e);
-      dispatch(slice.actions.hasError(e));
-    }
-  };
-}
