@@ -9,6 +9,15 @@ import axiosInstance from "../utils/axiosInstance";
 import { sampleBanner } from "../Components/Banner";
 import { getBanner } from "../reducers/slices/mainSlice";
 
+const AdminContainer = styled(Container)`
+    & .sec-tit{
+     font-size: 2.8rem;
+    text-align: center;
+    margin-bottom: 3rem;
+    font-weight: 500;
+  }
+`;
+
 const ImgInput = styled.input`
   position: relative;
   bottom: -0.5rem;
@@ -83,16 +92,18 @@ const Content = styled.div`
   margin-left: 1.5rem;
   position: relative;
   top: -1rem;
+
+
   input {
-    padding: 2px;
+    padding:5px 7px;
     outline: none;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 4px;
   }
   textarea {
     padding: 2px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 4px;
   }
 
   & .title {
@@ -114,6 +125,7 @@ const Content = styled.div`
     margin-bottom: 3rem;
     resize: none;
     height: 5rem;
+    padding: 5px 7px;
   }
 
   & .author {
@@ -217,7 +229,7 @@ const Admin = () => {
   }, []);
 
   return (
-    <Container>
+    <AdminContainer>
       <GlobalStyle />
       <div
         style={{
@@ -226,7 +238,7 @@ const Admin = () => {
           width: "100%",
         }}
       >
-        <div>관리자 페이지</div>
+        <div class="sec-tit">관리자 페이지</div>
 
         <Slice>
           {banners.map(banner => (
@@ -326,7 +338,7 @@ const Admin = () => {
           </Setting>
         </Slice>
       </div>
-    </Container>
+    </AdminContainer>
   );
 };
 
