@@ -16,7 +16,8 @@ import {
   PersonalBoard,
   MyPage,
   Admin,
-  Leave
+  Leave,
+  UserList,
 } from "./Pages";
 import NavBar from "./Components/NavBar";
 import WritePost from "./Components/WritePost";
@@ -50,7 +51,7 @@ ReactDOM.render(
           <Route path="/board/:id" element={<Board />} />
           <Route path="/write/:id" element={<WritePost />} />
           <Route path="/edit/:boardId/:postId" element={<EditPost />} />
-          <Route path="/posts" element={<PersonalBoard />} />
+          <Route path="/posts" element={<UserList />} />
           {/* <Route path="/posts/:personId" element={<PersonalBoard />} /> */}
           <Route path="/board/:boardId/:postId" element={<Post />} />
           <Route path="/mypage" element={<MyPage />} />
