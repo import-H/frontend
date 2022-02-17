@@ -12,10 +12,28 @@ import { Button, Input, FlexContainer } from "../Styles/theme";
 
 // react-router-dom
 import { useNavigate } from "react-router-dom";
+import { useCounter } from "../utils/Timer";
 
 const AuthForm = styled.div`
   min-width: 300px;
   max-width: 1200px;
+  & .email-area {
+    display: flex;
+    flex-direction: row;
+
+    & input {
+      flex: 5;
+    }
+    & .email-btn {
+      cursor: pointer;
+      font-size: 1.3rem;
+      text-decoration: underline;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+    }
+  }
 `;
 
 const Label = styled.div`
@@ -64,6 +82,9 @@ const Register = () => {
   const dispatch = useDispatch();
   const registerStatus = useSelector(state => state.auth?.status);
   const navigate = useNavigate();
+
+  const [authEmail, setAuthEmail] = useState(false);
+  const { count, start, stop } = useCounter(3, 1000);
 
   // 회원가입 form를 모두 입력했을 때, true로 바뀜
   const [submitState, setSubmitState] = useState(false);
@@ -169,6 +190,11 @@ const Register = () => {
     }
   };
 
+  const LeftTime = () => {
+    start();
+    setAuthEmail(true);
+  };
+
   // authInfo와 errorInfo를 감지해 submitState 상태 수정
   useEffect(() => {
     if (
@@ -186,13 +212,27 @@ const Register = () => {
       <GlobalStyle />
       <AuthForm>
         <Label>이메일</Label>
-        <AuthInput
-          type="text"
-          name="email"
-          onChange={onChange}
-          valid={errorInfo.email}
-        />
+        <div className="email-area">
+          <AuthInput
+            type="text"
+            name="email"
+            onChange={onChange}
+            valid={errorInfo.email}
+          />
+          <div className="email-btn" onClick={LeftTime}>
+            인증
+          </div>
+
+          <div>
+            {parseInt(count / 60000)}:{count % 60000}
+          </div>
+        </div>
         <ErrorMsg>{errorInfo.email}</ErrorMsg>
+        {authEmail && (
+          <div style={{ marginBottom: "5rem" }}>
+            <AuthInput type="text" name="emailConfirm" valid={""} />
+          </div>
+        )}
         <Label>비밀번호</Label>
         <AuthInput
           type="password"
