@@ -6,7 +6,8 @@ import { useNavigate } from "react-router-dom";
 
 // redux
 import { useDispatch, useSelector } from "react-redux";
-import { getProfile } from "../reducers/slices/userSlice";
+import { getProfile, editProfile } from "../reducers/slices/userSlice";
+import { updateUser } from "../reducers/slices/authSlice";
 
 // styled-components
 import styled from "styled-components";
@@ -77,6 +78,7 @@ const MyPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector(state => state.auth.user);
+  const profileInfo = useSelector(state => state.user.profile);
 
   const [isNicknameChange, setIsNicknameChange] = useState(false);
   const [isIntroduceChange, setIsIntroduceChange] = useState(false);
@@ -95,32 +97,39 @@ const MyPage = () => {
   };
   const onChangeIntroduce = e => setNewIntroduceValue(e.currentTarget.value);
 
-  const changeNickname = e => {
+  const changeNickname = async e => {
     e.preventDefault();
-    const data = {
+    const userData = {
       nickname: newNicknameValue,
+      introduction: profileInfo.introduction,
+      personalUrl: profileInfo.personalUrl,
+      infoByEmail: profileInfo.infoByEmail,
+      infoByWeb: profileInfo.infoByWeb,
     };
-    axiosInstance.put(`${API_URL}/v1/users/${user.userId}`, data);
+    await dispatch(editProfile({ userId: user.userId, userData }));
+    await dispatch(updateUser());
     setIsNicknameChange(false);
   };
   const changeIntroduce = async e => {
     e.preventDefault();
-    const data = {
-      nickname: "테스트5",
+    const userData = {
+      nickname: profileInfo.nickname,
       introduction: newIntroduceValue,
-      personalUrl: "http://cafe.naver.com",
-      infoByEmail: true,
-      infoByWeb: true,
+      personalUrl: profileInfo.personalUrl,
+      infoByEmail: profileInfo.infoByEmail,
+      infoByWeb: profileInfo.infoByWeb,
     };
-    try {
-      const res = await axiosInstance.put(
-        `${API_URL}/v1/users/${user.userId}`,
-        data,
-      );
-      console.log(res);
-    } catch (e) {
-      console.log(e.response);
-    }
+    await dispatch(editProfile({ userId: user.userId, userData }));
+    await dispatch(updateUser());
+    // try {
+    //   const res = await axiosInstance.put(
+    //     `${API_URL}/v1/users/${user.userId}`,
+    //     data,
+    //   );
+    //   console.log(res);
+    // } catch (e) {
+    //   console.log(e.response);
+    // }
     setIsIntroduceChange(false);
   };
 
