@@ -7,7 +7,7 @@ import authReducer from "./slices/authSlice";
 import postReducer from "./slices/postSlice";
 import mainReducer from "./slices/mainSlice";
 import adminReducer from "./slices/adminSlice";
-import sampleAuthReudcer from "./slices/sampleAuthSlice";
+import userReducer from "./slices/userSlice";
 
 //https://edvins.io/how-to-use-redux-persist-with-redux-toolkit 참고
 
@@ -28,9 +28,9 @@ const persistConfig = {
 const reducers = combineReducers({
   auth: authReducer, // authSlice
   post: postReducer, // postSlice
-  sample: sampleAuthReudcer,
   main: mainReducer,
   admin: adminReducer,
+  user: userReducer,
 });
 
 const rootReducer = (state, action) => {
