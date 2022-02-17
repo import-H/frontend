@@ -90,22 +90,37 @@ const MyPage = () => {
 
   const buttonClick = () => alert("버튼 클릭 임시 함수");
 
-  const onChangeNickname = e => setNewNicknameValue(e.currentTarget.value);
+  const onChangeNickname = e => {
+    setNewNicknameValue(e.currentTarget.value);
+  };
   const onChangeIntroduce = e => setNewIntroduceValue(e.currentTarget.value);
 
-  const changeNickname = () => {
+  const changeNickname = e => {
+    e.preventDefault();
     const data = {
       nickname: newNicknameValue,
     };
-    axiosInstance.put(`${API_URL}/v1/users/${userId}`, data);
+    axiosInstance.put(`${API_URL}/v1/users/${user.userId}`, data);
     setIsNicknameChange(false);
   };
-  const changeIntroduce = () => {
+  const changeIntroduce = async e => {
+    e.preventDefault();
     const data = {
-      nickname: nickname,
+      nickname: "테스트5",
       introduction: newIntroduceValue,
+      personalUrl: "http://cafe.naver.com",
+      infoByEmail: true,
+      infoByWeb: true,
     };
-    axiosInstance.put(`${API_URL}/v1/users/${userId}`, data);
+    try {
+      const res = await axiosInstance.put(
+        `${API_URL}/v1/users/${user.userId}`,
+        data,
+      );
+      console.log(res);
+    } catch (e) {
+      console.log(e.response);
+    }
     setIsIntroduceChange(false);
   };
 
@@ -125,15 +140,14 @@ const MyPage = () => {
           </div>
           <div className="EditbuttonArea">
             {/* profile image edit button */}
-            <Link
-              to=""
+            <div
               className="linkBtn"
               style={{ marginBottom: "3%" }}
               onClick={buttonClick}
             >
               사진 변경
-            </Link>
-            <Link to="" div className="linkBtn" onClick={buttonClick}>
+            </div>
+            <Link to="" className="linkBtn" onClick={buttonClick}>
               사진 삭제
             </Link>
           </div>
@@ -144,13 +158,12 @@ const MyPage = () => {
             {!isNicknameChange ? (
               <>
                 <h1>{user.nickname}</h1>
-                <Link
-                  to=""
+                <div
                   className="editIcon"
                   onClick={() => setIsNicknameChange(true)}
                 >
                   <FontAwesomeIcon icon={faPen} />
-                </Link>
+                </div>
               </>
             ) : (
               <form onSubmit={changeNickname}>
