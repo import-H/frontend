@@ -22,7 +22,7 @@ export const login = createAsyncThunk(
       localStorage.setItem("authTokens", JSON.stringify(response.data.data));
       const userData = jwt_decode(response.data.data.accessToken);
       console.log(response.data.data, userData);
-      return { user: userData };
+      return userData;
     } catch (err) {
       let error = err; // cast the error for access
       if (!error.response) {
