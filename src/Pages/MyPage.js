@@ -20,18 +20,18 @@ import noneProfileImg from "../images/none_profile_image.png";
 
 // style
 const MyPageWrapper = styled(Container)`
-  & .profileImgArea{
+  & .profileImgArea {
     margin-right: 1.5rem;
-    & .EditbuttonArea{
+    & .EditbuttonArea {
       margin-top: 0.5rem;
     }
   }
 
-  & .nicknameArea{
+  & .nicknameArea {
     margin-bottom: 1rem;
   }
 
-  & .introductionArea{
+  & .introductionArea {
     color: #aaa;
 
     & h2 {
@@ -39,18 +39,18 @@ const MyPageWrapper = styled(Container)`
       margin-right: 5px;
     }
 
-    & .editIcon{
+    & .editIcon {
       padding: 5px;
       color: #333;
       transition: all 0.3s;
-      &:hover{
+      &:hover {
         color: var(--point-color-orange);
       }
     }
   }
 
   & #infoArea {
-    margin-top: 5%; 
+    margin-top: 5%;
 
     & .element {
       display: flex;
@@ -65,7 +65,6 @@ const MyPageWrapper = styled(Container)`
       }
     }
   }
-  
 `;
 
 const MyPage = () => {
@@ -77,55 +76,76 @@ const MyPage = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if(!isAuth) {
+    if (!isAuth) {
       navigate("/");
     }
-  }, [])
+  }, []);
 
-  const buttonClick = () => alert('버튼 클릭 임시 함수');
+  const buttonClick = () => alert("버튼 클릭 임시 함수");
 
   return (
-      <MyPageWrapper >
-          <GlobalStyle />
-          {/* User Info */}
-          <div className="flex flex-jc-c">
-            <div className="profileImgArea">
-              {/* profile image */}
-              <div>
-                {profileImg === "N" ? (
-                  <img src={noneProfileImg} width="100" height="100" />
-                ): (
-                  <img src={profileImg} width="100" height="100" />
-                )}
-              </div>
-              <div className="EditbuttonArea">
-                {/* profile image edit button */}
-                <Link to="" className="linkBtn" style={{marginBottom: "3%"}} onClick={buttonClick}>사진 변경</Link>
-                <Link to="" div className="linkBtn" onClick={buttonClick}>사진 삭제</Link>
-              </div>
-            </div>
-            {/* 자기소개 */}
-            <div>
-              <div className="nicknameArea"><h1>{nickname}</h1> <Link to="" className="editIcon" onClick={buttonClick}><FontAwesomeIcon icon={faPen} /></Link></div>
-              <div className="introductionArea flex flex-ai-c"><h2>자기소개</h2> <Link to="" className="editIcon" onClick={buttonClick}><FontAwesomeIcon icon={faPen} /></Link></div>
-            </div>
+    <MyPageWrapper>
+      <GlobalStyle />
+      {/* User Info */}
+      <div className="flex flex-jc-c">
+        <div className="profileImgArea">
+          {/* profile image */}
+          <div>
+            {profileImg === "N" ? (
+              <img src={noneProfileImg} width="100" height="100" />
+            ) : (
+              <img src={profileImg} width="100" height="100" />
+            )}
           </div>
-          {/* 추가코드 이 밑으로 입력 */}
-          <div id="infoArea">
-            <div className="element">
-              <span className="sub">이메일</span>
-              <span className="result">{email}</span>
-            </div>
-            <div className="element">
-              <span className="sub">이메일 수신 설정</span>
-              <input type="checkbox" />
-            </div>
-            <div>
-              <Link to="/leave" className="linkBtn">회원 탈퇴</Link>
-            </div>
+          <div className="EditbuttonArea">
+            {/* profile image edit button */}
+            <Link
+              to=""
+              className="linkBtn"
+              style={{ marginBottom: "3%" }}
+              onClick={buttonClick}
+            >
+              사진 변경
+            </Link>
+            <Link to="" div className="linkBtn" onClick={buttonClick}>
+              사진 삭제
+            </Link>
           </div>
-      </MyPageWrapper>
-  )
-}
+        </div>
+        {/* 자기소개 */}
+        <div>
+          <div className="nicknameArea">
+            <h1>{nickname}</h1>{" "}
+            <Link to="" className="editIcon" onClick={buttonClick}>
+              <FontAwesomeIcon icon={faPen} />
+            </Link>
+          </div>
+          <div className="introductionArea flex flex-ai-c">
+            <h2>자기소개</h2>{" "}
+            <Link to="" className="editIcon" onClick={buttonClick}>
+              <FontAwesomeIcon icon={faPen} />
+            </Link>
+          </div>
+        </div>
+      </div>
+      {/* 추가코드 이 밑으로 입력 */}
+      <div id="infoArea">
+        <div className="element">
+          <span className="sub">이메일</span>
+          <span className="result">{email}</span>
+        </div>
+        <div className="element">
+          <span className="sub">이메일 수신 설정</span>
+          <input type="checkbox" />
+        </div>
+        <div className="flex flex-jc-c">
+          <Link to="/leave" onClick={buttonClick} className="linkBtn">
+            회원 탈퇴
+          </Link>
+        </div>
+      </div>
+    </MyPageWrapper>
+  );
+};
 
 export default MyPage;

@@ -22,6 +22,10 @@ const GlobalStyle = createGlobalStyle`
         font-family: 'Poppins', 'Noto Sans KR' , 'sans-serif';
         color: #333;
         background-color: #fefefe;
+
+        @media (max-width: 1200px){
+          font-size: 9px;
+        }
     }
 
     /* lib */
@@ -101,11 +105,25 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    transition:  all 0.3s;
+    @media (max-width: 1200px){
+      padding: 0 25px; 
+    }
+    @media (max-width: 768px){
+      padding: 0 20px;
+    }
   }
   header #logo a {
     flex-grow: 2;
     display: flex;
     align-items: center;
+  }
+  header #logo img{
+    transition: all 0.3s;
+    @media (max-width: 1200px){
+      width: 100px;
+      margin-top: 4px;
+    }
   }
   header #logo a,
   header #log a,
@@ -116,12 +134,24 @@ header {
     flex-grow: 1;
     display: flex;
     justify-content: right;
+    @media (max-width: 768px){
+      flex-grow: 0;
+    }
   }
   header #log .element {
     float: left;
-  }
-  header #log .element:first-child {
     margin-right: 10px;
+    @media (max-width: 768px){
+      &:first-child{
+        margin-right: 0;
+      }
+      &:not(:first-of-type){
+        display: none;
+      }
+    }
+  }
+  header #log .element:last-child {
+    margin-right: 0px;
   }
 
  
@@ -129,20 +159,57 @@ header {
   
   header #navMenu {
     margin-left: 5rem;
-    flex-grow: 4;
-  
+    flex-grow: 4;  
     display: flex;
-  }
-  
-  header #navMenu a {
-    font-size: 1.4em;
-    padding: 1rem 2rem;
     transition: all 0.3s;
+
+    & a{
+      font-size: 1.4em;
+      padding: 1rem 2rem;
+      transition: all 0.3s;
+      &:hover{
+        color: var(--secondary-color);
+      }
+    }
+    @media (max-width: 1200px){
+      margin-left: 3rem;
+    }
+    @media (max-width: 768px){
+      display: block;
+      margin-left: 0;
+     position: fixed;
+     min-width: 320px;
+     width: 80%;
+     height: 100vh;
+     z-index: 9999;
+     top: 0;
+     left: -100%;
+     padding: 20px;
+      transition: all 0.3s;
+      background: #fff;
+      box-shadow: 5px 0px 10px rgba(0,0,0,0.15);
+      & a{
+        display: block;
+        padding: 10px 0;
+        font-size: 1.7em;
+        font-weight: 600;
+      }
+    }
   }
 
-  header #navMenu a:hover{
-    color: var(--secondary-color);
-  }
+
+  /* mobile header */
+ #menu-btn{
+   display: none;
+   @media(max-width: 768px){
+     display: block;
+     font-size: 2.4em;
+     margin-top: 3px;
+     cursor: pointer;
+     color: #aaa;
+   }
+ }
+  
 `;
 
 export default GlobalStyle;
