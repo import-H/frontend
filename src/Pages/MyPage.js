@@ -45,14 +45,15 @@ const MyPageWrapper = styled(Container)`
       font-weight: 400;
       margin-right: 5px;
     }
-
-    & .editIcon {
-      padding: 5px;
-      color: #333;
-      transition: all 0.3s;
-      &:hover {
-        color: var(--point-color-orange);
-      }
+  }
+  
+  & .editIcon {
+    padding: 5px;
+    color: #333;
+    transition: all 0.3s;
+    cursor: pointer;
+    &:hover {
+      color: var(--point-color-orange);
     }
   }
 
@@ -163,10 +164,10 @@ const MyPage = () => {
         </div>
         {/* 자기소개 */}
         <div>
-          <div className="nicknameArea">
+          <div className="nicknameArea flex flex-ai-c">
             {!isNicknameChange ? (
               <>
-                <h1>{user.nickname}</h1>
+                <h1>{user.nickname}</h1>{" "}
                 <div
                   className="editIcon"
                   onClick={() => setIsNicknameChange(true)}
