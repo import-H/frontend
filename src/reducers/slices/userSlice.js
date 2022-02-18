@@ -61,13 +61,24 @@ const slice = createSlice({
   extraReducers: {
     // getUser
     [getProfile.pending]: (state, action) => {
-      state.status = "loading";
+      state.check = "loading";
     },
     [getProfile.fulfilled]: (state, action) => {
-      state.status = "success";
+      state.check = "success";
       state.profile = action.payload;
     },
     [getProfile.rejected]: (state, action) => {
+      state.check = "failed";
+      state.error = action.error;
+    },
+    [editProfile.pending]: (state, action) => {
+      state.status = "loading";
+    },
+    [editProfile.fulfilled]: (state, action) => {
+      state.status = "success";
+      state.profile = action.payload;
+    },
+    [editProfile.rejected]: (state, action) => {
       state.status = "failed";
       state.error = action.error;
     },
