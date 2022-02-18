@@ -1,5 +1,5 @@
 // react
-import React from "react";
+import React, { useEffect } from "react";
 
 // react-router-dom
 import { Link } from "react-router-dom";
@@ -27,25 +27,33 @@ const AuthorImg = styled.div`
 `;
 
 import noneProfileImg from "../images/none_profile_image.png";
+import { getProfile } from "../reducers/slices/userSlice";
 
 function UserMenu() {
   const dispatch = useDispatch();
-  const isAuth = useSelector(state => state.auth?.isAuth);
-  const profileImg = useSelector(state => state.user.profile?.profileImage);
+  const auth = useSelector(state => state.auth);
+  const profile = useSelector(state => state.user.profile);
   const logoutBtn = () => {
     dispatch(logout());
   };
+  console.log("pp", profile);
+  useEffect(() => {
+    if (!profile) {
+      dispatch(getProfile(auth.userId));
+    }
+  }, [profile]);
   return (
     <span>
-      {isAuth ? (
+      {auth.isAuth ? (
         <span role="afterLogin">
           <div className="element">
             <Link to="/mypage" data-testid="profileLink">
               <AuthorImg>
-                {profileImg === "N" || profileImg === null ? (
+                {profile?.profileImage === "N" ||
+                profile?.profileImage === null ? (
                   <img src={noneProfileImg} />
                 ) : (
-                  <img src={profileImg} alt="profileImg" />
+                  <img src={profile?.profileImage} alt="profileImg" />
                 )}
               </AuthorImg>
             </Link>
