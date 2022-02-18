@@ -29,6 +29,8 @@ import Comment from "../Components/Comment.js";
 // tools
 import { timeElapsed } from "../utils/tools.js";
 
+import noneProfileImg from "../images/none_profile_image.png";
+
 // sample data
 const samplePost = {
   id: 1,
@@ -195,15 +197,19 @@ const LikeIcon = styled(FontAwesomeIcon)`
 
 // main
 const Post = () => {
-  const { post, status } = useSelector(state => state.post);
+  const status = useSelector(state => state.post.status);
+  const profileInfo = useSelector(state => state.user.profile);
+  const profileImg = profileInfo.profileImage;
+  
+  const [post, setPost] = useState();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const boardId = useParams().boardId;
   const postId = useParams().postId;
 
-  const onDeletePost = async () => {
-    await dispatch(deletePost({ boardId, postId }));
+  const onDeletePost = () => {
+    dispatch(deletePost({ boardId, postId }));
     navigate(-1);
   };
 
@@ -212,22 +218,22 @@ const Post = () => {
   };
 
   useEffect(async () => {
-    await dispatch(
-      getPost({
-        postId: postId,
-        boardId: boardId,
-      }),
-    );
-  }, []);
+    if (status === "success") {
+      try {
+        const postdata = await dispatch(
+          getPost({
+            postId: postId,
+            boardId: boardId,
+          }),
+        ).unwrap();
 
-  useEffect(() => {
-    dispatch(
-      getPost({
-        postId: postId,
-        boardId: boardId,
-      }),
-    );
+        setPost(postdata);
+      } catch (e) {
+        alert(e);
+      }
+    }
   }, [status]);
+
   return (
     <Container>
       <GlobalStyle />
@@ -269,7 +275,13 @@ const Post = () => {
             {/* 작성자 이름 */}
             <div className="authorName">{post.responseInfo.author}</div>
             {/* 프로필 이미지 */}
-            <AuthorImg></AuthorImg>
+            <AuthorImg>
+              {profileImg === "N" || profileImg === null ? (
+                <img src={noneProfileImg} />
+              ) : (
+                <img src={profileImg} alt="profileImg" />
+              )}
+            </AuthorImg>
           </UserInfo>
 
           {/* 댓글 */}

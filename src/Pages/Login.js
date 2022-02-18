@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 // redux
 import { useSelector, useDispatch } from "react-redux";
 import { login } from "../reducers/slices/authSlice";
+import axios from "axios";
 
 // styled-components
 import styled from "styled-components";
@@ -49,7 +50,31 @@ const Login = () => {
         email: authInfo.email,
         password: authInfo.password,
       };
-      await dispatch(login(data));
+
+      try {
+        const ers = await dispatch(login(data)).unwrap();
+        //console.log("rs", ers);
+        navigate("/");
+      } catch (e) {
+        alert(e.msg);
+      }
+
+      // axios
+      //   .post("http://localhost:8090/v1/login", { ...data })
+      //   .then(res => {
+      //     console.log("성공");
+      //   })
+      //   .catch(e => {
+      //     console.log(e.response);
+      //   });
+
+      // try {
+      //   const res = await axios.post("http://localhost:8090/v1/login", {
+      //     ...data,
+      //   });
+      // } catch (e) {
+      //   console.log(e.response);
+      // }
     }
   };
 
@@ -58,13 +83,6 @@ const Login = () => {
     const { value, name } = e.target;
     setAuthInfo({ ...authInfo, [name]: value });
   };
-
-  // isAuth가 true 인 경우(로그인 완료), 랜딩페이지로 이동
-  useEffect(() => {
-    if (isAuth) {
-      navigate("/");
-    }
-  }, [isAuth, navigate]);
 
   return (
     <FlexContainer>

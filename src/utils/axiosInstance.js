@@ -15,7 +15,6 @@ const axiosInstance = axios.create({
 axiosInstance.defaults.headers.common[
   "Authorization"
 ] = `${authTokens?.accessToken}`;
-// localStorage 말고, redux에 접근해서 dispatch와 select를 할 수 있는 방법은 없을까?
 
 axiosInstance.interceptors.request.use(async req => {
   console.log("interceptor is working");
