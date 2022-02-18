@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 // react-router-dom
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, NavigationType } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 // redux
@@ -12,7 +12,11 @@ import { updateUser } from "../reducers/slices/authSlice";
 // styled-components
 import styled from "styled-components";
 import GlobalStyle from "../Styles/Globalstyle.js";
-import { Button, Input, Container } from "../Styles/theme.js";
+import { Input, Container } from "../Styles/theme.js";
+
+// antd
+import "antd/dist/antd.css";
+import { Modal, Button } from 'antd';
 
 // icon
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -78,21 +82,23 @@ const MyPageWrapper = styled(Container)`
 const MyPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const isAuth = useSelector(state => state.auth.isAuth);
   const user = useSelector(state => state.auth.user);
   const profileInfo = useSelector(state => state.user.profile);
   const profileImg = profileInfo.profileImage;
 
   const [isNicknameChange, setIsNicknameChange] = useState(false);
   const [isIntroduceChange, setIsIntroduceChange] = useState(false);
+  const [isProfileImgUpload, setIsProfileImgUpload] = useState(false);
 
   const [newNicknameValue, setNewNicknameValue] = useState("");
   const [newIntroduceValue, setNewIntroduceValue] = useState("");
 
   useEffect(() => {
+    if(!isAuth) navigate("/");
     dispatch(getProfile(user.userId));
   }, []);
-
-  const buttonClick = () => alert("버튼 클릭 임시 함수");
 
   const onChangeNickname = e => {
     setNewNicknameValue(e.currentTarget.value);
@@ -135,6 +141,12 @@ const MyPage = () => {
     setIsIntroduceChange(false);
   };
 
+  const profileImgDelete = () => {
+    if(window.confirm("프로필 사진을 삭제할까요?")) {
+      alert("삭제가 완료되었습니다.");
+    }
+  }
+
   return (
     <MyPageWrapper>
       <GlobalStyle />
@@ -143,6 +155,20 @@ const MyPage = () => {
         <div className="profileImgArea">
           {/* profile image */}
           <div>
+            <Modal
+              visible={isProfileImgUpload}
+              title="프로필 사진 업로드"
+              width={600}
+              onCancel={() => setIsProfileImgUpload(false)}
+              footer={null}
+            >
+              {/* https://enai.tistory.com/37 참고 */}
+              <input type="file" name="profileImg" id="imgFileOpenInput" accept="image/*"></input>
+              <div style={{ marginTop: "3%" }}>
+                <div className="linkBtn element" onClick={() => {alert("업로드가 완료되었습니다."); setIsProfileImgUpload(false)}}>확인</div>
+                <div className="linkBtn element" onClick={() => setIsProfileImgUpload(false)}>취소</div>
+              </div>
+            </Modal>
             {profileImg === "N" || profileImg === null ? (
               <img src={noneProfileImg} width="100" height="100" />
             ) : (
@@ -154,11 +180,11 @@ const MyPage = () => {
             <div
               className="linkBtn"
               style={{ marginBottom: "3%" }}
-              onClick={buttonClick}
+              onClick={() => setIsProfileImgUpload(true)}
             >
               사진 변경
             </div>
-            <Link to="" className="linkBtn" onClick={buttonClick}>
+            <Link to="" className="linkBtn" onClick={profileImgDelete}>
               사진 삭제
             </Link>
           </div>
