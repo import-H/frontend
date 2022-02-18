@@ -80,6 +80,7 @@ const MyPage = () => {
   const navigate = useNavigate();
   const user = useSelector(state => state.auth.user);
   const profileInfo = useSelector(state => state.user.profile);
+  const profileImg = profileInfo.profileImage;
 
   const [isNicknameChange, setIsNicknameChange] = useState(false);
   const [isIntroduceChange, setIsIntroduceChange] = useState(false);
@@ -142,7 +143,7 @@ const MyPage = () => {
         <div className="profileImgArea">
           {/* profile image */}
           <div>
-            {user.profileImage === "N" ? (
+            {profileImg === "N" || profileImg === null ? (
               <img src={noneProfileImg} width="100" height="100" />
             ) : (
               <img src={user.profileImage} width="100" height="100" />
