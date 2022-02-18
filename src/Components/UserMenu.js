@@ -31,7 +31,7 @@ import noneProfileImg from "../images/none_profile_image.png";
 function UserMenu() {
   const dispatch = useDispatch();
   const isAuth = useSelector(state => state.auth?.isAuth);
-  const profileImg = useSelector(state => state.auth.user?.profileImage);
+  const profileImg = useSelector(state => state.user.profile?.profileImage);
   const logoutBtn = () => {
     dispatch(logout());
   };
@@ -42,7 +42,7 @@ function UserMenu() {
           <div className="element">
             <Link to="/mypage" data-testid="profileLink">
               <AuthorImg>
-                {profileImg === "N" || profileImg === undefined ? (
+                {profileImg === "N" || profileImg === null ? (
                   <img src={noneProfileImg} />
                 ) : (
                   <img src={profileImg} alt="profileImg" />
