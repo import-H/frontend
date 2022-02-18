@@ -190,7 +190,7 @@ const MyPage = () => {
           <div className="introductionArea flex flex-ai-c">
             {!isIntroduceChange ? (
               <>
-                <h2>자기소개</h2>{" "}
+                <h2>{profileInfo.introduction === "" ? "자기소개가 없습니다." : profileInfo.introduction}</h2>{" "}
                 <div
                   className="editIcon"
                   onClick={() => setIsIntroduceChange(true)}
