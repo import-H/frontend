@@ -13,15 +13,15 @@ const initialState = {
   status: null,
 };
 // refresh 토큰
-export const refresh = createAsyncThunk("user/refresh", async () => {
-  const authToken = JSON.parse(localStorage.getItem("authTokens"));
-  const response = await axios.post(`${API_URL}/v1/reissue`, {
-    accessToken: authToken.accessToken,
-    refreshToken: authToken.refreshToken,
-  });
+// export const refresh = createAsyncThunk("user/refresh", async () => {
+//   const authToken = JSON.parse(localStorage.getItem("authTokens"));
+//   const response = await axios.post(`${API_URL}/v1/reissue`, {
+//     accessToken: authToken.accessToken,
+//     refreshToken: authToken.refreshToken,
+//   });
 
-  localStorage.setItem("authTokens", JSON.stringify(response.data.data));
-});
+//   localStorage.setItem("authTokens", JSON.stringify(response.data.data));
+// });
 
 // 프로필 가져오기
 export const getProfile = createAsyncThunk("user/getProfile", async userId => {
@@ -38,8 +38,8 @@ export const editProfile = createAsyncThunk(
       `${API_URL}/v1/users/${userId}`,
       userData,
     );
-    const re = await thunkAPI.dispatch(refresh());
-    console.log("re", re);
+    // const re = await thunkAPI.dispatch(refresh());
+    // console.log("re", re);
     return response.data.data;
   },
 );
