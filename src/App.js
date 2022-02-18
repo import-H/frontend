@@ -18,7 +18,7 @@ const App = () => {
         <Banner />
         <Container style={{ marginTop: 0 }}>
           <Main />
-        </Container>        
+        </Container>
       </div>
     </MainContainer>
   );
