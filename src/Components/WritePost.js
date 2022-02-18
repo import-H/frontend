@@ -75,7 +75,7 @@ const WritePost = () => {
     const regex = /!\[Image\]\([\w\/:]+\)/;
   };
 
-  const postSubmit = async e => {
+  const postSubmit = e => {
     e.preventDefault();
 
     const instance = editorRef.current.getInstance().getMarkdown();
@@ -93,7 +93,7 @@ const WritePost = () => {
       content: instance, //setPost에서 content 수정하면 바로 반영안되는 문제로 이렇게 해결함
       images: imgUrls,
     };
-    await dispatch(addPost({ boardId, postData }));
+    dispatch(addPost({ boardId, postData }));
   };
 
   const onTagPush = () => {
