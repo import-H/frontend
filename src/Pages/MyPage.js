@@ -134,8 +134,19 @@ const MyPage = () => {
     setIsIntroduceChange(false);
   };
 
-  const profileImgDelete = () => {
+  const profileImgDelete = async e => {
     if(window.confirm("프로필 사진을 삭제할까요?")) {
+      e.preventDefault();
+      const userData = {
+        nickname: user.nickname,
+        introduction: user.introduction,
+        personalUrl: user.personalUrl,
+        infoByEmail: user.infoByEmail,
+        infoByWeb: user.infoByWeb,
+        profileImage: "N"
+      };
+      dispatch(editProfile({ userId: userId, userData }));
+      dispatch(updateUser());
       alert("삭제가 완료되었습니다.");
     }
   }
