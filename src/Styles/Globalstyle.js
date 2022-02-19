@@ -18,7 +18,7 @@ const GlobalStyle = createGlobalStyle`
         text-decoration: none;
     }
     a{
-      color: black;
+      color: #333;
       &:hover{  
           color: var(--secondary-color)
         }

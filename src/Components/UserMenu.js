@@ -36,12 +36,6 @@ function UserMenu() {
   const logoutBtn = () => {
     dispatch(logout());
   };
-  console.log("pp", profile);
-  useEffect(() => {
-    if (!profile) {
-      dispatch(getProfile(auth.userId));
-    }
-  }, [profile]);
   return (
     <span>
       {auth.isAuth ? (
