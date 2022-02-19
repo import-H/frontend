@@ -89,6 +89,7 @@ const EmailConfirm = styled.div`
 const Register = () => {
   const dispatch = useDispatch();
   const registerStatus = useSelector(state => state.auth?.status);
+  const isAuth = useSelector(state => state.auth.isAuth);
   const navigate = useNavigate();
   const [emailConfirmPage, setEmailConfirmPage] = useState(false);
 
@@ -224,7 +225,7 @@ const Register = () => {
     <FlexContainer>
       <GlobalStyle />
       <div>
-        {emailConfirmPage ? (
+        {!emailConfirmPage ? (
           <AuthForm>
             <Label>이메일</Label>
             <div className="email-area">

@@ -114,7 +114,7 @@ const BoardForm = () => {
 
   useEffect(async () => {
     await dispatch(getPosts(boardId));
-  }, []);
+  }, [boardId]);
 
   return (
     <>
@@ -127,7 +127,6 @@ const BoardForm = () => {
           {posts &&
             posts.map(post => (
               <Link
-                // to={{ pathname: `/board/${boardId}/${post.id}` }}
                 to={{
                   pathname: `/board/${boardId}/${post.responseInfo.postId}`,
                 }}
@@ -164,14 +163,14 @@ const BoardForm = () => {
             ))}
         </div>
         <div className="flex flex-jc-e">
-          {isAuth &&
+          {isAuth && (
             <Link
               to={{ pathname: `/write/${boardId}` }}
               className="writeBtn linkBtn black"
             >
               글 작성하기
             </Link>
-          }
+          )}
         </div>
       </BoardWrap>
     </>
