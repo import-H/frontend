@@ -118,15 +118,17 @@ const MyPage = () => {
   };
   const changeIntroduce = async e => {
     e.preventDefault();
-    const userData = {
-      nickname: user.nickname,
-      introduction: newIntroduceValue,
-      personalUrl: user.personalUrl,
-      infoByEmail: user.infoByEmail,
-      infoByWeb: user.infoByWeb,
-    };
-    dispatch(editProfile({ userId: userId, userData }));
-    dispatch(updateUser());
+    if(newIntroduceValue !== "") {
+      const userData = {
+        nickname: user.nickname,
+        introduction: newIntroduceValue,
+        personalUrl: user.personalUrl,
+        infoByEmail: user.infoByEmail,
+        infoByWeb: user.infoByWeb,
+      };
+      dispatch(editProfile({ userId: userId, userData }));
+      dispatch(updateUser());
+    }
     setIsIntroduceChange(false);
   };
 
