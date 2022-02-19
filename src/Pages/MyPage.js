@@ -111,6 +111,7 @@ const MyPage = () => {
       personalUrl: user.personalUrl,
       infoByEmail: user.infoByEmail,
       infoByWeb: user.infoByWeb,
+      profileImage: profileImg
     };
     dispatch(editProfile({ userId: userId, userData }));
     dispatch(updateUser());
@@ -125,6 +126,7 @@ const MyPage = () => {
         personalUrl: user.personalUrl,
         infoByEmail: user.infoByEmail,
         infoByWeb: user.infoByWeb,
+        profileImage: profileImg
       };
       dispatch(editProfile({ userId: userId, userData }));
       dispatch(updateUser());
@@ -162,7 +164,7 @@ const MyPage = () => {
                     <div className="linkBtn element" onClick={() => setIsProfileImgUpload(false)}>취소</div>
                   </div>
                 </Modal>
-                {profileImg === "N" || profileImg === null ? (
+                {profileImg === "N" ? (
                   <img src={noneProfileImg} width="100" height="100" />
                 ) : (
                   <img src={profileImg} width="100" height="100" />
@@ -175,9 +177,9 @@ const MyPage = () => {
                   style={{ marginBottom: "3%" }}
                   onClick={() => setIsProfileImgUpload(true)}
                 >
-                  {(profileImg === "N" || profileImg === null) ? "사진 등록" : "사진 변경"}
+                  {profileImg === "N" ? "사진 등록" : "사진 변경"}
                 </div>
-                {profileImg !== "N" || profileImg !== null &&
+                {profileImg !== "N" &&
                   <Link to="" className="linkBtn" onClick={profileImgDelete}>
                     사진 삭제
                   </Link>
