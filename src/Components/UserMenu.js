@@ -31,55 +31,60 @@ import { getProfile } from "../reducers/slices/userSlice";
 
 function UserMenu() {
   const dispatch = useDispatch();
+  const user = useSelector(state => state.user.profile);
   const auth = useSelector(state => state.auth);
   const profile = useSelector(state => state.user.profile);
   const logoutBtn = () => {
     dispatch(logout());
   };
   return (
-    <span>
-      {auth.isAuth ? (
-        <span role="afterLogin">
-          <div className="element">
-            <Link to="/mypage" data-testid="profileLink">
-              <AuthorImg>
-                {profile?.profileImage === "N" ||
-                profile?.profileImage === null ? (
-                  <img src={noneProfileImg} />
-                ) : (
-                  <img src={profile?.profileImage} alt="profileImg" />
-                )}
-              </AuthorImg>
-            </Link>
-          </div>
-          <div className="element">
-            {/* Link 태그를 사용해야 링크로 인식해서 마우스를 올리면 클릭 표시가 뜸 */}
-            <Link to="" className="linkBtn" onClick={logoutBtn}>
-              로그아웃
-            </Link>
-          </div>
-          {/* 관리자 페이지 링크 조건부 렌더링 아직 미구현 */}
-          <div className="element">
-            <Link to="/admin" className="linkBtn">
-              관리자 페이지
-            </Link>
-          </div>
+    <>
+      {auth &&
+        <span>
+          {auth.isAuth ? (
+            <span role="afterLogin">
+              <div className="element">
+                <Link to="/mypage" data-testid="profileLink">
+                  <AuthorImg>
+                    {profile?.profileImage === "N" ||
+                    profile?.profileImage === null ? (
+                      <img src={noneProfileImg} />
+                    ) : (
+                      <img src={profile?.profileImage} alt="profileImg" />
+                    )}
+                  </AuthorImg>
+                </Link>
+              </div>
+              <div className="element">
+                {/* Link 태그를 사용해야 링크로 인식해서 마우스를 올리면 클릭 표시가 뜸 */}
+                <Link to="" className="linkBtn" onClick={logoutBtn}>
+                  로그아웃
+                </Link>
+              </div>
+              {/* 관리자 페이지 링크 조건부 렌더링 아직 미구현 */}
+              <div className="element">
+                <Link to="/admin" className="linkBtn">
+                  관리자 페이지
+                </Link>
+              </div>
+            </span>
+          ) : (
+            <span role="beforeLogin">
+              <div className="element">
+                <Link to="/login" className="linkBtn">
+                  로그인
+                </Link>
+              </div>
+              <div className="element">
+                <Link to="/register" className="linkBtn">
+                  회원가입
+                </Link>
+              </div>
+            </span>
+          )}
         </span>
-      ) : (
-        <span role="beforeLogin">
-          <div className="element">
-            <Link to="/login" className="linkBtn">
-              로그인
-            </Link>
-          </div>
-          <div className="element">
-            <Link to="/register" className="linkBtn">
-              회원가입
-            </Link>
-          </div>
-        </span>
-      )}
-    </span>
+      }
+    </>
   );
 }
 
