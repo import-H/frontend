@@ -4,6 +4,8 @@ import React, { useState, useRef, useEffect } from "react";
 // redux
 import { addPost, uploadFile } from "../reducers/slices/postSlice";
 import axiosInstance from "../utils/axiosInstance";
+import { useDispatch, useSelector } from "react-redux";
+
 // styled-components
 import styled from "styled-components";
 import GlobalStyle from "../Styles/Globalstyle.js";
@@ -12,7 +14,6 @@ import { Container, Input } from "../Styles/theme";
 // toast-ui editor
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { Editor } from "@toast-ui/react-editor";
-import { useDispatch, useSelector } from "react-redux";
 
 // react-router-dom
 import { useParams, useNavigate } from "react-router-dom";
@@ -57,9 +58,11 @@ const TagsInput = styled(Input)`
 const WritePost = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  
+  const isAuth = useSelector(state => state.auth.isAuth);
 
   const addPostStatus = useSelector(state => state.post.addPost);
-
+  
   const file = useSelector(state => state.post?.file);
 
   const [nav, setNav] = useState(false);
@@ -108,6 +111,11 @@ const WritePost = () => {
   }, [addPostStatus]);
 
   useEffect(() => {
+    if(!isAuth) {
+      alert("로그인하지 않은 사용자는 글을 작성할 수 없습니다.");
+      navigate("/login");
+    }
+
     if (editorRef.current) {
       // 기존에 Image 를 Import 하는 Hook 을 제거한다.
       editorRef.current.getInstance().removeHook("addImageBlobHook");
