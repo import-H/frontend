@@ -13,10 +13,17 @@ const GlobalStyle = createGlobalStyle`
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        color: inherit;
+        //color: black;
         list-style: none;
         text-decoration: none;
     }
+    a{
+      color: black;
+      &:hover{  
+          color: var(--secondary-color)
+        }
+    }
+
     html, body{
         font-size: 10px; // 1rem = 10px
         font-family: 'Poppins', 'Noto Sans KR' , 'sans-serif';
@@ -24,8 +31,11 @@ const GlobalStyle = createGlobalStyle`
         background-color: #fefefe;
 
         @media (max-width: 1200px){
-          font-size: 9px;
+          font-size: 10px;
         }
+    }
+    input{
+      font-size: 1.2rem;
     }
 
     /* lib */
@@ -162,8 +172,10 @@ header {
     flex-grow: 4;  
     display: flex;
     transition: all 0.3s;
+    
 
     & a{
+      color: black;
       font-size: 1.4em;
       padding: 1rem 2rem;
       transition: all 0.3s;
