@@ -92,6 +92,7 @@ const BoardTitle = styled.div`
 const BoardForm = () => {
   const dispatch = useDispatch();
   const posts = useSelector(state => state.post.posts);
+  const isAuth = useSelector(state => state.auth.isAuth);
   const boardId = useParams().id;
 
   // 게시글 목록에서 게시글 formatting
@@ -163,12 +164,14 @@ const BoardForm = () => {
             ))}
         </div>
         <div className="flex flex-jc-e">
-          <Link
-            to={{ pathname: `/write/${boardId}` }}
-            className="writeBtn linkBtn black"
-          >
-            글 작성하기
-          </Link>
+          {isAuth &&
+            <Link
+              to={{ pathname: `/write/${boardId}` }}
+              className="writeBtn linkBtn black"
+            >
+              글 작성하기
+            </Link>
+          }
         </div>
       </BoardWrap>
     </>
