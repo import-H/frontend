@@ -28,7 +28,7 @@ export const getPosts = createAsyncThunk(
   async (boardId, dispatch, getState) => {
     // const response = await axios.get(`${API_URL}/v1/boards/${boardId}/posts`);
 
-    const response = await axios.get(`${API_URL}/v1/boards/1/posts`);
+    const response = await axios.get(`${API_URL}/v1/boards/1`);
     return response.data.list;
   },
 );
@@ -39,7 +39,7 @@ export const addPost = createAsyncThunk(
   async (data, dispatch, getState) => {
     const { boardId, postData } = data;
     console.log(boardId, data);
-    const response = await axiosInstance.post(`${API_URL}/v1/boards/1/posts`, {
+    const response = await axiosInstance.post(`${API_URL}/v1/posts`, {
       ...postData,
     });
     return response.data.data;
@@ -59,13 +59,13 @@ export const getPost = createAsyncThunk(
     if (getState().auth.isAuth) {
       const response = await axiosInstance.get(
         // `${API_URL}/v1/boards/${boardId}/posts/${postId}`,
-        `${API_URL}/v1/boards/1/posts/${postId}`,
+        `${API_URL}/v1/posts/${postId}`,
       );
       return response.data.data;
     } else {
       const response = await axios.get(
         // `${API_URL}/v1/boards/${boardId}/posts/${postId}`,
-        `${API_URL}/v1/boards/1/posts/${postId}`,
+        `${API_URL}/v1/posts/${postId}`,
       );
       return response.data.data;
     }
@@ -80,7 +80,7 @@ export const deletePost = createAsyncThunk(
     const { boardId, postId } = data;
     const response = await axiosInstance.delete(
       // `/v1/boards/${boardId}/posts/${postId}`,
-      `${API_URL}/v1/boards/1/posts/${postId}`,
+      `${API_URL}/v1/posts/${postId}`,
     );
     return response.data.data;
   },
@@ -91,7 +91,7 @@ export const editPost = createAsyncThunk("post/editPost", async data => {
   const { boardId, postId, postData } = data;
   const response = await axiosInstance.put(
     // `${API_URL}/v1/boards/${boardId}/posts/${postId}`,
-    `${API_URL}/v1/boards/1/posts/${postId}`,
+    `${API_URL}/v1/posts/${postId}`,
     postData,
   );
 
