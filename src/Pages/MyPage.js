@@ -175,11 +175,13 @@ const MyPage = () => {
                   style={{ marginBottom: "3%" }}
                   onClick={() => setIsProfileImgUpload(true)}
                 >
-                  사진 변경
+                  {(profileImg === "N" || profileImg === null) ? "사진 등록" : "사진 변경"}
                 </div>
-                <Link to="" className="linkBtn" onClick={profileImgDelete}>
-                  사진 삭제
-                </Link>
+                {profileImg !== "N" || profileImg !== null &&
+                  <Link to="" className="linkBtn" onClick={profileImgDelete}>
+                    사진 삭제
+                  </Link>
+                }
               </div>
             </div>
             {/* 자기소개 */}
