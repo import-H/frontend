@@ -6,9 +6,9 @@ import { useSelector } from "react-redux";
 
 // 로그인 해야만 접속가능한 PrivateRoute
 function PrivateRoute({ component: RouteComponent }) {
-  const isAuth = useSelector((state) => state.auth.isAuth);
-  console.log(isAuth);
-  if (isAuth) {
+  const admin = useSelector(state => state.auth.user.roles);
+  console.log(admin);
+  if (admin === "ROLE_ADMIN") {
     return <RouteComponent />;
   }
   return <Navigate to="/" />;
