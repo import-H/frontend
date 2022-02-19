@@ -27,7 +27,7 @@ describe("UserMenu Test", () => {
 
   it("비로그인시 로그인, 회원가입 버튼 생성", () => {
     useSelectorMock.mockImplementation(selectorFn =>
-      selectorFn({ auth: { isAuth: false } }),
+      selectorFn({ auth: { isAuth: false }, user: { profile: "N" } }),
     );
     render(<MockUserMenu />);
     const beforeLogin = screen.getByRole("beforeLogin");
@@ -36,7 +36,7 @@ describe("UserMenu Test", () => {
 
   it("로그인시 마이페이지, 로그아웃 버튼 생성", () => {
     useSelectorMock.mockImplementation(selectorFn =>
-      selectorFn({ auth: { isAuth: true } }),
+      selectorFn({ auth: { isAuth: true }, user: { profile: "N" } }),
     );
     render(<MockUserMenu />);
     const afterLogin = screen.getByRole("afterLogin");
@@ -55,7 +55,7 @@ describe("버튼 클릭 이벤트", () => {
 
   const isAuthSelector = authType => {
     useSelectorMock.mockImplementation(selectorFn =>
-      selectorFn({ auth: { isAuth: authType } }),
+      selectorFn({ auth: { isAuth: authType }, user: { profile: "N" } }),
     );
   };
 

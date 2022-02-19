@@ -159,23 +159,25 @@ const Main = () => {
       </h2>
       <div className="postArea flex">
         {posts?.length
-          ? posts.map(post => (
-              <Link
-                to={`/board/${post.responseInfo.boardId}/${post.responseInfo.postId}`}
-              >
-                <PostWrapper>
-                  <Post>
-                    <div className="title">{post.responseInfo.title}</div>
-                    <div className="content">
-                      {post.responseInfo.content.slice(0, 100)}
-                    </div>
-                    <div className="author">{post.responseInfo.nickname}</div>
-                  </Post>
-                </PostWrapper>
-              </Link>
+          ? posts.map((post, index) => (
+              <div key={index}>
+                <Link
+                  to={`/board/${post.responseInfo.boardId}/${post.responseInfo.postId}`}
+                >
+                  <PostWrapper>
+                    <Post>
+                      <div className="title">{post.responseInfo.title}</div>
+                      <div className="content">
+                        {post.responseInfo.content.slice(0, 100)}
+                      </div>
+                      <div className="author">{post.responseInfo.nickname}</div>
+                    </Post>
+                  </PostWrapper>
+                </Link>
+              </div>
             ))
-          : samplePosts.map(post => (
-              <PostWrapper>
+          : samplePosts.map((post, index) => (
+              <PostWrapper key={index}>
                 <Post>
                   <div className="title">
                     {post.title.slice(0, 20)}
