@@ -4,17 +4,8 @@ import GlobalStyle from "./Styles/Globalstyle";
 import { MainContainer, Container } from "./Styles/theme";
 import Banner from "./Components/Banner";
 import Main from "./Pages/Main";
-import { useDispatch, useSelector } from "react-redux";
-import { getProfile } from "./reducers/slices/userSlice";
 
 const App = () => {
-  const userId = useSelector(state => state.auth.userId);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    if (userId !== "") {
-      dispatch(getProfile(userId));
-    }
-  }, []);
   return (
     <MainContainer>
       <Helmet>

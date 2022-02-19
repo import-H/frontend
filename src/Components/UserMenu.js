@@ -31,15 +31,20 @@ import { getProfile } from "../reducers/slices/userSlice";
 
 function UserMenu() {
   const dispatch = useDispatch();
-  const user = useSelector(state => state.user.profile);
   const auth = useSelector(state => state.auth);
   const profile = useSelector(state => state.user.profile);
   const logoutBtn = () => {
     dispatch(logout());
   };
+  useEffect(() => {
+    dispatch(getProfile(auth.userId));
+    // if (userId !== "") {
+    //   dispatch(getProfile(userId));
+    // }
+  }, []);
   return (
     <>
-      {auth &&
+      {auth && (
         <span>
           {auth.isAuth ? (
             <span role="afterLogin">
@@ -83,7 +88,7 @@ function UserMenu() {
             </span>
           )}
         </span>
-      }
+      )}
     </>
   );
 }

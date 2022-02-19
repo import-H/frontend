@@ -8,47 +8,15 @@ import { Viewer } from "@toast-ui/react-editor";
 import GlobalStyle from "../Styles/Globalstyle.js";
 import { Container } from "../Styles/theme";
 import styled from "styled-components";
+import { Link, useParams } from "react-router-dom";
 
 // icon
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faCommentAlt } from "@fortawesome/free-solid-svg-icons";
 import Comment from "../Components/Comment.js";
 import WritePersonalPost from "../Components/WritePersonalPost.js";
-
-// sample Posts Data
-const samplePosts = [
-  {
-    id: 1,
-    title: "title",
-    content: "content",
-    thumbnail: "",
-    create_at: "2022-01-21",
-    author: "자몽",
-    view: 3,
-    like: 2,
-    comments: [],
-  },
-  {
-    id: 2,
-    title: "프로그래밍 스터디 이름",
-    content:
-      "프로그래밍 스터디 이름은 `import_H`입니다.!!\n![Image](http://localhost:8090/v1/file/upload/fdb655b7-6bb9-41b2-8797-e9e0887ccd63.png)",
-    thumbnail: "",
-    create_at: "2022-01-21",
-    author: "자몽",
-    view: 3,
-    like: 2,
-    comments: [
-      {
-        id: 12,
-        nickname: "www",
-        profileImageUrl: null,
-        content: "댓글 작성",
-        createdAt: "2022-02-19T04:01:02.604458",
-      },
-    ],
-  },
-];
+import { useDispatch, useSelector } from "react-redux";
+import { getPost, getPosts } from "../reducers/slices/postSlice.js";
 
 // style
 const BoardWrap = styled.div`
@@ -133,54 +101,69 @@ const CommentWrite = styled.div`
 `;
 
 const PersonalBoard = () => {
+  const dispatch = useDispatch();
+  const personId = useParams().personId;
+  const status = useSelector(state => state.post.status);
+  const posts = useSelector(state => state.post.posts);
+  const currentPost = useSelector(state => state.post.post);
   const [showDetailPost, setShowDetailPost] = useState();
 
-  const onDetailPost = postId => {
+  const onDetailPost = async postId => {
     if (postId === showDetailPost) {
       setShowDetailPost("");
     } else {
+      await dispatch(getPost(postId));
       setShowDetailPost(postId);
     }
   };
+
+  useEffect(async () => {
+    if (status !== "success") {
+      await dispatch(getPosts(personId));
+    }
+  }, [status]);
 
   return (
     <Container>
       <GlobalStyle />
       <BoardWrap>
-        {samplePosts.map(post => (
-          <div key={post.id}>
-            <BoardList
-              onClick={() => {
-                onDetailPost(post.id);
-              }}
-            >
-              <BoardTitle>
-                {post.title}
-                {/* 제목 */}
-                <span className="date">{post.create_at}</span>
-                {/* 생성 시간 */}
-              </BoardTitle>
-              {/* 글쓴이 */}
-              <div className="boardAuthor">{post.author}</div>
-              <Viewer initialValue={post.content} />
-              <div className="commentWrap flex flex-ai-c">
-                {/* 좋아요 */}
-                <div className="boardLike">
-                  <FontAwesomeIcon icon={faHeart} />
-                  {post.like}
+        {posts &&
+          posts.map(post => (
+            <div key={post.responseInfo.postId}>
+              <BoardList
+                onClick={() => {
+                  onDetailPost(post.responseInfo.postId);
+                }}
+              >
+                <BoardTitle>
+                  {post.responseInfo.title}
+                  {/* 제목 */}
+                  <span className="date">{post.responseInfo.createdAt}</span>
+                  {/* 생성 시간 */}
+                </BoardTitle>
+                {/* 글쓴이 */}
+                <div className="boardAuthor">{post.responseInfo.nickname}</div>
+                <Viewer initialValue={post.responseInfo.content} />
+                <div className="commentWrap flex flex-ai-c">
+                  {/* 좋아요 */}
+                  <div className="boardLike">
+                    <FontAwesomeIcon icon={faHeart} />
+                    {post.like}
+                  </div>
+                  {/* 코멘트 */}
+                  <div className="boardComment">
+                    <FontAwesomeIcon icon={faCommentAlt} /> {post.commentsCount}
+                  </div>
                 </div>
-                {/* 코멘트 */}
-                <div className="boardComment">
-                  <FontAwesomeIcon icon={faCommentAlt} /> {post.comments.length}
-                </div>
-              </div>
-            </BoardList>
-            {showDetailPost === post.id && (
-              <Comment post={post} postId={post.id} />
-            )}
-          </div>
-        ))}
-        <WritePersonalPost />
+              </BoardList>
+              {showDetailPost === post.responseInfo.postId &&
+                currentPost?.responseInfo?.postId ===
+                  post.responseInfo.postId && (
+                  <Comment postId={post.responseInfo.postId} />
+                )}
+            </div>
+          ))}
+        <WritePersonalPost personId={personId} />
       </BoardWrap>
     </Container>
   );
