@@ -11,7 +11,9 @@ const App = () => {
   const userId = useSelector(state => state.auth.userId);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getProfile(userId));
+    if (userId !== "") {
+      dispatch(getProfile(userId));
+    }
   }, []);
   return (
     <MainContainer>
