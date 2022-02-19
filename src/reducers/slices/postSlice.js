@@ -28,7 +28,7 @@ export const getPosts = createAsyncThunk(
   async (boardId, dispatch, getState) => {
     // const response = await axios.get(`${API_URL}/v1/boards/${boardId}/posts`);
 
-    const response = await axios.get(`${API_URL}/v1/boards/1`);
+    const response = await axios.get(`${API_URL}/v1/boards/${boardId}`);
     return response.data.list;
   },
 );
@@ -36,9 +36,7 @@ export const getPosts = createAsyncThunk(
 // 게시글 추가하기
 export const addPost = createAsyncThunk(
   "post/addPost",
-  async (data, dispatch, getState) => {
-    const { boardId, postData } = data;
-    console.log(boardId, data);
+  async (postData, dispatch, getState) => {
     const response = await axiosInstance.post(`${API_URL}/v1/posts`, {
       ...postData,
     });
