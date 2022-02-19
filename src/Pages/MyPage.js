@@ -83,6 +83,7 @@ const MyPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const status = useSelector(state => state.user.status);
+  const isAuth = useSelector(state => state.auth.isAuth);
   const userId = useSelector(state => state.auth.userId);
   const user = useSelector(state => state.user.profile);
   const profileImg = user?.profileImage;
@@ -95,6 +96,9 @@ const MyPage = () => {
   const [newIntroduceValue, setNewIntroduceValue] = useState("");
 
   useEffect(() => {
+    if(!isAuth) {
+      navigate("/");
+    }
     dispatch(getProfile(userId));
   }, [status]);
 
