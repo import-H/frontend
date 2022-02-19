@@ -92,8 +92,9 @@ const WritePost = () => {
       tags: tags,
       content: instance, //setPost에서 content 수정하면 바로 반영안되는 문제로 이렇게 해결함
       images: imgUrls,
+      type: boardId,
     };
-    dispatch(addPost({ boardId, postData }));
+    dispatch(addPost(postData));
   };
 
   const onTagPush = () => {
