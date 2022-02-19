@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 // react-router-dom
-import { Link, Navigate, NavigationType } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // redux
 import { useDispatch, useSelector } from "react-redux";
