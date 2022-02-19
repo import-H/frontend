@@ -83,6 +83,7 @@ const MyPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const status = useSelector(state => state.user.status);
+  const isAuth = useSelector(state => state.auth.isAuth);
   const userId = useSelector(state => state.auth.userId);
   const user = useSelector(state => state.user.profile);
   const profileImg = user?.profileImage;
@@ -95,6 +96,9 @@ const MyPage = () => {
   const [newIntroduceValue, setNewIntroduceValue] = useState("");
 
   useEffect(() => {
+    if(!isAuth) {
+      navigate("/");
+    }
     dispatch(getProfile(userId));
   }, [status]);
 
@@ -111,6 +115,7 @@ const MyPage = () => {
       personalUrl: user.personalUrl,
       infoByEmail: user.infoByEmail,
       infoByWeb: user.infoByWeb,
+      profileImage: profileImg
     };
     dispatch(editProfile({ userId: userId, userData }));
     dispatch(updateUser());
@@ -125,6 +130,7 @@ const MyPage = () => {
         personalUrl: user.personalUrl,
         infoByEmail: user.infoByEmail,
         infoByWeb: user.infoByWeb,
+        profileImage: profileImg
       };
       dispatch(editProfile({ userId: userId, userData }));
       dispatch(updateUser());
@@ -132,8 +138,19 @@ const MyPage = () => {
     setIsIntroduceChange(false);
   };
 
-  const profileImgDelete = () => {
+  const profileImgDelete = async e => {
     if(window.confirm("프로필 사진을 삭제할까요?")) {
+      e.preventDefault();
+      const userData = {
+        nickname: user.nickname,
+        introduction: user.introduction,
+        personalUrl: user.personalUrl,
+        infoByEmail: user.infoByEmail,
+        infoByWeb: user.infoByWeb,
+        profileImage: "N"
+      };
+      dispatch(editProfile({ userId: userId, userData }));
+      dispatch(updateUser());
       alert("삭제가 완료되었습니다.");
     }
   }
@@ -162,7 +179,7 @@ const MyPage = () => {
                     <div className="linkBtn element" onClick={() => setIsProfileImgUpload(false)}>취소</div>
                   </div>
                 </Modal>
-                {profileImg === "N" || profileImg === null ? (
+                {profileImg === "N" ? (
                   <img src={noneProfileImg} width="100" height="100" />
                 ) : (
                   <img src={profileImg} width="100" height="100" />
@@ -175,9 +192,9 @@ const MyPage = () => {
                   style={{ marginBottom: "3%" }}
                   onClick={() => setIsProfileImgUpload(true)}
                 >
-                  {(profileImg === "N" || profileImg === null) ? "사진 등록" : "사진 변경"}
+                  {profileImg === "N" ? "사진 등록" : "사진 변경"}
                 </div>
-                {profileImg !== "N" || profileImg !== null &&
+                {profileImg !== "N" &&
                   <Link to="" className="linkBtn" onClick={profileImgDelete}>
                     사진 삭제
                   </Link>
