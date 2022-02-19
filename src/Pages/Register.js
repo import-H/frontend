@@ -83,6 +83,8 @@ const Register = () => {
   const registerStatus = useSelector(state => state.auth?.status);
   const navigate = useNavigate();
 
+  const isAuth = useSelector(state => state.auth.isAuth);
+
   const [authEmail, setAuthEmail] = useState(false);
   const { count, start, stop } = useCounter(3, 1000);
 
@@ -197,6 +199,10 @@ const Register = () => {
 
   // authInfo와 errorInfo를 감지해 submitState 상태 수정
   useEffect(() => {
+    if(isAuth) {
+      navigate("/");
+    }
+    
     if (
       Object.values(errorInfo).every(err => err === "") &&
       !Object.values(authInfo).includes("")
