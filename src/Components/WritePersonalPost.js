@@ -1,13 +1,54 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { Editor } from "@toast-ui/react-editor";
 import axiosInstance from "../utils/axiosInstance";
+import styled from "styled-components";
+import { Container, Input } from "../Styles/theme";
+import { useDispatch } from "react-redux";
+import { addPost, getPost, getPosts } from "../reducers/slices/postSlice";
 
-const WritePersonalPost = () => {
+const WriteContainer = styled(Container)`
+  & .tagCon {
+    margin: 10px 0;
+    margin-top: 25px;
+    & .tagArea {
+      margin: 10px 0;
+      font-size: 1.2em;
+      flex-wrap: wrap;
+
+      & .postTag {
+        padding: 5px 7px;
+        margin-bottom: 7px;
+        margin-right: 15px;
+        border-radius: 5px;
+        background: #ddd;
+        color: #666;
+        font-size: 1.1em;
+      }
+    }
+  }
+
+  & .toastui-editor-defaultUI {
+    margin: 12px 0;
+  }
+
+  & .linkBtn {
+    padding: 7px 30px;
+    font-size: 1.2em;
+  }
+`;
+const TagsInput = styled(Input)`
+  width: 100%;
+  flex-shrink: 0;
+`;
+
+const WritePersonalPost = ({ personId }) => {
+  const dispatch = useDispatch();
   const editorRef = useRef(null);
+  const [title, setTitle] = useState("");
+  const [currentTag, setCurrentTag] = useState("");
+  const [tags, setTags] = useState([]);
 
-  const onSubmit = () => {
-    e.preventDefault();
-    console.log("url", url);
+  const postSubmit = async () => {
     const instance = editorRef.current.getInstance().getMarkdown();
     const findImage = /!\[Image\]\([A-Za-z0-9\/:\-.]+\)/gi;
 
@@ -22,8 +63,18 @@ const WritePersonalPost = () => {
       tags: tags,
       content: instance, //setPost에서 content 수정하면 바로 반영안되는 문제로 이렇게 해결함
       images: imgUrls,
+      type: "jamongg",
     };
-    //dispatch(addPost({ boardId, postData }));
+    await dispatch(addPost(postData));
+    await dispatch(getPosts(personId));
+
+    setTitle("");
+    setTags([]);
+    editorRef.current.getInstance().reset();
+  };
+  const onTagPush = () => {
+    if (!tags.includes(currentTag)) setTags([...tags, currentTag]);
+    setCurrentTag("");
   };
 
   useEffect(() => {
@@ -59,7 +110,40 @@ const WritePersonalPost = () => {
   }, [editorRef]);
 
   return (
-    <div>
+    <WriteContainer>
+      <Input
+        type="text"
+        name="title"
+        onChange={e => setTitle(e.target.value)}
+        placeholder="Title"
+        value={title}
+      />
+      <div className="tagCon">
+        <TagsInput
+          className="tagsInput"
+          placeholder="Tags"
+          onChange={e => setCurrentTag(e.target.value)}
+          value={currentTag}
+          onKeyPress={e => {
+            if (e.key === "Enter") {
+              onTagPush();
+            }
+          }}
+        />
+        {/* tagArea/ */}
+        <div className="tagArea flex flex-ai-c">
+          {tags.map((tag, id) => (
+            <div
+              className="postTag"
+              onClick={() => {
+                setTags(tags.filter(t => t !== tag));
+              }}
+            >
+              {tag}
+            </div>
+          ))}
+        </div>
+      </div>
       <Editor
         initialValue="hello react editor world!"
         previewStyle="vertical"
@@ -69,8 +153,10 @@ const WritePersonalPost = () => {
         previewStyle="tab"
         ref={editorRef}
       />
-      <button onClick={onSubmit}>작성하기</button>
-    </div>
+      <button className="linkBtn black" onClick={postSubmit}>
+        작성 완료
+      </button>
+    </WriteContainer>
   );
 };
 
