@@ -12,6 +12,8 @@ import styled from "styled-components";
 // icon
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faCommentAlt } from "@fortawesome/free-solid-svg-icons";
+import Comment from "../Components/Comment.js";
+import WritePersonalPost from "../Components/WritePersonalPost.js";
 
 // sample Posts Data
 const samplePosts = [
@@ -29,13 +31,22 @@ const samplePosts = [
   {
     id: 2,
     title: "프로그래밍 스터디 이름",
-    content: "프로그래밍 스터디 이름은 `import_H`입니다.!!",
+    content:
+      "프로그래밍 스터디 이름은 `import_H`입니다.!!\n![Image](http://localhost:8090/v1/file/upload/fdb655b7-6bb9-41b2-8797-e9e0887ccd63.png)",
     thumbnail: "",
     create_at: "2022-01-21",
     author: "자몽",
     view: 3,
     like: 2,
-    comments: ["123123", "123123"],
+    comments: [
+      {
+        id: 12,
+        nickname: "www",
+        profileImageUrl: null,
+        content: "댓글 작성",
+        createdAt: "2022-02-19T04:01:02.604458",
+      },
+    ],
   },
 ];
 
@@ -102,7 +113,7 @@ const CommentWrite = styled.div`
     flex: 15;
     font-family: "Noto Sans KR", sans-serif;
     resize: none;
-    heigth: 5rem;
+    height: 5rem;
     padding: 10px 15px;
     margin: 2px;
     border: 1px solid #ccc;
@@ -169,6 +180,7 @@ const PersonalBoard = () => {
             )}
           </div>
         ))}
+        <WritePersonalPost />
       </BoardWrap>
     </Container>
   );

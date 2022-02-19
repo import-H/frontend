@@ -50,7 +50,7 @@ const MyPageWrapper = styled(Container)`
       margin-right: 5px;
     }
   }
-  
+
   & .editIcon {
     padding: 5px;
     color: #333;
@@ -82,11 +82,10 @@ const MyPageWrapper = styled(Container)`
 const MyPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const isAuth = useSelector(state => state.auth.isAuth);
-  const user = useSelector(state => state.auth.user);
-  const profileInfo = useSelector(state => state.user.profile);
-  const profileImg = profileInfo.profileImage;
+  const status = useSelector(state => state.user.status);
+  const userId = useSelector(state => state.auth.userId);
+  const user = useSelector(state => state.user.profile);
+  //const profileImg = profileInfo.profileImage;
 
   const [isNicknameChange, setIsNicknameChange] = useState(false);
   const [isIntroduceChange, setIsIntroduceChange] = useState(false);
@@ -96,9 +95,8 @@ const MyPage = () => {
   const [newIntroduceValue, setNewIntroduceValue] = useState("");
 
   useEffect(() => {
-    if(!isAuth) navigate("/");
-    dispatch(getProfile(user.userId));
-  }, []);
+    dispatch(getProfile(userId));
+  }, [status]);
 
   const onChangeNickname = e => {
     setNewNicknameValue(e.currentTarget.value);
@@ -109,35 +107,26 @@ const MyPage = () => {
     e.preventDefault();
     const userData = {
       nickname: newNicknameValue,
-      introduction: profileInfo.introduction,
-      personalUrl: profileInfo.personalUrl,
-      infoByEmail: profileInfo.infoByEmail,
-      infoByWeb: profileInfo.infoByWeb,
+      introduction: user.introduction,
+      personalUrl: user.personalUrl,
+      infoByEmail: user.infoByEmail,
+      infoByWeb: user.infoByWeb,
     };
-    await dispatch(editProfile({ userId: user.userId, userData }));
-    await dispatch(updateUser());
+    dispatch(editProfile({ userId: userId, userData }));
+    dispatch(updateUser());
     setIsNicknameChange(false);
   };
   const changeIntroduce = async e => {
     e.preventDefault();
     const userData = {
-      nickname: profileInfo.nickname,
+      nickname: user.nickname,
       introduction: newIntroduceValue,
-      personalUrl: profileInfo.personalUrl,
-      infoByEmail: profileInfo.infoByEmail,
-      infoByWeb: profileInfo.infoByWeb,
+      personalUrl: user.personalUrl,
+      infoByEmail: user.infoByEmail,
+      infoByWeb: user.infoByWeb,
     };
-    await dispatch(editProfile({ userId: user.userId, userData }));
-    await dispatch(updateUser());
-    // try {
-    //   const res = await axiosInstance.put(
-    //     `${API_URL}/v1/users/${user.userId}`,
-    //     data,
-    //   );
-    //   console.log(res);
-    // } catch (e) {
-    //   console.log(e.response);
-    // }
+    dispatch(editProfile({ userId: userId, userData }));
+    dispatch(updateUser());
     setIsIntroduceChange(false);
   };
 
@@ -151,108 +140,103 @@ const MyPage = () => {
     <MyPageWrapper>
       <GlobalStyle />
       {/* User Info */}
-      <div className="flex flex-jc-c">
-        <div className="profileImgArea">
-          {/* profile image */}
-          <div>
-            <Modal
-              visible={isProfileImgUpload}
-              title="프로필 사진 업로드"
-              width={600}
-              onCancel={() => setIsProfileImgUpload(false)}
-              footer={null}
-            >
-              {/* https://enai.tistory.com/37 참고 */}
-              <input type="file" name="profileImg" id="imgFileOpenInput" accept="image/*"></input>
-              <div style={{ marginTop: "3%" }}>
-                <div className="linkBtn element" onClick={() => {alert("업로드가 완료되었습니다."); setIsProfileImgUpload(false)}}>확인</div>
-                <div className="linkBtn element" onClick={() => setIsProfileImgUpload(false)}>취소</div>
+      {user && (
+        <>
+          <div className="flex flex-jc-c">
+            <div className="profileImgArea">
+              {/* profile image */}
+
+              <div>
+                {user?.profileImage === "N" ? (
+                  <img src={noneProfileImg} width="100" height="100" />
+                ) : (
+                  <img src={user.profileImage} width="100" height="100" />
+                )}
               </div>
-            </Modal>
-            {profileImg === "N" || profileImg === null ? (
-              <img src={noneProfileImg} width="100" height="100" />
-            ) : (
-              <img src={user.profileImage} width="100" height="100" />
-            )}
-          </div>
-          <div className="EditbuttonArea">
-            {/* profile image edit button */}
-            <div
-              className="linkBtn"
-              style={{ marginBottom: "3%" }}
-              onClick={() => setIsProfileImgUpload(true)}
-            >
-              사진 변경
+              <div className="EditbuttonArea">
+                {/* profile image edit button */}
+                <div
+                  className="linkBtn"
+                  style={{ marginBottom: "3%" }}
+                  onClick={buttonClick}
+                >
+                  사진 변경
+                </div>
+                <Link to="" className="linkBtn" onClick={buttonClick}>
+                  사진 삭제
+                </Link>
+              </div>
             </div>
-            <Link to="" className="linkBtn" onClick={profileImgDelete}>
-              사진 삭제
-            </Link>
+            {/* 자기소개 */}
+            <div>
+              <div className="nicknameArea flex flex-ai-c">
+                {!isNicknameChange ? (
+                  <>
+                    <h1>{user?.nickname}</h1>{" "}
+                    <div
+                      className="editIcon"
+                      onClick={() => setIsNicknameChange(true)}
+                    >
+                      <FontAwesomeIcon icon={faPen} />
+                    </div>
+                  </>
+                ) : (
+                  <form onSubmit={changeNickname}>
+                    <Input
+                      type="text"
+                      name="nickname"
+                      onChange={onChangeNickname}
+                    />
+                    <button type="submit">확인</button>
+                  </form>
+                )}
+              </div>
+              <div className="introductionArea flex flex-ai-c">
+                {!isIntroduceChange ? (
+                  <>
+                    <h2>
+                      {user?.introduction === ""
+                        ? "자기소개가 없습니다."
+                        : user.introduction}
+                    </h2>{" "}
+                    <div
+                      className="editIcon"
+                      onClick={() => setIsIntroduceChange(true)}
+                    >
+                      <FontAwesomeIcon icon={faPen} />
+                    </div>
+                  </>
+                ) : (
+                  <form onSubmit={changeIntroduce}>
+                    <Input
+                      type="text"
+                      name="nickname"
+                      onChange={onChangeIntroduce}
+                    />
+                    <button type="submit">확인</button>
+                  </form>
+                )}
+              </div>
+            </div>
           </div>
-        </div>
-        {/* 자기소개 */}
-        <div>
-          <div className="nicknameArea flex flex-ai-c">
-            {!isNicknameChange ? (
-              <>
-                <h1>{user.nickname}</h1>{" "}
-                <div
-                  className="editIcon"
-                  onClick={() => setIsNicknameChange(true)}
-                >
-                  <FontAwesomeIcon icon={faPen} />
-                </div>
-              </>
-            ) : (
-              <form onSubmit={changeNickname}>
-                <Input
-                  type="text"
-                  name="nickname"
-                  onChange={onChangeNickname}
-                />
-                <button type="submit">확인</button>
-              </form>
-            )}
+          {/* 추가코드 이 밑으로 입력 */}
+          <div id="infoArea">
+            <div className="element">
+              <span className="sub">이메일</span>
+              <span className="result">{user?.email}</span>
+            </div>
+            <div className="element">
+              <span className="sub">이메일 수신 설정</span>
+              <input type="checkbox" />
+            </div>
+            <div className="flex flex-jc-c">
+              <Link to="/leave" className="linkBtn">
+                회원 탈퇴
+              </Link>
+            </div>
           </div>
-          <div className="introductionArea flex flex-ai-c">
-            {!isIntroduceChange ? (
-              <>
-                <h2>{profileInfo.introduction === "" ? "자기소개가 없습니다." : profileInfo.introduction}</h2>{" "}
-                <div
-                  className="editIcon"
-                  onClick={() => setIsIntroduceChange(true)}
-                >
-                  <FontAwesomeIcon icon={faPen} />
-                </div>
-              </>
-            ) : (
-              <form onSubmit={changeIntroduce}>
-                <Input
-                  type="text"
-                  name="nickname"
-                  onChange={onChangeIntroduce}
-                />
-                <button type="submit">확인</button>
-              </form>
-            )}
-          </div>
-        </div>
-      </div>
-      {/* 추가코드 이 밑으로 입력 */}
-      <div id="infoArea">
-        <div className="element">
-          <span className="sub">이메일</span>
-          <span className="result">{user.sub}</span>
-        </div>
-        <div className="element">
-          <span className="sub">이메일 수신 설정</span>
-          <input type="checkbox" />
-        </div>
-        <div className="flex flex-jc-c">
-          <Link to="/leave" className="linkBtn">
-            회원 탈퇴
-          </Link>
-        </div>
-      </div>
+        </>
+      )}
     </MyPageWrapper>
   );
 };
