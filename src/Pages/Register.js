@@ -206,6 +206,10 @@ const Register = () => {
 
   // authInfo와 errorInfo를 감지해 submitState 상태 수정
   useEffect(() => {
+    if (isAuth) {
+      navigate("/");
+    }
+
     if (
       Object.values(errorInfo).every(err => err === "") &&
       !Object.values(authInfo).includes("")
