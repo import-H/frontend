@@ -94,10 +94,17 @@ const MyPage = () => {
   const [newNicknameValue, setNewNicknameValue] = useState("");
   const [newIntroduceValue, setNewIntroduceValue] = useState("");
 
+  const [userIp, setUserIp] = useState("");
+
   useEffect(() => {
     if(!isAuth) {
       navigate("/");
     }
+
+    fetch("https://api.ipify.org?format=json")
+      .then(res => res.json())
+      .then(res => setUserIp(res.ip))
+
     dispatch(getProfile(userId));
   }, [status]);
 
@@ -250,6 +257,10 @@ const MyPage = () => {
           </div>
           {/* 추가코드 이 밑으로 입력 */}
           <div id="infoArea">
+            <div className="element">
+              <span className="sub">접속 중인 IP</span>
+              <span className="result">{userIp}</span>
+            </div>
             <div className="element">
               <span className="sub">이메일</span>
               <span className="result">{user.email}</span>
