@@ -44,7 +44,7 @@ const CommentWrap = styled.div`
     & .commentEdit {
       resize: none;
       width: 100%;
-      heigth: 5rem;
+      height: 5rem;
       border: 1px solid #ccc;
       font-size: 1.4rem;
       border-radius: 4px;
@@ -64,7 +64,7 @@ const CommentWrap = styled.div`
 
 const CommentInfo = styled.div`
   display: flex;
-  flex-direaction: row;
+  flex-direction: row;
   justify-content: space-between;
 
   & .commentAuthor {

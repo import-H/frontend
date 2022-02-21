@@ -25,11 +25,12 @@ const BoardWrap = styled.div`
 `;
 
 const BoardList = styled.div`
+  cursor: pointer;
   width: 100%;
   margin: 0 auto;
   padding: 20px 0;
   box-sizing: border-box;
-  border-bottom: 1px solid #ddd;
+  border-top: 1px solid #ddd;
   margin-bottom: 2em;
 
   & .toastui-editor-contents p {
@@ -84,7 +85,8 @@ const PersonalBoard = () => {
   const dispatch = useDispatch();
   const personId = useParams().personId;
   const status = useSelector(state => state.post.status);
-  const posts = useSelector(state => state.post.posts);
+  const [posts, setPosts] = useState([]);
+  const userPathId = useSelector(state => state?.user?.profile?.pathId);
   const currentPost = useSelector(state => state.post.post);
   const [showDetailPost, setShowDetailPost] = useState();
 
@@ -98,10 +100,14 @@ const PersonalBoard = () => {
   };
 
   useEffect(async () => {
-    if (status !== "success") {
-      await dispatch(getPosts(personId));
+    try {
+      const postdata = await dispatch(getPosts(personId)).unwrap();
+
+      setPosts(postdata);
+    } catch (e) {
+      alert(e);
     }
-  }, [status]);
+  }, []);
 
   return (
     <Container>
@@ -150,7 +156,7 @@ const PersonalBoard = () => {
           ) : (
             <FirstAction>첫 활동을 기록해주세요 📄 </FirstAction>
           ))}
-        <WritePersonalPost personId={personId} />
+        <WritePersonalPost personId={personId} userPathId={userPathId} />
       </BoardWrap>
     </Container>
   );
