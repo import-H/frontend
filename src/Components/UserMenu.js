@@ -43,26 +43,20 @@ const Caution = styled(Link)`
   }
 `;
 
-const menu = (
+const menu = pathId => (
   <Menu>
-    <Menu.Item>
+    <Menu.Item key="profile" style={{ padding: "1rem 2rem" }}>
       <Link to="/mypage" data-testid="profileLink">
         프로필
       </Link>
     </Menu.Item>
 
-    <Menu.Item>
-      <Link to="/posts/1" data-testid="profileLink">
+    <Menu.Item key="myBoard" style={{ padding: "1rem 2rem" }}>
+      <Link to={`/posts/${pathId}`} data-testid="profileLink">
         내 게시판
       </Link>
     </Menu.Item>
   </Menu>
-);
-
-const content = (
-  <div>
-    <p>content</p>
-  </div>
 );
 
 import noneProfileImg from "../images/none_profile_image.png";
@@ -93,7 +87,10 @@ function UserMenu() {
                 </Caution>
               )}
               <div className="element">
-                <Dropdown overlay={menu} placement="bottomCenter">
+                <Dropdown
+                  overlay={menu(profile?.pathId)}
+                  placement="bottomCenter"
+                >
                   <AuthorImg>
                     {profile?.profileImage ? (
                       <img src={profile?.profileImage} alt="profileImg" />
