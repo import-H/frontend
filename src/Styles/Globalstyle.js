@@ -6,7 +6,9 @@ const GlobalStyle = createGlobalStyle`
     :root{
       --point-color-orange: #FF6C26;
       --point-color-yellow:#ffc90a;
+      --point-color-red: #cc2418;
       --secondary-color: #7973ce;
+      
     }
     
     *{
@@ -93,6 +95,15 @@ const GlobalStyle = createGlobalStyle`
         }
     }
 
+    .secTit{
+      font-size: 2.8rem;
+      font-family: "Noto Sans KR",sans-serif;
+      font-weight: 500;
+      text-align: center;
+      width: 100%;
+      margin-bottom: 3rem;
+    }
+
     /* NavBar */
 header {
     position: fixed;
@@ -152,7 +163,7 @@ header {
     float: left;
     margin-right: 10px;
     @media (max-width: 768px){
-      &:first-child{
+      &.hdProfileIcon{
         margin-right: 0;
       }
       &:not(:first-of-type){
