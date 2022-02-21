@@ -13,15 +13,15 @@ const initialState = {
   status: null,
 };
 // refresh 토큰
-export const refresh = createAsyncThunk("user/refresh", async () => {
-  const authToken = JSON.parse(localStorage.getItem("authTokens"));
-  const response = await axios.post(`${API_URL}/v1/reissue`, {
-    accessToken: authToken.accessToken,
-    refreshToken: authToken.refreshToken,
-  });
+// export const refresh = createAsyncThunk("user/refresh", async () => {
+//   const authToken = JSON.parse(localStorage.getItem("authTokens"));
+//   const response = await axios.post(`${API_URL}/v1/reissue`, {
+//     accessToken: authToken.accessToken,
+//     refreshToken: authToken.refreshToken,
+//   });
 
-  localStorage.setItem("authTokens", JSON.stringify(response.data.data));
-});
+//   localStorage.setItem("authTokens", JSON.stringify(response.data.data));
+// });
 
 // 프로필 가져오기
 export const getProfile = createAsyncThunk("user/getProfile", async userId => {
@@ -38,11 +38,23 @@ export const editProfile = createAsyncThunk(
       `${API_URL}/v1/users/${userId}`,
       userData,
     );
-    const re = await thunkAPI.dispatch(refresh());
-    console.log("re", re);
+    // const re = await thunkAPI.dispatch(refresh());
+    // console.log("re", re);
     return response.data.data;
   },
 );
+
+// 유저 목록 가져오기
+export const getUsers = createAsyncThunk("user/getUsers", async () => {
+  const response = await axios.get(`${API_URL}/v1/users`);
+  console.log(response.data.list);
+  return response.data.list;
+});
+
+export const getEmailSuccess = createAsyncThunk("user/getUsers", async () => {
+  const response = await axios.get(`${API_URL}/v1/email-token`);
+  return response.data.msg;
+});
 
 //sample
 // export const getProducts = createAsyncThunk("getProducts", async (_, thunkAPI) => {
@@ -61,13 +73,35 @@ const slice = createSlice({
   extraReducers: {
     // getUser
     [getProfile.pending]: (state, action) => {
-      state.status = "loading";
+      state.check = "loading";
     },
     [getProfile.fulfilled]: (state, action) => {
-      state.status = "success";
+      state.check = "success";
       state.profile = action.payload;
     },
     [getProfile.rejected]: (state, action) => {
+      state.check = "failed";
+      state.error = action.error;
+    },
+    [editProfile.pending]: (state, action) => {
+      state.status = "loading";
+    },
+    [editProfile.fulfilled]: (state, action) => {
+      state.status = "success";
+      state.profile = action.payload;
+    },
+    [editProfile.rejected]: (state, action) => {
+      state.status = "failed";
+      state.error = action.error;
+    },
+    [getUsers.pending]: (state, action) => {
+      state.status = "loading";
+    },
+    [getUsers.fulfilled]: (state, action) => {
+      state.status = "success";
+      state.users = action.payload;
+    },
+    [getUsers.rejected]: (state, action) => {
       state.status = "failed";
       state.error = action.error;
     },

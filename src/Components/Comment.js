@@ -1,5 +1,5 @@
 // react
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // redux
 import { useDispatch, useSelector } from "react-redux";
@@ -7,6 +7,7 @@ import {
   addComment,
   editComment,
   deleteComment,
+  getPost,
 } from "../reducers/slices/postSlice.js";
 
 // font
@@ -119,14 +120,23 @@ const CommentPush = styled.div`
   }
 `;
 
-const Comment = ({ post, postId }) => {
+const Comment = ({ postId }) => {
   const dispatch = useDispatch();
+  const status = useSelector(state => state.post.status);
+
   const isAuth = useSelector(state => state.auth.isAuth);
+  const comments = useSelector(state => state.post.post.comments);
   const [commentData, setCommentData] = useState("");
   const [commentEdit, setCommentEdit] = useState({
     id: "",
     content: "",
   });
+
+  useEffect(() => {
+    if (status !== "success") {
+      dispatch(getPost(postId));
+    }
+  }, [status]);
 
   // 댓글 등록
   const onPostComment = async () => {
@@ -159,72 +169,76 @@ const Comment = ({ post, postId }) => {
 
   return (
     <CommentWrap>
-      <h3 title="comment">
-        <span>{post?.comments.length}</span> Comment
-      </h3>
-      {post?.comments.map(comment => (
-        <div
-          className="comment"
-          key={comment.id} //api 문서대로 id, createAt, account 추가해야함
-        >
-          {/* 댓글 작성자 */}
-          <CommentInfo>
-            <div className="commentAuthor">
-              <FontAwesomeIcon icon={faUser} />
-              {comment.nickname}
-            </div>
-            <div className="commentBtnArea">
-              {/* 댓글 삭제 */}
-              <div
-                onClick={() => {
-                  onRemoveComment(comment.id);
-                }}
-              >
-                삭제
-              </div>
+      {comments && (
+        <>
+          <h3 title="comment">
+            <span>{comments.length}</span> Comment
+          </h3>
+          {comments.map(comment => (
+            <div
+              className="comment"
+              key={comment.id} //api 문서대로 id, createAt, account 추가해야함
+            >
+              {/* 댓글 작성자 */}
+              <CommentInfo>
+                <div className="commentAuthor">
+                  <FontAwesomeIcon icon={faUser} />
+                  {comment.nickname}
+                </div>
+                <div className="commentBtnArea">
+                  {/* 댓글 삭제 */}
+                  <div
+                    onClick={() => {
+                      onRemoveComment(comment.id);
+                    }}
+                  >
+                    삭제
+                  </div>
 
-              {/* 댓글 수정 */}
-              <div
-                onClick={() => {
-                  onEditComment(comment.id, comment.content);
-                }}
-              >
-                수정
-              </div>
-            </div>
-          </CommentInfo>
+                  {/* 댓글 수정 */}
+                  <div
+                    onClick={() => {
+                      onEditComment(comment.id, comment.content);
+                    }}
+                  >
+                    수정
+                  </div>
+                </div>
+              </CommentInfo>
 
-          {/* 댓글 내용 */}
-          {commentEdit.id !== comment.id ? (
-            <div className="commentContent">{comment.content}</div>
+              {/* 댓글 내용 */}
+              {commentEdit.id !== comment.id ? (
+                <div className="commentContent">{comment.content}</div>
+              ) : (
+                <textarea
+                  className="commentEdit"
+                  value={commentEdit.content}
+                  onChange={e => {
+                    setCommentEdit({ ...commentEdit, content: e.target.value });
+                  }}
+                />
+              )}
+
+              <div className="commentCreateAt">2020.01.02</div>
+            </div>
+          ))}
+          {isAuth ? (
+            <CommentPush>
+              <textarea
+                className="commentWrite"
+                placeholder="댓글을 작성하세요"
+                onChange={onChangeComment}
+                value={commentData}
+              />
+
+              <div className="linkBtn black" onClick={onPostComment}>
+                댓글 작성
+              </div>
+            </CommentPush>
           ) : (
-            <textarea
-              className="commentEdit"
-              value={commentEdit.content}
-              onChange={e => {
-                setCommentEdit({ ...commentEdit, content: e.target.value });
-              }}
-            />
+            <></>
           )}
-
-          <div className="commentCreateAt">2020.01.02</div>
-        </div>
-      ))}
-      {isAuth ? (
-        <CommentPush>
-          <textarea
-            className="commentWrite"
-            placeholder="댓글을 작성하세요"
-            onChange={onChangeComment}
-            value={commentData}
-          />
-
-          <div className="linkBtn black" onClick={onPostComment}>
-            댓글 작성
-          </div>
-        </CommentPush>
-      ) : (
-        <></>
+        </>
       )}
     </CommentWrap>
   );

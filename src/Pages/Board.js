@@ -42,10 +42,16 @@ const MenuBar = styled.div`
     }
   }
   > a:nth-child(1) {
-    color: ${props => (props.boardId === "free" ? "var(--secondary-color)" : "black")};
+    color: ${props =>
+      props.boardId === "free" ? "var(--secondary-color)" : "black"};
   }
   > a:nth-child(2) {
-    color: ${props => (props.boardId === "qna" ? "var(--secondary-color)" : "black")};
+    color: ${props =>
+      props.boardId === "questions" ? "var(--secondary-color)" : "black"};
+  }
+  > a:nth-child(3) {
+    color: ${props =>
+      props.boardId === "notice" ? "var(--secondary-color)" : "black"};
   }
 `;
 
@@ -60,14 +66,14 @@ const BoardWrapper = styled.div`
 // main
 const Board = () => {
   const boardId = useParams().id;
-  const getPostBtn = e => {};
   return (
     <Container>
       <GlobalStyle />
       <BoardWrapper>
         <MenuBar boardId={boardId}>
           <Link to={{ pathname: "/board/free" }}>자유게시판</Link>
-          <Link to={{ pathname: "/board/qna" }}>qna 게시판</Link>
+          <Link to={{ pathname: "/board/questions" }}>qna 게시판</Link>
+          <Link to={{ pathname: "/board/notice" }}>공지사항</Link>
         </MenuBar>
         <BoardForm />
       </BoardWrapper>
