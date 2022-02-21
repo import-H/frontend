@@ -91,10 +91,12 @@ const MyPage = () => {
 
   const [isNicknameChange, setIsNicknameChange] = useState(false);
   const [isIntroduceChange, setIsIntroduceChange] = useState(false);
+  const [isPersonalUrlChange, setIsPersonalUrlChange] = useState(false);
   const [isProfileImgUpload, setIsProfileImgUpload] = useState(false);
 
   const [newNicknameValue, setNewNicknameValue] = useState("");
   const [newIntroduceValue, setNewIntroduceValue] = useState("");
+  const [newPersonalUrl, setNewPersonalUrl] = useState("");
 
   const [userIp, setUserIp] = useState("");
 
@@ -110,10 +112,9 @@ const MyPage = () => {
     dispatch(getProfile(userId));
   }, [status]);
 
-  const onChangeNickname = e => {
-    setNewNicknameValue(e.currentTarget.value);
-  };
+  const onChangeNickname = e =>setNewNicknameValue(e.currentTarget.value);
   const onChangeIntroduce = e => setNewIntroduceValue(e.currentTarget.value);
+  const onChangePersonalUrl = e => setNewPersonalUrl(e.currentTarget.value);
 
   const changeNickname = async e => {
     e.preventDefault();
@@ -144,6 +145,20 @@ const MyPage = () => {
       dispatch(updateUser());
     }
     setIsIntroduceChange(false);
+  };
+  const changePersonalUrl = async e => {
+    e.preventDefault();
+    const userData = {
+      nickname: user.nickname,
+      introduction: user.introduction,
+      personalUrl: newPersonalUrl,
+      infoByEmail: user.infoByEmail,
+      infoByWeb: user.infoByWeb,
+      profileImage: profileImg,
+    };
+    dispatch(editProfile({ userId: userId, userData }));
+    dispatch(updateUser());
+    setIsPersonalUrlChange(false);
   };
 
   const profileImgDelete = async e => {
@@ -295,6 +310,30 @@ const MyPage = () => {
                 <input type="checkbox"/>
                 <span class="onoff-switch" />
               </label>
+            </div>
+            <div className="element">
+              <span className="sub">홈페이지</span>
+              {!isPersonalUrlChange ? (
+                <>
+                  <span className="result"><a href={user.personalUrl} target="_blank">{user.personalUrl ? user.personalUrl : ""}</a></span>
+                  <div
+                    className="editIcon"
+                    onClick={() => setIsPersonalUrlChange(true)}
+                  >
+                    <FontAwesomeIcon icon={faPen} />
+                  </div>
+                </>
+              ) : (
+                <form onSubmit={changePersonalUrl}>
+                  <Input 
+                    type="text"
+                    name="personalUrl"
+                    onChange={onChangePersonalUrl}
+                    placeholder="http 혹은 https를 포함해서 입력해야 정상 동작합니다."
+                  />
+                  <button type="submit">확인</button>
+                </form>
+              )}
             </div>
             <div className="flex flex-jc-c">
               <Link to="/leave" className="linkBtn">
