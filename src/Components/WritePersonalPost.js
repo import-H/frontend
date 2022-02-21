@@ -55,15 +55,15 @@ const WritePersonalPost = ({ personId }) => {
     let imgUrls =
       instance.match(findImage) &&
       instance.match(findImage).map(url => url.split("/").pop());
-    imgUrls =
-      imgUrls && imgUrls.map(imgUrl => imgUrl.substring(0, imgUrl.length - 1));
-
+    imgUrls = imgUrls
+      ? imgUrls.map(imgUrl => imgUrl.substring(0, imgUrl.length - 1))
+      : [];
     const postData = {
       title: title,
       tags: tags,
-      content: instance, //setPost에서 content 수정하면 바로 반영안되는 문제로 이렇게 해결함
+      content: instance,
       images: imgUrls,
-      type: "jamongg",
+      type: personId,
     };
     await dispatch(addPost(postData));
     await dispatch(getPosts(personId));
