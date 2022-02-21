@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 // 기본 input
 const Input = styled.input`
-  width: 100%;
+  width: 200%;
   height: 37px;
   border: 1px solid #ccc;
   border-radius: 5px;
