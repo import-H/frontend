@@ -38,6 +38,9 @@ const Caution = styled(Link)`
     color: red;
     text-decoration: underline;
   }
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const menu = (
