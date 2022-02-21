@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 // react-router-dom
-import { Link, Navigate } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // redux
 import { useDispatch, useSelector } from "react-redux";
@@ -12,11 +11,16 @@ import { updateUser } from "../reducers/slices/authSlice";
 // styled-components
 import styled from "styled-components";
 import GlobalStyle from "../Styles/Globalstyle.js";
-import { Button, Input, Container } from "../Styles/theme.js";
+import { Input, Container } from "../Styles/theme.js";
+
+// antd
+import "antd/dist/antd.css";
+import { Modal, Button } from "antd";
 
 // icon
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 // axios with auth
 import axiosInstance from "../utils/axiosInstance";
@@ -24,6 +28,8 @@ import axiosInstance from "../utils/axiosInstance";
 import { API_URL } from "../config";
 
 import noneProfileImg from "../images/none_profile_image.png";
+
+import "./css/MyPage.css";
 
 // style
 const MyPageWrapper = styled(Container)`
@@ -46,7 +52,7 @@ const MyPageWrapper = styled(Container)`
       margin-right: 5px;
     }
   }
-  
+
   & .editIcon {
     padding: 5px;
     color: #333;
@@ -78,155 +84,316 @@ const MyPageWrapper = styled(Container)`
 const MyPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector(state => state.auth.user);
-  const profileInfo = useSelector(state => state.user.profile);
-  const profileImg = profileInfo.profileImage;
+  const status = useSelector(state => state.user.status);
+  const isAuth = useSelector(state => state.auth.isAuth);
+  const userId = useSelector(state => state.auth.userId);
+  const user = useSelector(state => state.user.profile);
+  const profileImg = user?.profileImage;
 
   const [isNicknameChange, setIsNicknameChange] = useState(false);
   const [isIntroduceChange, setIsIntroduceChange] = useState(false);
+  const [isPersonalUrlChange, setIsPersonalUrlChange] = useState(false);
+  const [isProfileImgUpload, setIsProfileImgUpload] = useState(false);
 
   const [newNicknameValue, setNewNicknameValue] = useState("");
   const [newIntroduceValue, setNewIntroduceValue] = useState("");
+  const [newPersonalUrl, setNewPersonalUrl] = useState("");
+
+  const [userIp, setUserIp] = useState("");
 
   useEffect(() => {
-    dispatch(getProfile(user.userId));
-  }, []);
+    if (!isAuth) {
+      navigate("/");
+    }
 
-  const buttonClick = () => alert("버튼 클릭 임시 함수");
+    fetch("https://api.ipify.org?format=json")
+      .then(res => res.json())
+      .then(res => setUserIp(res.ip));
 
-  const onChangeNickname = e => {
-    setNewNicknameValue(e.currentTarget.value);
-  };
+    dispatch(getProfile(userId));
+  }, [status]);
+
+  const onChangeNickname = e =>setNewNicknameValue(e.currentTarget.value);
   const onChangeIntroduce = e => setNewIntroduceValue(e.currentTarget.value);
+  const onChangePersonalUrl = e => setNewPersonalUrl(e.currentTarget.value);
 
   const changeNickname = async e => {
     e.preventDefault();
     const userData = {
       nickname: newNicknameValue,
-      introduction: profileInfo.introduction,
-      personalUrl: profileInfo.personalUrl,
-      infoByEmail: profileInfo.infoByEmail,
-      infoByWeb: profileInfo.infoByWeb,
+      introduction: user.introduction,
+      personalUrl: user.personalUrl,
+      infoByEmail: user.infoByEmail,
+      infoByWeb: user.infoByWeb,
+      profileImage: profileImg,
     };
-    await dispatch(editProfile({ userId: user.userId, userData }));
-    await dispatch(updateUser());
+    dispatch(editProfile({ userId: userId, userData }));
+    dispatch(updateUser());
     setIsNicknameChange(false);
   };
+
   const changeIntroduce = async e => {
     e.preventDefault();
-    const userData = {
-      nickname: profileInfo.nickname,
-      introduction: newIntroduceValue,
-      personalUrl: profileInfo.personalUrl,
-      infoByEmail: profileInfo.infoByEmail,
-      infoByWeb: profileInfo.infoByWeb,
-    };
-    await dispatch(editProfile({ userId: user.userId, userData }));
-    await dispatch(updateUser());
-    // try {
-    //   const res = await axiosInstance.put(
-    //     `${API_URL}/v1/users/${user.userId}`,
-    //     data,
-    //   );
-    //   console.log(res);
-    // } catch (e) {
-    //   console.log(e.response);
-    // }
+    if (newIntroduceValue !== "") {
+      const userData = {
+        nickname: user.nickname,
+        introduction: newIntroduceValue,
+        personalUrl: user.personalUrl,
+        infoByEmail: user.infoByEmail,
+        infoByWeb: user.infoByWeb,
+        profileImage: profileImg,
+      };
+      dispatch(editProfile({ userId: userId, userData }));
+      dispatch(updateUser());
+    }
     setIsIntroduceChange(false);
+  };
+  const introduceDelete = async e => {
+    if (window.confirm("자기소개를 삭제할까요?")) {
+      e.preventDefault();
+      const userData = {
+        nickname: user.nickname,
+        introduction: null,
+        personalUrl: user.personalUrl,
+        infoByEmail: user.infoByEmail,
+        infoByWeb: user.infoByWeb,
+        profileImage: user.profileImage,
+      };
+      dispatch(editProfile({ userId: userId, userData }));
+      dispatch(updateUser());
+      alert("삭제가 완료되었습니다.");
+    }
+  }
+
+  const changePersonalUrl = async e => {
+    e.preventDefault();
+    const userData = {
+      nickname: user.nickname,
+      introduction: user.introduction,
+      personalUrl: newPersonalUrl,
+      infoByEmail: user.infoByEmail,
+      infoByWeb: user.infoByWeb,
+      profileImage: profileImg,
+    };
+    dispatch(editProfile({ userId: userId, userData }));
+    dispatch(updateUser());
+    setIsPersonalUrlChange(false);
+  };
+  const personalUrlDelete = async e => {
+    if (window.confirm("홈페이지 주소를 삭제할까요?")) {
+      e.preventDefault();
+      const userData = {
+        nickname: user.nickname,
+        introduction: user.introduction,
+        personalUrl: null,
+        infoByEmail: user.infoByEmail,
+        infoByWeb: user.infoByWeb,
+        profileImage: user.profileImage,
+      };
+      dispatch(editProfile({ userId: userId, userData }));
+      dispatch(updateUser());
+      alert("삭제가 완료되었습니다.");
+    }
+  }
+
+  const profileImgDelete = async e => {
+    if (window.confirm("프로필 사진을 삭제할까요?")) {
+      e.preventDefault();
+      const userData = {
+        nickname: user.nickname,
+        introduction: user.introduction,
+        personalUrl: user.personalUrl,
+        infoByEmail: user.infoByEmail,
+        infoByWeb: user.infoByWeb,
+        profileImage: "N",
+      };
+      dispatch(editProfile({ userId: userId, userData }));
+      dispatch(updateUser());
+      alert("삭제가 완료되었습니다.");
+    }
   };
 
   return (
     <MyPageWrapper>
       <GlobalStyle />
       {/* User Info */}
-      <div className="flex flex-jc-c">
-        <div className="profileImgArea">
-          {/* profile image */}
-          <div>
-            {profileImg === "N" || profileImg === null ? (
-              <img src={noneProfileImg} width="100" height="100" />
-            ) : (
-              <img src={user.profileImage} width="100" height="100" />
-            )}
-          </div>
-          <div className="EditbuttonArea">
-            {/* profile image edit button */}
-            <div
-              className="linkBtn"
-              style={{ marginBottom: "3%" }}
-              onClick={buttonClick}
-            >
-              사진 변경
+      {user && (
+        <>
+          <div className="flex flex-jc-c">
+            <div className="profileImgArea">
+              {/* profile image */}
+              <div>
+                <Modal
+                  visible={isProfileImgUpload}
+                  title="프로필 사진 업로드"
+                  width={600}
+                  onCancel={() => setIsProfileImgUpload(false)}
+                  footer={null}
+                >
+                  {/* https://enai.tistory.com/37 참고 */}
+                  <input
+                    type="file"
+                    name="profileImg"
+                    id="imgFileOpenInput"
+                    accept="image/*"
+                  ></input>
+                  <div style={{ marginTop: "3%" }}>
+                    <div
+                      className="linkBtn element"
+                      onClick={() => {
+                        alert("업로드가 완료되었습니다.");
+                        setIsProfileImgUpload(false);
+                      }}
+                    >
+                      확인
+                    </div>
+                    <div
+                      className="linkBtn element"
+                      onClick={() => setIsProfileImgUpload(false)}
+                    >
+                      취소
+                    </div>
+                  </div>
+                </Modal>
+                {profileImg ? (
+                  <img src={profileImg} width="100" height="100" />
+                ) : (
+                  <img src={noneProfileImg} width="100" height="100" />
+                )}
+              </div>
+              <div className="EditbuttonArea">
+                {/* profile image edit button */}
+                <div
+                  className="linkBtn"
+                  style={{ marginBottom: "3%" }}
+                  onClick={() => setIsProfileImgUpload(true)}
+                >
+                  {profileImg === "N" ? "사진 등록" : "사진 변경"}
+                </div>
+                {profileImg !== "N" && (
+                  <Link to="" className="linkBtn" onClick={profileImgDelete}>
+                    사진 삭제
+                  </Link>
+                )}
+              </div>
             </div>
-            <Link to="" className="linkBtn" onClick={buttonClick}>
-              사진 삭제
-            </Link>
+            {/* 자기소개 */}
+            <div>
+              <div className="nicknameArea flex flex-ai-c">
+                {!isNicknameChange ? (
+                  <>
+                    <h1>{user.nickname}</h1>{" "}
+                    <div
+                      className="editIcon"
+                      onClick={() => setIsNicknameChange(true)}
+                    >
+                      <FontAwesomeIcon icon={faPen} />
+                    </div>
+                  </>
+                ) : (
+                  <form onSubmit={changeNickname}>
+                    <Input
+                      type="text"
+                      name="nickname"
+                      onChange={onChangeNickname}
+                    />
+                    <button type="submit">확인</button>
+                  </form>
+                )}
+              </div>
+              <div className="introductionArea flex flex-ai-c">
+                {!isIntroduceChange ? (
+                  <>
+                    <h2>
+                      {user.introduction === "" || user.introduction === null
+                        ? "자기소개가 없습니다."
+                        : user.introduction}
+                    </h2>{" "}
+                    <div
+                      className="editIcon"
+                      onClick={() => setIsIntroduceChange(true)}
+                    >
+                      <FontAwesomeIcon icon={faPen} />
+                    </div>
+                    {user.introduction &&
+                      <div
+                        className="editIcon"
+                        onClick={introduceDelete}
+                      >
+                        <FontAwesomeIcon icon={faTrash} />
+                      </div>
+                    }
+                  </>
+                ) : (
+                  <form onSubmit={changeIntroduce}>
+                    <Input
+                      type="text"
+                      name="nickname"
+                      onChange={onChangeIntroduce}
+                    />
+                    <button type="submit">확인</button>
+                  </form>
+                )}
+              </div>
+            </div>
           </div>
-        </div>
-        {/* 자기소개 */}
-        <div>
-          <div className="nicknameArea flex flex-ai-c">
-            {!isNicknameChange ? (
-              <>
-                <h1>{user.nickname}</h1>{" "}
-                <div
-                  className="editIcon"
-                  onClick={() => setIsNicknameChange(true)}
-                >
-                  <FontAwesomeIcon icon={faPen} />
-                </div>
-              </>
-            ) : (
-              <form onSubmit={changeNickname}>
-                <Input
-                  type="text"
-                  name="nickname"
-                  onChange={onChangeNickname}
-                />
-                <button type="submit">확인</button>
-              </form>
-            )}
+          {/* 추가코드 이 밑으로 입력 */}
+          <div id="infoArea">
+            <div className="element">
+              <span className="sub">접속 중인 IP</span>
+              <span className="result">{userIp}</span>
+            </div>
+            <div className="element">
+              <span className="sub">이메일</span>
+              <span className="result">{user.email}</span>
+            </div>
+            <div className="element">
+              <span className="sub">이메일 수신 설정</span>
+              <label class="switch-button">
+                <input type="checkbox"/>
+                <span class="onoff-switch" />
+              </label>
+            </div>
+            <div className="element">
+              <span className="sub">홈페이지</span>
+              {!isPersonalUrlChange ? (
+                <>
+                  <span className="result"><a href={user.personalUrl} target="_blank">{user.personalUrl ? user.personalUrl : ""}</a></span>
+                  <div
+                    className="editIcon"
+                    onClick={() => setIsPersonalUrlChange(true)}
+                  >
+                    <FontAwesomeIcon icon={faPen} />
+                  </div>
+                  {user.personalUrl &&
+                    <div
+                      className="editIcon"
+                      onClick={personalUrlDelete}
+                    >
+                      <FontAwesomeIcon icon={faTrash} />
+                    </div>
+                  }
+                </>
+              ) : (
+                <form onSubmit={changePersonalUrl}>
+                  <Input 
+                    type="text"
+                    name="personalUrl"
+                    onChange={onChangePersonalUrl}
+                    placeholder="http 혹은 https를 포함해서 입력해야 정상 동작합니다."
+                  />
+                  <button type="submit">확인</button>
+                </form>
+              )}
+            </div>
+            <div className="flex flex-jc-c">
+              <Link to="/leave" className="linkBtn">
+                회원 탈퇴
+              </Link>
+            </div>
           </div>
-          <div className="introductionArea flex flex-ai-c">
-            {!isIntroduceChange ? (
-              <>
-                <h2>{profileInfo.introduction === "" ? "자기소개가 없습니다." : profileInfo.introduction}</h2>{" "}
-                <div
-                  className="editIcon"
-                  onClick={() => setIsIntroduceChange(true)}
-                >
-                  <FontAwesomeIcon icon={faPen} />
-                </div>
-              </>
-            ) : (
-              <form onSubmit={changeIntroduce}>
-                <Input
-                  type="text"
-                  name="nickname"
-                  onChange={onChangeIntroduce}
-                />
-                <button type="submit">확인</button>
-              </form>
-            )}
-          </div>
-        </div>
-      </div>
-      {/* 추가코드 이 밑으로 입력 */}
-      <div id="infoArea">
-        <div className="element">
-          <span className="sub">이메일</span>
-          <span className="result">{user.sub}</span>
-        </div>
-        <div className="element">
-          <span className="sub">이메일 수신 설정</span>
-          <input type="checkbox" />
-        </div>
-        <div className="flex flex-jc-c">
-          <Link to="/leave" className="linkBtn">
-            회원 탈퇴
-          </Link>
-        </div>
-      </div>
+        </>
+      )}
     </MyPageWrapper>
   );
 };
