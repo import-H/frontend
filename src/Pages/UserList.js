@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import GlobalStyle from "../Styles/Globalstyle";
 import { Container } from "../Styles/theme";
 import styled from "styled-components";
 import noneProfileImg from "../images/none_profile_image.png";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getUsers } from "../reducers/slices/userSlice";
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -52,18 +54,28 @@ const sampleUsers = [
 ];
 
 const UserList = () => {
+  const dispatch = useDispatch();
+  const users = useSelector(state => state.user.users);
+  useEffect(() => {
+    dispatch(getUsers());
+  }, []);
   return (
     <Container>
       <GlobalStyle />
       <Wrapper>
-        {sampleUsers.map(user => (
-          <Link to={`posts/${user.pathId}`}>
-            <User key={user.id}>
-              <img src={noneProfileImg} />
-              <div className="userName">{user.username}</div>
-            </User>
-          </Link>
-        ))}
+        {users &&
+          users.map(user => (
+            <Link to={`posts/${user?.pathId}`}>
+              <User key={user.userId}>
+                {user?.profileImage ? (
+                  <img src={user.profileImage} />
+                ) : (
+                  <img src={noneProfileImg} />
+                )}
+                <div className="userName">{user.nickname}</div>
+              </User>
+            </Link>
+          ))}
       </Wrapper>
     </Container>
   );
