@@ -40,6 +40,7 @@ export const addPost = createAsyncThunk(
     const response = await axiosInstance.post(`${API_URL}/v1/posts`, {
       ...postData,
     });
+    console.log(postData);
     return response.data.data;
     // await axios.post("http://localhost:3001/posts", {
     //   boardId: boardId,

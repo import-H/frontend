@@ -26,6 +26,19 @@ const AuthorImg = styled.div`
   }
 `;
 
+const Caution = styled(Link)`
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: red;
+  text-decoration: underline;
+  &:hover {
+    color: red;
+    text-decoration: underline;
+  }
+`;
+
 import noneProfileImg from "../images/none_profile_image.png";
 import { getProfile } from "../reducers/slices/userSlice";
 
@@ -48,6 +61,11 @@ function UserMenu() {
         <span>
           {auth.isAuth ? (
             <span role="afterLogin">
+              {!profile?.emailVerified && (
+                <Caution className="element" to="/">
+                  ⚠ 이메일 인증을 진행해주세요
+                </Caution>
+              )}
               <div className="element">
                 <Link to="/mypage" data-testid="profileLink">
                   <AuthorImg>
