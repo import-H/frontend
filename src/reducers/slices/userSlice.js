@@ -44,6 +44,12 @@ export const editProfile = createAsyncThunk(
   },
 );
 
+export const getUsers = createAsyncThunk("user/getUsers", async () => {
+  const response = await axios.get(`${API_URL}/v1/users`);
+  console.log(response.data.list);
+  return response.data.list;
+});
+
 //sample
 // export const getProducts = createAsyncThunk("getProducts", async (_, thunkAPI) => {
 //   thunkAPI.dispatch(actionLoading());
@@ -79,6 +85,17 @@ const slice = createSlice({
       state.profile = action.payload;
     },
     [editProfile.rejected]: (state, action) => {
+      state.status = "failed";
+      state.error = action.error;
+    },
+    [getUsers.pending]: (state, action) => {
+      state.status = "loading";
+    },
+    [getUsers.fulfilled]: (state, action) => {
+      state.status = "success";
+      state.users = action.payload;
+    },
+    [getUsers.rejected]: (state, action) => {
       state.status = "failed";
       state.error = action.error;
     },
