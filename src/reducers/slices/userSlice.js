@@ -44,10 +44,16 @@ export const editProfile = createAsyncThunk(
   },
 );
 
+// 유저 목록 가져오기
 export const getUsers = createAsyncThunk("user/getUsers", async () => {
   const response = await axios.get(`${API_URL}/v1/users`);
   console.log(response.data.list);
   return response.data.list;
+});
+
+export const getEmailSuccess = createAsyncThunk("user/getUsers", async () => {
+  const response = await axios.get(`${API_URL}/v1/email-token`);
+  return response.data.msg;
 });
 
 //sample
