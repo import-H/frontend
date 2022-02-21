@@ -11,7 +11,7 @@ import { updateUser } from "../reducers/slices/authSlice";
 // styled-components
 import styled from "styled-components";
 import GlobalStyle from "../Styles/Globalstyle.js";
-import { Input, Container } from "../Styles/theme.js";
+import { BigInput, Input, Container } from "../Styles/theme.js";
 
 // antd
 import "antd/dist/antd.css";
@@ -376,7 +376,7 @@ const MyPage = () => {
                 </>
               ) : (
                 <form onSubmit={changePersonalUrl}>
-                  <Input 
+                  <BigInput 
                     type="text"
                     name="personalUrl"
                     onChange={onChangePersonalUrl}
