@@ -2,6 +2,20 @@ import styled from "styled-components";
 
 // 기본 input
 const Input = styled.input`
+  width: 100%;
+  height: 37px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px 10px;
+  outline: none;
+  transition: border 0.3s;
+  &:active,
+  &:focus,
+  &:focus-visible {
+    border-color: #222;
+  }
+`;
+const BigInput = styled.input`
   width: 200%;
   height: 37px;
   border: 1px solid #ccc;
@@ -53,4 +67,4 @@ const MainContainer = styled(Container)`
   margin-top: 0;
 `;
 
-export { Button, Input, Container, MainContainer, FlexContainer };
+export { Button, BigInput, Input, Container, MainContainer, FlexContainer };
