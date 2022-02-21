@@ -51,11 +51,10 @@ function UserMenu() {
               <div className="element">
                 <Link to="/mypage" data-testid="profileLink">
                   <AuthorImg>
-                    {profile?.profileImage === "N" ||
-                    profile?.profileImage === null ? (
-                      <img src={noneProfileImg} />
-                    ) : (
+                    {profile?.profileImage ? (
                       <img src={profile?.profileImage} alt="profileImg" />
+                    ) : (
+                      <img src={noneProfileImg} />
                     )}
                   </AuthorImg>
                 </Link>

@@ -30,7 +30,7 @@ describe("NavBar Unit Test", () => {
 
   it("개인활동 게시판 메뉴 확인", () => {
     render(<MockNavBar />);
-    const UserBoardElement = screen.getByText("개인활동 게시판");
+    const UserBoardElement = screen.getByText("스터디 멤버");
     expect(UserBoardElement).toBeInTheDocument();
   });
 
@@ -42,7 +42,7 @@ describe("NavBar Unit Test", () => {
 
   it("개인활동 게시판 링크 동작 확인", () => {
     render(<MockNavBar />);
-    const boardElement = screen.getByText("개인활동 게시판").closest("a");
+    const boardElement = screen.getByText("스터디 멤버").closest("a");
     expect(boardElement).toHaveAttribute("href", `/posts`);
   });
 });
