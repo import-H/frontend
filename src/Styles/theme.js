@@ -55,6 +55,9 @@ const Container = styled.div`
   margin-top: 50px;
   min-width: 300px;
   padding: 50px 0;  
+  @media (max-width: 1200px){
+      padding: 50px 25px;    
+  }
 `;
 
 const FlexContainer = styled(Container)`
