@@ -20,6 +20,7 @@ import { Modal, Button } from "antd";
 // icon
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 // axios with auth
 import axiosInstance from "../utils/axiosInstance";
@@ -160,6 +161,22 @@ const MyPage = () => {
     dispatch(updateUser());
     setIsPersonalUrlChange(false);
   };
+  const personalUrlDelete = async e => {
+    if (window.confirm("홈페이지 주소를 삭제할까요?")) {
+      e.preventDefault();
+      const userData = {
+        nickname: user.nickname,
+        introduction: user.introduction,
+        personalUrl: null,
+        infoByEmail: user.infoByEmail,
+        infoByWeb: user.infoByWeb,
+        profileImage: user.profileImage,
+      };
+      dispatch(editProfile({ userId: userId, userData }));
+      dispatch(updateUser());
+      alert("삭제가 완료되었습니다.");
+    }
+  }
 
   const profileImgDelete = async e => {
     if (window.confirm("프로필 사진을 삭제할까요?")) {
@@ -322,6 +339,14 @@ const MyPage = () => {
                   >
                     <FontAwesomeIcon icon={faPen} />
                   </div>
+                  {user.personalUrl &&
+                    <div
+                      className="editIcon"
+                      onClick={personalUrlDelete}
+                    >
+                      <FontAwesomeIcon icon={faTrash} />
+                    </div>
+                  }
                 </>
               ) : (
                 <form onSubmit={changePersonalUrl}>
