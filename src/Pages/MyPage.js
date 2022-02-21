@@ -131,6 +131,7 @@ const MyPage = () => {
     dispatch(updateUser());
     setIsNicknameChange(false);
   };
+
   const changeIntroduce = async e => {
     e.preventDefault();
     if (newIntroduceValue !== "") {
@@ -147,6 +148,23 @@ const MyPage = () => {
     }
     setIsIntroduceChange(false);
   };
+  const introduceDelete = async e => {
+    if (window.confirm("자기소개를 삭제할까요?")) {
+      e.preventDefault();
+      const userData = {
+        nickname: user.nickname,
+        introduction: null,
+        personalUrl: user.personalUrl,
+        infoByEmail: user.infoByEmail,
+        infoByWeb: user.infoByWeb,
+        profileImage: user.profileImage,
+      };
+      dispatch(editProfile({ userId: userId, userData }));
+      dispatch(updateUser());
+      alert("삭제가 완료되었습니다.");
+    }
+  }
+
   const changePersonalUrl = async e => {
     e.preventDefault();
     const userData = {
@@ -297,6 +315,14 @@ const MyPage = () => {
                     >
                       <FontAwesomeIcon icon={faPen} />
                     </div>
+                    {user.introduction &&
+                      <div
+                        className="editIcon"
+                        onClick={introduceDelete}
+                      >
+                        <FontAwesomeIcon icon={faTrash} />
+                      </div>
+                    }
                   </>
                 ) : (
                   <form onSubmit={changeIntroduce}>
