@@ -34,8 +34,8 @@
     border-radius:20px; 
 } 
 .switch-button input:checked + .onoff-switch { 
-    background-color: #F2D522; 
-    box-shadow: inset 1px 5px 1px #E3AE56; 
+    background-color: #7973ce; 
+    box-shadow: inset 1px 5px 1px #6b67a7; 
 } 
 .switch-button input:checked + .onoff-switch:before { 
     -webkit-transform: translateX(26px); 
