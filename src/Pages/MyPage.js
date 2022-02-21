@@ -28,6 +28,8 @@ import { API_URL } from "../config";
 
 import noneProfileImg from "../images/none_profile_image.png";
 
+import "./css/MyPage.css";
+
 // style
 const MyPageWrapper = styled(Container)`
   & .profileImgArea {
@@ -289,7 +291,10 @@ const MyPage = () => {
             </div>
             <div className="element">
               <span className="sub">이메일 수신 설정</span>
-              <input type="checkbox" />
+              <label class="switch-button">
+                <input type="checkbox"/>
+                <span class="onoff-switch" />
+              </label>
             </div>
             <div className="flex flex-jc-c">
               <Link to="/leave" className="linkBtn">
