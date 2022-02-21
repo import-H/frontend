@@ -17,6 +17,7 @@ import Comment from "../Components/Comment.js";
 import WritePersonalPost from "../Components/WritePersonalPost.js";
 import { useDispatch, useSelector } from "react-redux";
 import { getPost, getPosts } from "../reducers/slices/postSlice.js";
+import { timeElapsed } from "../utils/tools.js";
 
 // style
 const BoardWrap = styled.div`
@@ -84,7 +85,6 @@ const FirstAction = styled.div`
 const PersonalBoard = () => {
   const dispatch = useDispatch();
   const personId = useParams().personId;
-  const status = useSelector(state => state.post.status);
   const [posts, setPosts] = useState([]);
   const userPathId = useSelector(state => state?.user?.profile?.pathId);
   const currentPost = useSelector(state => state.post.post);
@@ -123,10 +123,12 @@ const PersonalBoard = () => {
                   }}
                 >
                   <BoardTitle>
-                    {post.responseInfo.title}
                     {/* 제목 */}
-                    <span className="date">{post.responseInfo.createdAt}</span>
+                    {post.responseInfo.title}
                     {/* 생성 시간 */}
+                    <span className="date">
+                      {timeElapsed(post.responseInfo.createdAt)}
+                    </span>
                   </BoardTitle>
                   {/* 글쓴이 */}
                   <div className="boardAuthor">

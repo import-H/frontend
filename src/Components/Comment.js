@@ -126,6 +126,8 @@ const Comment = ({ postId }) => {
 
   const isAuth = useSelector(state => state.auth.isAuth);
   const comments = useSelector(state => state.post.post.comments);
+
+  const userNickname = useSelector(state => state?.user?.profile?.nickname);
   const [commentData, setCommentData] = useState("");
   const [commentEdit, setCommentEdit] = useState({
     id: "",
@@ -185,25 +187,27 @@ const Comment = ({ postId }) => {
                   <FontAwesomeIcon icon={faUser} />
                   {comment.nickname}
                 </div>
-                <div className="commentBtnArea">
-                  {/* 댓글 삭제 */}
-                  <div
-                    onClick={() => {
-                      onRemoveComment(comment.id);
-                    }}
-                  >
-                    삭제
-                  </div>
+                {comment.nickname === userNickname && (
+                  <div className="commentBtnArea">
+                    {/* 댓글 삭제 */}
+                    <div
+                      onClick={() => {
+                        onRemoveComment(comment.id);
+                      }}
+                    >
+                      삭제
+                    </div>
 
-                  {/* 댓글 수정 */}
-                  <div
-                    onClick={() => {
-                      onEditComment(comment.id, comment.content);
-                    }}
-                  >
-                    수정
+                    {/* 댓글 수정 */}
+                    <div
+                      onClick={() => {
+                        onEditComment(comment.id, comment.content);
+                      }}
+                    >
+                      수정
+                    </div>
                   </div>
-                </div>
+                )}
               </CommentInfo>
 
               {/* 댓글 내용 */}
