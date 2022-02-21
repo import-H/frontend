@@ -65,16 +65,20 @@ const UserList = () => {
       <Wrapper>
         {users &&
           users.map(user => (
-            <Link to={`posts/${user?.pathId}`}>
-              <User key={user.userId}>
-                {user?.profileImage ? (
-                  <img src={user.profileImage} />
-                ) : (
-                  <img src={noneProfileImg} />
-                )}
-                <div className="userName">{user.nickname}</div>
-              </User>
-            </Link>
+            <>
+              {user?.pathId && (
+                <Link to={`posts/${user.pathId}`}>
+                  <User key={user.userId}>
+                    {user?.profileImage ? (
+                      <img src={user.profileImage} />
+                    ) : (
+                      <img src={noneProfileImg} />
+                    )}
+                    <div className="userName">{user.nickname}</div>
+                  </User>
+                </Link>
+              )}
+            </>
           ))}
       </Wrapper>
     </Container>

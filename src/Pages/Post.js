@@ -218,12 +218,7 @@ const Post = () => {
 
   useEffect(async () => {
     try {
-      const postdata = await dispatch(
-        getPost({
-          postId: postId,
-          boardId: boardId,
-        }),
-      ).unwrap();
+      const postdata = await dispatch(getPost(postId)).unwrap();
 
       setPost(postdata);
     } catch (e) {

@@ -37,6 +37,7 @@ const BoardWrap = styled.div`
 `;
 
 const BoardList = styled.div`
+  display: flex;
   width: 100%;
   margin: 0 auto;
   padding: 20px 0;
@@ -89,6 +90,20 @@ const BoardTitle = styled.div`
   }
 `;
 
+const ImgArea = styled.div`
+  margin-right: 1rem;
+  flex: 1;
+  height: 12rem;
+
+  & img {
+    height: 100%;
+  }
+`;
+
+const ContentArea = styled.div`
+  flex: 3;
+`;
+
 const BoardForm = () => {
   const dispatch = useDispatch();
   const posts = useSelector(state => state.post.posts);
@@ -120,9 +135,6 @@ const BoardForm = () => {
     <>
       <GlobalStyle />
       <BoardWrap>
-        {/* <div className="flex flex-jc-e">
-        <Link to={{ pathname: `/write/${boardId}` }} className="writeBtn linkBtn">글 작성하기</Link> 
-        </div>    */}
         <div>
           {posts &&
             posts.map(post => (
@@ -133,31 +145,38 @@ const BoardForm = () => {
                 key={post.responseInfo.postId}
               >
                 <BoardList>
-                  <BoardTitle className="boardTitle">
-                    {post.responseInfo.title}
-                    {/* 제목 */}
-                    <span className="date">
-                      {timeElapsed(post.responseInfo.createdAt)}
-                    </span>
-                    {/* 생성 시간 */}
-                  </BoardTitle>
-                  {/* 글쓴이 */}
-                  <div className="boardAuthor">{post.responseInfo.author}</div>
-                  <Viewer
-                    initialValue={simplyContent(post.responseInfo.content)}
-                  />
-                  <div className="commentWrap flex flex-ai-c">
-                    {/* 좋아요 */}
-                    <div className="boardLike">
-                      <FontAwesomeIcon icon={faHeart} />
-                      {post.responseInfo.likeCount}
+                  <ImgArea>
+                    <img src="https://img.youtube.com/vi/3ugQRXRToFA/mqdefault.jpg" />
+                  </ImgArea>
+                  <ContentArea>
+                    <BoardTitle className="boardTitle">
+                      {post.responseInfo.title}
+                      {/* 제목 */}
+                      <span className="date">
+                        {timeElapsed(post.responseInfo.createdAt)}
+                      </span>
+                      {/* 생성 시간 */}
+                    </BoardTitle>
+                    {/* 글쓴이 */}
+                    <div className="boardAuthor">
+                      {post.responseInfo.author}
                     </div>
-                    {/* 댓글 */}
-                    <div className="boardComment">
-                      <FontAwesomeIcon icon={faCommentAlt} />{" "}
-                      {post.commentsCount}
+                    <Viewer
+                      initialValue={simplyContent(post.responseInfo.content)}
+                    />
+                    <div className="commentWrap flex flex-ai-c">
+                      {/* 좋아요 */}
+                      <div className="boardLike">
+                        <FontAwesomeIcon icon={faHeart} />
+                        {post.responseInfo.likeCount}
+                      </div>
+                      {/* 댓글 */}
+                      <div className="boardComment">
+                        <FontAwesomeIcon icon={faCommentAlt} />{" "}
+                        {post.commentsCount}
+                      </div>
                     </div>
-                  </div>
+                  </ContentArea>
                 </BoardList>
               </Link>
             ))}
