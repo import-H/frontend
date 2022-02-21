@@ -6,7 +6,9 @@ const GlobalStyle = createGlobalStyle`
     :root{
       --point-color-orange: #FF6C26;
       --point-color-yellow:#ffc90a;
+      --point-color-red: #cc2418;
       --secondary-color: #7973ce;
+      
     }
     
     *{
@@ -91,6 +93,15 @@ const GlobalStyle = createGlobalStyle`
             background: var( --point-color-orange);
           }
         }
+    }
+
+    .secTit{
+      font-size: 2.8rem;
+      font-family: "Noto Sans KR",sans-serif;
+      font-weight: 500;
+      text-align: center;
+      width: 100%;
+      margin-bottom: 3rem;
     }
 
     /* NavBar */
