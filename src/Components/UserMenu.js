@@ -37,6 +37,9 @@ const Caution = styled(Link)`
     color: red;
     text-decoration: underline;
   }
+  @media (max-width: 768px){
+    display: none;
+  }
 `;
 
 import noneProfileImg from "../images/none_profile_image.png";
@@ -66,7 +69,7 @@ function UserMenu() {
                   ⚠ 이메일 인증을 진행해주세요
                 </Caution>
               )}
-              <div className="element">
+              <div className="element hdProfileIcon">
                 <Link to="/mypage" data-testid="profileLink">
                   <AuthorImg>
                     {profile?.profileImage ? (
