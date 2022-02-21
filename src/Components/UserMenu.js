@@ -13,6 +13,7 @@ import styled from "styled-components";
 import { Menu, Dropdown } from "antd";
 
 const AuthorImg = styled.div`
+  cursor: pointer;
   width: 30px;
   height: 30px;
   background: #ddd;
