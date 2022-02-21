@@ -15,7 +15,7 @@ import { Input, Container } from "../Styles/theme.js";
 
 // antd
 import "antd/dist/antd.css";
-import { Modal, Button } from 'antd';
+import { Modal, Button } from "antd";
 
 // icon
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -97,13 +97,13 @@ const MyPage = () => {
   const [userIp, setUserIp] = useState("");
 
   useEffect(() => {
-    if(!isAuth) {
+    if (!isAuth) {
       navigate("/");
     }
 
     fetch("https://api.ipify.org?format=json")
       .then(res => res.json())
-      .then(res => setUserIp(res.ip))
+      .then(res => setUserIp(res.ip));
 
     dispatch(getProfile(userId));
   }, [status]);
@@ -121,7 +121,7 @@ const MyPage = () => {
       personalUrl: user.personalUrl,
       infoByEmail: user.infoByEmail,
       infoByWeb: user.infoByWeb,
-      profileImage: profileImg
+      profileImage: profileImg,
     };
     dispatch(editProfile({ userId: userId, userData }));
     dispatch(updateUser());
@@ -129,14 +129,14 @@ const MyPage = () => {
   };
   const changeIntroduce = async e => {
     e.preventDefault();
-    if(newIntroduceValue !== "") {
+    if (newIntroduceValue !== "") {
       const userData = {
         nickname: user.nickname,
         introduction: newIntroduceValue,
         personalUrl: user.personalUrl,
         infoByEmail: user.infoByEmail,
         infoByWeb: user.infoByWeb,
-        profileImage: profileImg
+        profileImage: profileImg,
       };
       dispatch(editProfile({ userId: userId, userData }));
       dispatch(updateUser());
@@ -145,7 +145,7 @@ const MyPage = () => {
   };
 
   const profileImgDelete = async e => {
-    if(window.confirm("프로필 사진을 삭제할까요?")) {
+    if (window.confirm("프로필 사진을 삭제할까요?")) {
       e.preventDefault();
       const userData = {
         nickname: user.nickname,
@@ -153,19 +153,19 @@ const MyPage = () => {
         personalUrl: user.personalUrl,
         infoByEmail: user.infoByEmail,
         infoByWeb: user.infoByWeb,
-        profileImage: "N"
+        profileImage: "N",
       };
       dispatch(editProfile({ userId: userId, userData }));
       dispatch(updateUser());
       alert("삭제가 완료되었습니다.");
     }
-  }
+  };
 
   return (
     <MyPageWrapper>
       <GlobalStyle />
       {/* User Info */}
-      {user && 
+      {user && (
         <>
           <div className="flex flex-jc-c">
             <div className="profileImgArea">
@@ -179,16 +179,34 @@ const MyPage = () => {
                   footer={null}
                 >
                   {/* https://enai.tistory.com/37 참고 */}
-                  <input type="file" name="profileImg" id="imgFileOpenInput" accept="image/*"></input>
+                  <input
+                    type="file"
+                    name="profileImg"
+                    id="imgFileOpenInput"
+                    accept="image/*"
+                  ></input>
                   <div style={{ marginTop: "3%" }}>
-                    <div className="linkBtn element" onClick={() => {alert("업로드가 완료되었습니다."); setIsProfileImgUpload(false)}}>확인</div>
-                    <div className="linkBtn element" onClick={() => setIsProfileImgUpload(false)}>취소</div>
+                    <div
+                      className="linkBtn element"
+                      onClick={() => {
+                        alert("업로드가 완료되었습니다.");
+                        setIsProfileImgUpload(false);
+                      }}
+                    >
+                      확인
+                    </div>
+                    <div
+                      className="linkBtn element"
+                      onClick={() => setIsProfileImgUpload(false)}
+                    >
+                      취소
+                    </div>
                   </div>
                 </Modal>
-                {profileImg === "N" ? (
-                  <img src={noneProfileImg} width="100" height="100" />
-                ) : (
+                {profileImg ? (
                   <img src={profileImg} width="100" height="100" />
+                ) : (
+                  <img src={noneProfileImg} width="100" height="100" />
                 )}
               </div>
               <div className="EditbuttonArea">
@@ -200,11 +218,11 @@ const MyPage = () => {
                 >
                   {profileImg === "N" ? "사진 등록" : "사진 변경"}
                 </div>
-                {profileImg !== "N" &&
+                {profileImg !== "N" && (
                   <Link to="" className="linkBtn" onClick={profileImgDelete}>
                     사진 삭제
                   </Link>
-                }
+                )}
               </div>
             </div>
             {/* 자기소개 */}
@@ -234,7 +252,11 @@ const MyPage = () => {
               <div className="introductionArea flex flex-ai-c">
                 {!isIntroduceChange ? (
                   <>
-                    <h2>{(user.introduction === "" || user.introduction === null) ? "자기소개가 없습니다." : user.introduction}</h2>{" "}
+                    <h2>
+                      {user.introduction === "" || user.introduction === null
+                        ? "자기소개가 없습니다."
+                        : user.introduction}
+                    </h2>{" "}
                     <div
                       className="editIcon"
                       onClick={() => setIsIntroduceChange(true)}
@@ -276,10 +298,9 @@ const MyPage = () => {
             </div>
           </div>
         </>
-      }
+      )}
     </MyPageWrapper>
   );
-
 };
 
 export default MyPage;
