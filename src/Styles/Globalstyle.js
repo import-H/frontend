@@ -163,7 +163,7 @@ header {
     float: left;
     margin-right: 10px;
     @media (max-width: 768px){
-      &:first-child{
+      &.hdProfileIcon{
         margin-right: 0;
       }
       &:not(:first-of-type){

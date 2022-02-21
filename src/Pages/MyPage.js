@@ -34,7 +34,12 @@ import "./css/MyPage.css";
 const MyPageWrapper = styled(Container)`
 
   & .cardWrap{
-
+    @media (max-width: 768px){
+      flex-direction: column;
+    }
+    @media (max-width: 500px){
+      font-size: 0.8rem;
+    }
   }
 
   & .card{
@@ -45,6 +50,7 @@ const MyPageWrapper = styled(Container)`
     border: 1px solid rgba(0,0,0,0.05);
     box-shadow: 5px 5px 10px rgba(0,0,0,0.07);
     margin-right: 30px;
+   
     &:last-child{
       margin-right: 0;
     }
@@ -56,8 +62,21 @@ const MyPageWrapper = styled(Container)`
         margin-right: 5px;
       }
     }
-
     & form{flex-grow: 1;}
+
+    @media (max-width: 768px){
+      width: 100%;
+      margin-bottom: 30px;
+
+      & h3{
+        text-align: center;
+      }
+
+      & form input{
+        height: 30px;
+        border-radius: 3px;
+      }
+    }
   }
 
   & .editSubmitBtn{
@@ -94,7 +113,7 @@ const MyPageWrapper = styled(Container)`
   }
 
   & .editIcon {
-    padding: 5px;
+    padding: 0.5rem;
     color: #333;
     transition: all 0.3s;
     cursor: pointer;
@@ -108,15 +127,15 @@ const MyPageWrapper = styled(Container)`
     & .element {
       display: flex;
       align-items: center;
-      margin-bottom: 20px;
+      margin-bottom: 2rem;  
       & .sub {
         font-size: 1.5em;
         font-weight: bold;
-        margin-right: 20px;
+        margin-right: 2rem;
       }
 
       & .editIcon{
-        transform: translateX(-12px);
+        transform: translateX(-1.2rem);
         margin-bottom: 0;
       }
 
@@ -126,11 +145,14 @@ const MyPageWrapper = styled(Container)`
       }
     }
     & .onoff-switch{
-      transform: scale(0.7) translateX(-20px);
+      transform: scale(0.7) translateX(-2rem);
     }
 
     & .leaveBtnArea{
-      margin-top: 50px;
+      margin-top: 5rem;
+      @media (max-width: 768px){
+      justify-content: flex-start;
+    }
       & .linkBtn{
         width: 120px;
         background: #aaa;
