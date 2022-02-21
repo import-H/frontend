@@ -10,8 +10,8 @@ import { sampleBanner } from "../Components/Banner";
 import { getBanner } from "../reducers/slices/mainSlice";
 
 const AdminContainer = styled(Container)`
-    & .sec-tit{
-     font-size: 2.8rem;
+  & .sec-tit {
+    font-size: 2.8rem;
     text-align: center;
     margin-bottom: 3rem;
     font-weight: 500;
@@ -93,9 +93,8 @@ const Content = styled.div`
   position: relative;
   top: -1rem;
 
-
   input {
-    padding:5px 7px;
+    padding: 5px 7px;
     outline: none;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -238,7 +237,7 @@ const Admin = () => {
           width: "100%",
         }}
       >
-        <div class="sec-tit">관리자 페이지</div>
+        <div className="sec-tit">관리자 페이지</div>
 
         <Slice>
           {banners.map(banner => (

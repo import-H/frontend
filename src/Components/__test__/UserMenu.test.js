@@ -27,8 +27,13 @@ describe("UserMenu Test", () => {
 
   it("비로그인시 로그인, 회원가입 버튼 생성", () => {
     useSelectorMock.mockImplementation(selectorFn =>
-      selectorFn({ auth: { isAuth: false } }),
+      selectorFn({
+        auth: { isAuth: false, userId: 1 },
+        user: { profile: "N" },
+      }),
     );
+    const getProfile = jest.fn();
+    useDispatchMock.mockReturnValue(getProfile);
     render(<MockUserMenu />);
     const beforeLogin = screen.getByRole("beforeLogin");
     expect(beforeLogin).toBeInTheDocument();
@@ -36,8 +41,10 @@ describe("UserMenu Test", () => {
 
   it("로그인시 마이페이지, 로그아웃 버튼 생성", () => {
     useSelectorMock.mockImplementation(selectorFn =>
-      selectorFn({ auth: { isAuth: true } }),
+      selectorFn({ auth: { isAuth: true, userId: 1 }, user: { profile: "N" } }),
     );
+    const getProfile = jest.fn();
+    useDispatchMock.mockReturnValue(getProfile);
     render(<MockUserMenu />);
     const afterLogin = screen.getByRole("afterLogin");
     expect(afterLogin).toBeInTheDocument();
@@ -55,12 +62,17 @@ describe("버튼 클릭 이벤트", () => {
 
   const isAuthSelector = authType => {
     useSelectorMock.mockImplementation(selectorFn =>
-      selectorFn({ auth: { isAuth: authType } }),
+      selectorFn({
+        auth: { isAuth: authType, usreId: 1 },
+        user: { profile: "N" },
+      }),
     );
   };
 
   it("로그인 상태에서 UserMenu 버튼 클릭 이벤트", () => {
     isAuthSelector(false);
+    const getProfile = jest.fn();
+    useDispatchMock.mockReturnValue(getProfile);
     render(<MockUserMenu />);
 
     // login

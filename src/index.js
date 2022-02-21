@@ -24,7 +24,7 @@ import WritePost from "./Components/WritePost";
 import EditPost from "./Components/EditPost";
 
 // route
-//import PrivateRoute from './utils/PrivateRoute'; //로그인한 사용자만 들어갈 수 있음
+import PrivateRoute from "./utils/PrivateRoute"; //로그인한 사용자만 들어갈 수 있음
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 // redux
@@ -52,10 +52,10 @@ ReactDOM.render(
           <Route path="/write/:id" element={<WritePost />} />
           <Route path="/edit/:boardId/:postId" element={<EditPost />} />
           <Route path="/posts" element={<UserList />} />
-          {/* <Route path="/posts/:personId" element={<PersonalBoard />} /> */}
+          <Route path="/posts/:personId" element={<PersonalBoard />} />
           <Route path="/board/:boardId/:postId" element={<Post />} />
           <Route path="/mypage" element={<MyPage />} />
-          <Route path="/admin" element={<Admin />} />
+          <Route path="/admin" element={<PrivateRoute component={Admin} />} />
           <Route path="/leave" element={<Leave />} />
         </Routes>
       </BrowserRouter>

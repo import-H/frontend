@@ -138,21 +138,21 @@ const SliderDot = styled.div`
 
 export const sampleBanner = [
   {
-    id: "Zjt9go9i75A",
+    bannerId: "Zjt9go9i75A",
     title: "믿어봐, 이 노래 아마 처음 들어 봤을걸?",
     explain:
       "개인적으로 이 시리즈 플리를 정말 좋아합니다 :) 신인이거나 국내에는아직 안 알려진 뮤지션분들을 소개해 줄 수 있어서 제 채널 방향성과 잘맞는다고 생각하기 때문이죠,,",
     tags: ["music", "playlist"],
   },
   {
-    id: "3ugQRXRToFA",
+    bannerId: "3ugQRXRToFA",
     title: "React Testing Library Tutorial #8 - Assertions",
     explain:
       "Check out Laith's YouTube channel for more tutorials:https://www.youtube.com/chanasdasdasdadasdassdnel/UCyLN...🐱‍💻 Access the course files on GitHub:",
     tags: ["react", "jest"],
   },
   {
-    id: 3,
+    bannerId: "YS35VHsbS-0",
     title: "React Testing Library Tutorial #8 - Assertions",
     explain:
       "Check out Laith's YouTube channel for more tutorials:https://www.youtube.com/channel/UCyLN...🐱‍💻 Access the course files on GitHub:",
@@ -193,8 +193,6 @@ const Banner = () => {
     dispatch(getBanner());
   }, []);
 
-  console.log(currentSlide);
-
   useEffect(() => {
     slideRef.current.style.transition = "all 0.5s ease-in-out";
     slideRef.current.style.transform = `translateX(-${currentSlide}00%)`; // 백틱을 사용하여 슬라이드로 이동하는 애니메이션을 만듭니다.
@@ -219,7 +217,7 @@ const Banner = () => {
                       <div className="explain">{banner.content}</div>
                       <div className="tags">
                         {banner.tags?.map(tag => (
-                          <div>{tag.name}</div>
+                          <div key={index}>{tag.name}</div>
                         ))}
                       </div>
                       <div className="author">자몽</div>
@@ -229,21 +227,21 @@ const Banner = () => {
               ))
             : sampleBanner.map(banner => (
                 <BannerArea
-                  key={banner.id}
-                  href={`https://youtu.be/${banner.id}`}
+                  key={banner.bannerId}
+                  href={`https://youtu.be/${banner.bannerId}`}
                 >
                   <div className="BannerSetting">
                     <div className="img-box">
                       <img
-                        src={`https://img.youtube.com/vi/${banner.id}/mqdefault.jpg`}
+                        src={`https://img.youtube.com/vi/${banner.bannerId}/mqdefault.jpg`}
                       />
                     </div>
                     <Content>
                       <div className="title">{banner.title}</div>
                       <div className="explain">{banner.explain}</div>
                       <div className="tags">
-                        {banner.tags?.map(tag => (
-                          <div>{tag}</div>
+                        {banner.tags?.map((tag, index) => (
+                          <div key={index}>{tag}</div>
                         ))}
                       </div>
                       <div className="author">자몽</div>
@@ -259,7 +257,7 @@ const Banner = () => {
               .fill(null)
               .map((_, index) => (
                 <div
-                  key={index}
+                  key={`${index}_1`}
                   onClick={() => {
                     onDotClick(index);
                   }}
@@ -269,7 +267,7 @@ const Banner = () => {
               .fill(null)
               .map((_, index) => (
                 <div
-                  key={index}
+                  key={`${index}_2`}
                   onClick={() => {
                     onDotClick(index);
                   }}

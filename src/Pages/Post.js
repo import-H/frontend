@@ -197,10 +197,9 @@ const LikeIcon = styled(FontAwesomeIcon)`
 
 // main
 const Post = () => {
-  const status = useSelector(state => state.post.status);
-  const profileInfo = useSelector(state => state.user.profile);
-  const profileImg = profileInfo.profileImage;
-  
+  const status = useSelector(state => state.post?.status);
+  const profile = useSelector(state => state.user?.profile);
+
   const [post, setPost] = useState();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -218,19 +217,12 @@ const Post = () => {
   };
 
   useEffect(async () => {
-    if (status === "success") {
-      try {
-        const postdata = await dispatch(
-          getPost({
-            postId: postId,
-            boardId: boardId,
-          }),
-        ).unwrap();
+    try {
+      const postdata = await dispatch(getPost(postId)).unwrap();
 
-        setPost(postdata);
-      } catch (e) {
-        alert(e);
-      }
+      setPost(postdata);
+    } catch (e) {
+      alert(e);
     }
   }, [status]);
 
@@ -273,13 +265,14 @@ const Post = () => {
           {/* 작성자 정보 */}
           <UserInfo className="flex flex-ai-c flex-jc-e">
             {/* 작성자 이름 */}
-            <div className="authorName">{post.responseInfo.author}</div>
+            <div className="authorName">{post.responseInfo.nickname}</div>
             {/* 프로필 이미지 */}
             <AuthorImg>
-              {profileImg === "N" || profileImg === null ? (
+              {profile?.profileImage === "N" ||
+              profile?.profileImage === null ? (
                 <img src={noneProfileImg} />
               ) : (
-                <img src={profileImg} alt="profileImg" />
+                <img src={profile?.profileImage} alt="profileImg" />
               )}
             </AuthorImg>
           </UserInfo>

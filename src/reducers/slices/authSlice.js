@@ -8,7 +8,7 @@ import { API_URL } from "../../config";
 
 const initialState = {
   status: null,
-  user: {},
+  userId: "",
   isAuth: false,
 };
 
@@ -22,7 +22,7 @@ export const login = createAsyncThunk(
       });
       localStorage.setItem("authTokens", JSON.stringify(response.data.data));
       const userData = jwt_decode(response.data.data.accessToken);
-      console.log(response.data.data, userData);
+      //console.log(response.data.data, userData);
       return userData;
     } catch (err) {
       let error = err; // cast the error for access
@@ -77,7 +77,8 @@ const slice = createSlice({
     // The `builder` callback form is used here because it provides correctly typed reducers from the action creators
     builder.addCase(login.fulfilled, (state, { payload }) => {
       state.isAuth = true;
-      state.user = payload;
+      state.userId = payload.sub;
+      state.roles = payload.roles;
     });
     builder.addCase(login.rejected, (state, action) => {
       if (action.payload) {

@@ -24,3 +24,5 @@ export const useCounter = (initialValue, ms) => {
   }, [count]);
   return { count, start, stop };
 };
+
+// https://shin1303.tistory.com/entry/React-%ED%83%80%EC%9D%B4%EB%A8%B8-%EB%A7%8C%EB%93%A4%EA%B8%B0-%EC%8B%9C%EC%9E%91-%EC%A0%95%EC%A7%80-%EB%A6%AC%EC%85%8B-%EA%B8%B0%EB%8A%A5-%EA%B5%AC%ED%98%84 참고

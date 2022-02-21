@@ -84,6 +84,12 @@ const Login = () => {
     setAuthInfo({ ...authInfo, [name]: value });
   };
 
+  useEffect(() => {
+    if(isAuth) {
+      navigate("/");
+    }
+  })
+
   return (
     <FlexContainer>
       <GlobalStyle />

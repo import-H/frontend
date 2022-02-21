@@ -28,7 +28,7 @@ export const getPosts = createAsyncThunk(
   async (boardId, dispatch, getState) => {
     // const response = await axios.get(`${API_URL}/v1/boards/${boardId}/posts`);
 
-    const response = await axios.get(`${API_URL}/v1/boards/1/posts`);
+    const response = await axios.get(`${API_URL}/v1/boards/${boardId}`);
     return response.data.list;
   },
 );
@@ -36,12 +36,11 @@ export const getPosts = createAsyncThunk(
 // 게시글 추가하기
 export const addPost = createAsyncThunk(
   "post/addPost",
-  async (data, dispatch, getState) => {
-    const { boardId, postData } = data;
-    console.log(boardId, data);
-    const response = await axiosInstance.post(`${API_URL}/v1/boards/1/posts`, {
+  async (postData, dispatch, getState) => {
+    const response = await axiosInstance.post(`${API_URL}/v1/posts`, {
       ...postData,
     });
+    console.log(postData);
     return response.data.data;
     // await axios.post("http://localhost:3001/posts", {
     //   boardId: boardId,
@@ -54,18 +53,17 @@ export const addPost = createAsyncThunk(
 // 게시글 가져오기
 export const getPost = createAsyncThunk(
   "post/getPost",
-  async (data, { getState }) => {
-    const { boardId, postId } = data;
+  async (postId, { getState }) => {
     if (getState().auth.isAuth) {
       const response = await axiosInstance.get(
         // `${API_URL}/v1/boards/${boardId}/posts/${postId}`,
-        `${API_URL}/v1/boards/1/posts/${postId}`,
+        `${API_URL}/v1/posts/${postId}`,
       );
       return response.data.data;
     } else {
       const response = await axios.get(
         // `${API_URL}/v1/boards/${boardId}/posts/${postId}`,
-        `${API_URL}/v1/boards/1/posts/${postId}`,
+        `${API_URL}/v1/posts/${postId}`,
       );
       return response.data.data;
     }
@@ -80,7 +78,7 @@ export const deletePost = createAsyncThunk(
     const { boardId, postId } = data;
     const response = await axiosInstance.delete(
       // `/v1/boards/${boardId}/posts/${postId}`,
-      `${API_URL}/v1/boards/1/posts/${postId}`,
+      `${API_URL}/v1/posts/${postId}`,
     );
     return response.data.data;
   },
@@ -91,7 +89,7 @@ export const editPost = createAsyncThunk("post/editPost", async data => {
   const { boardId, postId, postData } = data;
   const response = await axiosInstance.put(
     // `${API_URL}/v1/boards/${boardId}/posts/${postId}`,
-    `${API_URL}/v1/boards/1/posts/${postId}`,
+    `${API_URL}/v1/posts/${postId}`,
     postData,
   );
 

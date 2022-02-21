@@ -77,13 +77,22 @@ const CheckInput = styled.input`
   width: 2rem;
 `;
 
+const EmailConfirm = styled.div`
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+`;
+
 // auth form으로 변경해도 좋을듯(공통 기능 많아서)
 const Register = () => {
   const dispatch = useDispatch();
   const registerStatus = useSelector(state => state.auth?.status);
+  const isAuth = useSelector(state => state.auth.isAuth);
   const navigate = useNavigate();
+  const [emailConfirmPage, setEmailConfirmPage] = useState(false);
 
-  const [authEmail, setAuthEmail] = useState(false);
   const { count, start, stop } = useCounter(3, 1000);
 
   // 회원가입 form를 모두 입력했을 때, true로 바뀜
@@ -124,7 +133,8 @@ const Register = () => {
     };
     try {
       await dispatch(signup(data)).unwrap();
-      navigate("/");
+      setEmailConfirmPage(true);
+      //navigate("/");
     } catch (e) {
       console.log("err", e);
       alert(e.msg);
@@ -176,10 +186,10 @@ const Register = () => {
     if (name === "pathId") {
       const regExp = /[^a-zA-Z0-9]+/gi;
 
-      if (value.length < 3 || value.length > 15)
+      if (value.length < 5 || value.length > 15)
         setErrorInfo({
           ...errorInfo,
-          [name]: "id는 3자~15자 사이여야 합니다.",
+          [name]: "id는 5자~15자 사이여야 합니다.",
         });
       else if (regExp.test(value)) {
         setErrorInfo({
@@ -190,13 +200,17 @@ const Register = () => {
     }
   };
 
-  const LeftTime = () => {
-    start();
-    setAuthEmail(true);
-  };
+  // const LeftTime = () => {
+  //   start();
+  //   setAuthEmail(true);
+  // };
 
   // authInfo와 errorInfo를 감지해 submitState 상태 수정
   useEffect(() => {
+    if (isAuth) {
+      navigate("/");
+    }
+
     if (
       Object.values(errorInfo).every(err => err === "") &&
       !Object.values(authInfo).includes("")
@@ -210,74 +224,76 @@ const Register = () => {
   return (
     <FlexContainer>
       <GlobalStyle />
-      <AuthForm>
-        <Label>이메일</Label>
-        <div className="email-area">
-          <AuthInput
-            type="text"
-            name="email"
-            onChange={onChange}
-            valid={errorInfo.email}
-          />
-          <div className="email-btn" onClick={LeftTime}>
+      <div>
+        {!emailConfirmPage ? (
+          <AuthForm>
+            <Label>이메일</Label>
+            <div className="email-area">
+              <AuthInput
+                type="text"
+                name="email"
+                onChange={onChange}
+                valid={errorInfo.email}
+              />
+              {/* <div className="email-btn" onClick={LeftTime}>
             인증
           </div>
 
           <div>
             {parseInt(count / 60000)}:{count % 60000}
-          </div>
-        </div>
-        <ErrorMsg>{errorInfo.email}</ErrorMsg>
-        {authEmail && (
-          <div style={{ marginBottom: "5rem" }}>
-            <AuthInput type="text" name="emailConfirm" valid={""} />
-          </div>
+          </div> */}
+            </div>
+            <ErrorMsg>{errorInfo.email}</ErrorMsg>
+
+            <Label>비밀번호</Label>
+            <AuthInput
+              type="password"
+              name="password"
+              onChange={onChange}
+              valid={errorInfo.password}
+            />
+            <ErrorMsg>{errorInfo.password}</ErrorMsg>
+            <Label>비밀번호 확인</Label>
+            <AuthInput
+              type="password"
+              name="confirmPassword"
+              onChange={onChange}
+              valid={errorInfo.confirmPassword}
+            />
+            <ErrorMsg>{errorInfo.confirmPassword}</ErrorMsg>
+            <Label>별명</Label>
+            <AuthInput
+              type="text"
+              name="nickname"
+              onChange={onChange}
+              valid={errorInfo.nickname}
+            />
+            <ErrorMsg></ErrorMsg>
+            <Label>개인페이지 id</Label>
+            <AuthInput
+              type="text"
+              name="pathId"
+              onChange={onChange}
+              valid={errorInfo.pathId}
+              placeholder="개인 페이지에 사용될 id를 입력해주세요(영문)"
+            />
+            <ErrorMsg>{errorInfo.pathId}</ErrorMsg>
+            <CheckboxArea>
+              <CheckInput type="checkbox" name="agree" onChange={onChange} />
+              <Label>주 1회 이상 활동하실 계획이 있으시면 체크해주세요.</Label>
+            </CheckboxArea>
+            <SubmitButton
+              type="submit"
+              submitState={submitState}
+              onClick={registerEvent}
+            >
+              회원가입
+            </SubmitButton>
+          </AuthForm>
+        ) : (
+          <EmailConfirm>가입하신 이메일에서 인증 진행바랍니다.</EmailConfirm>
         )}
-        <Label>비밀번호</Label>
-        <AuthInput
-          type="password"
-          name="password"
-          onChange={onChange}
-          valid={errorInfo.password}
-        />
-        <ErrorMsg>{errorInfo.password}</ErrorMsg>
-        <Label>비밀번호 확인</Label>
-        <AuthInput
-          type="password"
-          name="confirmPassword"
-          onChange={onChange}
-          valid={errorInfo.confirmPassword}
-        />
-        <ErrorMsg>{errorInfo.confirmPassword}</ErrorMsg>
-        <Label>별명</Label>
-        <AuthInput
-          type="text"
-          name="nickname"
-          onChange={onChange}
-          valid={errorInfo.nickname}
-        />
-        <ErrorMsg></ErrorMsg>
-        <Label>개인페이지 id</Label>
-        <AuthInput
-          type="text"
-          name="pathId"
-          onChange={onChange}
-          valid={errorInfo.pathId}
-          placeholder="개인 페이지에 사용될 id를 입력해주세요(영문)"
-        />
-        <ErrorMsg>{errorInfo.pathId}</ErrorMsg>
-        <CheckboxArea>
-          <CheckInput type="checkbox" name="agree" onChange={onChange} />
-          <Label>주 1회 이상 활동하실 계획이 있으시면 체크해주세요.</Label>
-        </CheckboxArea>
-        <SubmitButton
-          type="submit"
-          submitState={submitState}
-          onClick={registerEvent}
-        >
-          회원가입
-        </SubmitButton>
-      </AuthForm>
+      </div>
     </FlexContainer>
   );
 };
