@@ -10,6 +10,7 @@ import { logout } from "../reducers/slices/authSlice";
 
 // style
 import styled from "styled-components";
+import { Menu, Dropdown } from "antd";
 
 const AuthorImg = styled.div`
   width: 30px;
@@ -37,10 +38,32 @@ const Caution = styled(Link)`
     color: red;
     text-decoration: underline;
   }
-  @media (max-width: 768px){
+  @media (max-width: 768px) {
     display: none;
   }
 `;
+
+const menu = (
+  <Menu>
+    <Menu.Item>
+      <Link to="/mypage" data-testid="profileLink">
+        프로필
+      </Link>
+    </Menu.Item>
+
+    <Menu.Item>
+      <Link to="/posts/1" data-testid="profileLink">
+        내 게시판
+      </Link>
+    </Menu.Item>
+  </Menu>
+);
+
+const content = (
+  <div>
+    <p>content</p>
+  </div>
+);
 
 import noneProfileImg from "../images/none_profile_image.png";
 import { getProfile } from "../reducers/slices/userSlice";
@@ -69,8 +92,8 @@ function UserMenu() {
                   ⚠ 이메일 인증을 진행해주세요
                 </Caution>
               )}
-              <div className="element hdProfileIcon">
-                <Link to="/mypage" data-testid="profileLink">
+              <div className="element">
+                <Dropdown overlay={menu} placement="bottomCenter">
                   <AuthorImg>
                     {profile?.profileImage ? (
                       <img src={profile?.profileImage} alt="profileImg" />
@@ -78,8 +101,9 @@ function UserMenu() {
                       <img src={noneProfileImg} />
                     )}
                   </AuthorImg>
-                </Link>
+                </Dropdown>
               </div>
+
               <div className="element">
                 {/* Link 태그를 사용해야 링크로 인식해서 마우스를 올리면 클릭 표시가 뜸 */}
                 <Link to="" className="linkBtn" onClick={logoutBtn}>
