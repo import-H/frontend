@@ -58,11 +58,11 @@ const TagsInput = styled(Input)`
 const WritePost = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
+
   const isAuth = useSelector(state => state.auth.isAuth);
 
   const addPostStatus = useSelector(state => state.post.addPost);
-  
+
   const file = useSelector(state => state.post?.file);
 
   const [nav, setNav] = useState(false);
@@ -87,8 +87,9 @@ const WritePost = () => {
     let imgUrls =
       instance.match(findImage) &&
       instance.match(findImage).map(url => url.split("/").pop());
-    imgUrls =
-      imgUrls && imgUrls.map(imgUrl => imgUrl.substring(0, imgUrl.length - 1));
+    imgUrls = imgUrls
+      ? imgUrls.map(imgUrl => imgUrl.substring(0, imgUrl.length - 1))
+      : [];
 
     const postData = {
       title: title,
@@ -112,7 +113,7 @@ const WritePost = () => {
   }, [addPostStatus]);
 
   useEffect(() => {
-    if(!isAuth) {
+    if (!isAuth) {
       alert("로그인하지 않은 사용자는 글을 작성할 수 없습니다.");
       navigate("/login");
     }
