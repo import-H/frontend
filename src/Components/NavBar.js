@@ -13,9 +13,10 @@ import logoImg from "../images/logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 // style
-import { Drawer } from 'antd';
+import { Drawer } from "antd";
 
-const [visible, setVisible] = useState(false);
+function NavBar() {
+  const [visible, setVisible] = useState(false);
 
   const showDrawer = () => {
     setVisible(true);
@@ -25,13 +26,11 @@ const [visible, setVisible] = useState(false);
     setVisible(false);
   };
 
-
-function NavBar() {
   return (
     <nav>
       <div id="content">
         <div id="menu-btn" onClick={showDrawer}>
-          <FontAwesomeIcon icon={faBars} />          
+          <FontAwesomeIcon icon={faBars} />
         </div>
         <div id="logo">
           <Link to="/">
@@ -46,11 +45,16 @@ function NavBar() {
           <UserMenu />
         </div>
       </div>
-      <Drawer title="Basic Drawer" placement="right" onClose={onClose} visible={visible}>
-            <p>test</p>
-            <p>test</p>
-            <p>test</p>
-          </Drawer>
+      <Drawer
+        title="Basic Drawer"
+        placement="left"
+        onClose={onClose}
+        visible={visible}
+      >
+        <p>test</p>
+        <p>test</p>
+        <p>test</p>
+      </Drawer>
     </nav>
   );
 }
