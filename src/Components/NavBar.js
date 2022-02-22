@@ -1,5 +1,5 @@
 // react
-import React from "react";
+import React, { useState } from "react";
 
 // react-router-dom
 import { Link } from "react-router-dom";
@@ -12,13 +12,26 @@ import logoImg from "../images/logo.png";
 // icon
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
+// style
+import { Drawer } from 'antd';
+
+const [visible, setVisible] = useState(false);
+
+  const showDrawer = () => {
+    setVisible(true);
+  };
+
+  const onClose = () => {
+    setVisible(false);
+  };
+
 
 function NavBar() {
   return (
     <nav>
       <div id="content">
-        <div id="menu-btn">
-          <FontAwesomeIcon icon={faBars} />
+        <div id="menu-btn" onClick={showDrawer}>
+          <FontAwesomeIcon icon={faBars} />          
         </div>
         <div id="logo">
           <Link to="/">
@@ -33,6 +46,11 @@ function NavBar() {
           <UserMenu />
         </div>
       </div>
+      <Drawer title="Basic Drawer" placement="right" onClose={onClose} visible={visible}>
+            <p>test</p>
+            <p>test</p>
+            <p>test</p>
+          </Drawer>
     </nav>
   );
 }
