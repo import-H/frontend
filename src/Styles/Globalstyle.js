@@ -126,7 +126,7 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    transition:  all 0.3s;
+    //transition:  all 0.3s;
     @media (max-width: 1200px){
       padding: 0 25px; 
     }
