@@ -44,7 +44,7 @@ const Caution = styled(Link)`
 `;
 
 const menu = (
-  <Menu>
+  <Menu className="myMenu">
     <Menu.Item>
       <Link to="/mypage" data-testid="profileLink">
         프로필
@@ -54,6 +54,19 @@ const menu = (
     <Menu.Item>
       <Link to="/posts/1" data-testid="profileLink">
         내 게시판
+      </Link>
+    </Menu.Item>
+
+    <Menu.Item className="mb">
+      <Link to="/admin" data-testid="profileLink">
+        관리자 페이지
+      </Link>
+    </Menu.Item>
+
+    <Menu.Item className="mb">
+      <Link to="" data-testid="profileLink">
+        로그아웃
+        {/* 로그아웃 아직 미구현 */}
       </Link>
     </Menu.Item>
   </Menu>
@@ -92,7 +105,7 @@ function UserMenu() {
                   ⚠ 이메일 인증을 진행해주세요
                 </Caution>
               )}
-              <div className="element">
+              <div className="element hdProfileIcon">
                 <Dropdown overlay={menu} placement="bottomCenter">
                   <AuthorImg>
                     {profile?.profileImage ? (
