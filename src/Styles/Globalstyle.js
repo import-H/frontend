@@ -221,6 +221,21 @@ header {
   }
 
 
+ .myMenu{
+  text-align: center;
+   & a{
+     padding: 5px 10px;
+     font-size: 1.3rem;
+   }
+    & .mb{
+      display:none;
+      @media (max-width: 768px){
+        display: block;
+      }
+    }
+    
+  }
+
   /* mobile header */
  #menu-btn{
    display: none;
