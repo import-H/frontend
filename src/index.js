@@ -20,6 +20,7 @@ import {
   UserList,
 } from "./Pages";
 import NavBar from "./Components/NavBar";
+import Footer from "./Components/Footer";
 import WritePost from "./Components/WritePost";
 import EditPost from "./Components/EditPost";
 
@@ -59,6 +60,9 @@ ReactDOM.render(
           <Route path="/leave" element={<Leave />} />
         </Routes>
       </BrowserRouter>
+      <footer>
+        <Footer />
+      </footer>
     </PersistGate>
   </Provider>,
   document.getElementById("root"),
