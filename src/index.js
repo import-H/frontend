@@ -18,6 +18,7 @@ import {
   Admin,
   Leave,
   UserList,
+  ChangePassword,
 } from "./Pages";
 import NavBar from "./Components/NavBar";
 import Footer from "./Components/Footer";
@@ -58,6 +59,7 @@ ReactDOM.render(
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/admin" element={<PrivateRoute component={Admin} />} />
           <Route path="/leave" element={<Leave />} />
+          <Route path="/changepw" element={<ChangePassword />} />
         </Routes>
       </BrowserRouter>
       <footer>

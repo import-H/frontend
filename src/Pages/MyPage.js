@@ -498,6 +498,9 @@ const MyPage = () => {
                 )}
               </div>
               <div className="leaveBtnArea flex flex-jc-e">
+                <Link to="/changepw" className="linkBtn">
+                  비밀번호 변경
+                </Link>
                 <Link to="/leave" className="linkBtn">
                   회원 탈퇴
                 </Link>
