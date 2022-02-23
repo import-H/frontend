@@ -175,16 +175,12 @@ header {
     margin-right: 0px;
   }
 
- 
-
-  
   header #navMenu {
     margin-left: 5rem;
     flex-grow: 4;  
     display: flex;
     transition: all 0.3s;
     
-
     & a{
       color: black;
       font-size: 1.4em;
@@ -220,6 +216,26 @@ header {
     }
   }
 
+  footer {
+    text-align: center;
+    background-color: #7973ce;
+    color: #fff;
+
+    #copy {
+      font-size: 1.5em;
+    }
+    #menu {
+      margin-top: 0.5%;
+      font-size: 1.3em;
+
+      span {
+        margin: 0 1% 0 0;
+      }
+      a {
+        color: #000;
+      }
+    }
+  }
 
   /* mobile header */
  #menu-btn{
