@@ -17,6 +17,7 @@ import Comment from "../Components/Comment.js";
 import WritePersonalPost from "../Components/WritePersonalPost.js";
 import { useDispatch, useSelector } from "react-redux";
 import { getPost, getPosts } from "../reducers/slices/postSlice.js";
+import { timeElapsed } from "../utils/tools.js";
 
 // style
 const BoardWrap = styled.div`
@@ -25,11 +26,12 @@ const BoardWrap = styled.div`
 `;
 
 const BoardList = styled.div`
+  cursor: pointer;
   width: 100%;
   margin: 0 auto;
   padding: 20px 0;
   box-sizing: border-box;
-  border-bottom: 1px solid #ddd;
+  border-top: 1px solid #ddd;
   margin-bottom: 2em;
 
   & .toastui-editor-contents p {
@@ -72,39 +74,19 @@ const BoardTitle = styled.div`
   }
 `;
 
-const CommentWrite = styled.div`
-  width: 100%;
+const FirstAction = styled.div`
+  margin-top: 5rem;
   display: flex;
   align-items: center;
-
-  & .postWrite {
-    flex: 15;
-    font-family: "Noto Sans KR", sans-serif;
-    resize: none;
-    height: 5rem;
-    padding: 10px 15px;
-    margin: 2px;
-    border: 1px solid #ccc;
-    font-size: 1.4rem;
-    border-radius: 4px;
-    outline: none;
-  }
-  .linkBtn {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: 1rem;
-    height: 4.3rem;
-    cursor: pointer;
-  }
+  justify-content: center;
+  font-size: 2.5rem;
 `;
 
 const PersonalBoard = () => {
   const dispatch = useDispatch();
   const personId = useParams().personId;
-  const status = useSelector(state => state.post.status);
-  const posts = useSelector(state => state.post.posts);
+  const [posts, setPosts] = useState([]);
+  const userPathId = useSelector(state => state?.user?.profile?.pathId);
   const currentPost = useSelector(state => state.post.post);
   const [showDetailPost, setShowDetailPost] = useState();
 
@@ -118,52 +100,65 @@ const PersonalBoard = () => {
   };
 
   useEffect(async () => {
-    if (status !== "success") {
-      await dispatch(getPosts(personId));
+    try {
+      const postdata = await dispatch(getPosts(personId)).unwrap();
+
+      setPosts(postdata);
+    } catch (e) {
+      alert(e);
     }
-  }, [status]);
+  }, []);
 
   return (
     <Container>
       <GlobalStyle />
       <BoardWrap>
         {posts &&
-          posts.map(post => (
-            <div key={post.responseInfo.postId}>
-              <BoardList
-                onClick={() => {
-                  onDetailPost(post.responseInfo.postId);
-                }}
-              >
-                <BoardTitle>
-                  {post.responseInfo.title}
-                  {/* 제목 */}
-                  <span className="date">{post.responseInfo.createdAt}</span>
-                  {/* 생성 시간 */}
-                </BoardTitle>
-                {/* 글쓴이 */}
-                <div className="boardAuthor">{post.responseInfo.nickname}</div>
-                <Viewer initialValue={post.responseInfo.content} />
-                <div className="commentWrap flex flex-ai-c">
-                  {/* 좋아요 */}
-                  <div className="boardLike">
-                    <FontAwesomeIcon icon={faHeart} />
-                    {post.like}
+          (posts.length ? (
+            posts.map(post => (
+              <div key={post.responseInfo.postId}>
+                <BoardList
+                  onClick={() => {
+                    onDetailPost(post.responseInfo.postId);
+                  }}
+                >
+                  <BoardTitle>
+                    {/* 제목 */}
+                    {post.responseInfo.title}
+                    {/* 생성 시간 */}
+                    <span className="date">
+                      {timeElapsed(post.responseInfo.createdAt)}
+                    </span>
+                  </BoardTitle>
+                  {/* 글쓴이 */}
+                  <div className="boardAuthor">
+                    {post.responseInfo.nickname}
                   </div>
-                  {/* 코멘트 */}
-                  <div className="boardComment">
-                    <FontAwesomeIcon icon={faCommentAlt} /> {post.commentsCount}
+                  <Viewer initialValue={post.responseInfo.content} />
+                  <div className="commentWrap flex flex-ai-c">
+                    {/* 좋아요 */}
+                    <div className="boardLike">
+                      <FontAwesomeIcon icon={faHeart} />
+                      {post.like}
+                    </div>
+                    {/* 코멘트 */}
+                    <div className="boardComment">
+                      <FontAwesomeIcon icon={faCommentAlt} />{" "}
+                      {post.commentsCount}
+                    </div>
                   </div>
-                </div>
-              </BoardList>
-              {showDetailPost === post.responseInfo.postId &&
-                currentPost?.responseInfo?.postId ===
-                  post.responseInfo.postId && (
-                  <Comment postId={post.responseInfo.postId} />
-                )}
-            </div>
+                </BoardList>
+                {showDetailPost === post.responseInfo.postId &&
+                  currentPost?.responseInfo?.postId ===
+                    post.responseInfo.postId && (
+                    <Comment postId={post.responseInfo.postId} />
+                  )}
+              </div>
+            ))
+          ) : (
+            <FirstAction>첫 활동을 기록해주세요 📄 </FirstAction>
           ))}
-        <WritePersonalPost personId={personId} />
+        <WritePersonalPost personId={personId} userPathId={userPathId} />
       </BoardWrap>
     </Container>
   );

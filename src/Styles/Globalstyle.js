@@ -6,7 +6,9 @@ const GlobalStyle = createGlobalStyle`
     :root{
       --point-color-orange: #FF6C26;
       --point-color-yellow:#ffc90a;
+      --point-color-red: #cc2418;
       --secondary-color: #7973ce;
+      
     }
     
     *{
@@ -93,6 +95,15 @@ const GlobalStyle = createGlobalStyle`
         }
     }
 
+    .secTit{
+      font-size: 2.8rem;
+      font-family: "Noto Sans KR",sans-serif;
+      font-weight: 500;
+      text-align: center;
+      width: 100%;
+      margin-bottom: 3rem;
+    }
+
     /* NavBar */
 header {
     position: fixed;
@@ -115,7 +126,7 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    transition:  all 0.3s;
+    //transition:  all 0.3s;
     @media (max-width: 1200px){
       padding: 0 25px; 
     }
@@ -152,7 +163,7 @@ header {
     float: left;
     margin-right: 10px;
     @media (max-width: 768px){
-      &:first-child{
+      &.hdProfileIcon{
         margin-right: 0;
       }
       &:not(:first-of-type){
@@ -164,16 +175,12 @@ header {
     margin-right: 0px;
   }
 
- 
-
-  
   header #navMenu {
     margin-left: 5rem;
     flex-grow: 4;  
     display: flex;
     transition: all 0.3s;
     
-
     & a{
       color: black;
       font-size: 1.4em;
@@ -209,6 +216,26 @@ header {
     }
   }
 
+  footer {
+    text-align: center;
+    background-color: #7973ce;
+    color: #fff;
+
+    #copy {
+      font-size: 1.5em;
+    }
+    #menu {
+      margin-top: 0.5%;
+      font-size: 1.3em;
+
+      span {
+        margin: 0 1% 0 0;
+      }
+      a {
+        color: #000;
+      }
+    }
+  }
 
   /* mobile header */
  #menu-btn{
