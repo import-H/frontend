@@ -32,7 +32,7 @@ const BigInput = styled.input`
 
 //기본 버튼
 const Button = styled.button`
-  background-color: ${(props) => props.backgroundColor || "#ddd"};
+  background-color: ${props => props.backgroundColor || "#ddd"};
   padding: 0 20px;
   color: #fff;
   min-height: 42px;
@@ -54,9 +54,9 @@ const Container = styled.div`
   margin: 0 auto;
   margin-top: 50px;
   min-width: 300px;
-  padding: 50px 0;  
-  @media (max-width: 1200px){
-      padding: 50px 25px;    
+  padding: 50px 0;
+  @media (max-width: 1200px) {
+    padding: 50px 25px;
   }
 `;
 
@@ -70,4 +70,49 @@ const MainContainer = styled(Container)`
   margin-top: 0;
 `;
 
-export { Button, BigInput, Input, Container, MainContainer, FlexContainer };
+const WriteContainer = styled(Container)`
+  & .tagCon {
+    margin: 10px 0;
+    margin-top: 25px;
+    & .tagArea {
+      margin: 10px 0;
+      font-size: 1.2em;
+      flex-wrap: wrap;
+
+      & .postTag {
+        padding: 5px 7px;
+        margin-bottom: 7px;
+        margin-right: 15px;
+        border-radius: 5px;
+        background: #ddd;
+        color: #666;
+        font-size: 1.1em;
+      }
+    }
+  }
+
+  & .toastui-editor-defaultUI {
+    margin: 12px 0;
+  }
+
+  & .linkBtn {
+    padding: 7px 30px;
+    font-size: 1.2em;
+  }
+`;
+
+const TagsInput = styled(Input)`
+  width: 100%;
+  flex-shrink: 0;
+`;
+
+export {
+  Button,
+  BigInput,
+  Input,
+  Container,
+  MainContainer,
+  FlexContainer,
+  WriteContainer,
+  TagsInput,
+};
