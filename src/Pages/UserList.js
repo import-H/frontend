@@ -38,21 +38,6 @@ const User = styled.div`
   }
 `;
 
-const sampleUsers = [
-  {
-    id: 1,
-    username: "이상하게길게지은닉네임",
-    userInfo: "안녕하세요 자몽입니다",
-  },
-  { id: 2, username: "Dever", userInfo: "안녕하세요 자몽1입니다" },
-  { id: 3, username: "자몽입니다", userInfo: "안녕하세요 자몽2입니다" },
-  { id: 4, username: "수근", userInfo: "안녕하세요 자몽3입니다" },
-  { id: 5, username: "자몽4", userInfo: "안녕하세요 자몽4입니다" },
-  { id: 6, username: "자몽5", userInfo: "안녕하세요 자몽5입니다" },
-  { id: 7, username: "자몽6", userInfo: "안녕하세요 자몽6입니다" },
-  { id: 8, username: "자몽7", userInfo: "안녕하세요 자몽7입니다" },
-];
-
 const UserList = () => {
   const dispatch = useDispatch();
   const users = useSelector(state => state.user.users);
@@ -65,10 +50,10 @@ const UserList = () => {
       <Wrapper>
         {users &&
           users.map(user => (
-            <>
+            <div key={user?.userId}>
               {user?.pathId && (
-                <Link to={`posts/${user.pathId}`}>
-                  <User key={user.userId}>
+                <Link to={`${user.pathId}`}>
+                  <User>
                     {user?.profileImage ? (
                       <img src={user.profileImage} />
                     ) : (
@@ -78,7 +63,7 @@ const UserList = () => {
                   </User>
                 </Link>
               )}
-            </>
+            </div>
           ))}
       </Wrapper>
     </Container>

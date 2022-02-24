@@ -33,8 +33,8 @@ const SubmitButton = styled(Button)`
 const Leave = () => {
     const navigate = useNavigate();
     const isAuth = useSelector(state => state.auth.isAuth);
-    const email = useSelector(state => state.auth.user?.user?.sub);
-    const userId = useSelector(state => state.auth.user?.user?.userId);
+    const email = useSelector(state => state.user?.profile?.email);
+    const userId = useSelector(state => state.auth.userId);
     const dispatch = useDispatch();
 
     const [showError, setShowError] = useState("");
@@ -43,13 +43,13 @@ const Leave = () => {
       password: "",
     });
 
-    // 회원가입 버튼 클릭했을 때, 발생하는 이벤트
+    // 회원탈퇴 버튼 클릭했을 때, 발생하는 이벤트
     const leaveEvent = async e => {
         e.preventDefault();
 
         // form 검사
         if (Object.values(authInfo).includes("") === true) {
-        alert("비밀번호를 입력해주세요.");
+            alert("비밀번호를 입력해주세요.");
         } else {
             const data = {
                 email: email,

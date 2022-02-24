@@ -22,6 +22,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faCommentAlt } from "@fortawesome/free-solid-svg-icons";
 import { getPosts } from "../reducers/slices/postSlice.js";
 
+import { API_URL } from "../config.js";
 const BoardWrap = styled.div`
   width: 80%;
   padding: 20px 0;
@@ -130,7 +131,6 @@ const BoardForm = () => {
   useEffect(async () => {
     await dispatch(getPosts(boardId));
   }, [boardId]);
-
   return (
     <>
       <GlobalStyle />
@@ -146,7 +146,7 @@ const BoardForm = () => {
               >
                 <BoardList>
                   <ImgArea>
-                    <img src="https://img.youtube.com/vi/3ugQRXRToFA/mqdefault.jpg" />
+                    <img src={`${API_URL}/v1/file/upload/${post.thumbnail}`} />
                   </ImgArea>
                   <ContentArea>
                     <BoardTitle className="boardTitle">

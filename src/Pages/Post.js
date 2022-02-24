@@ -31,23 +31,6 @@ import { timeElapsed } from "../utils/tools.js";
 
 import noneProfileImg from "../images/none_profile_image.png";
 
-// sample data
-const samplePost = {
-  id: 1,
-  title: "title",
-  content:
-    "# hi \n## this is \n### content123123 `hi` \n 123123 \n* 1\n * 222\n * 33333",
-  create_at: "2022-01-21",
-  author: "자몽",
-  tags: ["자바스크립트", "리액트", "스프링"],
-  view: 3,
-  like: 2,
-  comments: [
-    { author: "김방울", content: "야옹" },
-    { author: "Dever", content: "댓글 샘플2" },
-  ],
-};
-
 // style
 const PostView = styled.div`
   width: 80%;
@@ -188,15 +171,9 @@ const LikeWrap = styled.div`
   }
 `;
 
-const LikeIcon = styled(FontAwesomeIcon)`
-  color: ${props => (props.Liked ? "#FF4444" : "#aaa")};
-  font-size: 2em;
-  display: block;
-  transition: color 0.3s, transform 0.3s;
-`;
-
 // main
 const Post = () => {
+  const isAuth = useSelector(state => state.auth.isAuth);
   const status = useSelector(state => state.post?.status);
   const profile = useSelector(state => state.user?.profile);
 
@@ -213,7 +190,9 @@ const Post = () => {
   };
 
   const onClickLike = () => {
-    dispatch(editLike(postId));
+    if (isAuth) {
+      dispatch(editLike(postId));
+    }
   };
 
   useEffect(async () => {
@@ -268,11 +247,10 @@ const Post = () => {
             <div className="authorName">{post.responseInfo.nickname}</div>
             {/* 프로필 이미지 */}
             <AuthorImg>
-              {profile?.profileImage === "N" ||
-              profile?.profileImage === null ? (
-                <img src={noneProfileImg} />
-              ) : (
+              {profile?.profileImage ? (
                 <img src={profile?.profileImage} alt="profileImg" />
+              ) : (
+                <img src={noneProfileImg} />
               )}
             </AuthorImg>
           </UserInfo>
@@ -290,17 +268,19 @@ const Post = () => {
           </SideBar>
 
           {/* 수정, 삭제버튼 */}
-          <div className="btnWrap flex flex-jc-e">
-            <Link
-              className="linkBtn black"
-              to={{ pathname: `/edit/${boardId}/${postId}` }}
-            >
-              수정
-            </Link>
-            <div className="linkBtn black" onClick={onDeletePost}>
-              삭제
+          {isAuth && (
+            <div className="btnWrap flex flex-jc-e">
+              <Link
+                className="linkBtn black"
+                to={{ pathname: `/edit/${boardId}/${postId}` }}
+              >
+                수정
+              </Link>
+              <div className="linkBtn black" onClick={onDeletePost}>
+                삭제
+              </div>
             </div>
-          </div>
+          )}
         </PostView>
       )}
     </Container>
