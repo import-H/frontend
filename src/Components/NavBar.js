@@ -13,6 +13,7 @@ import logoImg from "../images/logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 // style
+
 import { Drawer } from "antd";
 
 function NavBar() {
@@ -36,24 +37,22 @@ function NavBar() {
           <Link to="/">
             <img src={logoImg} alt="import-H" />
           </Link>
-        </div>
-        <div id="navMenu">
-          <Link to="/board/free">게시판</Link>
-          <Link to="/posts">스터디 멤버</Link>
-        </div>
+        </div>       
         <div id="log">
           <UserMenu />
         </div>
       </div>
       <Drawer
-        title="Basic Drawer"
+        title="Import-H"
         placement="left"
         onClose={onClose}
         visible={visible}
+        id="mbNav"
       >
-        <p>test</p>
-        <p>test</p>
-        <p>test</p>
+        <ul className="mbMenu">
+          <li><Link to="/board/free" onClick={onClose}>게시판</Link></li>
+          <li><Link to="/posts" onClick={onClose}>스터디 멤버</Link></li>
+        </ul>
       </Drawer>
     </nav>
   );
