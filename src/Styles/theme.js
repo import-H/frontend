@@ -15,6 +15,20 @@ const Input = styled.input`
     border-color: #222;
   }
 `;
+const BigInput = styled.input`
+  width: 200%;
+  height: 37px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px 10px;
+  outline: none;
+  transition: border 0.3s;
+  &:active,
+  &:focus,
+  &:focus-visible {
+    border-color: #222;
+  }
+`;
 
 //기본 버튼
 const Button = styled.button`
@@ -29,7 +43,7 @@ const Button = styled.button`
   outline: none;
   /* & 문자를 사용하여 Sass 처럼 자기 자신 선택이 가능합니다. */
   &:hover {
-    background-color: #ffc90a;
+    background-color: var(--point-color-yellow);
     color: #222;
   }
 `;
@@ -40,9 +54,20 @@ const Container = styled.div`
   margin: 0 auto;
   margin-top: 50px;
   min-width: 300px;
-  padding: 50px 0;
+  padding: 50px 0;  
+  @media (max-width: 1200px){
+      padding: 50px 25px;    
+  }
+`;
+
+const FlexContainer = styled(Container)`
   display: flex;
   justify-content: center;
 `;
 
-export { Button, Input, Container };
+const MainContainer = styled(Container)`
+  max-width: unset;
+  margin-top: 0;
+`;
+
+export { Button, BigInput, Input, Container, MainContainer, FlexContainer };
