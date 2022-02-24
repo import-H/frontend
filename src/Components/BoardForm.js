@@ -95,9 +95,12 @@ const ImgArea = styled.div`
   margin-right: 1rem;
   flex: 1;
   height: 12rem;
+  width: 25rem;
 
   & img {
     height: 100%;
+    width: 100%;
+    object-fit: cover;
   }
 `;
 
