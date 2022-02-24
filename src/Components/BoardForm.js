@@ -148,9 +148,13 @@ const BoardForm = () => {
                 key={post.responseInfo.postId}
               >
                 <BoardList>
-                  <ImgArea>
-                    <img src={`${API_URL}/v1/file/upload/${post.thumbnail}`} />
-                  </ImgArea>
+                  {post.thumbnail && (
+                    <ImgArea>
+                      <img
+                        src={`${API_URL}/v1/file/upload/${post.thumbnail}`}
+                      />
+                    </ImgArea>
+                  )}
                   <ContentArea>
                     <BoardTitle className="boardTitle">
                       {post.responseInfo.title}
