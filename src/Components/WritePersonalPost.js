@@ -3,7 +3,7 @@ import { Editor } from "@toast-ui/react-editor";
 import axiosInstance from "../utils/axiosInstance";
 import styled from "styled-components";
 import { Container, Input } from "../Styles/theme";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addPost, getPost, getPosts } from "../reducers/slices/postSlice";
 
 const WriteContainer = styled(Container)`
@@ -41,7 +41,7 @@ const TagsInput = styled(Input)`
   flex-shrink: 0;
 `;
 
-const WritePersonalPost = ({ personId }) => {
+const WritePersonalPost = ({ userPathId, personId }) => {
   const dispatch = useDispatch();
   const editorRef = useRef(null);
   const [title, setTitle] = useState("");
@@ -55,15 +55,15 @@ const WritePersonalPost = ({ personId }) => {
     let imgUrls =
       instance.match(findImage) &&
       instance.match(findImage).map(url => url.split("/").pop());
-    imgUrls =
-      imgUrls && imgUrls.map(imgUrl => imgUrl.substring(0, imgUrl.length - 1));
-
+    imgUrls = imgUrls
+      ? imgUrls.map(imgUrl => imgUrl.substring(0, imgUrl.length - 1))
+      : [];
     const postData = {
       title: title,
       tags: tags,
-      content: instance, //setPost에서 content 수정하면 바로 반영안되는 문제로 이렇게 해결함
+      content: instance,
       images: imgUrls,
-      type: "jamongg",
+      type: personId,
     };
     await dispatch(addPost(postData));
     await dispatch(getPosts(personId));
@@ -110,53 +110,57 @@ const WritePersonalPost = ({ personId }) => {
   }, [editorRef]);
 
   return (
-    <WriteContainer>
-      <Input
-        type="text"
-        name="title"
-        onChange={e => setTitle(e.target.value)}
-        placeholder="Title"
-        value={title}
-      />
-      <div className="tagCon">
-        <TagsInput
-          className="tagsInput"
-          placeholder="Tags"
-          onChange={e => setCurrentTag(e.target.value)}
-          value={currentTag}
-          onKeyPress={e => {
-            if (e.key === "Enter") {
-              onTagPush();
-            }
-          }}
-        />
-        {/* tagArea/ */}
-        <div className="tagArea flex flex-ai-c">
-          {tags.map((tag, id) => (
-            <div
-              className="postTag"
-              onClick={() => {
-                setTags(tags.filter(t => t !== tag));
+    <>
+      {userPathId === personId && (
+        <WriteContainer>
+          <Input
+            type="text"
+            name="title"
+            onChange={e => setTitle(e.target.value)}
+            placeholder="Title"
+            value={title}
+          />
+          <div className="tagCon">
+            <TagsInput
+              className="tagsInput"
+              placeholder="Tags"
+              onChange={e => setCurrentTag(e.target.value)}
+              value={currentTag}
+              onKeyPress={e => {
+                if (e.key === "Enter") {
+                  onTagPush();
+                }
               }}
-            >
-              {tag}
+            />
+            {/* tagArea/ */}
+            <div className="tagArea flex flex-ai-c">
+              {tags.map((tag, id) => (
+                <div
+                  className="postTag"
+                  onClick={() => {
+                    setTags(tags.filter(t => t !== tag));
+                  }}
+                >
+                  {tag}
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      </div>
-      <Editor
-        initialValue="hello react editor world!"
-        previewStyle="vertical"
-        height={"400px"}
-        initialEditType="markdown"
-        useCommandShortcut={true}
-        previewStyle="tab"
-        ref={editorRef}
-      />
-      <button className="linkBtn black" onClick={postSubmit}>
-        작성 완료
-      </button>
-    </WriteContainer>
+          </div>
+          <Editor
+            initialValue="hello react editor world!"
+            previewStyle="vertical"
+            height={"400px"}
+            initialEditType="markdown"
+            useCommandShortcut={true}
+            previewStyle="tab"
+            ref={editorRef}
+          />
+          <button className="linkBtn black" onClick={postSubmit}>
+            작성 완료
+          </button>
+        </WriteContainer>
+      )}
+    </>
   );
 };
 
