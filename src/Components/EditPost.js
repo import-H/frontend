@@ -79,9 +79,8 @@ const EditPost = () => {
       const res = await dispatch(getPost(postId));
       const data = res.payload.responseInfo;
       setTitle(data.title);
-      setText(data.content);
-      setInitText(data.tags);
-      console.log(data.content);
+      setInitText(data.content);
+      setTags(data.tags);
     } catch (e) {
       alert("error");
     }
@@ -133,7 +132,7 @@ const EditPost = () => {
           value={title}
         />
         {/* 내용 */}
-        {text && (
+        {initText && (
           <Editor
             initialValue={initText}
             previewStyle="vertical"
