@@ -16,18 +16,42 @@ import BoardForm from "../Components/BoardForm.js";
 const MenuBar = styled.div`
   width: 80%;
   margin: 0 auto;
+  transform: translateX(-20px);
   display: flex;
   flex-direction: row;
   justify-content: left;
   align-items: center;
-  * {
-    padding: 20px;
+
+  & a {
+    font-size: 1.5em;
+    padding: 0 20px;
+    position: relative;
+    &::after {
+      position: absolute;
+      display: block;
+      content: "";
+      width: 1px;
+      height: 10px;
+      background: #aaa;
+      top: 50%;
+      left: 100%;
+      transform: translateY(-50%);
+    }
+    &:last-child::after {
+      display: none;
+    }
   }
   > a:nth-child(1) {
-    color: ${props => (props.boardId === "free" ? "blue" : "black")};
+    color: ${props =>
+      props.boardId === "free" ? "var(--secondary-color)" : "black"};
   }
   > a:nth-child(2) {
-    color: ${props => (props.boardId === "qna" ? "blue" : "black")};
+    color: ${props =>
+      props.boardId === "questions" ? "var(--secondary-color)" : "black"};
+  }
+  > a:nth-child(3) {
+    color: ${props =>
+      props.boardId === "notice" ? "var(--secondary-color)" : "black"};
   }
 `;
 
@@ -42,14 +66,14 @@ const BoardWrapper = styled.div`
 // main
 const Board = () => {
   const boardId = useParams().id;
-  const getPostBtn = e => {};
   return (
     <Container>
       <GlobalStyle />
       <BoardWrapper>
         <MenuBar boardId={boardId}>
           <Link to={{ pathname: "/board/free" }}>자유게시판</Link>
-          <Link to={{ pathname: "/board/qna" }}>qna 게시판</Link>
+          <Link to={{ pathname: "/board/questions" }}>qna 게시판</Link>
+          <Link to={{ pathname: "/board/notice" }}>공지사항</Link>
         </MenuBar>
         <BoardForm />
       </BoardWrapper>

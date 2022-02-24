@@ -2,14 +2,18 @@
 import React, { useEffect, useState } from "react";
 // redux
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { login } from "../reducers/slices/authSlice";
+import axios from "axios";
 
 // styled-components
 import styled from "styled-components";
 import GlobalStyle from "../Styles/Globalstyle.js";
-import { Button, Input, Container } from "../Styles/theme.js";
+import { Button, Input, FlexContainer } from "../Styles/theme.js";
 
+// react-router-dom
+import { useNavigate } from "react-router-dom";
+
+// style
 const Label = styled.div`
   font-size: 1.4em;
   margin: 10px 0 5px 0;
@@ -24,18 +28,18 @@ const SubmitButton = styled(Button)`
 // auth form으로 변경해도 좋을듯(공통 기능 많아서)
 const Login = () => {
   const navigate = useNavigate();
-  const isAuth = useSelector((state) => state.auth.isAuth);
+  const isAuth = useSelector(state => state.auth.isAuth);
   const dispatch = useDispatch();
 
   const [showError, setShowError] = useState("");
 
   const [authInfo, setAuthInfo] = useState({
     email: "",
-    password: ""
+    password: "",
   });
 
   // 회원가입 버튼 클릭했을 때, 발생하는 이벤트
-  const loginEvent = async (e) => {
+  const loginEvent = async e => {
     e.preventDefault();
 
     // form 검사
@@ -44,30 +48,53 @@ const Login = () => {
     } else {
       const data = {
         email: authInfo.email,
-        password: authInfo.password
+        password: authInfo.password,
       };
-      await dispatch(login(data));
+
+      try {
+        const ers = await dispatch(login(data)).unwrap();
+        //console.log("rs", ers);
+        navigate("/");
+      } catch (e) {
+        alert(e.msg);
+      }
+
+      // axios
+      //   .post("http://localhost:8090/v1/login", { ...data })
+      //   .then(res => {
+      //     console.log("성공");
+      //   })
+      //   .catch(e => {
+      //     console.log(e.response);
+      //   });
+
+      // try {
+      //   const res = await axios.post("http://localhost:8090/v1/login", {
+      //     ...data,
+      //   });
+      // } catch (e) {
+      //   console.log(e.response);
+      // }
     }
   };
 
   // input에 변경이 생겼을 경우, 발생하는 이벤트
-  const onChange = (e) => {
+  const onChange = e => {
     const { value, name } = e.target;
     setAuthInfo({ ...authInfo, [name]: value });
   };
 
-  // isAuth가 true 인 경우(로그인 완료), 랜딩페이지로 이동
   useEffect(() => {
-    if (isAuth) {
+    if(isAuth) {
       navigate("/");
     }
-  }, [isAuth, navigate]);
+  })
 
   return (
-    <Container>
+    <FlexContainer>
       <GlobalStyle />
       <form onSubmit={loginEvent}>
-        <Label>이메일(홍익대학교)</Label>
+        <Label>이메일</Label>
         <Input type="text" name="email" onChange={onChange} />
         <Label>비밀번호</Label>
         <Input type="password" name="password" onChange={onChange} />
@@ -75,7 +102,7 @@ const Login = () => {
         <SubmitButton type="submit">로그인</SubmitButton>
       </form>
       <div>{showError}</div>
-    </Container>
+    </FlexContainer>
   );
 };
 

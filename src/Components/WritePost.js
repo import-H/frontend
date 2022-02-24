@@ -2,67 +2,157 @@
 import React, { useState, useRef, useEffect } from "react";
 
 // redux
-import { addPost } from "../reducers/slices/postSlice";
+import { addPost, uploadFile } from "../reducers/slices/postSlice";
+import axiosInstance from "../utils/axiosInstance";
+import { useDispatch, useSelector } from "react-redux";
 
 // styled-components
-// import styled from 'styled-components';
+import styled from "styled-components";
 import GlobalStyle from "../Styles/Globalstyle.js";
-import { Container } from "../Styles/theme";
+import { Container, Input } from "../Styles/theme";
 
 // toast-ui editor
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { Editor } from "@toast-ui/react-editor";
-import { useDispatch, useSelector } from "react-redux";
 
 // react-router-dom
 import { useParams, useNavigate } from "react-router-dom";
 
-// auth form으로 변경해도 좋을듯(공통 기능 많아서)
+// style
+const WriteContainer = styled(Container)`
+  & .tagCon {
+    margin: 10px 0;
+    margin-top: 25px;
+    & .tagArea {
+      margin: 10px 0;
+      font-size: 1.2em;
+      flex-wrap: wrap;
+
+      & .postTag {
+        padding: 5px 7px;
+        margin-bottom: 7px;
+        margin-right: 15px;
+        border-radius: 5px;
+        background: #ddd;
+        color: #666;
+        font-size: 1.1em;
+      }
+    }
+  }
+
+  & .toastui-editor-defaultUI {
+    margin: 12px 0;
+  }
+
+  & .linkBtn {
+    padding: 7px 30px;
+    font-size: 1.2em;
+  }
+`;
+
+const TagsInput = styled(Input)`
+  width: 100%;
+  flex-shrink: 0;
+`;
+
 const WritePost = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const addPostStatus = useSelector(state => state.post.status);
+  const isAuth = useSelector(state => state.auth.isAuth);
+
+  const addPostStatus = useSelector(state => state.post.addPost);
+
+  const file = useSelector(state => state.post?.file);
+
   const [nav, setNav] = useState(false);
   const editorRef = useRef(null);
 
   const boardId = useParams().id;
 
-  const [post, setPost] = useState({
-    title: "",
-    tags: ["aa", "bb"],
-    content: "",
-  });
+  const [title, setTitle] = useState("");
+  const [currentTag, setCurrentTag] = useState("");
+  const [tags, setTags] = useState([]);
 
-  const postSubmit = async e => {
+  const imageFilter = instance => {
+    const regex = /!\[Image\]\([\w\/:]+\)/;
+  };
+
+  const postSubmit = e => {
     e.preventDefault();
 
-    const instance = editorRef.current.getInstance();
-    await setPost({ ...post });
+    const instance = editorRef.current.getInstance().getMarkdown();
+    const findImage = /!\[Image\]\([A-Za-z0-9\/:\-.]+\)/gi;
+
+    let imgUrls =
+      instance.match(findImage) &&
+      instance.match(findImage).map(url => url.split("/").pop());
+    imgUrls = imgUrls
+      ? imgUrls.map(imgUrl => imgUrl.substring(0, imgUrl.length - 1))
+      : [];
+
     const postData = {
-      ...post,
-      content: instance.getMarkdown(), //setPost에서 content 수정하면 바로 반영안되는 문제로 이렇게 해결함
+      title: title,
+      tags: tags,
+      content: instance, //setPost에서 content 수정하면 바로 반영안되는 문제로 이렇게 해결함
+      images: imgUrls,
+      type: boardId,
     };
-    await dispatch(addPost({ boardId, postData }));
+    dispatch(addPost(postData));
+  };
+
+  const onTagPush = () => {
+    if (!tags.includes(currentTag)) setTags([...tags, currentTag]);
+    setCurrentTag("");
   };
 
   useEffect(() => {
-    if (addPostStatus === "loading") {
-      setNav(true);
-    }
-    if (addPostStatus === "failed") {
-      setNav(false);
-    }
-    if (nav && addPostStatus === "success") {
+    if (addPostStatus === "success") {
       navigate(-1);
     }
-  }, [addPostStatus, navigate]);
+  }, [addPostStatus]);
+
+  useEffect(() => {
+    if (!isAuth) {
+      alert("로그인하지 않은 사용자는 글을 작성할 수 없습니다.");
+      navigate("/login");
+    }
+
+    if (editorRef.current) {
+      // 기존에 Image 를 Import 하는 Hook 을 제거한다.
+      editorRef.current.getInstance().removeHook("addImageBlobHook");
+
+      // 새롭게 Image 를 Import 하는 Hook 을 생성한다.
+      editorRef.current
+        .getInstance()
+        .addHook("addImageBlobHook", (blob, callback) => {
+          (async function () {
+            let formData = new FormData();
+            formData.append("image", blob);
+
+            const response = await axiosInstance.post(
+              `http://localhost:8090/v1/file/upload`,
+              formData,
+              { header: { "content-type": "multipart/formdata" } },
+            );
+
+            const url = `http://localhost:8090${response.data.data.imageURL}`;
+
+            console.log(url);
+            callback(url, "Image");
+          })();
+
+          return false;
+        });
+    }
+
+    return () => {};
+  }, [editorRef]);
 
   return (
-    <Container>
+    <WriteContainer>
       <GlobalStyle />
-      <form
-        onSubmit={postSubmit}
+      <div
         style={{
           display: "flex",
           flexDirection: "column",
@@ -70,26 +160,55 @@ const WritePost = () => {
           margin: "3rem",
         }}
       >
-        <label>title</label>
-        <input
+        {/* 글 제목 */}
+        <Input
           type="text"
           name="email"
-          onChange={e => setPost({ ...post, title: e.target.value })}
+          onChange={e => setTitle(e.target.value)}
+          placeholder="Title"
         />
-        <label>tags</label>
-        <input />
-        <label>content</label>
+        {/* content */}
         <Editor
           initialValue="hello react editor world!"
           previewStyle="vertical"
-          height="600px"
+          height="800px"
           initialEditType="markdown"
           useCommandShortcut={true}
           ref={editorRef}
         />
-        <button type="submit">작성 완료</button>
-      </form>
-    </Container>
+        <div className="tagCon">
+          <TagsInput
+            className="tagsInput"
+            placeholder="Tags"
+            onChange={e => setCurrentTag(e.target.value)}
+            value={currentTag}
+            onKeyPress={e => {
+              if (e.key === "Enter") {
+                onTagPush();
+              }
+            }}
+          />
+          {/* tagArea/ */}
+          <div className="tagArea flex flex-ai-c">
+            {tags.map((tag, id) => (
+              <div
+                className="postTag"
+                onClick={() => {
+                  setTags(tags.filter(t => t !== tag));
+                }}
+              >
+                {tag}
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="submitArea flex flex-jc-e">
+          <button className="linkBtn black" onClick={postSubmit}>
+            작성 완료
+          </button>
+        </div>
+      </div>
+    </WriteContainer>
   );
 };
 
