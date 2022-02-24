@@ -8,14 +8,32 @@ import { signup } from "../reducers/slices/authSlice";
 // styled-components
 import styled from "styled-components";
 import GlobalStyle from "../Styles/Globalstyle";
-import { Button, Input, Container } from "../Styles/theme";
+import { Button, Input, FlexContainer } from "../Styles/theme";
 
 // react-router-dom
 import { useNavigate } from "react-router-dom";
+import { useCounter } from "../utils/Timer";
 
 const AuthForm = styled.div`
   min-width: 300px;
   max-width: 1200px;
+  & .email-area {
+    display: flex;
+    flex-direction: row;
+
+    & input {
+      flex: 5;
+    }
+    & .email-btn {
+      cursor: pointer;
+      font-size: 1.3rem;
+      text-decoration: underline;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+    }
+  }
 `;
 
 const Label = styled.div`
@@ -41,7 +59,7 @@ const AuthInput = styled(Input)`
 
 const ErrorMsg = styled.div`
   display: flex;
-  align-itmes: center;
+  align-items: center;
   margin-top: 1rem;
   margin-bottom: 1rem;
   color: red;
@@ -59,11 +77,23 @@ const CheckInput = styled.input`
   width: 2rem;
 `;
 
+const EmailConfirm = styled.div`
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+`;
+
 // auth form으로 변경해도 좋을듯(공통 기능 많아서)
 const Register = () => {
   const dispatch = useDispatch();
   const registerStatus = useSelector(state => state.auth?.status);
+  const isAuth = useSelector(state => state.auth.isAuth);
   const navigate = useNavigate();
+  const [emailConfirmPage, setEmailConfirmPage] = useState(false);
+
+  const { count, start, stop } = useCounter(3, 1000);
 
   // 회원가입 form를 모두 입력했을 때, true로 바뀜
   const [submitState, setSubmitState] = useState(false);
@@ -73,6 +103,7 @@ const Register = () => {
     nickname: "",
     password: "",
     confirmPassword: "",
+    pathId: "",
     agree: false,
   });
 
@@ -81,6 +112,7 @@ const Register = () => {
     password: "",
     confirmPassword: "",
     nickname: "",
+    pathId: "",
   });
 
   // 유효성 검사에 사용됨
@@ -96,19 +128,24 @@ const Register = () => {
       nickname: authInfo.nickname,
       password: authInfo.password,
       confirmPassword: authInfo.confirmPassword,
+      pathId: authInfo.pathId,
       agree: authInfo.agree,
     };
-    await dispatch(signup(data));
-    if (registerStatus === "success") {
-      navigate("/");
+    try {
+      await dispatch(signup(data)).unwrap();
+      setEmailConfirmPage(true);
+      //navigate("/");
+    } catch (e) {
+      console.log("err", e);
+      alert(e.msg);
     }
   };
 
   // input에 변경이 생겼을 경우, 발생하는 이벤트
-  const onChange = async e => {
+  const onChange = e => {
     const { value, name } = e.target;
     if (name === "agree") setAuthInfo({ ...authInfo, [name]: !authInfo.agree });
-    else await setAuthInfo({ ...authInfo, [name]: value });
+    else setAuthInfo({ ...authInfo, [name]: value });
 
     if (name === "password") {
       if (value.length < 8)
@@ -145,10 +182,35 @@ const Register = () => {
         setErrorInfo({ ...errorInfo, [name]: "비밀번호가 일치하지 않습니다." });
       } else setErrorInfo({ ...errorInfo, [name]: "" });
     }
+
+    if (name === "pathId") {
+      const regExp = /[^a-zA-Z0-9]+/gi;
+
+      if (value.length < 5 || value.length > 15)
+        setErrorInfo({
+          ...errorInfo,
+          [name]: "id는 5자~15자 사이여야 합니다.",
+        });
+      else if (regExp.test(value)) {
+        setErrorInfo({
+          ...errorInfo,
+          [name]: "id는 영문과 숫자로만 이루어져야 합니다.",
+        });
+      } else setErrorInfo({ ...errorInfo, [name]: "" });
+    }
   };
+
+  // const LeftTime = () => {
+  //   start();
+  //   setAuthEmail(true);
+  // };
 
   // authInfo와 errorInfo를 감지해 submitState 상태 수정
   useEffect(() => {
+    if (isAuth) {
+      navigate("/");
+    }
+
     if (
       Object.values(errorInfo).every(err => err === "") &&
       !Object.values(authInfo).includes("")
@@ -160,53 +222,79 @@ const Register = () => {
   }, [authInfo, errorInfo]);
 
   return (
-    <Container>
+    <FlexContainer>
       <GlobalStyle />
-      <AuthForm>
-        <Label>이메일(홍익대학교)</Label>
-        <AuthInput
-          type="text"
-          name="email"
-          onChange={onChange}
-          valid={errorInfo.email}
-        />
-        <ErrorMsg>{errorInfo.email}</ErrorMsg>
-        <Label>비밀번호</Label>
-        <AuthInput
-          type="password"
-          name="password"
-          onChange={onChange}
-          valid={errorInfo.password}
-        />
-        <ErrorMsg>{errorInfo.password}</ErrorMsg>
-        <Label>비밀번호 확인</Label>
-        <AuthInput
-          type="password"
-          name="confirmPassword"
-          onChange={onChange}
-          valid={errorInfo.confirmPassword}
-        />
-        <ErrorMsg>{errorInfo.confirmPassword}</ErrorMsg>
-        <Label>별명</Label>
-        <AuthInput
-          type="text"
-          name="nickname"
-          onChange={onChange}
-          valid={errorInfo.nickname}
-        />
-        <CheckboxArea>
-          <CheckInput type="checkbox" name="agree" onChange={onChange} />
-          <Label>주 1회 이상 활동하실 계획이 있으시면 체크해주세요.</Label>
-        </CheckboxArea>
-        <SubmitButton
-          type="submit"
-          submitState={submitState}
-          onClick={registerEvent}
-        >
-          회원가입
-        </SubmitButton>
-      </AuthForm>
-    </Container>
+      <div>
+        {!emailConfirmPage ? (
+          <AuthForm>
+            <Label>이메일</Label>
+            <div className="email-area">
+              <AuthInput
+                type="text"
+                name="email"
+                onChange={onChange}
+                valid={errorInfo.email}
+              />
+              {/* <div className="email-btn" onClick={LeftTime}>
+            인증
+          </div>
+
+          <div>
+            {parseInt(count / 60000)}:{count % 60000}
+          </div> */}
+            </div>
+            <ErrorMsg>{errorInfo.email}</ErrorMsg>
+
+            <Label>비밀번호</Label>
+            <AuthInput
+              type="password"
+              name="password"
+              onChange={onChange}
+              valid={errorInfo.password}
+            />
+            <ErrorMsg>{errorInfo.password}</ErrorMsg>
+            <Label>비밀번호 확인</Label>
+            <AuthInput
+              type="password"
+              name="confirmPassword"
+              onChange={onChange}
+              valid={errorInfo.confirmPassword}
+            />
+            <ErrorMsg>{errorInfo.confirmPassword}</ErrorMsg>
+            <Label>별명</Label>
+            <AuthInput
+              type="text"
+              name="nickname"
+              onChange={onChange}
+              valid={errorInfo.nickname}
+            />
+            <ErrorMsg></ErrorMsg>
+            <Label>개인페이지 id</Label>
+            <AuthInput
+              type="text"
+              name="pathId"
+              onChange={onChange}
+              valid={errorInfo.pathId}
+              placeholder="개인 페이지에 사용될 id를 입력해주세요(영문)"
+            />
+            <ErrorMsg>{errorInfo.pathId}</ErrorMsg>
+            <CheckboxArea>
+              <CheckInput type="checkbox" name="agree" onChange={onChange} />
+              <Label>주 1회 이상 활동하실 계획이 있으시면 체크해주세요.</Label>
+            </CheckboxArea>
+            <SubmitButton
+              type="submit"
+              submitState={submitState}
+              onClick={registerEvent}
+            >
+              회원가입
+            </SubmitButton>
+          </AuthForm>
+        ) : (
+          <EmailConfirm>가입하신 이메일에서 인증 진행바랍니다.</EmailConfirm>
+        )}
+      </div>
+    </FlexContainer>
   );
 };
 

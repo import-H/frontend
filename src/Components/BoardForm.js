@@ -1,26 +1,47 @@
-import React, { useEffect } from "react";
-// api가 아직 정해지지 않아 임시로 samplePosts 만들어둠
+// react
+import React, { useEffect, useState } from "react";
 
-import GlobalStyle from "../Styles/Globalstyle.js";
-import { Container } from "../Styles/theme";
-import { Viewer } from "@toast-ui/react-editor";
-import styled from "styled-components";
+// redux
+import { useDispatch, useSelector } from "react-redux";
 
+// react-router-dom
 import { Link, useParams } from "react-router-dom";
 
+// toast-ui viewer
+import { Viewer } from "@toast-ui/react-editor";
+
+// tools
+import { timeElapsed } from "../utils/tools.js";
+
+// style
+import GlobalStyle from "../Styles/Globalstyle.js";
+import styled from "styled-components";
+
+// icon
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faCommentAlt } from "@fortawesome/free-solid-svg-icons";
-import { useDispatch, useSelector } from "react-redux";
 import { getPosts } from "../reducers/slices/postSlice.js";
 
+import { API_URL } from "../config.js";
 const BoardWrap = styled.div`
   width: 80%;
+  padding: 20px 0;
+
+  & .writeBtn {
+    display: inline-block;
+    margin-bottom: 20px;
+
+    &:last-of-type {
+      margin-top: 20px;
+    }
+  }
 `;
 
 const BoardList = styled.div`
+  display: flex;
   width: 100%;
   margin: 0 auto;
-  padding: 20px;
+  padding: 20px 0;
   box-sizing: border-box;
   border-bottom: 1px solid #ddd;
   margin-bottom: 2em;
@@ -51,12 +72,17 @@ const BoardList = styled.div`
   }
   & .boardComment {
   }
+
+  &:hover .boardTitle {
+    color: var(--point-color-orange);
+  }
 `;
 const BoardTitle = styled.div`
   font-size: 2.2em;
   font-weight: 500;
   display: flex;
   justify-content: space-between;
+  transition: all 0.3s;
 
   & .date {
     display: block;
@@ -65,109 +91,104 @@ const BoardTitle = styled.div`
   }
 `;
 
-const samplePosts = [
-  {
-    id: 1,
-    title: "title",
-    content: "content",
-    thumbnail: "",
-    create_at: "2022-01-21",
-    author: "자몽",
-    view: 3,
-    like: 2,
-    comments: [],
-  },
-  {
-    id: 2,
-    title: "프로그래밍 스터디 이름",
-    content: "프로그래밍 스터디 이름은 `import_H`입니다.!!",
-    thumbnail: "",
-    create_at: "2022-01-21",
-    author: "자몽",
-    view: 3,
-    like: 2,
-    comments: ["123123", "123123"],
-  },
-];
+const ImgArea = styled.div`
+  margin-right: 1rem;
+  flex: 1;
+  height: 12rem;
+
+  & img {
+    height: 100%;
+  }
+`;
+
+const ContentArea = styled.div`
+  flex: 3;
+`;
 
 const BoardForm = () => {
   const dispatch = useDispatch();
   const posts = useSelector(state => state.post.posts);
+  const isAuth = useSelector(state => state.auth.isAuth);
   const boardId = useParams().id;
 
-  useEffect(() => {
-    dispatch(getPosts(boardId));
-    console.log("getposts");
-  }, []);
+  // 게시글 목록에서 게시글 formatting
+  const simplyContent = content => {
+    if (content.length >= 100) content = content.slice(0, 100) + "...";
+
+    const regex = /!\[Image\]\([\w\/:]+\)/;
+    let imgStr;
+    while ((imgStr = content.match(regex)) !== null) {
+      content = content.replace(imgStr[0], "");
+    }
+    content = content
+      .replaceAll("#", "")
+      .replaceAll("*", "")
+      .replaceAll("\n", "");
+
+    return content;
+  };
+
+  useEffect(async () => {
+    await dispatch(getPosts(boardId));
+  }, [boardId]);
   return (
     <>
       <GlobalStyle />
       <BoardWrap>
-        <Link to={{ pathname: `/write/${boardId}` }}>글 작성하기</Link>
         <div>
-          {posts?.map(post => (
-            <Link
-              to={{ pathname: `/board/${boardId}/${post.id}` }}
-              key={post.id}
-            >
-              <BoardList>
-                <BoardTitle>
-                  {post.title}
-                  {/* 제목 */}
-                  <span className="date">{post.create_at}</span>
-                  {/* 생성 시간 */}
-                </BoardTitle>
-                {/* 글쓴이 */}
-                <div className="boardAuthor">{post.author}</div>
-                <Viewer initialValue={post.content} />
-                <div className="commentWrap flex flex-ai-c">
-                  {/* 좋아요 */}
-                  <div className="boardLike">
-                    <FontAwesomeIcon icon={faHeart} />
-                    {post.like}
-                  </div>
-                  {/* 코멘트 */}
-                  <div className="boardComment">
-                    <FontAwesomeIcon icon={faCommentAlt} />{" "}
-                    {post.comments.length}
-                  </div>
-                </div>
-              </BoardList>
-            </Link>
-          ))}
-          {posts?.length !== 0 ? (
-            <></>
-          ) : (
-            samplePosts.map(post => (
+          {posts &&
+            posts.map(post => (
               <Link
-                to={{ pathname: `/board/${boardId}/${post.id}` }}
-                key={post.id}
+                to={{
+                  pathname: `/board/${boardId}/${post.responseInfo.postId}`,
+                }}
+                key={post.responseInfo.postId}
               >
                 <BoardList>
-                  <BoardTitle>
-                    {post.title}
-                    {/* 제목 */}
-                    <span className="date">{post.create_at}</span>
-                    {/* 생성 시간 */}
-                  </BoardTitle>
-                  {/* 글쓴이 */}
-                  <div className="boardAuthor">{post.author}</div>
-                  <Viewer initialValue={post.content} />
-                  <div className="commentWrap flex flex-ai-c">
-                    {/* 좋아요 */}
-                    <div className="boardLike">
-                      <FontAwesomeIcon icon={faHeart} />
-                      {post.like}
+                  <ImgArea>
+                    <img src={`${API_URL}/v1/file/upload/${post.thumbnail}`} />
+                  </ImgArea>
+                  <ContentArea>
+                    <BoardTitle className="boardTitle">
+                      {post.responseInfo.title}
+                      {/* 제목 */}
+                      <span className="date">
+                        {timeElapsed(post.responseInfo.createdAt)}
+                      </span>
+                      {/* 생성 시간 */}
+                    </BoardTitle>
+                    {/* 글쓴이 */}
+                    <div className="boardAuthor">
+                      {post.responseInfo.author}
                     </div>
-                    {/* 코멘트 */}
-                    <div className="boardComment">
-                      <FontAwesomeIcon icon={faCommentAlt} />{" "}
-                      {post.comments.length}
+                    <Viewer
+                      initialValue={simplyContent(post.responseInfo.content)}
+                    />
+                    <div className="commentWrap flex flex-ai-c">
+                      {/* 좋아요 */}
+                      <div className="boardLike">
+                        <FontAwesomeIcon icon={faHeart} />
+                        {post.responseInfo.likeCount}
+                      </div>
+                      {/* 댓글 */}
+                      <div className="boardComment">
+                        <FontAwesomeIcon icon={faCommentAlt} />{" "}
+                        {post.commentsCount}
+                      </div>
                     </div>
-                  </div>
+                  </ContentArea>
                 </BoardList>
               </Link>
-            ))
+            ))}
+        </div>
+        <div className="flex flex-jc-e">
+          {isAuth && (
+            <Link
+              to={{ pathname: `/write/${boardId}` }}
+              className="writeBtn linkBtn black"
+            >
+              글 작성하기
+            </Link>
           )}
         </div>
       </BoardWrap>

@@ -1,14 +1,16 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+
+// axios
 import axios from "axios";
 
+// axios with auth
 import axiosInstance from "../../utils/axiosInstance";
-const API_URL = "http://localhost:8090";
+import { API_URL } from "../../config";
 
 const initialState = {
   status: null,
-  nickname: "",
-  posts: [],
-  post: {},
+  posts: "",
+  post: "",
 };
 
 // 유저 데이터 가져오기(api 테스트용)
@@ -20,15 +22,25 @@ export const getUser = createAsyncThunk(
   },
 );
 
+// 전체 게시글 가져오기
+export const getPosts = createAsyncThunk(
+  "post/getPosts",
+  async (boardId, dispatch, getState) => {
+    // const response = await axios.get(`${API_URL}/v1/boards/${boardId}/posts`);
+
+    const response = await axios.get(`${API_URL}/v1/boards/${boardId}`);
+    return response.data.list;
+  },
+);
+
 // 게시글 추가하기
 export const addPost = createAsyncThunk(
   "post/addPost",
-  async (data, dispatch, getState) => {
-    const { boardId, postData } = data;
-    console.log(boardId, data);
-    const response = await axiosInstance.post(`${API_URL}/v1/boards/1/posts`, {
+  async (postData, dispatch, getState) => {
+    const response = await axiosInstance.post(`${API_URL}/v1/posts`, {
       ...postData,
     });
+    console.log(postData);
     return response.data.data;
     // await axios.post("http://localhost:3001/posts", {
     //   boardId: boardId,
@@ -38,44 +50,118 @@ export const addPost = createAsyncThunk(
   },
 );
 
-// 게시판 내에 있는 전체 게시글 가져오기
-export const getPosts = createAsyncThunk(
-  "post/getPosts",
-  async (boardId, dispatch, getState) => {
-    const response = await axios.get(`${API_URL}/v1/boards/${boardId}/posts`);
-    return response.data.data;
-  },
-);
-
 // 게시글 가져오기
 export const getPost = createAsyncThunk(
   "post/getPost",
+  async (postId, { getState }) => {
+    if (getState().auth.isAuth) {
+      const response = await axiosInstance.get(
+        // `${API_URL}/v1/boards/${boardId}/posts/${postId}`,
+        `${API_URL}/v1/posts/${postId}`,
+      );
+      return response.data.data;
+    } else {
+      const response = await axios.get(
+        // `${API_URL}/v1/boards/${boardId}/posts/${postId}`,
+        `${API_URL}/v1/posts/${postId}`,
+      );
+      return response.data.data;
+    }
+    console.log("post", response.data.data);
+  },
+);
+
+// 게시글 삭제하기
+export const deletePost = createAsyncThunk(
+  "post/deletePost",
   async (data, dispatch, getState) => {
     const { boardId, postId } = data;
-    const response = await axios.get(
-      `${API_URL}/v1/boards/${boardId}/posts/${postId}`,
+    const response = await axiosInstance.delete(
+      // `/v1/boards/${boardId}/posts/${postId}`,
+      `${API_URL}/v1/posts/${postId}`,
     );
     return response.data.data;
   },
 );
 
-// 게시글 삭제하기
-export const deletePost = createAsyncThunk("post/deletePost", async data => {
-  const { boardId, postId } = data;
-  const response = await axiosInstance.delete(
-    `/v1/boards/${boardId}/posts/${postId}`,
+// 게시글 수정하기
+export const editPost = createAsyncThunk("post/editPost", async data => {
+  const { boardId, postId, postData } = data;
+  const response = await axiosInstance.put(
+    // `${API_URL}/v1/boards/${boardId}/posts/${postId}`,
+    `${API_URL}/v1/posts/${postId}`,
+    postData,
   );
+
   return response.data.data;
 });
 
-// 게시글 수정하기
-export const editPost = createAsyncThunk("post/editPost", async data => {
-  const { boardId, postId } = data;
-  const response = await axios.put(
-    `${API_URL}/v1/boards/${boardId}/posts/${postId}`,
-  );
-  return response.data.data;
-});
+// 댓글 추가하기
+export const addComment = createAsyncThunk(
+  "post/addComment",
+  async (data, dispatch, getState) => {
+    const { postId, commentData } = data;
+    console.log(data);
+    const response = await axiosInstance.post(
+      `${API_URL}/v1/posts/${postId}/comments`,
+      {
+        content: commentData,
+      },
+    );
+    return response.data.data;
+  },
+);
+
+// 댓글 삭제하기
+export const deleteComment = createAsyncThunk(
+  "post/deleteComment",
+  async (data, dispatch, getState) => {
+    const { postId, commentId } = data;
+    const response = await axiosInstance.delete(
+      `${API_URL}/v1/posts/${postId}/comments/${commentId}`,
+    );
+    return response.data.data;
+  },
+);
+
+// 댓글 수정하기
+export const editComment = createAsyncThunk(
+  "post/editComment",
+  async (data, dispatch, getState) => {
+    const { postId, commentId, content } = data;
+    const response = await axiosInstance.put(
+      `${API_URL}/v1/posts/${postId}/comments/${commentId}`,
+      {
+        content: content,
+      },
+    );
+    return response.data.data;
+  },
+);
+
+// 좋아요 상태 변경하기
+export const editLike = createAsyncThunk(
+  "post/editLike",
+  async (postId, dispatch, getState) => {
+    const response = await axiosInstance.post(
+      `${API_URL}/v1/posts/${postId}/like`,
+    );
+    return response.data.data;
+  },
+);
+
+// 이미지 파일 보내고 가져오기
+export const uploadFile = createAsyncThunk(
+  "post/uploadFile",
+  async (formData, dispatch, getState) => {
+    const response = await axiosInstance.post(
+      `${API_URL}/v1/file/upload`,
+      formData,
+      { header: { "content-type": "multipart/formdata" } },
+    );
+    return response.data.data;
+  },
+);
 
 // createSlice
 const slice = createSlice({
@@ -83,7 +169,7 @@ const slice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
-    // getUser
+    // 유저 가져오기(test)
     [getUser.pending]: (state, action) => {
       state.status = "loading";
     },
@@ -95,23 +181,12 @@ const slice = createSlice({
       state.status = "failed";
       state.error = action.error;
     },
-    // addPost
-    [addPost.pending]: (state, action) => {
-      state.status = "loading";
-    },
-    [addPost.fulfilled]: (state, action) => {
-      state.status = "success";
-      // state.post = action.payload;
-    },
-    [addPost.rejected]: (state, action) => {
-      state.status = "failed";
-      state.error = action.error;
-    },
-    // getPosts
+    // 전체 게시글 가져오기
     [getPosts.pending]: (state, action) => {
       state.status = "loading";
     },
     [getPosts.fulfilled]: (state, action) => {
+      state.addPost = "";
       state.status = "success";
       state.posts = action.payload;
     },
@@ -119,27 +194,93 @@ const slice = createSlice({
       state.status = "failed";
       state.error = action.error;
     },
-    // getPost
+    // 게시글 추가하기
+    [addPost.pending]: (state, action) => {
+      state.addPost = "loading";
+    },
+    [addPost.fulfilled]: (state, action) => {
+      state.addPost = "success";
+    },
+    [addPost.rejected]: (state, action) => {
+      state.addPost = "failed";
+      state.error = action.error;
+    },
+    // 게시글(단일) 가져오기
     [getPost.pending]: (state, action) => {
-      state.status = "loading";
+      state.getPost = "loading";
     },
     [getPost.fulfilled]: (state, action) => {
-      state.status = "success";
+      state.getPost = "success";
       state.post = action.payload;
     },
     [getPost.rejected]: (state, action) => {
-      state.status = "failed";
+      state.getPost = "failed";
       state.error = action.error;
     },
-    // editPost
+    // 게시글 수정
     [editPost.pending]: (state, action) => {
       state.status = "loading";
     },
     [editPost.fulfilled]: (state, action) => {
       state.status = "success";
-      state.post = action.payload;
     },
     [editPost.rejected]: (state, action) => {
+      state.status = "failed";
+      state.error = action.error;
+    },
+    // 댓글 추가
+    [addComment.pending]: (state, action) => {
+      state.status = "loading";
+    },
+    [addComment.fulfilled]: (state, action) => {
+      state.status = "success";
+    },
+    [addComment.rejected]: (state, action) => {
+      state.status = "failed";
+      state.error = action.error;
+    },
+    // 댓글 삭제
+    [deleteComment.pending]: (state, action) => {
+      state.status = "loading";
+    },
+    [deleteComment.fulfilled]: (state, action) => {
+      state.status = "success";
+    },
+    [deleteComment.rejected]: (state, action) => {
+      state.status = "failed";
+      state.error = action.error;
+    },
+    // 댓글 수정
+    [editComment.pending]: (state, action) => {
+      state.status = "loading";
+    },
+    [editComment.fulfilled]: (state, action) => {
+      state.status = "success";
+    },
+    [editComment.rejected]: (state, action) => {
+      state.status = "failed";
+      state.error = action.error;
+    },
+    // 좋아요 상태 변경하기
+    [editLike.pending]: (state, action) => {
+      state.status = "loading";
+    },
+    [editLike.fulfilled]: (state, action) => {
+      state.status = "success";
+    },
+    [editLike.rejected]: (state, action) => {
+      state.status = "failed";
+      state.error = action.error;
+    },
+    // uploadFile
+    [uploadFile.pending]: (state, action) => {
+      state.status = "loading";
+    },
+    [uploadFile.fulfilled]: (state, action) => {
+      state.file = action.payload;
+      state.status = "success";
+    },
+    [uploadFile.rejected]: (state, action) => {
       state.status = "failed";
       state.error = action.error;
     },
@@ -147,7 +288,5 @@ const slice = createSlice({
 });
 
 export default slice.reducer;
-
-// redux-toolkit 비동기 처리하는 방법 고민중 => 내장된 thunk 사용 가능성 높음
 
 // redux-toolkit 가이드: https://redux-toolkit.js.org/tutorials/quick-start

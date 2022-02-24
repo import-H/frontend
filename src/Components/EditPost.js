@@ -2,10 +2,9 @@
 import React, { useState, useRef, useEffect } from "react";
 
 // redux
-import { addPost, getPost } from "../reducers/slices/postSlice";
-
+import { editPost, getPost } from "../reducers/slices/postSlice";
+import axiosInstance from "../utils/axiosInstance";
 // styled-components
-// import styled from 'styled-components';
 import GlobalStyle from "../Styles/Globalstyle.js";
 import { Container } from "../Styles/theme";
 
@@ -22,51 +21,83 @@ const EditPost = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const postData = useSelector(state => state.post.post);
-  const [nav, setNav] = useState(false);
+  const { post, editStatus } = useSelector(state => state.post);
+
+  const addPostStatus = useSelector(state => state.post.status);
   const editorRef = useRef(null);
 
-  const boardId = useParams().id;
+  const [title, setTitle] = useState(post?.responseInfo.title);
+  console.log(post);
+  const [currentTag, setCurrentTag] = useState("");
+  const [tags, setTags] = useState(
+    post?.responseInfo.tags.map(tag => tag.name),
+  );
 
-  const [post, setPost] = useState({
-    title: "",
-    tags: ["aa", "bb"],
-    content: "",
-  });
+  const boardId = useParams().boardId;
+  const postId = useParams().postId;
 
-  const editPost = async e => {
+  const postSubmit = async e => {
     e.preventDefault();
 
     const instance = editorRef.current.getInstance();
-    await setPost({ ...post });
     const postData = {
-      ...post,
+      title: title,
+      tags: tags,
       content: instance.getMarkdown(), //setPost에서 content 수정하면 바로 반영안되는 문제로 이렇게 해결함
     };
-    await dispatch(addPost({ boardId, postData }));
+    await dispatch(editPost({ boardId, postId, postData }));
+  };
+
+  const onTagPush = () => {
+    if (!tags.includes(currentTag)) setTags([...tags, currentTag]);
+    setCurrentTag("");
   };
 
   useEffect(() => {
-    if (addPostStatus === "loading") {
-      setNav(true);
+    if (editorRef.current) {
+      // 기존에 Image 를 Import 하는 Hook 을 제거한다.
+      editorRef.current.getInstance().removeHook("addImageBlobHook");
+
+      // 새롭게 Image 를 Import 하는 Hook 을 생성한다.
+      editorRef.current
+        .getInstance()
+        .addHook("addImageBlobHook", (blob, callback) => {
+          (async function () {
+            let formData = new FormData();
+            formData.append("image", blob);
+
+            const response = await axiosInstance.post(
+              `http://localhost:8090/v1/file/upload`,
+              formData,
+              { header: { "content-type": "multipart/formdata" } },
+            );
+
+            const url = `http://localhost:8090${response.data.data.imageURL}`;
+
+            callback(url, "Image");
+          })();
+
+          return false;
+        });
     }
-    if (addPostStatus === "failed") {
-      setNav(false);
-    }
-    if (nav && addPostStatus === "success") {
-      navigate(-1);
-    }
-  }, [addPostStatus, navigate]);
+
+    return () => {};
+  }, [editorRef]);
 
   useEffect(() => {
-    dispatch(getPost());
+    dispatch(getPost({ boardId, postId }));
   }, []);
+
+  useEffect(() => {
+    if (editStatus === "success") {
+      navigate(-1);
+    }
+  }, [editStatus]);
 
   return (
     <Container>
       <GlobalStyle />
-      <form
-        onSubmit={editPost}
+      <div
         style={{
           display: "flex",
           flexDirection: "column",
@@ -76,24 +107,44 @@ const EditPost = () => {
       >
         <label>title</label>
         <input
-          initialValue={postData?.title}
           type="text"
           name="email"
-          onChange={e => setPost({ ...post, title: e.target.value })}
+          onChange={e => setTitle(e.target.value)}
+          value={title}
         />
         <label>tags</label>
-        <input initialValue={postData?.tags} />
+        {/* tagArea/ */}
+        <div>
+          {tags.map((tag, id) => (
+            <div
+              onClick={() => {
+                setTags(tags.filter(t => t !== tag));
+              }}
+            >
+              {tag}
+            </div>
+          ))}
+          <input
+            onChange={e => setCurrentTag(e.target.value)}
+            value={currentTag}
+            onKeyPress={e => {
+              if (e.key === "Enter") {
+                onTagPush();
+              }
+            }}
+          />
+        </div>
         <label>content</label>
         <Editor
-          initialValue={postData?.content}
+          initialValue={post?.responseInfo.content}
           previewStyle="vertical"
-          height="600px"
+          height="800px"
           initialEditType="markdown"
           useCommandShortcut={true}
           ref={editorRef}
         />
-        <button type="submit">작성 완료</button>
-      </form>
+        <button onClick={postSubmit}>작성 완료</button>
+      </div>
     </Container>
   );
 };
