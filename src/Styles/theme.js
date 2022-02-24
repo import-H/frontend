@@ -51,6 +51,7 @@ const Button = styled.button`
 const Container = styled.div`
   width: 100%;
   max-width: 1200px;
+  height: 100%;
   margin: 0 auto;
   margin-top: 50px;
   min-width: 300px;
