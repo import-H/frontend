@@ -42,11 +42,6 @@ export const addPost = createAsyncThunk(
     });
     console.log(postData);
     return response.data.data;
-    // await axios.post("http://localhost:3001/posts", {
-    //   boardId: boardId,
-    //   ...post,
-    // });
-    // return data;
   },
 );
 
