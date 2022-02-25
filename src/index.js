@@ -47,11 +47,16 @@ ReactDOM.render(
           <NavBar />
         </header>
         <Routes>
+          {/* all user access */}
           <Route path="/" element={<App />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          {/* <Route path="board" element={<PrivateRoute component={Board} />} /> */}
           <Route path="/board/:id" element={<Board />} />
+          <Route path="/posts" element={<UserList />} />
+          <Route path="/posts/:personId" element={<PersonalBoard />} />
+          <Route path="/board/:boardId/:postId" element={<Post />} />
+
+          {/* only login user access */}
           <Route
             path="/write/:boardId"
             element={<PrivateRoute component={WritePost} />}
@@ -60,13 +65,15 @@ ReactDOM.render(
             path="/edit/:boardId/:postId"
             element={<PrivateRoute component={EditPost} />}
           />
-          <Route path="/posts" element={<UserList />} />
-          <Route path="/posts/:personId" element={<PersonalBoard />} />
-          <Route path="/board/:boardId/:postId" element={<Post />} />
           <Route path="/mypage" element={<PrivateRoute component={MyPage} />} />
+          <Route path="/leave" element={<PrivateRoute component={Leave} />} />
+          <Route
+            path="/changepw"
+            element={<PrivateRoute component={ChangePassword} />}
+          />
+
+          {/* only administrator access */}
           <Route path="/admin" element={<AdminRoute component={Admin} />} />
-          <Route path="/leave" element={<Leave />} />
-          <Route path="/changepw" element={<ChangePassword />} />
         </Routes>
       </BrowserRouter>
       <footer>
