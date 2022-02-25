@@ -210,12 +210,12 @@ const Admin = () => {
     formData.append("image", img);
 
     const response = await axiosInstance.post(
-      `http://localhost:8090/v1/file/upload`,
+      `${API_URL}/v1/file/upload`,
       formData,
       { header: { "content-type": "multipart/formdata" } },
     );
 
-    const url = `http://localhost:8090${response.data.data.imageURL}`;
+    const url = `${API_URL}${response.data.data.imageURL}`;
     setImgUrl(url);
   };
 
