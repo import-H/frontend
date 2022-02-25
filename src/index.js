@@ -36,6 +36,7 @@ import { store } from "./reducers/store";
 
 // style
 import "./index.css";
+import GoogleLogin from "./Components/GoogleLogin";
 
 let persistor = persistStore(store);
 
@@ -55,6 +56,7 @@ ReactDOM.render(
           <Route path="/posts" element={<UserList />} />
           <Route path="/posts/:personId" element={<PersonalBoard />} />
           <Route path="/board/:boardId/:postId" element={<Post />} />
+          <Route path="/google" element={<GoogleLogin />} />
 
           {/* only login user access */}
           <Route
