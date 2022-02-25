@@ -13,6 +13,7 @@ import { Button, Input, FlexContainer } from "../Styles/theme";
 // react-router-dom
 import { useNavigate } from "react-router-dom";
 import { useCounter } from "../utils/Timer";
+import GoogleLogin from "../Components/GoogleLogin";
 
 const AuthForm = styled.div`
   min-width: 300px;
@@ -225,6 +226,10 @@ const Register = () => {
     <FlexContainer>
       <GlobalStyle />
       <div>
+        <h1>로그인</h1>
+        <div>
+          <GoogleLogin />
+        </div>
         {!emailConfirmPage ? (
           <AuthForm>
             <Label>이메일</Label>
