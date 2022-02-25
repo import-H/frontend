@@ -58,23 +58,6 @@ const Login = () => {
       } catch (e) {
         alert(e.msg);
       }
-
-      // axios
-      //   .post("http://localhost:8090/v1/login", { ...data })
-      //   .then(res => {
-      //     console.log("성공");
-      //   })
-      //   .catch(e => {
-      //     console.log(e.response);
-      //   });
-
-      // try {
-      //   const res = await axios.post("http://localhost:8090/v1/login", {
-      //     ...data,
-      //   });
-      // } catch (e) {
-      //   console.log(e.response);
-      // }
     }
   };
 
@@ -85,10 +68,10 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if(isAuth) {
+    if (isAuth) {
       navigate("/");
     }
-  })
+  });
 
   return (
     <FlexContainer>
