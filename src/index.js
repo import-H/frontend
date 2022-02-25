@@ -51,7 +51,7 @@ ReactDOM.render(
           <Route path="/register" element={<Register />} />
           {/* <Route path="board" element={<PrivateRoute component={Board} />} /> */}
           <Route path="/board/:id" element={<Board />} />
-          <Route path="/write/:id" element={<WritePost />} />
+          <Route path="/write/:boardId" element={<WritePost />} />
           <Route path="/edit/:boardId/:postId" element={<EditPost />} />
           <Route path="/posts" element={<UserList />} />
           <Route path="/posts/:personId" element={<PersonalBoard />} />
