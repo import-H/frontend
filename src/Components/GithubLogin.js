@@ -1,13 +1,12 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-function GoogleLogin() {
+function GithubLogin() {
   const [data, setData] = useState(null);
-  const oAuthURI = `https://accounts.google.com/o/oauth2/v2/auth?client_id=859188632438-sn7kqf60l9h5b005tlq1ka0u9oj103c7.apps.googleusercontent.com&
+  const oAuthURI = `https://github.com/login/oauth/authorize?client_id=56a4d09e65ff131c5571&
 response_type=code&
-redirect_uri=http://localhost:3000/login&
-scope=https://www.googleapis.com/auth/userinfo.email`;
+redirect_uri=http://localhost:3000&
+`;
   const oAuthHandler = () => {
     // 1. oAuthURL 정보로 URI 변경
     window.location.assign(oAuthURI);
@@ -20,16 +19,12 @@ scope=https://www.googleapis.com/auth/userinfo.email`;
     if (hash) {
       const accessToken = hash.split("=")[1].split("&")[0];
       await axios
-        .get(
-          "https://www.googleapis.com/oauth2/v2/userinfo?access_token=" +
-            accessToken,
-          {
-            headers: {
-              authorization: `token ${accessToken}`,
-              accept: "application/json",
-            },
+        .get("https://github.com/login/oauth/access_token" + accessToken, {
+          headers: {
+            authorization: `token ${accessToken}`,
+            accept: "application/json",
           },
-        )
+        })
         .then(data => {
           console.log("dd", data);
           setData(data);
@@ -41,10 +36,10 @@ scope=https://www.googleapis.com/auth/userinfo.email`;
   return (
     <div>
       <button id="oAuthBtn" onClick={oAuthHandler}>
-        구글 로그인
+        깃허브 로그인
       </button>
     </div>
   );
 }
 
-export default GoogleLogin;
+export default GithubLogin;

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 // redux
 import { useSelector, useDispatch } from "react-redux";
-import { login } from "../reducers/slices/authSlice";
+import { login, oauth } from "../reducers/slices/authSlice";
 import axios from "axios";
 
 // styled-components
@@ -72,6 +72,19 @@ const Login = () => {
       navigate("/");
     }
   });
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("code")) {
+      console.log(window.location.search);
+      dispatch(
+        oauth({
+          provider: "google",
+          code: "4%0AX4XfWhymAAMq2t_ptLWyb9X0tOa0pyl2Rk2kuQzYd_JhhwoqZsxt0dYGbHM4WD5aVHksw",
+        }),
+      );
+    }
+  }, []);
 
   return (
     <FlexContainer>
