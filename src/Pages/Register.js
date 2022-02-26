@@ -14,6 +14,7 @@ import { Button, Input, FlexContainer } from "../Styles/theme";
 import { useNavigate } from "react-router-dom";
 import { useCounter } from "../utils/Timer";
 import GoogleLogin from "../Components/GoogleLogin";
+import GithubLogin from "../Components/GithubLogin";
 
 const AuthForm = styled.div`
   min-width: 300px;
@@ -89,7 +90,6 @@ const EmailConfirm = styled.div`
 // auth form으로 변경해도 좋을듯(공통 기능 많아서)
 const Register = () => {
   const dispatch = useDispatch();
-  const registerStatus = useSelector(state => state.auth?.status);
   const isAuth = useSelector(state => state.auth.isAuth);
   const navigate = useNavigate();
   const [emailConfirmPage, setEmailConfirmPage] = useState(false);
@@ -229,6 +229,7 @@ const Register = () => {
         <h1>로그인</h1>
         <div>
           <GoogleLogin />
+          <GithubLogin />
         </div>
         {!emailConfirmPage ? (
           <AuthForm>
