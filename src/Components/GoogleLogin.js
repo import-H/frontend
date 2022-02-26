@@ -4,10 +4,10 @@ import axios from "axios";
 
 function GoogleLogin() {
   const [data, setData] = useState(null);
-  const oAuthURI = `https://accounts.google.com/o/oauth2/v2/auth?client_id=859188632438-sn7kqf60l9h5b005tlq1ka0u9oj103c7.apps.googleusercontent.com&
-response_type=code&
-redirect_uri=http://localhost:3000/login&
-scope=https://www.googleapis.com/auth/userinfo.email`;
+  const oAuthURI = `https://accounts.google.com/o/oauth2/v2/auth?client_id=702289231092-dkq4a7bmqp9o9e7helngtv1tgnf4cf1i.apps.googleusercontent.com&
+  response_type=code&
+  redirect_uri=http://localhost:3000/oauth&
+  scope=https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email`;
   const oAuthHandler = () => {
     // 1. oAuthURL 정보로 URI 변경
     window.location.assign(oAuthURI);
