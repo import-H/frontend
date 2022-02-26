@@ -65,6 +65,7 @@ export const logout = createAsyncThunk(
   },
 );
 
+// oauth
 export const oauth = createAsyncThunk("auth/oauth", async data => {
   const { provider, code } = data;
   const response = await axios.get(
