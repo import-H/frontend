@@ -3,9 +3,9 @@ import axios from "axios";
 
 function GithubLogin() {
   const [data, setData] = useState(null);
-  const oAuthURI = `https://github.com/login/oauth/authorize?client_id=56a4d09e65ff131c5571&
+  const oAuthURI = `https://github.com/login/oauth/authorize?client_id=eb2842ff773edad761e2&scope=id,name,email,avatar_url&
 response_type=code&
-redirect_uri=http://localhost:3000&
+redirect_uri=http://localhost:3000/oauth&
 `;
   const oAuthHandler = () => {
     // 1. oAuthURL 정보로 URI 변경
@@ -43,3 +43,5 @@ redirect_uri=http://localhost:3000&
 }
 
 export default GithubLogin;
+
+// https://velog.io/@yiyb0603/Nest.js%EC%97%90%EC%84%9C-Github-OAuth-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0 참고할것
