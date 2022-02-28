@@ -44,10 +44,9 @@ const Caution = styled(Link)`
   }
 `;
 
-const menu = (
+const menu = pathId => (
   <Menu className="myMenu">
     <Menu.Item>
-
       <Link to="/mypage" data-testid="profileLink">
         프로필
       </Link>
@@ -103,7 +102,6 @@ function UserMenu() {
               )}
               <div className="element hdProfileIcon">
                 <Dropdown overlay={menu} placement="bottomCenter">
-
                   <AuthorImg>
                     {profile?.profileImage ? (
                       <img src={profile?.profileImage} alt="profileImg" />
