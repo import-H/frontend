@@ -1,7 +1,7 @@
 export const SITE_TITLE = "Import-H";
 export const API_URL = "http://3.34.167.7:8090";
 export const CLIENT_URL =
-  "ec2-13-209-97-244.ap-northeast-2.compute.amazonaws.com";
+  "http://ec2-13-209-97-244.ap-northeast-2.compute.amazonaws.com";
 
 export const OAuth = {
   google: {
