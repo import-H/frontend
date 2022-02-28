@@ -12,6 +12,7 @@ const initialState = {
   isAuth: false,
 };
 
+// 로그인
 export const login = createAsyncThunk(
   "auth/login",
 
@@ -35,6 +36,7 @@ export const login = createAsyncThunk(
   },
 );
 
+// 회원가입
 export const signup = createAsyncThunk(
   "auth/signup",
   async (wdata, { rejectWithValue }) => {
@@ -53,6 +55,7 @@ export const signup = createAsyncThunk(
   },
 );
 
+// 로그아웃
 export const logout = createAsyncThunk(
   "auth/logout",
   async (dispatch, getState) => {
@@ -61,6 +64,17 @@ export const logout = createAsyncThunk(
     }
   },
 );
+
+// oauth
+export const oauth = createAsyncThunk("auth/oauth", async data => {
+  const { provider, code } = data;
+  const response = await axios.get(
+    `${API_URL}/v1/oauth2/code/${provider}?code=${code}`,
+  );
+  localStorage.setItem("authTokens", JSON.stringify(response.data.data));
+  const userData = jwt_decode(response.data.data.accessToken);
+  return userData;
+});
 
 const slice = createSlice({
   name: "auth",
@@ -86,6 +100,11 @@ const slice = createSlice({
       } else {
         state.error = action.error.message;
       }
+    });
+    builder.addCase(oauth.fulfilled, (state, { payload }) => {
+      state.isAuth = true;
+      state.userId = payload.sub;
+      state.roles = payload.roles;
     });
     builder.addCase(signup.rejected, (state, action) => {
       if (action.payload) {
