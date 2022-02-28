@@ -11,6 +11,8 @@ import { logout } from "../reducers/slices/authSlice";
 // style
 import styled from "styled-components";
 import { Menu, Dropdown } from "antd";
+import noneProfileImg from "../images/none_profile_image.png";
+import { getProfile } from "../reducers/slices/userSlice";
 
 const AuthorImg = styled.div`
   cursor: pointer;
@@ -60,9 +62,6 @@ const menu = pathId => (
   </Menu>
 );
 
-import noneProfileImg from "../images/none_profile_image.png";
-import { getProfile } from "../reducers/slices/userSlice";
-
 function UserMenu() {
   const dispatch = useDispatch();
   const auth = useSelector(state => state.auth);
@@ -71,10 +70,9 @@ function UserMenu() {
     dispatch(logout());
   };
   useEffect(() => {
-    dispatch(getProfile(auth.userId));
-    // if (userId !== "") {
-    //   dispatch(getProfile(userId));
-    // }
+    if (auth.isAuth) {
+      dispatch(getProfile(auth.userId));
+    }
   }, []);
   return (
     <>
