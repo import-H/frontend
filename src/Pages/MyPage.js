@@ -426,6 +426,7 @@ const MyPage = () => {
                         )}
                       </>
                     ) : (
+
                       <form className="flex" onSubmit={changeIntroduce}>
                         <Input
                           type="text"
