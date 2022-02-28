@@ -1,13 +1,12 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-function GoogleLogin() {
+function GithubLogin() {
   const [data, setData] = useState(null);
-  const oAuthURI = `https://accounts.google.com/o/oauth2/v2/auth?client_id=702289231092-dkq4a7bmqp9o9e7helngtv1tgnf4cf1i.apps.googleusercontent.com&
-  response_type=code&
-  redirect_uri=http://localhost:3000/oauth&
-  scope=https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email`;
+  const oAuthURI = `https://github.com/login/oauth/authorize?client_id=eb2842ff773edad761e2&scope=id,name,email,avatar_url&
+response_type=code&
+redirect_uri=http://localhost:3000/oauth&
+`;
   const oAuthHandler = () => {
     // 1. oAuthURL 정보로 URI 변경
     window.location.assign(oAuthURI);
@@ -20,16 +19,12 @@ function GoogleLogin() {
     if (hash) {
       const accessToken = hash.split("=")[1].split("&")[0];
       await axios
-        .get(
-          "https://www.googleapis.com/oauth2/v2/userinfo?access_token=" +
-            accessToken,
-          {
-            headers: {
-              authorization: `token ${accessToken}`,
-              accept: "application/json",
-            },
+        .get("https://github.com/login/oauth/access_token" + accessToken, {
+          headers: {
+            authorization: `token ${accessToken}`,
+            accept: "application/json",
           },
-        )
+        })
         .then(data => {
           console.log("dd", data);
           setData(data);
@@ -41,10 +36,12 @@ function GoogleLogin() {
   return (
     <div>
       <button id="oAuthBtn" onClick={oAuthHandler}>
-        구글 로그인
+        깃허브 로그인
       </button>
     </div>
   );
 }
 
-export default GoogleLogin;
+export default GithubLogin;
+
+// https://velog.io/@yiyb0603/Nest.js%EC%97%90%EC%84%9C-Github-OAuth-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0 참고할것

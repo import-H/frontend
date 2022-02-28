@@ -39,6 +39,12 @@ const GlobalStyle = createGlobalStyle`
     input{
       font-size: 1.2rem;
     }
+    html{position: relative;}
+    body{
+      position: relative;
+      padding-bottom: 150px;
+    }
+
 
     /* lib */
 
@@ -217,22 +223,46 @@ header {
   }
 
   footer {
+    width: 100%;
+    bottom: 0;
+    padding: 30px 0;
+    padding-bottom: 40px;
+    min-height: 150px;
     text-align: center;
-    background-color: #7973ce;
+    background-color: #ddd;
     color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
     #copy {
-      font-size: 1.5em;
+      font-size: 1.2em;
+      color: rgba(0,0,0,0.5);
+    }
+    #ft-logo{
+      margin-top: 1em;
+      margin-bottom: 2em;
+      opacity: 1;
+      & img{
+        width: 120px;
+      }
     }
     #menu {
-      margin-top: 0.5%;
-      font-size: 1.3em;
+      margin-bottom: 0.7em;
+      font-size: 1.4em;
 
       span {
-        margin: 0 1% 0 0;
+        margin-right: 1.3em;
+        &:last-of-type{
+          margin-right: 0;
+        }
+        & svg{
+          margin-right: 0.5em;
+        }
       }
       a {
-        color: #000;
+        color: #555;
       }
     }
   }
