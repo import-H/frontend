@@ -179,7 +179,7 @@ const BoardForm = () => {
                       </div>
                       {/* 댓글 */}
                       <div className="boardComment">
-                        <FontAwesomeIcon icon={faCommentAlt} />{" "}
+                        <FontAwesomeIcon icon={faCommentAlt} />
                         {post.commentsCount}
                       </div>
                     </div>
