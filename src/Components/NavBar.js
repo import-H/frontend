@@ -37,7 +37,11 @@ function NavBar() {
           <Link to="/">
             <img src={logoImg} alt="import-H" />
           </Link>
-        </div>       
+        </div>
+        <div id="navMenu">
+          <Link to="/board/free">게시판</Link>
+          <Link to="/posts">스터디 멤버</Link>
+        </div>
         <div id="log">
           <UserMenu />
         </div>
@@ -50,8 +54,16 @@ function NavBar() {
         id="mbNav"
       >
         <ul className="mbMenu">
-          <li><Link to="/board/free" onClick={onClose}>게시판</Link></li>
-          <li><Link to="/posts" onClick={onClose}>스터디 멤버</Link></li>
+          <li>
+            <Link to="/board/free" onClick={onClose}>
+              게시판
+            </Link>
+          </li>
+          <li>
+            <Link to="/posts" onClick={onClose}>
+              스터디 멤버
+            </Link>
+          </li>
         </ul>
       </Drawer>
     </nav>
