@@ -32,7 +32,7 @@
     "start": "react-scripts start",
     "json-server": "json-server --watch server/db.json --port 3001",
     "hybrid": "concurrently \"yarn start\" \"yarn json-server \"",
-    "build": "react-scripts build",
+    "build": "GENERATE_SOURCEMAP=false npx react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
