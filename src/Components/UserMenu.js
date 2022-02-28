@@ -11,6 +11,8 @@ import { logout } from "../reducers/slices/authSlice";
 // style
 import styled from "styled-components";
 import { Menu, Dropdown } from "antd";
+import noneProfileImg from "../images/none_profile_image.png";
+import { getProfile } from "../reducers/slices/userSlice";
 
 const AuthorImg = styled.div`
   cursor: pointer;
@@ -45,8 +47,8 @@ const Caution = styled(Link)`
 `;
 
 const menu = pathId => (
-  <Menu>
-    <Menu.Item key="profile" style={{ padding: "1rem 2rem" }}>
+  <Menu className="myMenu">
+    <Menu.Item>
       <Link to="/mypage" data-testid="profileLink">
         프로필
       </Link>
@@ -57,11 +59,21 @@ const menu = pathId => (
         내 게시판
       </Link>
     </Menu.Item>
+
+    <Menu.Item className="mb">
+      <Link to="/admin" data-testid="profileLink">
+        관리자 페이지
+      </Link>
+    </Menu.Item>
+
+    <Menu.Item className="mb">
+      <Link to="" data-testid="profileLink">
+        로그아웃
+        {/* 로그아웃 아직 미구현 */}
+      </Link>
+    </Menu.Item>
   </Menu>
 );
-
-import noneProfileImg from "../images/none_profile_image.png";
-import { getProfile } from "../reducers/slices/userSlice";
 
 function UserMenu() {
   const dispatch = useDispatch();
@@ -71,10 +83,9 @@ function UserMenu() {
     dispatch(logout());
   };
   useEffect(() => {
-    dispatch(getProfile(auth.userId));
-    // if (userId !== "") {
-    //   dispatch(getProfile(userId));
-    // }
+    if (auth.isAuth) {
+      dispatch(getProfile(auth.userId));
+    }
   }, []);
   return (
     <>
@@ -87,11 +98,8 @@ function UserMenu() {
                   ⚠ 이메일 인증을 진행해주세요
                 </Caution>
               )}
-              <div className="element">
-                <Dropdown
-                  overlay={menu(profile?.pathId)}
-                  placement="bottomCenter"
-                >
+              <div className="element hdProfileIcon">
+                <Dropdown overlay={menu} placement="bottomCenter">
                   <AuthorImg>
                     {profile?.profileImage ? (
                       <img src={profile?.profileImage} alt="profileImg" />
