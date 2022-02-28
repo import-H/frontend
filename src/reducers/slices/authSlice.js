@@ -69,7 +69,7 @@ export const logout = createAsyncThunk(
 export const oauth = createAsyncThunk("auth/oauth", async data => {
   const { provider, code } = data;
   const response = await axios.get(
-    `${API_URL}/v1/oauth2/code/${provider}?code=${code}`,
+    `${API_URL}/v1/social/${provider}?code=${code}`,
   );
   localStorage.setItem("authTokens", JSON.stringify(response.data.data));
   const userData = jwt_decode(response.data.data.accessToken);
