@@ -14,7 +14,7 @@ import GlobalStyle from "../Styles/Globalstyle.js";
 import { BigInput, Input, Container } from "../Styles/theme.js";
 
 // antd
-import "antd/dist/antd.css";
+import "antd/dist/antd.min.css";
 import { Modal, Button } from "antd";
 
 // icon
@@ -426,6 +426,7 @@ const MyPage = () => {
                         )}
                       </>
                     ) : (
+
                       <form className="flex" onSubmit={changeIntroduce}>
                         <Input
                           type="text"

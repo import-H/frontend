@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { Container, Input } from "../Styles/theme";
 import { useDispatch, useSelector } from "react-redux";
 import { addPost, getPost, getPosts } from "../reducers/slices/postSlice";
+import { API_URL } from "../config";
 
 const WriteContainer = styled(Container)`
   & .tagCon {
@@ -91,12 +92,12 @@ const WritePersonalPost = ({ userPathId, personId }) => {
             formData.append("image", blob);
 
             const response = await axiosInstance.post(
-              `http://localhost:8090/v1/file/upload`,
+              `${API_URL}/v1/file/upload`,
               formData,
               { header: { "content-type": "multipart/formdata" } },
             );
 
-            const url = `http://localhost:8090${response.data.data.imageURL}`;
+            const url = `${API_URL}${response.data.data.imageURL}`;
 
             console.log(url);
             callback(url, "Image");

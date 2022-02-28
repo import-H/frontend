@@ -42,11 +42,6 @@ export const addPost = createAsyncThunk(
     });
     console.log(postData);
     return response.data.data;
-    // await axios.post("http://localhost:3001/posts", {
-    //   boardId: boardId,
-    //   ...post,
-    // });
-    // return data;
   },
 );
 
@@ -67,7 +62,6 @@ export const getPost = createAsyncThunk(
       );
       return response.data.data;
     }
-    console.log("post", response.data.data);
   },
 );
 
@@ -86,7 +80,7 @@ export const deletePost = createAsyncThunk(
 
 // 게시글 수정하기
 export const editPost = createAsyncThunk("post/editPost", async data => {
-  const { boardId, postId, postData } = data;
+  const { postId, postData } = data;
   const response = await axiosInstance.put(
     // `${API_URL}/v1/boards/${boardId}/posts/${postId}`,
     `${API_URL}/v1/posts/${postId}`,
