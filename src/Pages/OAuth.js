@@ -8,17 +8,22 @@ const OAuth = () => {
   const navigate = useNavigate();
   const provider = useParams().provider;
 
-  //let?
-  let code = new URL(window.location.href).searchParams.get("code");
-
   useEffect(async () => {
+    const code = new URL(window.location.href);
     try {
-      await dispatch(oauth({ provider: provider, code: code }));
+      await dispatch(
+        oauth({
+          provider: provider,
+          code: code.search.split("=")[1].split("&")[0],
+        }),
+      );
       navigate("/");
-    } catch (e) {}
+    } catch (e) {
+      alert("error");
+    }
   }, []);
 
-  return <div>loading</div>;
+  return <div>{provider}에 로그인 중입니다</div>;
 };
 
 export default OAuth;

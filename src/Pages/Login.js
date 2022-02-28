@@ -2,8 +2,7 @@
 import React, { useEffect, useState } from "react";
 // redux
 import { useSelector, useDispatch } from "react-redux";
-import { login, oauth } from "../reducers/slices/authSlice";
-import axios from "axios";
+import { login } from "../reducers/slices/authSlice";
 
 // styled-components
 import styled from "styled-components";
@@ -52,8 +51,7 @@ const Login = () => {
       };
 
       try {
-        const ers = await dispatch(login(data)).unwrap();
-        //console.log("rs", ers);
+        await dispatch(login(data)).unwrap();
         navigate("/");
       } catch (e) {
         alert(e.msg);
@@ -72,19 +70,6 @@ const Login = () => {
       navigate("/");
     }
   });
-
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    if (params.get("code")) {
-      console.log(window.location.search);
-      dispatch(
-        oauth({
-          provider: "google",
-          code: "4%0AX4XfWhymAAMq2t_ptLWyb9X0tOa0pyl2Rk2kuQzYd_JhhwoqZsxt0dYGbHM4WD5aVHksw",
-        }),
-      );
-    }
-  }, []);
 
   return (
     <FlexContainer>
