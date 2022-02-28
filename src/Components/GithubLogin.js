@@ -1,37 +1,13 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { CLIENT_URL, OAuth } from "../config";
 
 function GithubLogin() {
-  const [data, setData] = useState(null);
-  const oAuthURI = `https://github.com/login/oauth/authorize?client_id=eb2842ff773edad761e2&scope=id,name,email,avatar_url&
-response_type=code&
-redirect_uri=http://localhost:3000/oauth&
-`;
+  const oAuthURI = `https://github.com/login/oauth/authorize?client_id=${OAuth.github.client_id}&scope=${OAuth.github.scope}&response_type=${OAuth.github.code}&redirect_uri=${CLIENT_URL}/login`;
   const oAuthHandler = () => {
     // 1. oAuthURL 정보로 URI 변경
     window.location.assign(oAuthURI);
   };
-
-  useEffect(async () => {
-    const url = new URL(window.location.href);
-    const hash = url.hash;
-    console.log("url", url, "hash", hash);
-    if (hash) {
-      const accessToken = hash.split("=")[1].split("&")[0];
-      await axios
-        .get("https://github.com/login/oauth/access_token" + accessToken, {
-          headers: {
-            authorization: `token ${accessToken}`,
-            accept: "application/json",
-          },
-        })
-        .then(data => {
-          console.log("dd", data);
-          setData(data);
-        })
-        .catch(e => console.log("oAuth token expired"));
-    }
-  }, []);
 
   return (
     <div>
