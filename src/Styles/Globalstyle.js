@@ -39,6 +39,12 @@ const GlobalStyle = createGlobalStyle`
     input{
       font-size: 1.2rem;
     }
+    html{position: relative;}
+    body{
+      position: relative;
+      padding-bottom: 150px;
+    }
+
 
     /* lib */
 
@@ -126,7 +132,7 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    transition:  all 0.3s;
+    //transition:  all 0.3s;
     @media (max-width: 1200px){
       padding: 0 25px; 
     }
@@ -175,16 +181,12 @@ header {
     margin-right: 0px;
   }
 
- 
-
-  
   header #navMenu {
     margin-left: 5rem;
     flex-grow: 4;  
     display: flex;
     transition: all 0.3s;
     
-
     & a{
       color: black;
       font-size: 1.4em;
@@ -220,6 +222,50 @@ header {
     }
   }
 
+  footer {
+    width: 100%;
+    bottom: 0;
+    padding: 30px 0;
+    padding-bottom: 40px;
+    min-height: 150px;
+    text-align: center;
+    background-color: #ddd;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    #copy {
+      font-size: 1.2em;
+      color: rgba(0,0,0,0.5);
+    }
+    #ft-logo{
+      margin-top: 1em;
+      margin-bottom: 2em;
+      opacity: 1;
+      & img{
+        width: 120px;
+      }
+    }
+    #menu {
+      margin-bottom: 0.7em;
+      font-size: 1.4em;
+
+      span {
+        margin-right: 1.3em;
+        &:last-of-type{
+          margin-right: 0;
+        }
+        & svg{
+          margin-right: 0.5em;
+        }
+      }
+      a {
+        color: #555;
+      }
+    }
+  }
 
  .myMenu{
   text-align: center;

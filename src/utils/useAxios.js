@@ -3,19 +3,20 @@ import jwt_decode from "jwt-decode";
 import dayjs from "dayjs";
 import { refresh } from "../reducers/slices/authSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { API_URL } from "../config";
 
-const baseURL = "http://localhost:8090";
+const baseURL = API_URL;
 
 const useAxios = () => {
   const dispatch = useDispatch();
-  const { authTokens } = useSelector((state) => state.auth);
+  const { authTokens } = useSelector(state => state.auth);
 
   const axiosInstance = axios.create({
     baseURL,
-    headers: { Authorization: `Bearer ${authTokens?.accessToken}` }
+    headers: { Authorization: `Bearer ${authTokens?.accessToken}` },
   });
 
-  axiosInstance.interceptors.request.use(async (req) => {
+  axiosInstance.interceptors.request.use(async req => {
     const user = jwt_decode(authTokens.accessToken);
     const isExpired = dayjs.unix(user.exp).diff(dayjs()) < 1;
 
@@ -23,7 +24,7 @@ const useAxios = () => {
 
     const response = await axios.post(`${baseURL}/v1/reissue`, {
       accessToken: authTokens.accessToken,
-      refreshToken: authTokens.refreshToken
+      refreshToken: authTokens.refreshToken,
     });
 
     localStorage.setItem("authTokens", JSON.stringify(response.data));

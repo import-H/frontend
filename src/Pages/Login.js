@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 // redux
 import { useSelector, useDispatch } from "react-redux";
-import { login } from "../reducers/slices/authSlice";
+import { login, oauth } from "../reducers/slices/authSlice";
 import axios from "axios";
 
 // styled-components
@@ -58,23 +58,6 @@ const Login = () => {
       } catch (e) {
         alert(e.msg);
       }
-
-      // axios
-      //   .post("http://localhost:8090/v1/login", { ...data })
-      //   .then(res => {
-      //     console.log("성공");
-      //   })
-      //   .catch(e => {
-      //     console.log(e.response);
-      //   });
-
-      // try {
-      //   const res = await axios.post("http://localhost:8090/v1/login", {
-      //     ...data,
-      //   });
-      // } catch (e) {
-      //   console.log(e.response);
-      // }
     }
   };
 
@@ -85,10 +68,23 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if(isAuth) {
+    if (isAuth) {
       navigate("/");
     }
-  })
+  });
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("code")) {
+      console.log(window.location.search);
+      dispatch(
+        oauth({
+          provider: "google",
+          code: "4%0AX4XfWhymAAMq2t_ptLWyb9X0tOa0pyl2Rk2kuQzYd_JhhwoqZsxt0dYGbHM4WD5aVHksw",
+        }),
+      );
+    }
+  }, []);
 
   return (
     <FlexContainer>

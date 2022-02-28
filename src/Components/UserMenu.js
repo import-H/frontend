@@ -13,6 +13,7 @@ import styled from "styled-components";
 import { Menu, Dropdown } from "antd";
 
 const AuthorImg = styled.div`
+  cursor: pointer;
   width: 30px;
   height: 30px;
   background: #ddd;
@@ -46,13 +47,14 @@ const Caution = styled(Link)`
 const menu = (
   <Menu className="myMenu">
     <Menu.Item>
+
       <Link to="/mypage" data-testid="profileLink">
         프로필
       </Link>
     </Menu.Item>
 
-    <Menu.Item>
-      <Link to="/posts/1" data-testid="profileLink">
+    <Menu.Item key="myBoard" style={{ padding: "1rem 2rem" }}>
+      <Link to={`/posts/${pathId}`} data-testid="profileLink">
         내 게시판
       </Link>
     </Menu.Item>
@@ -70,12 +72,6 @@ const menu = (
       </Link>
     </Menu.Item>
   </Menu>
-);
-
-const content = (
-  <div>
-    <p>content</p>
-  </div>
 );
 
 import noneProfileImg from "../images/none_profile_image.png";
@@ -107,6 +103,7 @@ function UserMenu() {
               )}
               <div className="element hdProfileIcon">
                 <Dropdown overlay={menu} placement="bottomCenter">
+
                   <AuthorImg>
                     {profile?.profileImage ? (
                       <img src={profile?.profileImage} alt="profileImg" />

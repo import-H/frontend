@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect } from "react";
 
 // redux
-import { addPost, uploadFile } from "../reducers/slices/postSlice";
+import { addPost } from "../reducers/slices/postSlice";
 import axiosInstance from "../utils/axiosInstance";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -16,7 +16,9 @@ import "@toast-ui/editor/dist/toastui-editor.css";
 import { Editor } from "@toast-ui/react-editor";
 
 // react-router-dom
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
+
+import { API_URL } from "../config";
 
 // style
 const WriteContainer = styled(Container)`
@@ -56,29 +58,26 @@ const TagsInput = styled(Input)`
 `;
 
 const WritePost = () => {
+  // config
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const boardId = useParams().boardId;
 
-  const isAuth = useSelector(state => state.auth.isAuth);
-
-  const addPostStatus = useSelector(state => state.post.addPost);
-
-  const file = useSelector(state => state.post?.file);
-
-  const [nav, setNav] = useState(false);
+  // inputs
   const editorRef = useRef(null);
-
-  const boardId = useParams().id;
 
   const [title, setTitle] = useState("");
   const [currentTag, setCurrentTag] = useState("");
   const [tags, setTags] = useState([]);
 
-  const imageFilter = instance => {
-    const regex = /!\[Image\]\([\w\/:]+\)/;
+  // 태그 입력
+  const onTagPush = () => {
+    if (!tags.includes(currentTag)) setTags([...tags, currentTag]);
+    setCurrentTag("");
   };
 
-  const postSubmit = e => {
+  // post 제출
+  const postSubmit = async e => {
     e.preventDefault();
 
     const instance = editorRef.current.getInstance().getMarkdown();
@@ -94,35 +93,23 @@ const WritePost = () => {
     const postData = {
       title: title,
       tags: tags,
-      content: instance, //setPost에서 content 수정하면 바로 반영안되는 문제로 이렇게 해결함
+      content: instance,
       images: imgUrls,
       type: boardId,
     };
-    dispatch(addPost(postData));
+
+    try {
+      await dispatch(addPost(postData));
+      navigate("/");
+    } catch (e) {
+      alert(e.msg);
+    }
   };
 
-  const onTagPush = () => {
-    if (!tags.includes(currentTag)) setTags([...tags, currentTag]);
-    setCurrentTag("");
-  };
-
+  // addImageBlobHook
   useEffect(() => {
-    if (addPostStatus === "success") {
-      navigate(-1);
-    }
-  }, [addPostStatus]);
-
-  useEffect(() => {
-    if (!isAuth) {
-      alert("로그인하지 않은 사용자는 글을 작성할 수 없습니다.");
-      navigate("/login");
-    }
-
     if (editorRef.current) {
-      // 기존에 Image 를 Import 하는 Hook 을 제거한다.
       editorRef.current.getInstance().removeHook("addImageBlobHook");
-
-      // 새롭게 Image 를 Import 하는 Hook 을 생성한다.
       editorRef.current
         .getInstance()
         .addHook("addImageBlobHook", (blob, callback) => {
@@ -131,21 +118,17 @@ const WritePost = () => {
             formData.append("image", blob);
 
             const response = await axiosInstance.post(
-              `http://localhost:8090/v1/file/upload`,
+              `${API_URL}/v1/file/upload`,
               formData,
               { header: { "content-type": "multipart/formdata" } },
             );
 
-            const url = `http://localhost:8090${response.data.data.imageURL}`;
-
-            console.log(url);
+            const url = `${API_URL}${response.data.data.imageURL}`;
             callback(url, "Image");
           })();
-
           return false;
         });
     }
-
     return () => {};
   }, [editorRef]);
 
@@ -167,7 +150,7 @@ const WritePost = () => {
           onChange={e => setTitle(e.target.value)}
           placeholder="Title"
         />
-        {/* content */}
+        {/* 내용 */}
         <Editor
           initialValue="hello react editor world!"
           previewStyle="vertical"
@@ -176,6 +159,7 @@ const WritePost = () => {
           useCommandShortcut={true}
           ref={editorRef}
         />
+        {/* 태그 제출 */}
         <div className="tagCon">
           <TagsInput
             className="tagsInput"
@@ -188,10 +172,11 @@ const WritePost = () => {
               }
             }}
           />
-          {/* tagArea/ */}
+          {/* 태그 목록 */}
           <div className="tagArea flex flex-ai-c">
             {tags.map((tag, id) => (
               <div
+                key={tag}
                 className="postTag"
                 onClick={() => {
                   setTags(tags.filter(t => t !== tag));
@@ -202,6 +187,7 @@ const WritePost = () => {
             ))}
           </div>
         </div>
+        {/* post 제출 */}
         <div className="submitArea flex flex-jc-e">
           <button className="linkBtn black" onClick={postSubmit}>
             작성 완료

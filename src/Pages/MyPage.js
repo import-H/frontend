@@ -14,7 +14,7 @@ import GlobalStyle from "../Styles/Globalstyle.js";
 import { BigInput, Input, Container } from "../Styles/theme.js";
 
 // antd
-import "antd/dist/antd.css";
+import "antd/dist/antd.min.css";
 import { Modal, Button } from "antd";
 
 // icon
@@ -426,7 +426,8 @@ const MyPage = () => {
                         )}
                       </>
                     ) : (
-                      <form class="flex" onSubmit={changeIntroduce}>
+
+                      <form className="flex" onSubmit={changeIntroduce}>
                         <Input
                           type="text"
                           name="nickname"
@@ -457,9 +458,9 @@ const MyPage = () => {
               </div>
               <div className="element">
                 <span className="sub">이메일 수신 설정</span>
-                <label class="switch-button">
+                <label className="switch-button">
                   <input type="checkbox" />
-                  <span class="onoff-switch" />
+                  <span className="onoff-switch" />
                 </label>
               </div>
               <div className="element">
@@ -498,6 +499,9 @@ const MyPage = () => {
                 )}
               </div>
               <div className="leaveBtnArea flex flex-jc-e">
+                <Link to="/changepw" className="linkBtn">
+                  비밀번호 변경
+                </Link>
                 <Link to="/leave" className="linkBtn">
                   회원 탈퇴
                 </Link>

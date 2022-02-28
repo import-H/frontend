@@ -50,10 +50,10 @@ const UserList = () => {
       <Wrapper>
         {users &&
           users.map(user => (
-            <>
+            <div key={user?.userId}>
               {user?.pathId && (
                 <Link to={`${user.pathId}`}>
-                  <User key={user.userId}>
+                  <User>
                     {user?.profileImage ? (
                       <img src={user.profileImage} />
                     ) : (
@@ -63,7 +63,7 @@ const UserList = () => {
                   </User>
                 </Link>
               )}
-            </>
+            </div>
           ))}
       </Wrapper>
     </Container>
