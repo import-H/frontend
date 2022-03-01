@@ -11,7 +11,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import GlobalStyle from "../Styles/Globalstyle";
 import { Button, Input, Container } from "../Styles/theme";
-import { getUsers } from "../reducers/slices/userSlice";
+import { getProfile } from "../reducers/slices/userSlice";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -72,7 +72,7 @@ const OAuth = () => {
         pathId: pathId,
       };
       await dispatch(oauthAddInfo(data)).unwrap();
-      await dispatch(getUsers(auth.userId));
+      await dispatch(getProfile(auth.userId));
       navigate("/");
     } catch (e) {
       alert("pathId 제출 실패");
@@ -93,7 +93,7 @@ const OAuth = () => {
       if (res.isNew) {
         setShowAddPathId(true);
       } else {
-        await dispatch(getUsers(auth.userId));
+        await dispatch(getProfile(auth.userId));
         navigate("/");
       }
     } catch (e) {
