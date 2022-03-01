@@ -11,6 +11,7 @@ import { Button, Input, FlexContainer } from "../Styles/theme.js";
 
 // react-router-dom
 import { useNavigate } from "react-router-dom";
+import { getProfile } from "../reducers/slices/userSlice";
 
 // style
 const Label = styled.div`
@@ -27,7 +28,7 @@ const SubmitButton = styled(Button)`
 // auth form으로 변경해도 좋을듯(공통 기능 많아서)
 const Login = () => {
   const navigate = useNavigate();
-  const isAuth = useSelector(state => state.auth.isAuth);
+  const auth = useSelector(state => state.auth);
   const dispatch = useDispatch();
 
   const [showError, setShowError] = useState("");
@@ -51,7 +52,8 @@ const Login = () => {
       };
 
       try {
-        await dispatch(login(data)).unwrap();
+        const user = await dispatch(login(data)).unwrap();
+        await dispatch(getProfile(user.sub));
         navigate("/");
       } catch (e) {
         alert(e.msg);
@@ -66,7 +68,7 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (isAuth) {
+    if (auth.isAuth) {
       navigate("/");
     }
   });
