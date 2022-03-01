@@ -186,7 +186,7 @@ const Register = () => {
     if (name === "pathId") {
       const regExp = /[^a-zA-Z0-9]+/gi;
 
-      if (value.length < 5 || value.length > 15)
+      if (value.length < 4 || value.length > 14)
         setErrorInfo({
           ...errorInfo,
           [name]: "id는 5자~15자 사이여야 합니다.",

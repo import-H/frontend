@@ -12,6 +12,7 @@ import { Button, Input, FlexContainer } from "../Styles/theme.js";
 // react-router-dom
 import { useNavigate } from "react-router-dom";
 import { getProfile } from "../reducers/slices/userSlice";
+import SocialAuth from "../Components/SocialAuth";
 
 // style
 const Label = styled.div`
@@ -76,15 +77,18 @@ const Login = () => {
   return (
     <FlexContainer>
       <GlobalStyle />
-      <form onSubmit={loginEvent}>
-        <Label>이메일</Label>
-        <Input type="text" name="email" onChange={onChange} />
-        <Label>비밀번호</Label>
-        <Input type="password" name="password" onChange={onChange} />
+      <div>
+        <SocialAuth />
+        <form onSubmit={loginEvent}>
+          <Label>이메일</Label>
+          <Input type="text" name="email" onChange={onChange} />
+          <Label>비밀번호</Label>
+          <Input type="password" name="password" onChange={onChange} />
 
-        <SubmitButton type="submit">로그인</SubmitButton>
-      </form>
-      <div>{showError}</div>
+          <SubmitButton type="submit">로그인</SubmitButton>
+        </form>
+        <div>{showError}</div>
+      </div>
     </FlexContainer>
   );
 };
