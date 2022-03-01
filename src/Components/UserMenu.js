@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 // redux
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../reducers/slices/authSlice";
+import { logout, reEmailAuth } from "../reducers/slices/authSlice";
 
 // style
 import styled from "styled-components";
@@ -30,7 +30,8 @@ const AuthorImg = styled.div`
   }
 `;
 
-const Caution = styled(Link)`
+const Caution = styled.div`
+  cursor: pointer;
   height: 100%;
   display: flex;
   align-items: center;
@@ -79,9 +80,22 @@ function UserMenu() {
   const dispatch = useDispatch();
   const auth = useSelector(state => state.auth);
   const profile = useSelector(state => state.user.profile);
+
   const logoutBtn = () => {
     dispatch(logout());
   };
+
+  const onEmailAuth = () => {
+    // 인증 이메일 확인했는지
+
+    alert(`${profile.email}로 인증 메일을 보냈습니다`);
+    try {
+      dispatch(reEmailAuth());
+    } catch (e) {
+      alert("error");
+    }
+  };
+
   useEffect(() => {
     if (auth.isAuth) {
       dispatch(getProfile(auth.userId));
@@ -94,7 +108,7 @@ function UserMenu() {
           {auth.isAuth ? (
             <span role="afterLogin">
               {!profile?.emailVerified && (
-                <Caution className="element" to="/">
+                <Caution className="element" onClick={onEmailAuth}>
                   ⚠ 이메일 인증을 진행해주세요
                 </Caution>
               )}
@@ -112,7 +126,7 @@ function UserMenu() {
 
               <div className="element">
                 {/* Link 태그를 사용해야 링크로 인식해서 마우스를 올리면 클릭 표시가 뜸 */}
-                <Link to="" className="linkBtn" onClick={logoutBtn}>
+                <Link to="/" className="linkBtn" onClick={logoutBtn}>
                   로그아웃
                 </Link>
               </div>
