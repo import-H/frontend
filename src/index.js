@@ -70,7 +70,10 @@ ReactDOM.render(
             element={<PrivateRoute component={EditPost} />}
           />
           <Route path="/mypage" element={<PrivateRoute component={MyPage} />} />
-          <Route path="/leave" element={<PrivateRoute component={Leave} />} />
+          <Route
+            path="/leave/:authType"
+            element={<PrivateRoute component={Leave} />}
+          />
           <Route
             path="/changepw"
             element={<PrivateRoute component={ChangePassword} />}

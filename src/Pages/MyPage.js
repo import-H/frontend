@@ -160,6 +160,7 @@ const MyPageWrapper = styled(Container)`
         justify-content: flex-start;
       }
       & .linkBtn {
+        margin: 1rem;
         width: 120px;
         background: #aaa;
 
@@ -426,7 +427,6 @@ const MyPage = () => {
                         )}
                       </>
                     ) : (
-
                       <form className="flex" onSubmit={changeIntroduce}>
                         <Input
                           type="text"
@@ -499,12 +499,22 @@ const MyPage = () => {
                 )}
               </div>
               <div className="leaveBtnArea flex flex-jc-e">
-                <Link to="/changepw" className="linkBtn">
-                  비밀번호 변경
-                </Link>
-                <Link to="/leave" className="linkBtn">
-                  회원 탈퇴
-                </Link>
+                {user.oauthId ? (
+                  <>
+                    <Link to="/changepw" className="linkBtn">
+                      비밀번호 변경
+                    </Link>
+                    <Link to="/leave/oauth" className="linkBtn">
+                      회원 탈퇴
+                    </Link>
+                  </>
+                ) : (
+                  <>
+                    <Link to="/leave/auth" className="linkBtn">
+                      회원 탈퇴
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </div>
