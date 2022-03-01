@@ -41,8 +41,8 @@ const ErrorMsg = styled.div`
 const SubmitButton = styled(Button)`
   width: 100%;
   margin-top: 1rem;
-  pointer-events: ${props => (props.submitState ? "auto" : "none")};
-  background-color: ${props => (props.submitState ? "black" : "#ddd")};
+  pointer-events: ${props => (!props.submitState ? "auto" : "none")};
+  background-color: ${props => (!props.submitState ? "black" : "#ddd")};
 `;
 
 const OAuth = () => {
@@ -88,7 +88,7 @@ const OAuth = () => {
       ).unwrap();
 
       console.log(res);
-      if (res.isNew.isNew) {
+      if (res.isNew) {
         setShowAddPathId(true);
       } else {
         navigate("/");
