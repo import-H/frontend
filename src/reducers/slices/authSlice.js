@@ -66,9 +66,12 @@ export const oauth = createAsyncThunk("auth/oauth", async data => {
   const response = await axios.get(
     `${API_URL}/v1/social/${provider}?code=${code}`,
   );
+  console.log(response);
+
   localStorage.setItem("authTokens", JSON.stringify(response.data.data));
   const userData = jwt_decode(response.data.data.accessToken);
-  return { userData: userData, isNew: isNew };
+  console.log(userData);
+  return { userData: userData, isNew: response.data.data.new };
 });
 
 // oauth 회원가입 시, pathId 생성

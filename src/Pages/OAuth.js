@@ -71,6 +71,7 @@ const OAuth = () => {
         pathId: pathId,
       };
       await dispatch(oauthAddInfo(data));
+      navigate("/");
     } catch (e) {
       alert("pathId 제출 실패");
     }
@@ -83,15 +84,17 @@ const OAuth = () => {
         oauth({
           provider: provider,
           code: code.search.split("=")[1].split("&")[0],
-        }).unwrap(),
-      );
+        }),
+      ).unwrap();
+
+      console.log(res);
       if (res.isNew.isNew) {
         setShowAddPathId(true);
+      } else {
+        navigate("/");
       }
-
-      navigate("/");
     } catch (e) {
-      alert("error");
+      alert("error1");
     }
   }, []);
 
