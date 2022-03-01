@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { useCounter } from "../utils/Timer";
 import GoogleLogin from "../Components/GoogleLogin";
 import GithubLogin from "../Components/GithubLogin";
+import SocialAuth from "../Components/SocialAuth";
 
 const AuthForm = styled.div`
   min-width: 300px;
@@ -93,8 +94,6 @@ const Register = () => {
   const isAuth = useSelector(state => state.auth.isAuth);
   const navigate = useNavigate();
   const [emailConfirmPage, setEmailConfirmPage] = useState(false);
-
-  const { count, start, stop } = useCounter(3, 1000);
 
   // 회원가입 form를 모두 입력했을 때, true로 바뀜
   const [submitState, setSubmitState] = useState(false);
@@ -201,12 +200,6 @@ const Register = () => {
     }
   };
 
-  // const LeftTime = () => {
-  //   start();
-  //   setAuthEmail(true);
-  // };
-
-  // authInfo와 errorInfo를 감지해 submitState 상태 수정
   useEffect(() => {
     if (isAuth) {
       navigate("/");
@@ -226,76 +219,69 @@ const Register = () => {
     <FlexContainer>
       <GlobalStyle />
       <div>
-        <h1>로그인</h1>
-        <div>
-          <GoogleLogin />
-          <GithubLogin />
-        </div>
         {!emailConfirmPage ? (
-          <AuthForm>
-            <Label>이메일</Label>
-            <div className="email-area">
+          <div>
+            <SocialAuth />
+            <AuthForm>
+              <Label>이메일</Label>
+              <div className="email-area">
+                <AuthInput
+                  type="text"
+                  name="email"
+                  onChange={onChange}
+                  valid={errorInfo.email}
+                />
+              </div>
+              <ErrorMsg>{errorInfo.email}</ErrorMsg>
+
+              <Label>비밀번호</Label>
+              <AuthInput
+                type="password"
+                name="password"
+                onChange={onChange}
+                valid={errorInfo.password}
+              />
+              <ErrorMsg>{errorInfo.password}</ErrorMsg>
+              <Label>비밀번호 확인</Label>
+              <AuthInput
+                type="password"
+                name="confirmPassword"
+                onChange={onChange}
+                valid={errorInfo.confirmPassword}
+              />
+              <ErrorMsg>{errorInfo.confirmPassword}</ErrorMsg>
+              <Label>별명</Label>
               <AuthInput
                 type="text"
-                name="email"
+                name="nickname"
                 onChange={onChange}
-                valid={errorInfo.email}
+                valid={errorInfo.nickname}
               />
-              {/* <div className="email-btn" onClick={LeftTime}>
-            인증
+              <ErrorMsg></ErrorMsg>
+              <Label>개인페이지 id</Label>
+              <AuthInput
+                type="text"
+                name="pathId"
+                onChange={onChange}
+                valid={errorInfo.pathId}
+                placeholder="개인 페이지에 사용될 id를 입력해주세요(영문)"
+              />
+              <ErrorMsg>{errorInfo.pathId}</ErrorMsg>
+              <CheckboxArea>
+                <CheckInput type="checkbox" name="agree" onChange={onChange} />
+                <Label>
+                  주 1회 이상 활동하실 계획이 있으시면 체크해주세요.
+                </Label>
+              </CheckboxArea>
+              <SubmitButton
+                type="submit"
+                submitState={submitState}
+                onClick={registerEvent}
+              >
+                회원가입
+              </SubmitButton>
+            </AuthForm>
           </div>
-
-          <div>
-            {parseInt(count / 60000)}:{count % 60000}
-          </div> */}
-            </div>
-            <ErrorMsg>{errorInfo.email}</ErrorMsg>
-
-            <Label>비밀번호</Label>
-            <AuthInput
-              type="password"
-              name="password"
-              onChange={onChange}
-              valid={errorInfo.password}
-            />
-            <ErrorMsg>{errorInfo.password}</ErrorMsg>
-            <Label>비밀번호 확인</Label>
-            <AuthInput
-              type="password"
-              name="confirmPassword"
-              onChange={onChange}
-              valid={errorInfo.confirmPassword}
-            />
-            <ErrorMsg>{errorInfo.confirmPassword}</ErrorMsg>
-            <Label>별명</Label>
-            <AuthInput
-              type="text"
-              name="nickname"
-              onChange={onChange}
-              valid={errorInfo.nickname}
-            />
-            <ErrorMsg></ErrorMsg>
-            <Label>개인페이지 id</Label>
-            <AuthInput
-              type="text"
-              name="pathId"
-              onChange={onChange}
-              valid={errorInfo.pathId}
-              placeholder="개인 페이지에 사용될 id를 입력해주세요(영문)"
-            />
-            <ErrorMsg>{errorInfo.pathId}</ErrorMsg>
-            <CheckboxArea>
-              <CheckInput type="checkbox" name="agree" onChange={onChange} />
-              <Label>주 1회 이상 활동하실 계획이 있으시면 체크해주세요.</Label>
-            </CheckboxArea>
-            <SubmitButton
-              type="submit"
-              submitState={submitState}
-              onClick={registerEvent}
-            >
-              회원가입
-            </SubmitButton>
-          </AuthForm>
         ) : (
           <EmailConfirm>가입하신 이메일에서 인증 진행바랍니다.</EmailConfirm>
         )}
