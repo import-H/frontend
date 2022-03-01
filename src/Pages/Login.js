@@ -55,6 +55,7 @@ const Login = () => {
 
       try {
         const user = await dispatch(login(data)).unwrap();
+        console.log(user.sub);
         await dispatch(getProfile(user.sub));
         navigate("/");
       } catch (e) {

@@ -24,7 +24,7 @@ export const login = createAsyncThunk(
       localStorage.setItem("authTokens", JSON.stringify(response.data.data));
       const userData = jwt_decode(response.data.data.accessToken);
       //console.log(response.data.data, userData);
-      return { userData: userData, isNew: isNew };
+      return userData;
     } catch (err) {
       let error = err; // cast the error for access
       if (!error.response) {
@@ -73,7 +73,7 @@ export const oauth = createAsyncThunk("auth/oauth", async data => {
   );
   localStorage.setItem("authTokens", JSON.stringify(response.data.data));
   const userData = jwt_decode(response.data.data.accessToken);
-  return userData;
+  return { userData: userData, isNew: isNew };
 });
 
 // oauth 회원가입 시, pathId 생성
@@ -87,6 +87,13 @@ export const oauthAddInfo = createAsyncThunk(
     );
   },
 );
+
+// 인증 이메일 확인
+
+// 인증 이메일 재전송
+export const reEmailAuth = createAsyncThunk("auth/oauthAddInfo", async () => {
+  await axiosInstance.post(`${API_URL}/v1/email-token`);
+});
 
 const slice = createSlice({
   name: "auth",
