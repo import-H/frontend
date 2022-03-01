@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import { API_URL } from "../../config";
+import axiosInstance from "../../utils/axiosInstance";
 //import { getUser } from "./userSlice";
 
 // 임시로 refreshToken도 여기에 저장해둠
@@ -56,14 +57,10 @@ export const signup = createAsyncThunk(
 );
 
 // 로그아웃
-export const logout = createAsyncThunk(
-  "auth/logout",
-  async (dispatch, getState) => {
-    if (getState.isAuth === true) {
-      return;
-    }
-  },
-);
+export const logout = createAsyncThunk("auth/logout", async () => {
+  localStorage.clear();
+  location.reload();
+});
 
 // oauth
 export const oauth = createAsyncThunk("auth/oauth", async data => {
@@ -87,6 +84,13 @@ export const oauthAddInfo = createAsyncThunk(
     );
   },
 );
+
+// 인증 이메일 확인
+
+// 인증 이메일 재전송
+export const reEmailAuth = createAsyncThunk("auth/oauthAddInfo", async () => {
+  await axiosInstance.post(`${API_URL}/v1/email-token`);
+});
 
 const slice = createSlice({
   name: "auth",
