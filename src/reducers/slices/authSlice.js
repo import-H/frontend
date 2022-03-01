@@ -79,7 +79,7 @@ export const oauthAddInfo = createAsyncThunk(
   "auth/oauthAddInfo",
   async data => {
     const { userId, pathId } = data;
-    const response = await axios.put(
+    const response = await axios.post(
       `${API_URL}/v1/users/${userId}/path-id`,
       pathId,
     );
