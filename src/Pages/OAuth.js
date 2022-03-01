@@ -93,10 +93,11 @@ const OAuth = () => {
       if (res.isNew) {
         setShowAddPathId(true);
       } else {
+        await dispatch(getUsers(auth.userId));
         navigate("/");
       }
     } catch (e) {
-      alert("error1");
+      alert(e);
     }
   }, []);
 
