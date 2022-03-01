@@ -24,7 +24,7 @@ export const login = createAsyncThunk(
       localStorage.setItem("authTokens", JSON.stringify(response.data.data));
       const userData = jwt_decode(response.data.data.accessToken);
       //console.log(response.data.data, userData);
-      return userData;
+      return { userData: userData, isNew: isNew };
     } catch (err) {
       let error = err; // cast the error for access
       if (!error.response) {
@@ -76,6 +76,18 @@ export const oauth = createAsyncThunk("auth/oauth", async data => {
   return userData;
 });
 
+// oauth 회원가입 시, pathId 생성
+export const oauthAddInfo = createAsyncThunk(
+  "auth/oauthAddInfo",
+  async data => {
+    const { userId, pathId } = data;
+    const response = await axios.put(
+      `${API_URL}/v1/users/${userId}/path-id`,
+      pathId,
+    );
+  },
+);
+
 const slice = createSlice({
   name: "auth",
   initialState,
@@ -103,8 +115,9 @@ const slice = createSlice({
     });
     builder.addCase(oauth.fulfilled, (state, { payload }) => {
       state.isAuth = true;
-      state.userId = payload.sub;
-      state.roles = payload.roles;
+      state.isNew = payload.isNew.isNew;
+      state.userId = payload.userData.sub;
+      state.roles = payload.userData.roles;
     });
     builder.addCase(signup.rejected, (state, action) => {
       if (action.payload) {
