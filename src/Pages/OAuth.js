@@ -12,16 +12,15 @@ import styled from "styled-components";
 import GlobalStyle from "../Styles/Globalstyle";
 import { Button, Input, Container } from "../Styles/theme";
 import { getProfile } from "../reducers/slices/userSlice";
-import axios from "axios";
-import axiosInstance from "../utils/axiosInstance";
 
 const Wrapper = styled.div`
   width: 100%;
-  height: 100%;
+  height: 50vh;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  font-size: 2rem;
 `;
 
 const AuthInput = styled(Input)`
@@ -74,13 +73,6 @@ const OAuth = () => {
         pathId: pathId,
       };
 
-      // const res = await axiosInstance.put(
-      //   `http://3.34.167.7:8090/v1/users/${auth.userId}/path-id`,
-      //   {
-      //     pathId: pathId,
-      //   },
-      // );
-      // console.log(res);
       await dispatch(
         oauthAddInfo({ userId: auth.userId, pathId: pathId }),
       ).unwrap();
