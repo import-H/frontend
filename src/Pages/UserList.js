@@ -52,7 +52,7 @@ const UserList = () => {
           users.map(user => (
             <div key={user?.userId}>
               {user?.pathId && (
-                <Link to={`${user.pathId}`}>
+                <Link to={`${user.pathId}`} title="userLink">
                   <User>
                     {user?.profileImage ? (
                       <img src={user.profileImage} />
