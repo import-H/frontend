@@ -3,11 +3,11 @@ import axios from "axios";
 import { CLIENT_URL, OAuth } from "../config";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGithub } from "@fortawesome/free-brands-svg-icons"
+import { faGithub } from "@fortawesome/free-brands-svg-icons";
 
 const GithubLoginBtn = styled.div`
- position: relative;
-.github-icon-wrapper {
+  position: relative;
+  .github-icon-wrapper {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -18,7 +18,7 @@ const GithubLoginBtn = styled.div`
     margin-top: 0.2em;
   }
 
-  & button{
+  & button {
     width: 100%;
     padding: 0.7em 1em;
     background-color: #333;
@@ -31,14 +31,14 @@ const GithubLoginBtn = styled.div`
     color: #666;
     transition: all 0.3s;
     color: #fff;
-    @media(max-width: 768px){
+    @media (max-width: 768px) {
       font-size: 1.3em;
     }
-    &:hover, &:focus{
+    &:hover,
+    &:focus {
       background-color: #555;
       border-color: #222;
     }
-  }
   }
 `;
 
@@ -50,11 +50,11 @@ function GithubLogin() {
   };
 
   return (
-    <GithubLoginBtn>      
+    <GithubLoginBtn>
       <button id="oAuthBtn" onClick={oAuthHandler}>
-      <div class="github-icon-wrapper">
-       <FontAwesomeIcon icon={faGithub}  className="github-icon"/>
-      </div>
+        <div className="github-icon-wrapper">
+          <FontAwesomeIcon icon={faGithub} className="github-icon" />
+        </div>
         깃허브 로그인
       </button>
     </GithubLoginBtn>

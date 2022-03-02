@@ -5,8 +5,8 @@ import styled from "styled-components";
 import { CLIENT_URL, OAuth } from "../config";
 
 const GoogleLoginBtn = styled.div`
- position: relative;
-.google-icon-wrapper {
+  position: relative;
+  .google-icon-wrapper {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -17,10 +17,9 @@ const GoogleLoginBtn = styled.div`
     margin-left: 11px; */
     width: 18px;
     height: 18px;
-    
   }
 
-  & button{
+  & button {
     width: 100%;
     padding: 0.7em 1em;
     background: #fff;
@@ -32,13 +31,13 @@ const GoogleLoginBtn = styled.div`
     font-weight: 500;
     color: #666;
     transition: all 0.3s;
-    @media(max-width: 768px){
+    @media (max-width: 768px) {
       font-size: 1.3em;
     }
-    &:hover, &:focus{
+    &:hover,
+    &:focus {
       border-color: #222;
     }
-  }
   }
 `;
 
@@ -52,9 +51,12 @@ function GoogleLogin() {
   return (
     <GoogleLoginBtn>
       <button id="oAuthBtn" onClick={oAuthHandler}>
-      <div class="google-icon-wrapper">
-      <img class="google-icon" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"/>
-    </div>
+        <div className="google-icon-wrapper">
+          <img
+            className="google-icon"
+            src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
+          />
+        </div>
         구글 로그인
       </button>
     </GoogleLoginBtn>
