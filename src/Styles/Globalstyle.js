@@ -185,15 +185,13 @@ header {
 
   header #navMenu {
     margin-left: 5rem;
-    flex-grow: 4;  
     display: flex;
-    transition: all 0.3s;
-    
+    //transition: all 0.3s;
     & a{
       color: black;
       font-size: 1.4em;
       padding: 1rem 2rem;
-      transition: all 0.3s;
+      //transition: all 0.3s;
       &:hover{
         color: var(--secondary-color);
       }
