@@ -53,12 +53,15 @@ const Container = styled.div`
   max-width: 1200px;
   /* height: 100%;   */
   margin: 0 auto;
-  min-width: 300px;
   padding: 50px 0;    
   padding-top: 100px;
   min-height: calc(100vh - 181px);
   @media (max-width: 1200px) {
     padding: 50px 25px;
+    padding-top: 100px;
+  }
+  @media (max-width: 500px) {
+    padding: 50px 20px;
     padding-top: 100px;
   }
 `;
@@ -75,6 +78,7 @@ const MainContainer = styled(Container)`
   @media (max-width: 1200px) {
     padding: 50px 0px;   
   }
+
 `;
 
 const WriteContainer = styled(Container)`

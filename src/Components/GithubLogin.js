@@ -31,6 +31,9 @@ const GithubLoginBtn = styled.div`
     color: #666;
     transition: all 0.3s;
     color: #fff;
+    @media(max-width: 768px){
+      font-size: 1.3em;
+    }
     &:hover, &:focus{
       background-color: #555;
       border-color: #222;

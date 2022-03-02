@@ -36,6 +36,7 @@ const GlobalStyle = createGlobalStyle`
         font-family: 'Poppins', 'Noto Sans KR' , 'sans-serif';
         color: #333;
         background-color: #fefefe;
+        min-width: 280px;
 
         @media (max-width: 1200px){
           font-size: 10px;

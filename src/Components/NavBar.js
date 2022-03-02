@@ -37,11 +37,7 @@ function NavBar() {
           <Link to="/">
             <img src={logoImg} alt="import-H" />
           </Link>
-        </div>
-        <div id="navMenu">
-          <Link to="/board/free">게시판</Link>
-          <Link to="/posts">스터디 멤버</Link>
-        </div>
+        </div>        
         <div id="log">
           <UserMenu />
         </div>

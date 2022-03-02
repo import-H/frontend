@@ -20,6 +20,10 @@ import SocialAuth from "../Components/SocialAuth";
 const AuthForm = styled.div`
   min-width: 300px;
   max-width: 1200px;
+  @media(max-width: 500px){
+    min-width: unset;
+    max-width: 300px;
+  }
   & .email-area {
     display: flex;
     flex-direction: row;
@@ -45,14 +49,21 @@ const Label = styled.div`
   color: #666;
   &.checkLabel{
     font-size: 1.3em;
+    @media(max-width: 500px){
+      font-size: 1.2rem;
+    }
   }
 `;
 
 const SubmitButton = styled(Button)`
   width: 100%;
   margin-top: 1rem;
+  font-size: 1.4em;
   pointer-events: ${props => (props.submitState ? "auto" : "none")};
   background-color: ${props => (props.submitState ? "black" : "#ddd")};
+  @media(max-width: 768px){
+      font-size: 1.3em;
+    }
 `;
 
 const AuthInput = styled(Input)`
@@ -93,6 +104,11 @@ const EmailConfirm = styled.div`
 
 const RegisterForm = styled.div`
   min-width: 300px;
+  @media(max-width: 500px){
+    min-width: unset;
+    max-width: 300px;
+    width: 90%;
+  }
 `;
 
 // auth form으로 변경해도 좋을듯(공통 기능 많아서)

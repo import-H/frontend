@@ -32,6 +32,9 @@ const GoogleLoginBtn = styled.div`
     font-weight: 500;
     color: #666;
     transition: all 0.3s;
+    @media(max-width: 768px){
+      font-size: 1.3em;
+    }
     &:hover, &:focus{
       border-color: #222;
     }
