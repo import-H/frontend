@@ -1,6 +1,43 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { CLIENT_URL, OAuth } from "../config";
+import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGithub } from "@fortawesome/free-brands-svg-icons"
+
+const GithubLoginBtn = styled.div`
+ position: relative;
+.github-icon-wrapper {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .github-icon {
+    font-size: 2rem;
+    color: #fff;
+    margin-top: 0.2em;
+  }
+
+  & button{
+    width: 100%;
+    padding: 0.7em 1em;
+    background-color: #333;
+    box-shadow: 0 3px 7px 0px rgb(0 0 0 / 10%);
+    border: 1px solid #eee;
+    border-radius: 4px;
+    font-size: 1.4em;
+    cursor: pointer;
+    font-weight: 500;
+    color: #666;
+    transition: all 0.3s;
+    color: #fff;
+    &:hover, &:focus{
+      background-color: #555;
+      border-color: #222;
+    }
+  }
+  }
+`;
 
 function GithubLogin() {
   const oAuthURI = `https://github.com/login/oauth/authorize?client_id=${OAuth.github.client_id}&scope=${OAuth.github.scope}&response_type=${OAuth.github.code}&redirect_uri=${CLIENT_URL}/login`;
@@ -10,11 +47,14 @@ function GithubLogin() {
   };
 
   return (
-    <div>
+    <GithubLoginBtn>      
       <button id="oAuthBtn" onClick={oAuthHandler}>
+      <div class="github-icon-wrapper">
+       <FontAwesomeIcon icon={faGithub}  className="github-icon"/>
+      </div>
         깃허브 로그인
       </button>
-    </div>
+    </GithubLoginBtn>
   );
 }
 

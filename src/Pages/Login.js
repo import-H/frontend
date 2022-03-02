@@ -27,6 +27,10 @@ const SubmitButton = styled(Button)`
   margin-top: 25px;
 `;
 
+const LoginForm = styled.div`
+  min-width: 300px;
+`;
+
 // auth form으로 변경해도 좋을듯(공통 기능 많아서)
 const Login = () => {
   const navigate = useNavigate();
@@ -79,7 +83,7 @@ const Login = () => {
   return (
     <FlexContainer>
       <GlobalStyle />
-      <div>
+      <LoginForm>
         <SocialAuth />
         <form onSubmit={loginEvent}>
           <Label>이메일</Label>
@@ -90,7 +94,7 @@ const Login = () => {
           <SubmitButton type="submit">로그인</SubmitButton>
         </form>
         <div>{showError}</div>
-      </div>
+      </LoginForm>
     </FlexContainer>
   );
 };

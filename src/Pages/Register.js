@@ -43,6 +43,9 @@ const Label = styled.div`
   font-size: 1.4em;
   margin: 5px 0 5px 0;
   color: #666;
+  &.checkLabel{
+    font-size: 1.3em;
+  }
 `;
 
 const SubmitButton = styled(Button)`
@@ -86,6 +89,10 @@ const EmailConfirm = styled.div`
   align-items: center;
   justify-content: center;
   font-size: 2rem;
+`;
+
+const RegisterForm = styled.div`
+  min-width: 300px;
 `;
 
 // auth form으로 변경해도 좋을듯(공통 기능 많아서)
@@ -219,7 +226,7 @@ const Register = () => {
   return (
     <FlexContainer>
       <GlobalStyle />
-      <div>
+      <RegisterForm>
         {!emailConfirmPage ? (
           <div>
             <SocialAuth />
@@ -270,7 +277,7 @@ const Register = () => {
               <ErrorMsg>{errorInfo.pathId}</ErrorMsg>
               <CheckboxArea>
                 <CheckInput type="checkbox" name="agree" onChange={onChange} />
-                <Label>
+                <Label className="checkLabel">
                   주 1회 이상 활동하실 계획이 있으시면 체크해주세요.
                 </Label>
               </CheckboxArea>
@@ -286,7 +293,7 @@ const Register = () => {
         ) : (
           <EmailConfirm>가입하신 이메일에서 인증 진행바랍니다.</EmailConfirm>
         )}
-      </div>
+      </RegisterForm>
     </FlexContainer>
   );
 };
