@@ -23,10 +23,6 @@ const MainWrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  //flex-wrap: wrap;
-  margin-top: 2rem;
-  /* justify-content: center; */
-
   & .secTit {
     font-size: 2.8rem;
     font-family: "Noto Sans KR", sans-serif;
@@ -34,6 +30,10 @@ const MainWrapper = styled.div`
     text-align: center;
     width: 100%;
     margin-bottom: 3rem;
+    transition: all 0.3s;
+    @media(max-width: 768px){
+      font-size: 2rem;
+    }
     & > div {
       transform: translateX(2px) translateY(-3px);
     }
@@ -60,6 +60,14 @@ const PostWrapper = styled.div`
   display: flex;
   flex-direction: row;
   padding: 1rem;
+  @media (max-width: 1200px){
+    width: calc(50%);
+  }
+  @media (max-width: 768px){
+    width: 100%;
+    padding: 1rem 0;
+    margin-bottom: 1rem;
+  } 
 `;
 
 const Post = styled.div`
@@ -72,16 +80,30 @@ const Post = styled.div`
   padding: 1rem;
   box-shadow: 0px 5px 7px rgba(0, 0, 0, 0.07);
 
+  & *{transition: all 0.3s;}
+
   & .title {
     font-size: 2rem;
     flex: 2;
   }
   & .content {
     flex: 3;
+    @media(max-width: 1200px){
+      font-size: 1.4em;
+    }
+    @media(max-width: 500px){
+      font-size: 1.3em;
+    }
   }
 
   & .author {
     flex: 1;
+    @media(max-width: 1200px){
+      font-size: 1.2em;
+    }
+    @media(max-width: 768px){
+      text-align: right;
+    }
   }
 `;
 

@@ -51,13 +51,18 @@ const Button = styled.button`
 const Container = styled.div`
   width: 100%;
   max-width: 1200px;
-  height: 100%;
+  /* height: 100%;   */
   margin: 0 auto;
-  margin-top: 50px;
-  min-width: 300px;
-  padding: 50px 0;
+  padding: 50px 0;    
+  padding-top: 100px;
+  min-height: calc(100vh - 181px);
   @media (max-width: 1200px) {
     padding: 50px 25px;
+    padding-top: 100px;
+  }
+  @media (max-width: 500px) {
+    padding: 50px 20px;
+    padding-top: 100px;
   }
 `;
 
@@ -69,6 +74,11 @@ const FlexContainer = styled(Container)`
 const MainContainer = styled(Container)`
   max-width: unset;
   margin-top: 0;
+  padding-top: 50px;
+  @media (max-width: 1200px) {
+    padding: 50px 0px;   
+  }
+
 `;
 
 const WriteContainer = styled(Container)`
