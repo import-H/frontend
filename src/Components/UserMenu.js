@@ -121,7 +121,7 @@ function UserMenu() {
                     {profile?.profileImage ? (
                       <img src={profile?.profileImage} alt="profileImg" />
                     ) : (
-                      <img src={noneProfileImg} />
+                      <img src={noneProfileImg} alt="profileImg" />
                     )}
                   </AuthorImg>
                 </Dropdown>

@@ -101,7 +101,7 @@ const CommentPush = styled.div`
     flex: 15;
     font-family: "Noto Sans KR", sans-serif;
     resize: none;
-    heigth: 5rem;
+    height: 5rem;
     padding: 10px 15px;
     margin: 2px;
     border: 1px solid #ccc;
