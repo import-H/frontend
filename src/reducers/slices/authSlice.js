@@ -79,10 +79,17 @@ export const oauthAddInfo = createAsyncThunk(
   "auth/oauthAddInfo",
   async data => {
     const { userId, pathId } = data;
-    const response = await axios.post(
-      `${API_URL}/v1/users/${userId}/path-id`,
-      pathId,
-    );
+    try {
+      await axiosInstance.put(`${API_URL}/v1/users/${userId}/path-id`, {
+        pathId: pathId,
+      });
+    } catch (err) {
+      let error = err; // cast the error for access
+      if (!error.response) {
+        throw err;
+      }
+      return error.response.data;
+    }
   },
 );
 
