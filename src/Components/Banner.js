@@ -18,6 +18,10 @@ const BannerWrapper = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+
+  @media (max-width: 1200px){
+    height: 550px;
+  }
 `;
 
 const BannerInner = styled.div`
@@ -30,12 +34,24 @@ const BannerInner = styled.div`
   overflow: hidden;
   white-space: nowrap;
   box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.07);
+  @media (max-width: 1200px){
+   width: 90%; 
+  }
+
+  @media (max-width: 980px){
+    width: 400px;
+  }
+  @media (max-width: 500px){
+    width: 90%;
+  }
+
   & > div {
     display: flex;
   }
   img {
     border-radius: 7px;
   }
+
 `;
 
 const Content = styled.div`
@@ -45,14 +61,23 @@ const Content = styled.div`
   justify-content: center;
   margin-left: 1.5rem;
   height: 200px;
-  div {
-    /* padding: 1.5rem; */
+  @media(max-width: 1200px){
+    width: calc(100% - 390px);
   }
-
+  @media(max-width: 980px){
+    width: 100%;
+    height: auto;
+    margin-left: 0;
+    margin-top: 2em;
+    overflow-x: hidden;
+  }
   & .title {
     //color: #ffc90a;
     font-size: 2rem;
     font-weight: 500;
+    @media(max-width: 980px){
+      font-size: 1.6rem;
+    }
   }
 
   & .explain {
@@ -60,6 +85,9 @@ const Content = styled.div`
     font-size: 1.4rem;
     margin: 1.6rem 0;
     margin-bottom: 3rem;
+    @media(max-width: 980px){
+      font-size: 1.2rem;
+    }
   }
   & .author {
     margin-top: 1rem;
@@ -79,6 +107,11 @@ const Content = styled.div`
       padding: 0.3rem 1rem;
       margin-left: 1rem;
       border-radius: 7px;
+      @media(max-width: 980px){
+        font-size: 1.1em;
+        padding: 0.3rem 0.7rem;
+        border-radius: 4px;
+      }
       &:first-child {
         margin-left: 0;
       }
@@ -91,13 +124,25 @@ const BannerArea = styled.a`
   padding: 1.5rem;
   display: block;
   height: 100%;
-  flex-shrink: 0;
+  flex-shrink: 0; 
+  @media (max-width: 1200px){
+   height: 300px;
+  }  
+  @media (max-width: 980px){
+    height: auto;
+  }
+  @media (max-width: 500px){
+    padding: 1rem;
+  }
   & .BannerSetting {
     display: flex;
     align-items: center;
     flex-direction: row;
     white-space: normal;
     height: 100%;
+    @media (max-width: 980px){
+      flex-direction: column;
+    }
     & .img-box {
       width: 360px;
       height: 200px;
@@ -106,6 +151,10 @@ const BannerArea = styled.a`
       display: flex;
       align-items: center;
       flex-shrink: 0;
+      @media (max-width: 500px){
+        width: 100%;
+        height: auto;
+      }
       img {
         width: 100%;
         object-fit: cover;
@@ -127,6 +176,10 @@ const SliderDot = styled.div`
     opacity: 0.5;
     transition: all 0.3s;
     cursor: pointer;
+    @media (max-width: 500px){
+      width: 0.7rem;
+      height: 0.7rem;
+    }
     &:hover {
       opacity: 1;
     }

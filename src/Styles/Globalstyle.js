@@ -10,6 +10,11 @@ const GlobalStyle = createGlobalStyle`
       --secondary-color: #7973ce;
       
     }
+
+    #root {
+      position: relative;
+      height: 100%;;
+    }
     
     *{
         margin: 0;
@@ -39,11 +44,7 @@ const GlobalStyle = createGlobalStyle`
     input{
       font-size: 1.2rem;
     }
-    html{position: relative;}
-    body{
-      position: relative;
-      padding-bottom: 150px;
-    }
+
 
 
     /* lib */
@@ -224,7 +225,6 @@ header {
 
   footer {
     width: 100%;
-    bottom: 0;
     padding: 30px 0;
     padding-bottom: 40px;
     min-height: 150px;
