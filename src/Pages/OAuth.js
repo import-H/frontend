@@ -11,6 +11,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import GlobalStyle from "../Styles/Globalstyle";
 import { Button, Input, Container } from "../Styles/theme";
+import { getProfile } from "../reducers/slices/userSlice";
+import axios from "axios";
+import axiosInstance from "../utils/axiosInstance";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -41,8 +44,8 @@ const ErrorMsg = styled.div`
 const SubmitButton = styled(Button)`
   width: 100%;
   margin-top: 1rem;
-  pointer-events: ${props => (props.submitState ? "auto" : "none")};
-  background-color: ${props => (props.submitState ? "black" : "#ddd")};
+  pointer-events: ${props => (!props.submitState ? "auto" : "none")};
+  background-color: ${props => (!props.submitState ? "black" : "#ddd")};
 `;
 
 const OAuth = () => {
@@ -70,9 +73,22 @@ const OAuth = () => {
         userId: auth.userId,
         pathId: pathId,
       };
-      await dispatch(oauthAddInfo(data));
+
+      // const res = await axiosInstance.put(
+      //   `http://3.34.167.7:8090/v1/users/${auth.userId}/path-id`,
+      //   {
+      //     pathId: pathId,
+      //   },
+      // );
+      // console.log(res);
+      await dispatch(
+        oauthAddInfo({ userId: auth.userId, pathId: pathId }),
+      ).unwrap();
+      await dispatch(getProfile(auth.userId));
+      navigate("/");
     } catch (e) {
       alert("pathId 제출 실패");
+      console.log(e);
     }
   };
 
@@ -83,15 +99,18 @@ const OAuth = () => {
         oauth({
           provider: provider,
           code: code.search.split("=")[1].split("&")[0],
-        }).unwrap(),
-      );
-      if (res.isNew.isNew) {
-        setShowAddPathId(true);
-      }
+        }),
+      ).unwrap();
 
-      navigate("/");
+      console.log(res);
+      if (res.isNew) {
+        setShowAddPathId(true);
+      } else {
+        await dispatch(getProfile(auth.userId));
+        navigate("/");
+      }
     } catch (e) {
-      alert("error");
+      alert(e);
     }
   }, []);
 
