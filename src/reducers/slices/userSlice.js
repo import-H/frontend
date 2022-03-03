@@ -57,6 +57,12 @@ export const getMessages = createAsyncThunk("user/getMessages", async () => {
   return response.data.list;
 });
 
+// 알람 내용 확인하기
+export const checkMessage = createAsyncThunk("user/checkMessage", async id => {
+  const response = await axiosInstance.get(`${API_URL}/v1/messages/${id}`);
+  return response.data.data;
+});
+
 const slice = createSlice({
   name: "user",
   initialState,

@@ -11,7 +11,7 @@ import { logout, reEmailAuth } from "../reducers/slices/authSlice";
 import styled from "styled-components";
 import { Menu, Dropdown } from "antd";
 import noneProfileImg from "../images/none_profile_image.png";
-import { getProfile } from "../reducers/slices/userSlice";
+import { getMessages, getProfile } from "../reducers/slices/userSlice";
 import Messages from "./Messages";
 
 const AuthorImg = styled.div`
@@ -101,6 +101,7 @@ function UserMenu() {
   useEffect(() => {
     if (auth.isAuth) {
       dispatch(getProfile(auth.userId));
+      dispatch(getMessages());
     }
   }, []);
   return (
