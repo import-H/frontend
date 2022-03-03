@@ -51,17 +51,12 @@ export const getUsers = createAsyncThunk("user/getUsers", async () => {
   return response.data.list;
 });
 
-export const getEmailSuccess = createAsyncThunk("user/getUsers", async () => {
-  const response = await axios.get(`${API_URL}/v1/email-token`);
-  return response.data.msg;
+// 알람 가져오기
+export const getMessages = createAsyncThunk("user/getMessages", async () => {
+  const response = await axiosInstance.get(`${API_URL}/v1/messages`);
+  return response.data.list;
 });
 
-//sample
-// export const getProducts = createAsyncThunk("getProducts", async (_, thunkAPI) => {
-//   thunkAPI.dispatch(actionLoading());
-//   const response = await axios.get("api");
-//   return response;
-// });
 const slice = createSlice({
   name: "user",
   initialState,
@@ -104,6 +99,9 @@ const slice = createSlice({
     [getUsers.rejected]: (state, action) => {
       state.status = "failed";
       state.error = action.error;
+    },
+    [getMessages.fulfilled]: (state, action) => {
+      state.messages = action.payload;
     },
   },
 });
