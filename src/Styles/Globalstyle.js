@@ -356,4 +356,5 @@ header {
   
 `;
 
+
 export default GlobalStyle;

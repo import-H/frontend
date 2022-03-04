@@ -24,6 +24,9 @@ const CommentWrap = styled.div`
   & h3 {
     font-size: 1.8em;
     margin-bottom: 15px;
+    @media(max-width:768px){
+      font-size: 1.6em;
+    }
     & span {
       color: var(--point-color-orange);
     }
@@ -40,6 +43,9 @@ const CommentWrap = styled.div`
       margin: 1rem;
       margin-top: 0.2rem;
       color: #333;
+      @media(max-width: 768px){
+        font-size: 1.3rem;
+      }
     }
     & .commentEdit {
       resize: none;
@@ -58,6 +64,9 @@ const CommentWrap = styled.div`
       font-size: 1.3rem;
       margin: 1rem;
       margin-bottom: 0;
+      @media(max-width:768px){
+        font-size: 1.2rem;
+      }
     }
   }
 `;
@@ -84,6 +93,9 @@ const CommentInfo = styled.div`
       padding-left: 1rem;
       font-size: 0.9em;
       transition: all 0.3s;
+      @media(max-width: 768px){
+        font-size: 0.8em;
+      }
 
       &:hover {
         color: var(--point-color-orange);
@@ -96,6 +108,9 @@ const CommentPush = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
+  @media(max-width: 768px){
+    flex-direction: column;
+  }
 
   & .commentWrite {
     flex: 15;
@@ -108,6 +123,9 @@ const CommentPush = styled.div`
     font-size: 1.4rem;
     border-radius: 4px;
     outline: none;
+    @media(max-width: 768px){
+      width: 100%;
+    }
   }
   .linkBtn {
     flex: 1;
@@ -117,6 +135,12 @@ const CommentPush = styled.div`
     margin-left: 1rem;
     height: 4.3rem;
     cursor: pointer;
+    word-break: keep-all;
+    @media(max-width: 768px){
+      width: 100%;
+      align-self: flex-end;
+      margin-top: 2rem;
+    }
   }
 `;
 

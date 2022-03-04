@@ -11,12 +11,23 @@ const Wrapper = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: left;
+
+  & .userBox{
+    width: 20%;
+    @media(max-width: 1200px){
+      width: 33%;
+    }
+
+    @media(max-width: 768px){
+      width: 50%;
+    }
+  }
 `;
 
 const User = styled.div`
-  margin: 2rem;
+  margin: 0 2rem;
+  margin-bottom: 2rem;
   padding: 2rem;
-
   background: #fff;
   display: flex;
   flex-direction: row;
@@ -25,6 +36,11 @@ const User = styled.div`
   border-radius: 7px;
   padding: 1rem;
   box-shadow: 0px 5px 7px rgba(0, 0, 0, 0.07);
+
+  @media(max-width: 768px){
+      margin: 0 1rem;
+      margin-bottom: 2rem;
+    }
 
   & img {
     width: 4rem;
@@ -35,6 +51,7 @@ const User = styled.div`
 
   .userName {
     padding: 1rem;
+    font-size: 1.4rem;
   }
 `;
 
@@ -50,7 +67,7 @@ const UserList = () => {
       <Wrapper>
         {users &&
           users.map(user => (
-            <div key={user?.userId}>
+            <div className="userBox" key={user?.userId}>
               {user?.pathId && (
                 <Link to={`${user.pathId}`}>
                   <User>

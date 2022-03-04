@@ -49,6 +49,16 @@ const MainWrapper = styled.div`
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+
+    & > div{
+      @media(max-width: 1200px){
+        flex-grow: 1;
+        width: 50%;
+      }
+      @media(max-width: 768px){
+        width: 100%;
+      }
+    }
   }
 `;
 
@@ -61,10 +71,9 @@ const PostWrapper = styled.div`
   flex-direction: row;
   padding: 1rem;
   @media (max-width: 1200px){
-    width: calc(50%);
+    width: 100%;
   }
   @media (max-width: 768px){
-    width: 100%;
     padding: 1rem 0;
     margin-bottom: 1rem;
   } 
@@ -98,6 +107,7 @@ const Post = styled.div`
 
   & .author {
     flex: 1;
+    text-align: right;
     @media(max-width: 1200px){
       font-size: 1.2em;
     }
