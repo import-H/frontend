@@ -95,8 +95,7 @@ describe("버튼 클릭 이벤트", () => {
     fireEvent.click(logoutBtn);
     expect(logout).toHaveBeenCalled();
 
-    // mypage
-    const myPageBtn = screen.getByTestId("profileLink");
-    expect(myPageBtn).toHaveAttribute("href", `/mypage`);
+    const profileImg = screen.getByAltText("profileImg");
+    expect(profileImg).toBeInTheDocument();
   });
 });

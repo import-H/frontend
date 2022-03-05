@@ -20,12 +20,28 @@ describe("Comment Test", () => {
   const useSelectorMock = jest.spyOn(reactRedux, "useSelector");
   const useDispatchMock = jest.spyOn(reactRedux, "useDispatch");
 
+  const getPost = jest.fn();
+  const addComment = jest.fn();
+  const deleteComment = jest.fn();
+  const editComment = jest.fn();
+  useDispatchMock.mockReturnValue(getPost);
+  useDispatchMock.mockReturnValue(addComment);
+  useDispatchMock.mockReturnValue(deleteComment);
+  useDispatchMock.mockReturnValue(editComment);
+
   beforeEach(() => {
     useSelectorMock.mockClear();
     useDispatchMock.mockClear();
   });
 
   it("Comment Title 존재", () => {
+    useSelectorMock.mockImplementation(selectorFn =>
+      selectorFn({
+        auth: { isAuth: true, userId: 1 },
+        user: { profile: { nickname: "jamong" } },
+        post: { status: "success", post: { comments: [] } },
+      }),
+    );
     render(<MockComment />);
     const commentTitle = screen.getByTitle(/comment/i);
     expect(commentTitle).toBeInTheDocument();
@@ -33,7 +49,11 @@ describe("Comment Test", () => {
 
   it("로그인시, 댓글 작성란 존재", () => {
     useSelectorMock.mockImplementation(selectorFn =>
-      selectorFn({ auth: { isAuth: true } }),
+      selectorFn({
+        auth: { isAuth: true, userId: 1 },
+        user: { profile: { nickname: "jamong" } },
+        post: { status: "success", post: { comments: [] } },
+      }),
     );
     render(<MockComment />);
 
