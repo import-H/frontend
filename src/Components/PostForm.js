@@ -8,6 +8,7 @@ import { addPost } from "../reducers/slices/postSlice";
 // styled-components
 import styled from "styled-components";
 import "@toast-ui/editor/dist/toastui-editor.css";
+import { StyledFormEditor } from "../Styles/theme";
 
 import { Editor } from "@toast-ui/react-editor";
 
@@ -32,14 +33,8 @@ const PostForm = () => {
 
   return (
     <div>
-      <form
-        onSubmit={postSubmit}
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          width: "80%",
-          margin: "3rem",
-        }}
+      <StyledFormEditor
+        onSubmit={postSubmit}        
       >
         <label>title</label>
         <input
@@ -57,7 +52,7 @@ const PostForm = () => {
           ref={editorRef}
         />
         <button type="submit">작성 완료</button>
-      </form>
+      </StyledFormEditor>
     </div>
   );
 };

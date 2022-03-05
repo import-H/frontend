@@ -37,6 +37,13 @@ const PostView = styled.div`
   margin: 0 auto;
   position: relative;
 
+  @media(max-width: 1200px){
+    width: 90%;
+  }
+  @media(max-width: 768px){
+    width: 100%;
+  }
+
   /* 하단 수정 버튼 */
   & .btnWrap {
     margin-top: 34px;
@@ -44,6 +51,7 @@ const PostView = styled.div`
       display: inline-block;
       margin-right: 10px;
       cursor: pointer;
+      word-break: keep-all;
       &:last-child {
         margin-right: 0;
       }
@@ -56,16 +64,33 @@ const PostHead = styled.div`
   margin-bottom: 20px;
   border-bottom: 1px solid #ddd;
   & .postInfo {
-    margin-bottom: 34px;
+    margin-bottom: 3.4rem;
+    @media(max-width: 1200px){
+      margin-bottom: 2.4rem;
+    }
+    @media(max-width: 768px){
+      margin-bottom: 2rem;
+    }
     & .postTitle {
       font-size: 4em;
       font-weight: 600;
+
+      @media(max-width: 1200px){
+        font-size: 3rem;
+      }
+      @media(max-width: 768px){
+        font-size: 2rem;
+      }
     }
     & .infoWrap {
       font-size: 1.4em;
       color: #aaa;
+      @media(max-width: 768px){
+        font-size: 1.2em;
+      }
       & span {
         margin-right: 15px;
+        &:last-child{margin-right: 0;}
       }
       & svg {
         display: inline-block;
@@ -82,6 +107,9 @@ const PostHead = styled.div`
       background: #ddd;
       color: #666;
       font-size: 1.1em;
+      @media(max-width: 768px){
+        margin-right: 7px;
+      }
     }
     &::before {
       content: "Tags";
@@ -98,6 +126,9 @@ const PostContent = styled.article`
   /* 토스트ui viewer */
   .toastui-editor-contents {
     font-size: 1.6em;
+    @media (max-width: 768px){
+      font-size: 1.4em;
+    }
   }
 `;
 
@@ -108,6 +139,9 @@ const UserInfo = styled.div`
     font-size: 1.6em;
     margin-right: 10px;
     font-weight: 500;
+    @media(max-width: 768px){
+      font-size: 1.4em;
+    }
   }
 `;
 
@@ -118,6 +152,10 @@ const AuthorImg = styled.div`
   border-radius: 100%;
   overflow: hidden;
   position: relative;
+  @media(max-width: 768px){
+    width: 40px;
+    height: 40px;
+  }
   & img {
     width: 100%;
     height: 100%;
@@ -130,6 +168,12 @@ const SideBar = styled.div`
   position: fixed;
   top: 40%;
   left: 50px;
+  @media(max-width: 768px){
+    top: unset;
+    bottom: 50px;
+    left: unset;
+    right: 20px;
+  }
 `;
 
 const LikeWrap = styled.div`

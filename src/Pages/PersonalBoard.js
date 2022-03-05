@@ -23,6 +23,9 @@ import { timeElapsed } from "../utils/tools.js";
 const BoardWrap = styled.div`
   width: 80%;
   margin: 0 auto;
+  @media(max-width: 768px){
+    width: 100%;
+  }
 `;
 
 const BoardList = styled.div`
@@ -59,6 +62,7 @@ const BoardList = styled.div`
     margin-top: 1px;
   }
   & .boardComment {
+    
   }
 `;
 const BoardTitle = styled.div`

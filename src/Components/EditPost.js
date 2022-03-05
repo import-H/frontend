@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 
 // styled-components
 import GlobalStyle from "../Styles/Globalstyle.js";
-import { WriteContainer, TagsInput, Input } from "../Styles/theme";
+import { WriteContainer, TagsInput, Input, StyledConEditor } from "../Styles/theme";
 
 // toast-ui editor
 import "@toast-ui/editor/dist/toastui-editor.css";
@@ -115,13 +115,7 @@ const EditPost = () => {
   return (
     <WriteContainer>
       <GlobalStyle />
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          width: "80%",
-          margin: "3rem",
-        }}
+      <StyledConEditor
       >
         {/* 글 제목 */}
         <Input
@@ -176,7 +170,7 @@ const EditPost = () => {
             작성 완료
           </button>
         </div>
-      </div>
+      </StyledConEditor>
     </WriteContainer>
   );
 };

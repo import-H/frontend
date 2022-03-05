@@ -37,6 +37,7 @@ function NavBar() {
           <Link to="/">
             <img src={logoImg} alt="import-H" />
           </Link>
+
         </div>
         <div id="navMenu">
           <Link to="/board/free">게시판</Link>

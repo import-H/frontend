@@ -169,6 +169,25 @@ const MyPageWrapper = styled(Container)`
       }
     }
   }
+ 
+`;
+
+const StyledModal = styled(Modal)`
+  & .btnArea{
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 3em;
+
+    & .linkBtn{
+      font-size: 1.4rem;
+      margin-right: 1.5rem;
+      width: 50%;
+      max-width: 120px;
+      &:last-child{margin-right: 0;}
+      &.cancel{background-color: #000}
+      &.cancel:hover{background-color: var(--point-color-orange); color: #fff;}
+      }
+    }
 `;
 
 const MyPage = () => {
@@ -319,7 +338,8 @@ const MyPage = () => {
                 <div className="profileImgArea">
                   {/* profile image */}
                   <div>
-                    <Modal
+                    <StyledModal
+                      className="profileModal"
                       visible={isProfileImgUpload}
                       title="프로필 사진 업로드"
                       width={600}
@@ -333,24 +353,24 @@ const MyPage = () => {
                         id="imgFileOpenInput"
                         accept="image/*"
                       ></input>
-                      <div style={{ marginTop: "3%" }}>
+                      <div className="btnArea">
+                      <div
+                          className="linkBtn cancel element"
+                          onClick={() => setIsProfileImgUpload(false)}
+                        >
+                          취소
+                        </div>
                         <div
-                          className="linkBtn element"
+                          className="linkBtn submit element"
                           onClick={() => {
                             alert("업로드가 완료되었습니다.");
                             setIsProfileImgUpload(false);
                           }}
                         >
                           확인
-                        </div>
-                        <div
-                          className="linkBtn element"
-                          onClick={() => setIsProfileImgUpload(false)}
-                        >
-                          취소
-                        </div>
+                        </div>                        
                       </div>
-                    </Modal>
+                    </StyledModal>
                     {profileImg ? (
                       <img src={profileImg} width="100" height="100" />
                     ) : (

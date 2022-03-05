@@ -117,6 +117,29 @@ const TagsInput = styled(Input)`
   flex-shrink: 0;
 `;
 
+// editor
+const StyledConEditor = styled.div`
+  display: flex;
+  flex-direction: column;
+  width:  80%;
+  margin: 3rem auto;
+
+  @media(max-width: 1200px){
+    width: 100%;
+  }
+`;
+
+const StyledFormEditor = styled.form`
+  display: flex;
+  flex-direction: column;
+  width:  80%;
+  margin: 3rem auto;
+
+  @media(max-width: 1200px){
+    width: 100%;
+  }
+`;
+
 export {
   Button,
   BigInput,
@@ -126,4 +149,6 @@ export {
   FlexContainer,
   WriteContainer,
   TagsInput,
+  StyledConEditor,
+  StyledFormEditor,
 };

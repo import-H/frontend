@@ -8,6 +8,13 @@ import { addPost, getPost, getPosts } from "../reducers/slices/postSlice";
 import { API_URL } from "../config";
 
 const WriteContainer = styled(Container)`
+  padding-top: 50px;
+
+  @media(max-width: 1200px){
+    width: 100%;
+    padding: 50px 0;
+  }
+
   & .tagCon {
     margin: 10px 0;
     margin-top: 25px;
@@ -35,6 +42,13 @@ const WriteContainer = styled(Container)`
   & .linkBtn {
     padding: 7px 30px;
     font-size: 1.2em;
+    margin-left: auto;
+    margin-right : 0;
+    margin-top: 30px;
+
+    @media(max-width: 768px){
+      margin-right: auto;
+    }
   }
 `;
 const TagsInput = styled(Input)`
