@@ -54,6 +54,7 @@ export const getUsers = createAsyncThunk("user/getUsers", async () => {
 // 알람 가져오기
 export const getMessages = createAsyncThunk("user/getMessages", async () => {
   const response = await axiosInstance.get(`${API_URL}/v1/messages`);
+  console.log(response.data);
   return response.data.list;
 });
 

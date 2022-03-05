@@ -11,7 +11,7 @@ const Messages = ({ messages }) => {
 
   const onMessageClick = async id => {
     try {
-      const res = dispatch(checkMessage(id)).unwrap();
+      const res = await dispatch(checkMessage(id)).unwrap();
       const [msgType, msgId] = res.split("/");
       switch (msgType) {
         // 자유, 질문, 공지 게시판

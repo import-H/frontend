@@ -232,7 +232,7 @@ const MyPage = () => {
         introduction: newIntroduceValue,
         personalUrl: user.personalUrl,
         infoByEmail: user.infoByEmail,
-        infoByWeb: user.infoByWeb,
+        infoByWeb: true,
         profileImage: profileImg,
       };
       dispatch(editProfile({ userId: userId, userData }));
