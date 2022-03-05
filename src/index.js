@@ -54,8 +54,8 @@ ReactDOM.render(
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/board/:id" element={<Board />} />
-          <Route path="/posts" element={<UserList />} />
-          <Route path="/posts/:personId" element={<PersonalBoard />} />
+          <Route path="/users" element={<UserList />} />
+          <Route path="/users/:personId" element={<PersonalBoard />} />
           <Route path="/board/:boardId/:postId" element={<Post />} />
           <Route path="/google" element={<GoogleLogin />} />
           <Route path="/oauth/:provider" element={<OAuth />} />
