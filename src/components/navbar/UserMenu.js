@@ -1,18 +1,19 @@
 // react
-import React, { useEffect } from "react";
+import React from "react";
 
 // react-router-dom
 import { Link } from "react-router-dom";
 
-// redux
-import { useDispatch, useSelector } from "react-redux";
-import { logout, reEmailAuth } from "../redux/slices/authSlice";
+// components
+import Messages from "./Messages";
+import UserMenuList from "./UserMenuList";
+
+// images
+import noneProfileImg from "../../images/none_profile_image.png";
+
 // style
 import styled from "styled-components";
-import { Menu, Dropdown } from "antd";
-import noneProfileImg from "../images/none_profile_image.png";
-import { getMessages, getProfile } from "../redux/slices/userSlice";
-import Messages from "./Messages";
+import { Dropdown } from "antd";
 
 const AuthorImg = styled.div`
   cursor: pointer;
@@ -47,63 +48,14 @@ const Caution = styled.div`
   }
 `;
 
-const menu = (pathId, roles) => (
-  <Menu className="myMenu">
-    <Menu.Item key="mypage">
-      <Link to="/mypage" data-testid="profileLink">
-        프로필
-      </Link>
-    </Menu.Item>
-
-    <Menu.Item key="myBoard">
-      <Link to={`/users/${pathId}`} data-testid="profileLink">
-        내 게시판
-      </Link>
-    </Menu.Item>
-
-    {roles === "ROLE_ADMIN" && (
-      <Menu.Item className="mb" key="admin">
-        <Link to="/admin" data-testid="profileLink">
-          관리자 페이지
-        </Link>
-      </Menu.Item>
-    )}
-    <Menu.Item className="mb" key="logout">
-      <Link to="" data-testid="profileLink">
-        로그아웃
-        {/* 로그아웃 아직 미구현 */}
-      </Link>
-    </Menu.Item>
-  </Menu>
-);
-
-function UserMenu() {
-  const dispatch = useDispatch();
-  const auth = useSelector(state => state.auth);
-  const profile = useSelector(state => state.user.profile);
-  const messages = useSelector(state => state.user.messages);
-
-  const logoutBtn = () => {
-    dispatch(logout());
-  };
-
-  const onEmailAuth = () => {
-    // 인증 이메일 확인했는지
-
-    alert(`${profile.email}로 인증 메일을 보냈습니다`);
-    try {
-      dispatch(reEmailAuth());
-    } catch (e) {
-      alert("error");
-    }
-  };
-
-  useEffect(() => {
-    if (auth.isAuth) {
-      dispatch(getProfile(auth.userId));
-      dispatch(getMessages());
-    }
-  }, []);
+function UserMenu({
+  auth,
+  profile,
+  messages,
+  onLogout,
+  onEmailAuth,
+  onClickMessage,
+}) {
   return (
     <>
       {auth && (
@@ -117,7 +69,12 @@ function UserMenu() {
               )}
               <div>
                 <Dropdown
-                  overlay={<Messages messages={messages} />}
+                  overlay={
+                    <Messages
+                      messages={messages}
+                      onClickMessage={onClickMessage}
+                    />
+                  }
                   placement="bottomCenter"
                 >
                   <div>🔔</div>
@@ -125,7 +82,13 @@ function UserMenu() {
               </div>
               <div className="element hdProfileIcon">
                 <Dropdown
-                  overlay={menu(profile?.pathId, auth?.roles)}
+                  overlay={
+                    <UserMenuList
+                      pathId={profile?.pathId}
+                      roles={profile?.roles}
+                      onLogout={onLogout}
+                    />
+                  }
                   placement="bottomCenter"
                 >
                   <AuthorImg>
@@ -139,8 +102,7 @@ function UserMenu() {
               </div>
 
               <div className="element">
-                {/* Link 태그를 사용해야 링크로 인식해서 마우스를 올리면 클릭 표시가 뜸 */}
-                <Link to="/" className="linkBtn" onClick={logoutBtn}>
+                <Link to="/" className="linkBtn" onClick={onLogout}>
                   로그아웃
                 </Link>
               </div>

@@ -20,10 +20,12 @@ import {
   UserList,
   ChangePassword,
 } from "./pages";
-import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 import WritePost from "./components/WritePost";
 import EditPost from "./components/EditPost";
+import GoogleLogin from "./components/GoogleLogin";
+import OAuth from "./pages/OAuth";
+import NavbarC from "./containters/navbar/NavbarC";
 
 // route
 import PrivateRoute from "./utils/PrivateRoute"; //로그인한 사용자만 접근 가능
@@ -36,8 +38,6 @@ import { store } from "./redux/store";
 
 // style
 import "./index.css";
-import GoogleLogin from "./components/GoogleLogin";
-import OAuth from "./pages/OAuth";
 
 let persistor = persistStore(store);
 
@@ -46,7 +46,7 @@ ReactDOM.render(
     <PersistGate loading={null} persistor={persistor}>
       <BrowserRouter>
         <header>
-          <NavBar />
+          <NavbarC />
         </header>
         <Routes>
           {/* all user access */}
