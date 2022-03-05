@@ -3,12 +3,12 @@ import React, { useEffect } from "react";
 
 // redux
 import { useDispatch, useSelector } from "react-redux";
-import { getUser } from "../reducers/slices/postSlice";
+import { getUser } from "../redux/slices/postSlice";
 
 import { Link } from "react-router-dom";
 
 import styled, { keyframes } from "styled-components";
-import { getMainPosts } from "../reducers/slices/mainSlice";
+import { getMainPosts } from "../redux/slices/mainSlice";
 
 const iconAni = keyframes`
   from{
@@ -31,7 +31,7 @@ const MainWrapper = styled.div`
     width: 100%;
     margin-bottom: 3rem;
     transition: all 0.3s;
-    @media(max-width: 768px){
+    @media (max-width: 768px) {
       font-size: 2rem;
     }
     & > div {
@@ -50,12 +50,12 @@ const MainWrapper = styled.div`
     flex-direction: row;
     flex-wrap: wrap;
 
-    & > div{
-      @media(max-width: 1200px){
+    & > div {
+      @media (max-width: 1200px) {
         flex-grow: 1;
         width: 50%;
       }
-      @media(max-width: 768px){
+      @media (max-width: 768px) {
         width: 100%;
       }
     }
@@ -70,13 +70,13 @@ const PostWrapper = styled.div`
   display: flex;
   flex-direction: row;
   padding: 1rem;
-  @media (max-width: 1200px){
+  @media (max-width: 1200px) {
     width: 100%;
   }
-  @media (max-width: 768px){
+  @media (max-width: 768px) {
     padding: 1rem 0;
     margin-bottom: 1rem;
-  } 
+  }
 `;
 
 const Post = styled.div`
@@ -89,7 +89,9 @@ const Post = styled.div`
   padding: 1rem;
   box-shadow: 0px 5px 7px rgba(0, 0, 0, 0.07);
 
-  & *{transition: all 0.3s;}
+  & * {
+    transition: all 0.3s;
+  }
 
   & .title {
     font-size: 2rem;
@@ -97,10 +99,10 @@ const Post = styled.div`
   }
   & .content {
     flex: 3;
-    @media(max-width: 1200px){
+    @media (max-width: 1200px) {
       font-size: 1.4em;
     }
-    @media(max-width: 500px){
+    @media (max-width: 500px) {
       font-size: 1.3em;
     }
   }
@@ -108,10 +110,10 @@ const Post = styled.div`
   & .author {
     flex: 1;
     text-align: right;
-    @media(max-width: 1200px){
+    @media (max-width: 1200px) {
       font-size: 1.2em;
     }
-    @media(max-width: 768px){
+    @media (max-width: 768px) {
       text-align: right;
     }
   }

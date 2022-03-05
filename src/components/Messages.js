@@ -2,7 +2,7 @@ import React from "react";
 import { Menu, Dropdown } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { checkMessage } from "../reducers/slices/userSlice";
+import { checkMessage } from "../redux/slices/userSlice";
 
 const Messages = ({ messages }) => {
   const dispatch = useDispatch();

@@ -2,13 +2,18 @@
 import React, { useState, useRef, useEffect } from "react";
 
 // redux
-import { editPost, getPost } from "../reducers/slices/postSlice";
+import { editPost, getPost } from "../redux/slices/postSlice";
 import axiosInstance from "../utils/axiosInstance";
 import { useDispatch } from "react-redux";
 
 // styled-components
 import GlobalStyle from "../Styles/Globalstyle.js";
-import { WriteContainer, TagsInput, Input, StyledConEditor } from "../Styles/theme";
+import {
+  WriteContainer,
+  TagsInput,
+  Input,
+  StyledConEditor,
+} from "../Styles/theme";
 
 // toast-ui editor
 import "@toast-ui/editor/dist/toastui-editor.css";
@@ -115,8 +120,7 @@ const EditPost = () => {
   return (
     <WriteContainer>
       <GlobalStyle />
-      <StyledConEditor
-      >
+      <StyledConEditor>
         {/* 글 제목 */}
         <Input
           type="text"

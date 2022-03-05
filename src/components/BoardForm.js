@@ -20,7 +20,7 @@ import styled from "styled-components";
 // icon
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faCommentAlt } from "@fortawesome/free-solid-svg-icons";
-import { getPosts } from "../reducers/slices/postSlice.js";
+import { getPosts } from "../redux/slices/postSlice.js";
 
 import { API_URL } from "../config.js";
 const BoardWrap = styled.div`

@@ -6,12 +6,12 @@ import { Link } from "react-router-dom";
 
 // redux
 import { useDispatch, useSelector } from "react-redux";
-import { logout, reEmailAuth } from "../reducers/slices/authSlice";
+import { logout, reEmailAuth } from "../redux/slices/authSlice";
 // style
 import styled from "styled-components";
 import { Menu, Dropdown } from "antd";
 import noneProfileImg from "../images/none_profile_image.png";
-import { getMessages, getProfile } from "../reducers/slices/userSlice";
+import { getMessages, getProfile } from "../redux/slices/userSlice";
 import Messages from "./Messages";
 
 const AuthorImg = styled.div`

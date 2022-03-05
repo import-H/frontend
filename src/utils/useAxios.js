@@ -1,7 +1,7 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import dayjs from "dayjs";
-import { refresh } from "../reducers/slices/authSlice";
+import { refresh } from "../redux/slices/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { API_URL } from "../config";
 

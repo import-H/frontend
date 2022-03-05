@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 
 // redux
 import { useDispatch, useSelector } from "react-redux";
-import { getPost, deletePost, editLike } from "../reducers/slices/postSlice.js";
+import { getPost, deletePost, editLike } from "../redux/slices/postSlice.js";
 
 // react-router-dom
 import { Link, useParams, useNavigate } from "react-router-dom";
@@ -24,7 +24,7 @@ import {
 
 // toast-ui editor
 import { Viewer } from "@toast-ui/react-editor";
-import Comment from "../Components/Comment.js";
+import Comment from "../components/Comment.js";
 
 // tools
 import { timeElapsed } from "../utils/tools.js";
@@ -37,10 +37,10 @@ const PostView = styled.div`
   margin: 0 auto;
   position: relative;
 
-  @media(max-width: 1200px){
+  @media (max-width: 1200px) {
     width: 90%;
   }
-  @media(max-width: 768px){
+  @media (max-width: 768px) {
     width: 100%;
   }
 
@@ -65,32 +65,34 @@ const PostHead = styled.div`
   border-bottom: 1px solid #ddd;
   & .postInfo {
     margin-bottom: 3.4rem;
-    @media(max-width: 1200px){
+    @media (max-width: 1200px) {
       margin-bottom: 2.4rem;
     }
-    @media(max-width: 768px){
+    @media (max-width: 768px) {
       margin-bottom: 2rem;
     }
     & .postTitle {
       font-size: 4em;
       font-weight: 600;
 
-      @media(max-width: 1200px){
+      @media (max-width: 1200px) {
         font-size: 3rem;
       }
-      @media(max-width: 768px){
+      @media (max-width: 768px) {
         font-size: 2rem;
       }
     }
     & .infoWrap {
       font-size: 1.4em;
       color: #aaa;
-      @media(max-width: 768px){
+      @media (max-width: 768px) {
         font-size: 1.2em;
       }
       & span {
         margin-right: 15px;
-        &:last-child{margin-right: 0;}
+        &:last-child {
+          margin-right: 0;
+        }
       }
       & svg {
         display: inline-block;
@@ -107,7 +109,7 @@ const PostHead = styled.div`
       background: #ddd;
       color: #666;
       font-size: 1.1em;
-      @media(max-width: 768px){
+      @media (max-width: 768px) {
         margin-right: 7px;
       }
     }
@@ -126,7 +128,7 @@ const PostContent = styled.article`
   /* 토스트ui viewer */
   .toastui-editor-contents {
     font-size: 1.6em;
-    @media (max-width: 768px){
+    @media (max-width: 768px) {
       font-size: 1.4em;
     }
   }
@@ -139,7 +141,7 @@ const UserInfo = styled.div`
     font-size: 1.6em;
     margin-right: 10px;
     font-weight: 500;
-    @media(max-width: 768px){
+    @media (max-width: 768px) {
       font-size: 1.4em;
     }
   }
@@ -152,7 +154,7 @@ const AuthorImg = styled.div`
   border-radius: 100%;
   overflow: hidden;
   position: relative;
-  @media(max-width: 768px){
+  @media (max-width: 768px) {
     width: 40px;
     height: 40px;
   }
@@ -168,7 +170,7 @@ const SideBar = styled.div`
   position: fixed;
   top: 40%;
   left: 50px;
-  @media(max-width: 768px){
+  @media (max-width: 768px) {
     top: unset;
     bottom: 50px;
     left: unset;

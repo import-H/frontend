@@ -5,8 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 
 // redux
 import { useDispatch, useSelector } from "react-redux";
-import { getProfile, editProfile } from "../reducers/slices/userSlice";
-import { updateUser } from "../reducers/slices/authSlice";
+import { getProfile, editProfile } from "../redux/slices/userSlice";
+import { updateUser } from "../redux/slices/authSlice";
 
 // styled-components
 import styled from "styled-components";
@@ -169,25 +169,31 @@ const MyPageWrapper = styled(Container)`
       }
     }
   }
- 
 `;
 
 const StyledModal = styled(Modal)`
-  & .btnArea{
+  & .btnArea {
     display: flex;
     justify-content: flex-end;
     margin-top: 3em;
 
-    & .linkBtn{
+    & .linkBtn {
       font-size: 1.4rem;
       margin-right: 1.5rem;
       width: 50%;
       max-width: 120px;
-      &:last-child{margin-right: 0;}
-      &.cancel{background-color: #000}
-      &.cancel:hover{background-color: var(--point-color-orange); color: #fff;}
+      &:last-child {
+        margin-right: 0;
+      }
+      &.cancel {
+        background-color: #000;
+      }
+      &.cancel:hover {
+        background-color: var(--point-color-orange);
+        color: #fff;
       }
     }
+  }
 `;
 
 const MyPage = () => {
@@ -354,7 +360,7 @@ const MyPage = () => {
                         accept="image/*"
                       ></input>
                       <div className="btnArea">
-                      <div
+                        <div
                           className="linkBtn cancel element"
                           onClick={() => setIsProfileImgUpload(false)}
                         >
@@ -368,7 +374,7 @@ const MyPage = () => {
                           }}
                         >
                           확인
-                        </div>                        
+                        </div>
                       </div>
                     </StyledModal>
                     {profileImg ? (

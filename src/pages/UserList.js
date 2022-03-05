@@ -5,20 +5,20 @@ import styled from "styled-components";
 import noneProfileImg from "../images/none_profile_image.png";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getUsers } from "../reducers/slices/userSlice";
+import { getUsers } from "../redux/slices/userSlice";
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: left;
 
-  & .userBox{
+  & .userBox {
     width: 20%;
-    @media(max-width: 1200px){
+    @media (max-width: 1200px) {
       width: 33%;
     }
 
-    @media(max-width: 768px){
+    @media (max-width: 768px) {
       width: 50%;
     }
   }
@@ -37,10 +37,10 @@ const User = styled.div`
   padding: 1rem;
   box-shadow: 0px 5px 7px rgba(0, 0, 0, 0.07);
 
-  @media(max-width: 768px){
-      margin: 0 1rem;
-      margin-bottom: 2rem;
-    }
+  @media (max-width: 768px) {
+    margin: 0 1rem;
+    margin-bottom: 2rem;
+  }
 
   & img {
     width: 4rem;

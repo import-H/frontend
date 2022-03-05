@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Container } from "../Styles/theme";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { getBanner } from "../reducers/slices/mainSlice";
+import { getBanner } from "../redux/slices/mainSlice";
 
 const BannerWrapper = styled.div`
   width: 100%;
@@ -19,7 +19,7 @@ const BannerWrapper = styled.div`
   align-items: center;
   flex-direction: column;
 
-  @media (max-width: 1200px){
+  @media (max-width: 1200px) {
     height: 550px;
   }
 `;
@@ -34,14 +34,14 @@ const BannerInner = styled.div`
   overflow: hidden;
   white-space: nowrap;
   box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.07);
-  @media (max-width: 1200px){
-   width: 90%; 
+  @media (max-width: 1200px) {
+    width: 90%;
   }
 
-  @media (max-width: 980px){
+  @media (max-width: 980px) {
     width: 400px;
   }
-  @media (max-width: 500px){
+  @media (max-width: 500px) {
     width: 90%;
   }
 
@@ -51,7 +51,6 @@ const BannerInner = styled.div`
   img {
     border-radius: 7px;
   }
-
 `;
 
 const Content = styled.div`
@@ -61,10 +60,10 @@ const Content = styled.div`
   justify-content: center;
   margin-left: 1.5rem;
   height: 200px;
-  @media(max-width: 1200px){
+  @media (max-width: 1200px) {
     width: calc(100% - 390px);
   }
-  @media(max-width: 980px){
+  @media (max-width: 980px) {
     width: 100%;
     height: auto;
     margin-left: 0;
@@ -75,7 +74,7 @@ const Content = styled.div`
     //color: #ffc90a;
     font-size: 2rem;
     font-weight: 500;
-    @media(max-width: 980px){
+    @media (max-width: 980px) {
       font-size: 1.6rem;
     }
   }
@@ -85,7 +84,7 @@ const Content = styled.div`
     font-size: 1.4rem;
     margin: 1.6rem 0;
     margin-bottom: 3rem;
-    @media(max-width: 980px){
+    @media (max-width: 980px) {
       font-size: 1.2rem;
     }
   }
@@ -107,7 +106,7 @@ const Content = styled.div`
       padding: 0.3rem 1rem;
       margin-left: 1rem;
       border-radius: 7px;
-      @media(max-width: 980px){
+      @media (max-width: 980px) {
         font-size: 1.1em;
         padding: 0.3rem 0.7rem;
         border-radius: 4px;
@@ -124,14 +123,14 @@ const BannerArea = styled.a`
   padding: 1.5rem;
   display: block;
   height: 100%;
-  flex-shrink: 0; 
-  @media (max-width: 1200px){
-   height: 300px;
-  }  
-  @media (max-width: 980px){
+  flex-shrink: 0;
+  @media (max-width: 1200px) {
+    height: 300px;
+  }
+  @media (max-width: 980px) {
     height: auto;
   }
-  @media (max-width: 500px){
+  @media (max-width: 500px) {
     padding: 1rem;
   }
   & .BannerSetting {
@@ -140,7 +139,7 @@ const BannerArea = styled.a`
     flex-direction: row;
     white-space: normal;
     height: 100%;
-    @media (max-width: 980px){
+    @media (max-width: 980px) {
       flex-direction: column;
     }
     & .img-box {
@@ -151,7 +150,7 @@ const BannerArea = styled.a`
       display: flex;
       align-items: center;
       flex-shrink: 0;
-      @media (max-width: 500px){
+      @media (max-width: 500px) {
         width: 100%;
         height: auto;
       }
@@ -176,7 +175,7 @@ const SliderDot = styled.div`
     opacity: 0.5;
     transition: all 0.3s;
     cursor: pointer;
-    @media (max-width: 500px){
+    @media (max-width: 500px) {
       width: 0.7rem;
       height: 0.7rem;
     }

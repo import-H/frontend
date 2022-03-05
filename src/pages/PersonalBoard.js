@@ -13,17 +13,17 @@ import { Link, useParams } from "react-router-dom";
 // icon
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faCommentAlt } from "@fortawesome/free-solid-svg-icons";
-import Comment from "../Components/Comment.js";
-import WritePersonalPost from "../Components/WritePersonalPost.js";
+import Comment from "../components/Comment.js";
+import WritePersonalPost from "../components/WritePersonalPost.js";
 import { useDispatch, useSelector } from "react-redux";
-import { getPost, getPosts } from "../reducers/slices/postSlice.js";
+import { getPost, getPosts } from "../redux/slices/postSlice.js";
 import { timeElapsed } from "../utils/tools.js";
 
 // style
 const BoardWrap = styled.div`
   width: 80%;
   margin: 0 auto;
-  @media(max-width: 768px){
+  @media (max-width: 768px) {
     width: 100%;
   }
 `;
@@ -62,7 +62,6 @@ const BoardList = styled.div`
     margin-top: 1px;
   }
   & .boardComment {
-    
   }
 `;
 const BoardTitle = styled.div`

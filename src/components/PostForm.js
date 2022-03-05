@@ -3,7 +3,7 @@ import React, { useEffect, useState, useRef } from "react";
 
 // redux
 import { useSelector, useDispatch } from "react-redux";
-import { addPost } from "../reducers/slices/postSlice";
+import { addPost } from "../redux/slices/postSlice";
 
 // styled-components
 import styled from "styled-components";
@@ -33,9 +33,7 @@ const PostForm = () => {
 
   return (
     <div>
-      <StyledFormEditor
-        onSubmit={postSubmit}        
-      >
+      <StyledFormEditor onSubmit={postSubmit}>
         <label>title</label>
         <input
           type="text"

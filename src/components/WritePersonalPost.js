@@ -4,13 +4,13 @@ import axiosInstance from "../utils/axiosInstance";
 import styled from "styled-components";
 import { Container, Input } from "../Styles/theme";
 import { useDispatch, useSelector } from "react-redux";
-import { addPost, getPost, getPosts } from "../reducers/slices/postSlice";
+import { addPost, getPost, getPosts } from "../redux/slices/postSlice";
 import { API_URL } from "../config";
 
 const WriteContainer = styled(Container)`
   padding-top: 50px;
 
-  @media(max-width: 1200px){
+  @media (max-width: 1200px) {
     width: 100%;
     padding: 50px 0;
   }
@@ -43,10 +43,10 @@ const WriteContainer = styled(Container)`
     padding: 7px 30px;
     font-size: 1.2em;
     margin-left: auto;
-    margin-right : 0;
+    margin-right: 0;
     margin-top: 30px;
 
-    @media(max-width: 768px){
+    @media (max-width: 768px) {
       margin-right: auto;
     }
   }

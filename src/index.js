@@ -19,11 +19,11 @@ import {
   Leave,
   UserList,
   ChangePassword,
-} from "./Pages";
-import NavBar from "./Components/NavBar";
-import Footer from "./Components/Footer";
-import WritePost from "./Components/WritePost";
-import EditPost from "./Components/EditPost";
+} from "./pages";
+import NavBar from "./components/NavBar";
+import Footer from "./components/Footer";
+import WritePost from "./components/WritePost";
+import EditPost from "./components/EditPost";
 
 // route
 import PrivateRoute from "./utils/PrivateRoute"; //로그인한 사용자만 접근 가능
@@ -32,12 +32,12 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 // redux
 import { Provider } from "react-redux";
-import { store } from "./reducers/store";
+import { store } from "./redux/store";
 
 // style
 import "./index.css";
-import GoogleLogin from "./Components/GoogleLogin";
-import OAuth from "./Pages/OAuth";
+import GoogleLogin from "./components/GoogleLogin";
+import OAuth from "./pages/OAuth";
 
 let persistor = persistStore(store);
 

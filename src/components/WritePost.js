@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect } from "react";
 
 // redux
-import { addPost } from "../reducers/slices/postSlice";
+import { addPost } from "../redux/slices/postSlice";
 import axiosInstance from "../utils/axiosInstance";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -46,8 +46,8 @@ const WriteContainer = styled(Container)`
     margin: 12px 0;
   }
 
-  & .submitArea{
-    @media(max-width: 768px){
+  & .submitArea {
+    @media (max-width: 768px) {
       justify-content: center;
     }
   }
@@ -141,8 +141,7 @@ const WritePost = () => {
   return (
     <WriteContainer>
       <GlobalStyle />
-      <StyledConEditor
-      >
+      <StyledConEditor>
         {/* 글 제목 */}
         <Input
           type="text"

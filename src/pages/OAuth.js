@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 // redux
 import { useDispatch, useSelector } from "react-redux";
-import { oauth, oauthAddInfo } from "../reducers/slices/authSlice";
+import { oauth, oauthAddInfo } from "../redux/slices/authSlice";
 
 // react-router-dom
 import { useParams, useNavigate } from "react-router-dom";
@@ -11,7 +11,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import GlobalStyle from "../Styles/Globalstyle";
 import { Button, Input, Container } from "../Styles/theme";
-import { getProfile } from "../reducers/slices/userSlice";
+import { getProfile } from "../redux/slices/userSlice";
 import axios from "axios";
 import axiosInstance from "../utils/axiosInstance";
 

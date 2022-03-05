@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 // redux
 import { useSelector, useDispatch } from "react-redux";
-import { login } from "../reducers/slices/authSlice";
+import { login } from "../redux/slices/authSlice";
 
 // styled-components
 import styled from "styled-components";
@@ -11,9 +11,9 @@ import { Button, Input, FlexContainer } from "../Styles/theme.js";
 
 // react-router-dom
 import { useNavigate } from "react-router-dom";
-import { getProfile } from "../reducers/slices/userSlice";
+import { getProfile } from "../redux/slices/userSlice";
 
-import SocialAuth from "../Components/SocialAuth";
+import SocialAuth from "../components/SocialAuth";
 
 // style
 const Label = styled.div`
@@ -26,14 +26,14 @@ const SubmitButton = styled(Button)`
   width: 100%;
   margin-top: 25px;
   font-size: 1.4em;
-  @media(max-width: 768px){
-      font-size: 1.3em;
-    }
+  @media (max-width: 768px) {
+    font-size: 1.3em;
+  }
 `;
 
 const LoginForm = styled.div`
   min-width: 300px;
-  @media(max-width: 500px){
+  @media (max-width: 500px) {
     min-width: unset;
     max-width: 300px;
     width: 90%;

@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from "react";
 // redux
 import { useSelector, useDispatch } from "react-redux";
-import { login } from "../reducers/slices/authSlice";
-import { logout } from "../reducers/slices/authSlice";
+import { login } from "../redux/slices/authSlice";
+import { logout } from "../redux/slices/authSlice";
 // styled-components
 import styled from "styled-components";
 import GlobalStyle from "../Styles/Globalstyle.js";
@@ -16,7 +16,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "../utils/axiosInstance";
 
 import { API_URL } from "../config";
-import SocialAuth from "../Components/SocialAuth";
+import SocialAuth from "../components/SocialAuth";
 
 // style
 const Label = styled.div`

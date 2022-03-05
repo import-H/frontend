@@ -3,11 +3,11 @@ import GlobalStyle from "../Styles/Globalstyle";
 import { Container } from "../Styles/theme";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { addBanner } from "../reducers/slices/adminSlice";
+import { addBanner } from "../redux/slices/adminSlice";
 import axios from "axios";
 import axiosInstance from "../utils/axiosInstance";
-import { sampleBanner } from "../Components/Banner";
-import { getBanner } from "../reducers/slices/mainSlice";
+import { sampleBanner } from "../components/Banner";
+import { getBanner } from "../redux/slices/mainSlice";
 
 const AdminContainer = styled(Container)`
   & .sec-tit {

@@ -10,7 +10,7 @@ import { Container } from "../Styles/theme";
 import styled from "styled-components";
 
 // component
-import BoardForm from "../Components/BoardForm.js";
+import BoardForm from "../components/BoardForm.js";
 
 // style-compoents
 const MenuBar = styled.div`
@@ -22,23 +22,25 @@ const MenuBar = styled.div`
   justify-content: left;
   align-items: center;
 
-  @media(max-width: 768px){
+  @media (max-width: 768px) {
     width: 100%;
     justify-content: center;
     transform: unset;
-  } 
+  }
 
-  & *{transition: all 0.3s}
+  & * {
+    transition: all 0.3s;
+  }
 
   & a {
     font-size: 1.5em;
     padding: 0 20px;
     transition: all 0.3s;
     position: relative;
-    @media(max-width: 768px){
+    @media (max-width: 768px) {
       font-size: 1.3em;
     }
-    @media(max-width: 500px){
+    @media (max-width: 500px) {
       font-size: 1.2em;
     }
     &::after {

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 
 // redux
 import { useSelector, useDispatch } from "react-redux";
-import { signup } from "../reducers/slices/authSlice";
+import { signup } from "../redux/slices/authSlice";
 
 // styled-components
 import styled from "styled-components";
@@ -13,14 +13,14 @@ import { Button, Input, FlexContainer } from "../Styles/theme";
 // react-router-dom
 import { useNavigate } from "react-router-dom";
 import { useCounter } from "../utils/Timer";
-import GoogleLogin from "../Components/GoogleLogin";
-import GithubLogin from "../Components/GithubLogin";
-import SocialAuth from "../Components/SocialAuth";
+import GoogleLogin from "../components/GoogleLogin";
+import GithubLogin from "../components/GithubLogin";
+import SocialAuth from "../components/SocialAuth";
 
 const AuthForm = styled.div`
   min-width: 300px;
   max-width: 1200px;
-  @media(max-width: 500px){
+  @media (max-width: 500px) {
     min-width: unset;
     max-width: 300px;
   }
@@ -47,9 +47,9 @@ const Label = styled.div`
   font-size: 1.4em;
   margin: 5px 0 5px 0;
   color: #666;
-  &.checkLabel{
+  &.checkLabel {
     font-size: 1.3em;
-    @media(max-width: 500px){
+    @media (max-width: 500px) {
       font-size: 1.2rem;
     }
   }
@@ -61,9 +61,9 @@ const SubmitButton = styled(Button)`
   font-size: 1.4em;
   pointer-events: ${props => (props.submitState ? "auto" : "none")};
   background-color: ${props => (props.submitState ? "black" : "#ddd")};
-  @media(max-width: 768px){
-      font-size: 1.3em;
-    }
+  @media (max-width: 768px) {
+    font-size: 1.3em;
+  }
 `;
 
 const AuthInput = styled(Input)`
@@ -104,7 +104,7 @@ const EmailConfirm = styled.div`
 
 const RegisterForm = styled.div`
   min-width: 300px;
-  @media(max-width: 500px){
+  @media (max-width: 500px) {
     min-width: unset;
     max-width: 300px;
     width: 90%;

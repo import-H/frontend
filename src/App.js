@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import { Helmet } from "react-helmet";
 import GlobalStyle from "./Styles/Globalstyle";
 import { MainContainer, Container } from "./Styles/theme";
-import Banner from "./Components/Banner";
-import Main from "./Pages/Main";
+import Banner from "./components/Banner";
+import Main from "./pages/Main";
 
 const App = () => {
   return (
