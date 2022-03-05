@@ -33,8 +33,6 @@ import { API_URL } from "../config";
 
 import noneProfileImg from "../images/none_profile_image.png";
 
-import "./css/MyPage.css";
-
 // style
 const MyPageWrapper = styled(Container)`
   & .cardWrap {

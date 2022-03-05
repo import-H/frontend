@@ -11,7 +11,8 @@ import { logout, reEmailAuth } from "../reducers/slices/authSlice";
 import styled from "styled-components";
 import { Menu, Dropdown } from "antd";
 import noneProfileImg from "../images/none_profile_image.png";
-import { getProfile } from "../reducers/slices/userSlice";
+import { getMessages, getProfile } from "../reducers/slices/userSlice";
+import Messages from "./Messages";
 
 const AuthorImg = styled.div`
   cursor: pointer;
@@ -80,6 +81,7 @@ function UserMenu() {
   const dispatch = useDispatch();
   const auth = useSelector(state => state.auth);
   const profile = useSelector(state => state.user.profile);
+  const messages = useSelector(state => state.user.messages);
 
   const logoutBtn = () => {
     dispatch(logout());
@@ -99,6 +101,7 @@ function UserMenu() {
   useEffect(() => {
     if (auth.isAuth) {
       dispatch(getProfile(auth.userId));
+      dispatch(getMessages());
     }
   }, []);
   return (
@@ -106,12 +109,20 @@ function UserMenu() {
       {auth && (
         <span>
           {auth.isAuth ? (
-            <span role="afterLogin">
+            <span role="afterLogin" className="flex">
               {!(profile?.emailVerified || profile?.oauthId) && (
                 <Caution className="element" onClick={onEmailAuth}>
                   ⚠ 이메일 인증을 진행해주세요
                 </Caution>
               )}
+              <div>
+                <Dropdown
+                  overlay={<Messages messages={messages} />}
+                  placement="bottomCenter"
+                >
+                  <div>🔔</div>
+                </Dropdown>
+              </div>
               <div className="element hdProfileIcon">
                 <Dropdown
                   overlay={menu(profile?.pathId, auth?.roles)}
@@ -121,7 +132,7 @@ function UserMenu() {
                     {profile?.profileImage ? (
                       <img src={profile?.profileImage} alt="profileImg" />
                     ) : (
-                      <img src={noneProfileImg} />
+                      <img src={noneProfileImg} alt="profileImg" />
                     )}
                   </AuthorImg>
                 </Dropdown>
