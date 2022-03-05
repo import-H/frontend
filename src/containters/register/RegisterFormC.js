@@ -3,11 +3,11 @@ import React, { useEffect, useState } from "react";
 
 // redux
 import { useSelector, useDispatch } from "react-redux";
-import { signup } from "../redux/slices/authSlice";
+import { signup } from "../../redux/slices/authSlice";
 
 // react-router-dom
 import { useNavigate } from "react-router-dom";
-import RegisterForm from "../components/register/RegisterForm";
+import RegisterForm from "../../components/register/RegisterForm";
 
 // 회원가입 input rule
 const inputRule = {
