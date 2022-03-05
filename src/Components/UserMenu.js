@@ -56,7 +56,7 @@ const menu = (pathId, roles) => (
     </Menu.Item>
 
     <Menu.Item key="myBoard">
-      <Link to={`/posts/${pathId}`} data-testid="profileLink">
+      <Link to={`/users/${pathId}`} data-testid="profileLink">
         내 게시판
       </Link>
     </Menu.Item>
