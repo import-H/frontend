@@ -7,14 +7,14 @@ import GlobalStyle from "../Styles/Globalstyle";
 import { FlexContainer } from "../Styles/theme";
 
 import SocialAuth from "../components/SocialAuth";
-import RegisterFormContainter from "../containters/RegisterFormContainter";
+import RegisterFormC from "../containters/RegisterFormC";
 
 // auth form으로 변경해도 좋을듯(공통 기능 많아서)
 const Register = () => {
   return (
     <FlexContainer>
       <GlobalStyle />
-      <RegisterFormContainter />
+      <RegisterFormC />
     </FlexContainer>
   );
 };

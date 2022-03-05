@@ -163,7 +163,7 @@ const RegisterForm = props => {
           </SubmitButton>
         </AuthForm>
       </div>
-      // <EmailConfirm>가입하신 이메일에서 인증 진행바랍니다.</EmailConfirm>
+      {/* <EmailConfirm>가입하신 이메일에서 인증 진행바랍니다.</EmailConfirm> */}
     </Wrapper>
   );
 };
