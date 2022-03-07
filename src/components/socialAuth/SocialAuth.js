@@ -1,10 +1,11 @@
 import React from "react";
-import GithubLogin from "./GithubLogin";
-import GoogleLogin from "./GoogleLogin";
+
 import styled from "styled-components";
+import { OAuth } from "../../config";
+import SocialAuthBtnC from "../../containters/socialAuth/SocialAuthBtnC";
 
 const SocialAuthWrap = styled.div`
-  & > div{
+  & > div {
     margin-bottom: 1.5rem;
   }
 `;
@@ -12,8 +13,9 @@ const SocialAuthWrap = styled.div`
 const SocialAuth = () => {
   return (
     <SocialAuthWrap>
-      <GoogleLogin />
-      <GithubLogin />
+      {Object.keys(OAuth).map(socialType => (
+        <SocialAuthBtnC key={socialType} socialType={socialType} />
+      ))}
     </SocialAuthWrap>
   );
 };

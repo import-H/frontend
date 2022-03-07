@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Button, Input } from "../../Styles/theme";
-import SocialAuth from "../SocialAuth";
+import SocialAuth from "../socialAuth/SocialAuth";
 
 const AuthForm = styled.div`
   min-width: 300px;

@@ -4,7 +4,7 @@ import React from "react";
 // styled-components
 import styled from "styled-components";
 import { Button, Input } from "../../Styles/theme.js";
-import SocialAuth from "../SocialAuth.js";
+import SocialAuth from "../socialAuth/SocialAuth.js";
 
 // style
 const Label = styled.div`

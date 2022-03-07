@@ -23,7 +23,6 @@ import {
 import Footer from "./components/Footer";
 import WritePost from "./components/WritePost";
 import EditPost from "./components/EditPost";
-import GoogleLogin from "./components/GoogleLogin";
 import OAuth from "./pages/OAuth";
 import NavbarC from "./containters/navbar/NavbarC";
 
@@ -57,7 +56,6 @@ ReactDOM.render(
           <Route path="/users" element={<UserList />} />
           <Route path="/users/:personId" element={<PersonalBoard />} />
           <Route path="/board/:boardId/:postId" element={<Post />} />
-          <Route path="/google" element={<GoogleLogin />} />
           <Route path="/oauth/:provider" element={<OAuth />} />
 
           {/* only login user access */}

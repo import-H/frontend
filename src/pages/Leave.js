@@ -16,7 +16,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "../utils/axiosInstance";
 
 import { API_URL } from "../config";
-import SocialAuth from "../components/SocialAuth";
+import SocialAuth from "../components/socialAuth/SocialAuth";
 
 // style
 const Label = styled.div`
