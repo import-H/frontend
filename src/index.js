@@ -9,8 +9,6 @@ import { persistStore } from "redux-persist";
 // component
 import App from "./App";
 import {
-  Login,
-  Register,
   Board,
   Post,
   PersonalBoard,
@@ -19,11 +17,13 @@ import {
   Leave,
   UserList,
   ChangePassword,
+  Login,
+  Register,
+  OAuth,
 } from "./pages";
 import Footer from "./components/Footer";
 import WritePost from "./components/WritePost";
 import EditPost from "./components/EditPost";
-import OAuth from "./pages/OAuth";
 import NavbarC from "./containters/navbar/NavbarC";
 
 // route

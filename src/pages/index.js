@@ -1,6 +1,7 @@
 export { default as Main } from "./Main";
-export { default as Login } from "./Login";
-export { default as Register } from "./Register";
+export { default as Login } from "./auth/Login";
+export { default as Register } from "./auth/Register";
+export { default as OAuth } from "./auth/OAuth";
 export { default as Board } from "./Board";
 export { default as Post } from "./Post";
 export { default as PersonalBoard } from "./PersonalBoard";
