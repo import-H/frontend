@@ -1,5 +1,6 @@
 // 전역 스타일 설정
 import { createGlobalStyle } from "styled-components";
+import { faChalkboardUser } from "@fortawesome/free-regular-svg-icons";
 
 const GlobalStyle = createGlobalStyle`    
    
@@ -174,7 +175,7 @@ header {
       &.hdProfileIcon{
         margin-right: 0;
       }
-      &:not(:first-of-type){
+      &:not(.hdProfileIcon){
         display: none;
       }
     }
@@ -268,9 +269,32 @@ header {
 
  .myMenu{
   text-align: center;
-   & a{
+  /* border-top: 2px solid var(--secondary-color); */
+  border-radius: 0.4rem;
+  position: relative;
+  margin-top: 2rem;
+
+  &::after{
+    /* 말풍선 모양 장식 */
+    content: "";
+    position: absolute;
+    display: block;
+    bottom: 100%;    
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-bottom: 1.5rem solid #fff;
+    border-top: 1rem solid transparent;
+    border-left: 1rem solid transparent;
+    border-right: 1rem solid transparent;
+  }
+   
+  & a{
      padding: 5px 10px;
      font-size: 1.3rem;
+     min-width: 200px;
+     display: block;
    }
     & .mb{
       display:none;

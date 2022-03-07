@@ -13,6 +13,9 @@ import { Menu, Dropdown } from "antd";
 import noneProfileImg from "../images/none_profile_image.png";
 import { getMessages, getProfile } from "../reducers/slices/userSlice";
 import Messages from "./Messages";
+// icon
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBell } from "@fortawesome/free-regular-svg-icons";
 
 const AuthorImg = styled.div`
   cursor: pointer;
@@ -44,6 +47,21 @@ const Caution = styled.div`
   }
   @media (max-width: 768px) {
     display: none;
+  }
+`;
+
+const Alarm = styled(Dropdown)`
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+  cursor: pointer;
+  color: #aaa;
+  font-size: 2.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  & svg{
+    transform: translateX(-0.5px);
   }
 `;
 
@@ -115,13 +133,13 @@ function UserMenu() {
                   ⚠ 이메일 인증을 진행해주세요
                 </Caution>
               )}
-              <div>
-                <Dropdown
+              <div className="element">
+                <Alarm
                   overlay={<Messages messages={messages} />}
                   placement="bottomCenter"
                 >
-                  <div>🔔</div>
-                </Dropdown>
+                  <div><FontAwesomeIcon icon={faBell}/></div>
+                </Alarm>
               </div>
               <div className="element hdProfileIcon">
                 <Dropdown
