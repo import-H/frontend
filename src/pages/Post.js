@@ -9,8 +9,8 @@ import { getPost, deletePost, editLike } from "../redux/slices/postSlice.js";
 import { Link, useParams, useNavigate } from "react-router-dom";
 
 // style
-import GlobalStyle from "../Styles/Globalstyle.js";
-import { Container } from "../Styles/theme";
+import GlobalStyle from "../styles/Globalstyle.js";
+import { Container } from "../styles/theme";
 import styled from "styled-components";
 
 // icon

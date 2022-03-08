@@ -5,8 +5,8 @@ import React from "react";
 import { Link, useParams } from "react-router-dom";
 
 // style
-import GlobalStyle from "../Styles/Globalstyle.js";
-import { Container } from "../Styles/theme";
+import GlobalStyle from "../styles/Globalstyle.js";
+import { Container } from "../styles/theme";
 import styled from "styled-components";
 
 // component

@@ -10,8 +10,8 @@ import { updateUser } from "../redux/slices/authSlice";
 
 // styled-components
 import styled from "styled-components";
-import GlobalStyle from "../Styles/Globalstyle.js";
-import { BigInput, Input, Container } from "../Styles/theme.js";
+import GlobalStyle from "../styles/Globalstyle.js";
+import { BigInput, Input, Container } from "../styles/theme.js";
 
 // antd
 import "antd/dist/antd.min.css";

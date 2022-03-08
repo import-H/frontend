@@ -5,8 +5,8 @@ import React, { useEffect, useState } from "react";
 import { Viewer } from "@toast-ui/react-editor";
 
 // style
-import GlobalStyle from "../Styles/Globalstyle.js";
-import { Container } from "../Styles/theme";
+import GlobalStyle from "../styles/Globalstyle.js";
+import { Container } from "../styles/theme";
 import styled from "styled-components";
 import { Link, useParams } from "react-router-dom";
 

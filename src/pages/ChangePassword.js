@@ -7,8 +7,8 @@ import { logout } from "../redux/slices/authSlice";
 
 // styled-components
 import styled from "styled-components";
-import GlobalStyle from "../Styles/Globalstyle.js";
-import { Button, Input, FlexContainer } from "../Styles/theme.js";
+import GlobalStyle from "../styles/Globalstyle.js";
+import { Button, Input, FlexContainer } from "../styles/theme.js";
 
 // react-router-dom
 import { useNavigate } from "react-router-dom";

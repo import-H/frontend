@@ -1,8 +1,8 @@
 import React from "react";
 
 // style
-import GlobalStyle from "../../Styles/Globalstyle";
-import { Container } from "../../Styles/theme";
+import GlobalStyle from "../../styles/Globalstyle";
+import { Container } from "../../styles/theme";
 import OAuthC from "../../containters/socialAuth/OAuthC";
 
 const OAuth = () => {

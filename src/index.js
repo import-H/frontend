@@ -20,6 +20,7 @@ import {
   Login,
   Register,
   OAuth,
+  Main,
 } from "./pages";
 import Footer from "./components/Footer";
 import WritePost from "./components/WritePost";
@@ -49,7 +50,7 @@ ReactDOM.render(
         </header>
         <Routes>
           {/* all user access */}
-          <Route path="/" element={<App />} />
+          <Route path="/" element={<Main />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/board/:id" element={<Board />} />

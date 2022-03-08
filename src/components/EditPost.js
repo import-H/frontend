@@ -7,13 +7,13 @@ import axiosInstance from "../utils/axiosInstance";
 import { useDispatch } from "react-redux";
 
 // styled-components
-import GlobalStyle from "../Styles/Globalstyle.js";
+import GlobalStyle from "../styles/Globalstyle.js";
 import {
   WriteContainer,
   TagsInput,
   Input,
   StyledConEditor,
-} from "../Styles/theme";
+} from "../styles/theme";
 
 // toast-ui editor
 import "@toast-ui/editor/dist/toastui-editor.css";

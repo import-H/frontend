@@ -8,7 +8,7 @@ import { addPost } from "../redux/slices/postSlice";
 // styled-components
 import styled from "styled-components";
 import "@toast-ui/editor/dist/toastui-editor.css";
-import { StyledFormEditor } from "../Styles/theme";
+import { StyledFormEditor } from "../styles/theme";
 
 import { Editor } from "@toast-ui/react-editor";
 

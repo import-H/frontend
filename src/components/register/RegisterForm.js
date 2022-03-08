@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Button, Input } from "../../Styles/theme";
+import { Button, Input } from "../../styles/theme";
 import SocialAuth from "../socialAuth/SocialAuth";
 
 const AuthForm = styled.div`

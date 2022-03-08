@@ -2,7 +2,7 @@ import React from "react";
 
 // style
 import styled from "styled-components";
-import { Button, Input } from "../../Styles/theme";
+import { Button, Input } from "../../styles/theme";
 
 const Wrapper = styled.div`
   width: 100%;

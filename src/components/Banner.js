@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
-import { Container } from "../Styles/theme";
+import { Container } from "../styles/theme";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getBanner } from "../redux/slices/mainSlice";

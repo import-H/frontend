@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { Editor } from "@toast-ui/react-editor";
 import axiosInstance from "../utils/axiosInstance";
 import styled from "styled-components";
-import { Container, Input } from "../Styles/theme";
+import { Container, Input } from "../styles/theme";
 import { useDispatch, useSelector } from "react-redux";
 import { addPost, getPost, getPosts } from "../redux/slices/postSlice";
 import { API_URL } from "../config";

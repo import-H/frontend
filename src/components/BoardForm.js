@@ -14,7 +14,7 @@ import { Viewer } from "@toast-ui/react-editor";
 import { timeElapsed } from "../utils/tools.js";
 
 // style
-import GlobalStyle from "../Styles/Globalstyle.js";
+import GlobalStyle from "../styles/Globalstyle.js";
 import styled from "styled-components";
 
 // icon

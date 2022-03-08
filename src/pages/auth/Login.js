@@ -2,8 +2,8 @@
 import React from "react";
 
 // styled-components
-import GlobalStyle from "../../Styles/Globalstyle.js";
-import { FlexContainer } from "../../Styles/theme.js";
+import GlobalStyle from "../../styles/Globalstyle.js";
+import { FlexContainer } from "../../styles/theme.js";
 
 // components
 import LoginFormC from "../../containters/login/LoginFormC";

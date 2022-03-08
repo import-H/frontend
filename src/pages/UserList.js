@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import GlobalStyle from "../Styles/Globalstyle";
-import { Container } from "../Styles/theme";
+import GlobalStyle from "../styles/Globalstyle";
+import { Container } from "../styles/theme";
 import styled from "styled-components";
 import noneProfileImg from "../images/none_profile_image.png";
 import { Link } from "react-router-dom";

@@ -3,8 +3,8 @@ import React from "react";
 
 // style
 import styled from "styled-components";
-import GlobalStyle from "../../Styles/Globalstyle";
-import { FlexContainer } from "../../Styles/theme";
+import GlobalStyle from "../../styles/Globalstyle";
+import { FlexContainer } from "../../styles/theme";
 
 // components
 import RegisterFormC from "../../containters/register/RegisterFormC";

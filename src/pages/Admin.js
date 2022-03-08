@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import GlobalStyle from "../Styles/Globalstyle";
-import { Container } from "../Styles/theme";
+import GlobalStyle from "../styles/Globalstyle";
+import { Container } from "../styles/theme";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { addBanner } from "../redux/slices/adminSlice";
