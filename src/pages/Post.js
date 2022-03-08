@@ -235,9 +235,11 @@ const Post = () => {
     navigate(-1);
   };
 
-  const onClickLike = () => {
+  const onClickLike = e => {
+    e.preventDefault();
     if (isAuth) {
       dispatch(editLike(postId));
+      console.log("1");
     }
   };
 

@@ -1,12 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import GlobalStyle from "../styles/Globalstyle";
 import { Container } from "../styles/theme";
 import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
-import { addBanner } from "../redux/slices/adminSlice";
-import axiosInstance from "../utils/axiosInstance";
-import { deleteBanner, getBanner } from "../redux/slices/mainSlice";
-import { API_URL } from "../config";
+import AdminC from "../containters/admin/AdminC";
 
 const AdminContainer = styled(Container)`
   & .sec-tit {
@@ -17,24 +13,7 @@ const AdminContainer = styled(Container)`
   }
 `;
 
-const ImgInput = styled.input`
-  position: relative;
-  bottom: -0.5rem;
-  left: 0rem;
-`;
-
-const Slice = styled.div`
-  width: 100%;
-  background: rgb(140, 131, 255);
-  background: linear-gradient(
-    45deg,
-    rgba(140, 131, 255, 1) 0%,
-    rgba(50, 169, 140, 1) 100%
-  );
-  border-radius: 7px;
-  padding: 2rem;
-`;
-const Setting = styled.div`
+export const Setting = styled.div`
   display: flex;
   flex-direction: row;
 
@@ -55,7 +34,7 @@ const Setting = styled.div`
   }
 `;
 
-const BannerArea = styled.div`
+export const BannerArea = styled.div`
   width: 100%;
   background: white;
   border-radius: 7px;
@@ -83,7 +62,19 @@ const BannerArea = styled.div`
   }
 `;
 
-const Content = styled.div`
+const Slice = styled.div`
+  width: 100%;
+  background: rgb(140, 131, 255);
+  background: linear-gradient(
+    45deg,
+    rgba(140, 131, 255, 1) 0%,
+    rgba(50, 169, 140, 1) 100%
+  );
+  border-radius: 7px;
+  padding: 2rem;
+`;
+
+export const Content = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -170,64 +161,6 @@ const Content = styled.div`
 `;
 
 const Admin = () => {
-  const dispatch = useDispatch();
-  const banners = useSelector(state => state.main.banners);
-
-  const [presentBanner, setPresentBanner] = useState({
-    title: "",
-    imgUrl: "",
-    url: "",
-    content: "",
-  });
-
-  const [tags, setTags] = useState([]);
-  const [currentTag, setCurrentTag] = useState("");
-
-  const onTagPush = () => {
-    if (!tags.includes(currentTag)) setTags([...tags, currentTag]);
-    setCurrentTag("");
-  };
-
-  const onAddBanner = async e => {
-    e.preventDefault();
-
-    const data = {
-      ...presentBanner,
-      nickname: "관리자",
-      tags: tags,
-    };
-
-    dispatch(addBanner(data));
-  };
-
-  const onImageChage = async e => {
-    const img = e.target.files[0];
-    const formData = new FormData();
-    formData.append("image", img);
-
-    const response = await axiosInstance.post(
-      `${API_URL}/v1/file/upload`,
-      formData,
-      { header: { "content-type": "multipart/formdata" } },
-    );
-
-    const url = `${API_URL}${response.data.data.imageURL}`;
-    setPresentBanner({ ...presentBanner, imgUrl: url });
-  };
-
-  const onRemoveBanner = async bannerId => {
-    await dispatch(deleteBanner(bannerId));
-  };
-
-  const onChangeElement = e => {
-    const { value, name } = e.target;
-    setPresentBanner({ ...presentBanner, [name]: value });
-  };
-
-  useEffect(() => {
-    dispatch(getBanner());
-  }, []);
-
   return (
     <AdminContainer>
       <GlobalStyle />
@@ -241,99 +174,7 @@ const Admin = () => {
         <div className="sec-tit">관리자 페이지</div>
 
         <Slice>
-          {banners.map(banner => (
-            <Setting key={banner.bannerId}>
-              <BannerArea href={banner.url}>
-                <div className="BannerSetting">
-                  <div className="img-box">
-                    <img src={banner.imgUrl} />
-                  </div>
-                  <Content>
-                    <div className="title">{banner.title}</div>
-                    <div className="explain">{banner.content}</div>
-                    <div className="tags">
-                      {banner.tags?.map(tag => (
-                        <div>{tag.name}</div>
-                      ))}
-                    </div>
-                    <div className="author">자몽</div>
-                  </Content>
-                </div>
-              </BannerArea>
-              <button
-                onClick={() => {
-                  onRemoveBanner(banner.bannerId);
-                }}
-              >
-                -
-              </button>
-            </Setting>
-          ))}
-          <Setting>
-            <BannerArea>
-              <div className="BannerSetting">
-                <div>
-                  <img
-                    className="img-box"
-                    src={presentBanner.imgUrl}
-                    alt="썸네일 이미지"
-                  />
-                  <ImgInput
-                    type="file"
-                    accept="image/jpg,image/png,image/jpeg,image/gif"
-                    name="imgUrl"
-                    onChange={onImageChage}
-                  />
-                </div>
-                <Content>
-                  <input
-                    className="title"
-                    placeholder="title"
-                    type="text"
-                    name="title"
-                    onChange={onChangeElement}
-                  />
-
-                  <textarea
-                    className="explain-input"
-                    placeholder="content"
-                    type="text"
-                    name="content"
-                    onChange={onChangeElement}
-                  />
-                  <div className="tags-input">
-                    {tags.map((tag, id) => (
-                      <div
-                        onClick={() => {
-                          setTags(tags.filter(t => t !== tag));
-                        }}
-                      >
-                        {tag}
-                      </div>
-                    ))}
-                    <input
-                      placeholder="tags"
-                      onChange={e => setCurrentTag(e.target.value)}
-                      value={currentTag}
-                      onKeyPress={e => {
-                        if (e.key === "Enter") {
-                          onTagPush();
-                        }
-                      }}
-                    />
-                  </div>
-
-                  <input
-                    placeholder="url"
-                    type="text"
-                    name="url"
-                    onChange={onChangeElement}
-                  />
-                </Content>
-              </div>
-            </BannerArea>
-            <button onClick={onAddBanner}>+</button>
-          </Setting>
+          <AdminC />
         </Slice>
       </div>
     </AdminContainer>
