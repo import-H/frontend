@@ -19,18 +19,20 @@ axiosInstance.defaults.headers.common[
 
 axiosInstance.interceptors.request.use(async req => {
   console.log("interceptor is working");
-  req.headers.Authorization = `${authTokens?.accessToken}`;
   if (!authTokens) {
     authTokens = localStorage.getItem("authTokens")
       ? JSON.parse(localStorage.getItem("authTokens"))
       : null;
-    req.headers.Authorization = `${authTokens?.accessToken}`;
   }
+  req.headers.Authorization = `${authTokens?.accessToken}`;
 
   const user = jwt_decode(authTokens.accessToken);
   let isExpired = dayjs.unix(user.exp).diff(dayjs()) < 1;
-  console.log("isExpired", isExpired, dayjs.unix(user.exp).diff(dayjs()));
+
+  // console.log("isExpired", isExpired, dayjs.unix(user.exp).diff(dayjs()));
+
   if (!isExpired) {
+    console.log(req);
     return req;
   } else {
     const response = await axios.post(`${baseURL}/v1/reissue`, {

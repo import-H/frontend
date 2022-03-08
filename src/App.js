@@ -1,9 +1,15 @@
-import React, { useEffect } from "react";
+import React from "react";
+
+// head
 import { Helmet } from "react-helmet";
-import GlobalStyle from "./Styles/Globalstyle";
-import { MainContainer, Container } from "./Styles/theme";
-import Banner from "./Components/Banner";
-import Main from "./Pages/Main";
+
+// style
+import GlobalStyle from "./styles/Globalstyle";
+import { MainContainer, Container } from "./styles/theme";
+
+// components
+import Banner from "./components/main/Banner";
+import Main from "./pages/Main";
 
 const App = () => {
   return (
@@ -16,13 +22,13 @@ const App = () => {
           rel="stylesheet"
         />
       </Helmet>
-      <div style={{ width: "100%" }}>
+      {/* <div style={{ width: "100%" }}>
         <GlobalStyle />
         <Banner />
         <Container style={{ marginTop: 0 }}>
           <Main />
         </Container>
-      </div>
+      </div> */}
     </MainContainer>
   );
 };
