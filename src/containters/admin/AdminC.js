@@ -62,7 +62,7 @@ const AdminC = () => {
     setPresentBanner({ ...presentBanner, [name]: value });
   };
 
-  const onRemoveTag = tags => {
+  const onRemoveTag = (tags, tag) => {
     setTags(tags.filter(t => t !== tag));
   };
 
