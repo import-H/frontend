@@ -72,6 +72,7 @@ const AdminC = () => {
 
   return (
     <>
+      <BannerList banners={banners} onRemoveBanner={onRemoveBanner} />
       <AddBanner
         presentBanner={presentBanner}
         onImageChage={onImageChage}
@@ -79,8 +80,9 @@ const AdminC = () => {
         onRemoveTag={onRemoveTag}
         onTagPush={onTagPush}
         onAddBanner={onAddBanner}
+        tags={tags}
+        currentTag={currentTag}
       />
-      <BannerList banners={banners} onRemoveBanner={onRemoveBanner} />
     </>
   );
 };

@@ -1,6 +1,6 @@
 import React from "react";
 import { Setting, BannerArea, Content } from "../../pages/Admin";
-const BannerList = () => {
+const BannerList = ({ onRemoveBanner, banners }) => {
   return (
     <>
       {banners.map(banner => (

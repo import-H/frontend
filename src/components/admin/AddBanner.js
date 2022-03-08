@@ -15,6 +15,8 @@ const AddBanner = ({
   onRemoveTag,
   onTagPush,
   onAddBanner,
+  tags,
+  currentTag,
 }) => {
   return (
     <Setting>
