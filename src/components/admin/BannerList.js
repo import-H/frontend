@@ -15,7 +15,7 @@ const BannerList = ({ onRemoveBanner, banners }) => {
                 <div className="explain">{banner.content}</div>
                 <div className="tags">
                   {banner.tags?.map(tag => (
-                    <div>{tag.name}</div>
+                    <div key={tag.name}>{tag.name}</div>
                   ))}
                 </div>
                 <div className="author">자몽</div>
