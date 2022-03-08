@@ -8,13 +8,11 @@ import GlobalStyle from "../styles/Globalstyle";
 
 // components
 import MainC from "../containters/main/MainC";
-import Banner from "../components/Banner";
 
 const Main = () => {
   return (
     <MainContainer>
       <GlobalStyle />
-      <Banner />
       <MainC />
     </MainContainer>
   );

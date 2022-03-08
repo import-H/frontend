@@ -7,7 +7,8 @@ import { addBanner } from "../redux/slices/adminSlice";
 import axios from "axios";
 import axiosInstance from "../utils/axiosInstance";
 import { sampleBanner } from "../components/Banner";
-import { getBanner } from "../redux/slices/mainSlice";
+import { deleteBanner, getBanner } from "../redux/slices/mainSlice";
+import { API_URL } from "../config";
 
 const AdminContainer = styled(Container)`
   & .sec-tit {
@@ -190,11 +191,12 @@ const Admin = () => {
 
   console.log(title, tags, content, url, imgUrl);
 
-  const bannerSubmit = async e => {
+  const onAddBanner = async e => {
     e.preventDefault();
 
     const data = {
       title: title,
+      nickname: "관리자",
       url: url,
       imgUrl: imgUrl,
       content: content,
@@ -219,9 +221,9 @@ const Admin = () => {
     setImgUrl(url);
   };
 
-  const onRemoveBanner = () => {};
-
-  const onAddBanner = () => {};
+  const onRemoveBanner = async bannerId => {
+    await dispatch(deleteBanner(bannerId));
+  };
 
   useEffect(() => {
     dispatch(getBanner());
@@ -241,8 +243,8 @@ const Admin = () => {
 
         <Slice>
           {banners.map(banner => (
-            <Setting>
-              <BannerArea key={banner.bannerId} href={banner.url}>
+            <Setting key={banner.bannerId}>
+              <BannerArea href={banner.url}>
                 <div className="BannerSetting">
                   <div className="img-box">
                     <img src={banner.imgUrl} />
@@ -327,13 +329,7 @@ const Admin = () => {
                 </Content>
               </div>
             </BannerArea>
-            <button
-              onClick={() => {
-                onAddBanner(banner.id);
-              }}
-            >
-              +
-            </button>
+            <button onClick={onAddBanner}>+</button>
           </Setting>
         </Slice>
       </div>
