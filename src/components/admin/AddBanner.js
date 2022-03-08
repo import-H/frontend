@@ -55,7 +55,7 @@ const AddBanner = ({
               {tags.map((tag, id) => (
                 <div
                   onClick={() => {
-                    onRemoveTag(tags);
+                    onRemoveTag(tags, tag);
                   }}
                 >
                   {tag}
