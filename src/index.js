@@ -9,8 +9,6 @@ import { persistStore } from "redux-persist";
 // component
 import App from "./App";
 import {
-  Login,
-  Register,
   Board,
   Post,
   PersonalBoard,
@@ -19,11 +17,15 @@ import {
   Leave,
   UserList,
   ChangePassword,
-} from "./Pages";
-import NavBar from "./Components/NavBar";
-import Footer from "./Components/Footer";
-import WritePost from "./Components/WritePost";
-import EditPost from "./Components/EditPost";
+  Login,
+  Register,
+  OAuth,
+  Main,
+} from "./pages";
+import Footer from "./components/Footer";
+import WritePost from "./components/WritePost";
+import EditPost from "./components/EditPost";
+import NavbarC from "./containters/navbar/NavbarC";
 
 // route
 import PrivateRoute from "./utils/PrivateRoute"; //로그인한 사용자만 접근 가능
@@ -32,12 +34,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 // redux
 import { Provider } from "react-redux";
-import { store } from "./reducers/store";
+import { store } from "./redux/store";
 
 // style
 import "./index.css";
-import GoogleLogin from "./Components/GoogleLogin";
-import OAuth from "./Pages/OAuth";
 
 let persistor = persistStore(store);
 
@@ -46,18 +46,17 @@ ReactDOM.render(
     <PersistGate loading={null} persistor={persistor}>
       <BrowserRouter>
         <header>
-          <NavBar />
+          <NavbarC />
         </header>
         <Routes>
           {/* all user access */}
-          <Route path="/" element={<App />} />
+          <Route path="/" element={<Main />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/board/:id" element={<Board />} />
           <Route path="/users" element={<UserList />} />
           <Route path="/users/:personId" element={<PersonalBoard />} />
           <Route path="/board/:boardId/:postId" element={<Post />} />
-          <Route path="/google" element={<GoogleLogin />} />
           <Route path="/oauth/:provider" element={<OAuth />} />
 
           {/* only login user access */}
