@@ -4,9 +4,7 @@ import { Container } from "../styles/theme";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { addBanner } from "../redux/slices/adminSlice";
-import axios from "axios";
 import axiosInstance from "../utils/axiosInstance";
-import { sampleBanner } from "../components/Banner";
 import { deleteBanner, getBanner } from "../redux/slices/mainSlice";
 import { API_URL } from "../config";
 
@@ -173,15 +171,16 @@ const Content = styled.div`
 
 const Admin = () => {
   const dispatch = useDispatch();
-  const status = useSelector(state => state.admin.status);
   const banners = useSelector(state => state.main.banners);
 
-  const [title, setTitle] = useState("");
-  const [imgUrl, setImgUrl] = useState("");
-  const [url, setUrl] = useState("");
-  const [content, setContent] = useState("");
-  const [tags, setTags] = useState([]);
+  const [presentBanner, setPresentBanner] = useState({
+    title: "",
+    imgUrl: "",
+    url: "",
+    content: "",
+  });
 
+  const [tags, setTags] = useState([]);
   const [currentTag, setCurrentTag] = useState("");
 
   const onTagPush = () => {
@@ -189,17 +188,12 @@ const Admin = () => {
     setCurrentTag("");
   };
 
-  console.log(title, tags, content, url, imgUrl);
-
   const onAddBanner = async e => {
     e.preventDefault();
 
     const data = {
-      title: title,
+      ...presentBanner,
       nickname: "관리자",
-      url: url,
-      imgUrl: imgUrl,
-      content: content,
       tags: tags,
     };
 
@@ -218,11 +212,16 @@ const Admin = () => {
     );
 
     const url = `${API_URL}${response.data.data.imageURL}`;
-    setImgUrl(url);
+    setPresentBanner({ ...presentBanner, imgUrl: url });
   };
 
   const onRemoveBanner = async bannerId => {
     await dispatch(deleteBanner(bannerId));
+  };
+
+  const onChangeElement = e => {
+    const { value, name } = e.target;
+    setPresentBanner({ ...presentBanner, [name]: value });
   };
 
   useEffect(() => {
@@ -274,11 +273,15 @@ const Admin = () => {
             <BannerArea>
               <div className="BannerSetting">
                 <div>
-                  <img className="img-box" src={imgUrl} alt="썸네일 이미지" />
+                  <img
+                    className="img-box"
+                    src={presentBanner.imgUrl}
+                    alt="썸네일 이미지"
+                  />
                   <ImgInput
                     type="file"
                     accept="image/jpg,image/png,image/jpeg,image/gif"
-                    name="profile_img"
+                    name="imgUrl"
                     onChange={onImageChage}
                   />
                 </div>
@@ -288,7 +291,7 @@ const Admin = () => {
                     placeholder="title"
                     type="text"
                     name="title"
-                    onChange={e => setTitle(e.target.value)}
+                    onChange={onChangeElement}
                   />
 
                   <textarea
@@ -296,7 +299,7 @@ const Admin = () => {
                     placeholder="content"
                     type="text"
                     name="content"
-                    onChange={e => setContent(e.target.value)}
+                    onChange={onChangeElement}
                   />
                   <div className="tags-input">
                     {tags.map((tag, id) => (
@@ -324,7 +327,7 @@ const Admin = () => {
                     placeholder="url"
                     type="text"
                     name="url"
-                    onChange={e => setUrl(e.target.value)}
+                    onChange={onChangeElement}
                   />
                 </Content>
               </div>

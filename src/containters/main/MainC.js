@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import Posts from "../../components/main/Posts";
 import { useDispatch, useSelector } from "react-redux";
 import { getMainPosts, getBanner } from "../../redux/slices/mainSlice";
-import Banner from "../../components/Banner";
+import Banner from "../../components/main/Banner";
 
 const MainC = () => {
   const dispatch = useDispatch();

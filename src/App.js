@@ -8,7 +8,7 @@ import GlobalStyle from "./styles/Globalstyle";
 import { MainContainer, Container } from "./styles/theme";
 
 // components
-import Banner from "./components/Banner";
+import Banner from "./components/main/Banner";
 import Main from "./pages/Main";
 
 const App = () => {
