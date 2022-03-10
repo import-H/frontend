@@ -133,16 +133,21 @@ export const editComment = createAsyncThunk(
   },
 );
 
-// 좋아요 상태 변경하기
-export const editLike = createAsyncThunk(
-  "post/editLike",
-  async (postId, dispatch, getState) => {
-    const response = await axiosInstance.post(
-      `${API_URL}/v1/posts/${postId}/like`,
-    );
-    return response.data.data;
-  },
-);
+// 좋아요 누르기
+export const addLike = createAsyncThunk("post/addLike", async postId => {
+  const response = await axiosInstance.post(
+    `${API_URL}/v1/posts/${postId}/like`,
+  );
+  return response.data.data;
+});
+
+// 좋아요 취소
+export const deleteLike = createAsyncThunk("post/deleteLike", async postId => {
+  const response = await axiosInstance.delete(
+    `${API_URL}/v1/posts/${postId}/like`,
+  );
+  return response.data.data;
+});
 
 // 이미지 파일 보내고 가져오기
 export const uploadFile = createAsyncThunk(
@@ -256,13 +261,13 @@ const slice = createSlice({
       state.error = action.error;
     },
     // 좋아요 상태 변경하기
-    [editLike.pending]: (state, action) => {
+    [addLike.pending]: (state, action) => {
       state.status = "loading";
     },
-    [editLike.fulfilled]: (state, action) => {
+    [addLike.fulfilled]: (state, action) => {
       state.status = "success";
     },
-    [editLike.rejected]: (state, action) => {
+    [addLike.rejected]: (state, action) => {
       state.status = "failed";
       state.error = action.error;
     },

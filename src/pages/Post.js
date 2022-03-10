@@ -3,7 +3,13 @@ import React, { useEffect, useState } from "react";
 
 // redux
 import { useDispatch, useSelector } from "react-redux";
-import { getPost, deletePost, editLike } from "../redux/slices/postSlice.js";
+import {
+  getPost,
+  deletePost,
+  editLike,
+  addLike,
+  deleteLike,
+} from "../redux/slices/postSlice.js";
 
 // react-router-dom
 import { Link, useParams, useNavigate } from "react-router-dom";
@@ -238,8 +244,7 @@ const Post = () => {
   const onClickLike = e => {
     e.preventDefault();
     if (isAuth) {
-      dispatch(editLike(postId));
-      console.log("1");
+      post.like ? dispatch(deleteLike(postId)) : dispatch(addLike(postId));
     }
   };
 
