@@ -144,13 +144,9 @@ const CommentPush = styled.div`
   }
 `;
 
-const Comment = ({ postId }) => {
+const Comment = ({ comments, postId }) => {
   const dispatch = useDispatch();
-  const status = useSelector(state => state.post.status);
-
   const isAuth = useSelector(state => state.auth.isAuth);
-  const comments = useSelector(state => state.post.post.comments);
-
   const userNickname = useSelector(state => state?.user?.profile?.nickname);
   const [commentData, setCommentData] = useState("");
   const [commentEdit, setCommentEdit] = useState({
@@ -158,21 +154,17 @@ const Comment = ({ postId }) => {
     content: "",
   });
 
-  useEffect(() => {
-    if (status !== "success") {
-      dispatch(getPost(postId));
-    }
-  }, [status]);
-
   // 댓글 등록
   const onPostComment = async () => {
     await dispatch(addComment({ postId, commentData }));
     setCommentData("");
+    dispatch(getPost(postId));
   };
 
   // 댓글 제거
-  const onRemoveComment = commentId => {
-    dispatch(deleteComment({ postId, commentId }));
+  const onRemoveComment = async commentId => {
+    await dispatch(deleteComment({ postId, commentId }));
+    dispatch(getPost(postId));
   };
 
   // 댓글 수정
@@ -185,8 +177,7 @@ const Comment = ({ postId }) => {
     } else {
       setCommentEdit({ id: commentId, content: content });
     }
-
-    //
+    dispatch(getPost(postId));
   };
 
   const onChangeComment = e => {
