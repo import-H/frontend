@@ -4,7 +4,7 @@ import React from "react";
 import styled from "styled-components";
 
 // components
-import Comment from "../Comment";
+import CommentC from "../../containters/post/CommentC";
 import PostHead from "./PostHead";
 import PostAuthorInfo from "./PostAuthorInfo";
 import PostSidebar from "./PostSidebar";
@@ -67,8 +67,9 @@ const PostTemplate = ({
             profileImage={profile?.profileImage}
           />
           {/* 댓글 */}
-          <Comment comments={post.comments} postId={postId} />
-
+          {post.comments && (
+            <CommentC comments={post.comments} postId={postId} />
+          )}
           {/* 사이드바 */}
           <PostSidebar
             like={post.like}
