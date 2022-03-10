@@ -121,7 +121,7 @@ const Posts = ({ posts }) => {
           </div>
         </h2>
         <div className="postArea flex">
-          {posts?.length &&
+          {posts &&
             posts.map((post, index) => (
               <div key={index}>
                 <Link
