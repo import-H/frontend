@@ -13,7 +13,7 @@ import { Link, useParams } from "react-router-dom";
 // icon
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faCommentAlt } from "@fortawesome/free-solid-svg-icons";
-import Comment from "../components/Comment.js";
+import Comment from "../components/post/Comment.js";
 import WritePersonalPost from "../components/WritePersonalPost.js";
 import { useDispatch, useSelector } from "react-redux";
 import { getPost, getPosts } from "../redux/slices/postSlice.js";

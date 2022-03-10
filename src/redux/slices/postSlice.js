@@ -211,6 +211,10 @@ const slice = createSlice({
     [getPost.fulfilled]: (state, action) => {
       state.getPost = "success";
       state.post = action.payload;
+      state.post.comments = action.payload.comments.sort(
+        (a, b) =>
+          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
+      );
     },
     [getPost.rejected]: (state, action) => {
       state.getPost = "failed";

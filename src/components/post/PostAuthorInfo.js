@@ -3,6 +3,9 @@ import React from "react";
 // styled
 import styled from "styled-components";
 
+// etc
+import noneProfileImg from "../../images/none_profile_image.png";
+
 const Wrapper = styled.div`
   padding: 20px 0;
 

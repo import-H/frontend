@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import Comment from "../../components/Comment";
+
+// redux
 import { useDispatch, useSelector } from "react-redux";
 import {
   addComment,
@@ -8,9 +9,14 @@ import {
   getPost,
 } from "../../redux/slices/postSlice";
 
-const CommentC = ({ comments, postId }) => {
+// components
+import Comment from "../../components/post/Comment";
+
+const CommentC = ({ postId }) => {
   const dispatch = useDispatch();
   const isAuth = useSelector(state => state.auth.isAuth);
+  const comments = useSelector(state => state?.post?.post?.comments);
+  console.log("com", comments);
   const userNickname = useSelector(state => state?.user?.profile?.nickname);
   const [commentData, setCommentData] = useState("");
   const [commentEdit, setCommentEdit] = useState({

@@ -5,10 +5,10 @@ import React from "react";
 import styled from "styled-components";
 
 // components
-import CommentWriteBtn from "./post/CommentWriteBtn.js";
-import CommentInfo from "./post/CommentInfo.js";
-import CommentContent from "./post/CommentContent.js";
-import CommentCreatedAt from "./post/CommentCreatedAt.js";
+import CommentWriteBtn from "./CommentWriteBtn.js";
+import CommentInfo from "./CommentInfo.js";
+import CommentContent from "./CommentContent.js";
+import CommentCreatedAt from "./CommentCreatedAt.js";
 
 const CommentsWrap = styled.div`
   border-top: 1px solid #ddd;
@@ -68,6 +68,8 @@ const Comment = ({
             userNickname={userNickname}
             id={comment.id}
             content={comment.content}
+            onRemoveComment={onRemoveComment}
+            onEditComment={onEditComment}
           />
 
           {/* 댓글 내용 */}
@@ -77,8 +79,6 @@ const Comment = ({
             content={comment.content}
             editContent={commentEdit.content}
             onChangeEditComment={onChangeEditComment}
-            onRemoveComment={onRemoveComment}
-            onEditComment={onEditComment}
           />
 
           {/* 댓글 생성일 */}
