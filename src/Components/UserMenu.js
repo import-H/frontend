@@ -60,15 +60,16 @@ const Alarm = styled(Dropdown)`
   display: flex;
   align-items: center;
   justify-content: center;
-  & svg{
+  & svg {
     transform: translateX(-0.5px);
   }
 `;
 
-const menu = (pathId, roles) => (
+const menu = (pathId, roles, profileImage) => (
   <Menu className="myMenu">
     <Menu.Item key="mypage">
       <Link to="/mypage" data-testid="profileLink">
+        <img src={profileImage} />
         프로필
       </Link>
     </Menu.Item>
@@ -138,12 +139,18 @@ function UserMenu() {
                   overlay={<Messages messages={messages} />}
                   placement="bottomCenter"
                 >
-                  <div><FontAwesomeIcon icon={faBell}/></div>
+                  <div>
+                    <FontAwesomeIcon icon={faBell} />
+                  </div>
                 </Alarm>
               </div>
               <div className="element hdProfileIcon">
                 <Dropdown
-                  overlay={menu(profile?.pathId, auth?.roles)}
+                  overlay={menu(
+                    profile?.pathId,
+                    auth?.roles,
+                    profile?.profileImage,
+                  )}
                   placement="bottomCenter"
                 >
                   <AuthorImg>
