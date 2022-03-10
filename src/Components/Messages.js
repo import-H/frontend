@@ -31,17 +31,18 @@ const Messages = ({ messages }) => {
 
   return (
     <Menu>
-      {messages.map(message => (
-        <Menu.Item
-          key={message.id}
-          onClick={() => {
-            onMessageClick(message.id);
-          }}
-        >
-          <div>{message.title}</div>
-          <div>{message.createdAt}</div>
-        </Menu.Item>
-      ))}
+      {messages &&
+        messages.map(message => (
+          <Menu.Item
+            key={message.id}
+            onClick={() => {
+              onMessageClick(message.id);
+            }}
+          >
+            <div>{message.title}</div>
+            <div>{message.createdAt}</div>
+          </Menu.Item>
+        ))}
     </Menu>
   );
 };
