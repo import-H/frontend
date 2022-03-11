@@ -196,6 +196,26 @@ const StyledModal = styled(Modal)`
   }
 `;
 
+const changeData = (user, cur, val) => {
+  const userData = {
+    nickname: user.nickname,
+    introduction: user.introduction,
+    personalUrl: user.personalUrl,
+    profileImage: user.profileImage,
+    receiveAgree: { email: user.infoByEmail, web: user.infoByWeb },
+  };
+  if (cur === "email" || cur === "web")
+    return {
+      ...userData,
+      receiveAgree: {
+        email: user.infoByEmail,
+        web: user.infoByWeb,
+        [cur]: val,
+      },
+    };
+  return { ...userData, [cur]: val };
+};
+
 const MyPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -234,15 +254,9 @@ const MyPage = () => {
 
   const changeNickname = async e => {
     e.preventDefault();
-    const userData = {
-      nickname: newNicknameValue,
-      introduction: user.introduction,
-      personalUrl: user.personalUrl,
-      infoByEmail: user.infoByEmail,
-      infoByWeb: user.infoByWeb,
-      profileImage: profileImg,
-    };
-    dispatch(editProfile({ userId: userId, userData }));
+    const data = changeData(user, "nickname", newNicknameValue);
+    console.log(data);
+    dispatch(editProfile({ userId: userId, data }));
     dispatch(updateUser());
     setIsNicknameChange(false);
   };
