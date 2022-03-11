@@ -10,30 +10,21 @@ import PostTagsArea from "./PostTagsArea";
 import PostTitleInput from "./PostTitleInput";
 
 const PostWriteTemplate = ({
+  children,
   onPostSubmit,
-  tags,
-  onTagDelete,
-  onTagPush,
-  currentTag,
   onTitleChange,
   editorRef,
-  onCurTagChange,
+  shape,
 }) => {
   return (
     <StyledConEditor>
       {/* 글 제목 */}
       <PostTitleInput onTitleChange={onTitleChange} />
       {/* 내용 */}
-      <PostContentInput editorRef={editorRef} size="max" />
+      <PostContentInput editorRef={editorRef} shape={shape} />
 
       {/* 태그 */}
-      <PostTagsArea
-        onCurTagChange={onCurTagChange}
-        currentTag={currentTag}
-        onTagPush={onTagPush}
-        onTagDelete={onTagDelete}
-        tags={tags}
-      />
+      {children}
       {/* post 제출 */}
       <div className="submitArea flex flex-jc-e">
         <PostSubmitBtn onPostSubmit={onPostSubmit} />

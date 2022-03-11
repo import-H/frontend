@@ -8,6 +8,7 @@ import { Container } from "../styles/theme";
 
 // components
 import PostWriteC from "../containters/postEdit/PostWriteC";
+import { useParams } from "react-router-dom";
 
 // style
 const WriteContainer = styled(Container)`
@@ -48,10 +49,12 @@ const WriteContainer = styled(Container)`
 `;
 
 const PostWrite = () => {
+  const boardId = useParams().boardId;
+
   return (
     <WriteContainer>
       <GlobalStyle />
-      <PostWriteC type="full" />
+      <PostWriteC shape="full" id={boardId} />
     </WriteContainer>
   );
 };

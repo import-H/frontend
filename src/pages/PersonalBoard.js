@@ -87,6 +87,44 @@ const FirstAction = styled.div`
   font-size: 2.5rem;
 `;
 
+// style
+const WriteContainer = styled(Container)`
+  & .tagCon {
+    margin: 10px 0;
+    margin-top: 25px;
+    & .tagArea {
+      margin: 10px 0;
+      font-size: 1.2em;
+      flex-wrap: wrap;
+
+      & .postTag {
+        padding: 5px 7px;
+        margin-bottom: 7px;
+        margin-right: 15px;
+        border-radius: 5px;
+        background: #ddd;
+        color: #666;
+        font-size: 1.1em;
+      }
+    }
+  }
+
+  & .toastui-editor-defaultUI {
+    margin: 12px 0;
+  }
+
+  & .submitArea {
+    @media (max-width: 768px) {
+      justify-content: center;
+    }
+  }
+
+  & .linkBtn {
+    padding: 7px 30px;
+    font-size: 1.2em;
+  }
+`;
+
 const PersonalBoard = () => {
   const dispatch = useDispatch();
   const personId = useParams().personId;
@@ -163,7 +201,9 @@ const PersonalBoard = () => {
           ) : (
             <FirstAction>첫 활동을 기록해주세요 📄 </FirstAction>
           ))}
-        <PostWriteC type="half" />
+        <WriteContainer>
+          <PostWriteC shape="half" id={personId} />
+        </WriteContainer>
       </BoardWrap>
     </Container>
   );

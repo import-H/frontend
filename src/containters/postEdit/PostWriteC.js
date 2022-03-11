@@ -4,15 +4,14 @@ import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "../../utils/axiosInstance";
 import { API_URL } from "../../config";
-import { addPost } from "../../redux/slices/postSlice";
+import { addPost, getPosts } from "../../redux/slices/postSlice";
 import PersonalPostWrite from "../../components/postEdit/PersonalPostWrite";
+import PostTagsArea from "../../components/postEdit/PostTagsArea";
 
-const PostWriteC = ({ type }) => {
+const PostWriteC = ({ shape, id }) => {
   // config
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const boardId = useParams().boardId;
-  const personId = useParams().personId;
 
   // inputs
   const editorRef = useRef(null);
@@ -58,12 +57,21 @@ const PostWriteC = ({ type }) => {
       tags: tags,
       content: instance,
       images: imgUrls,
-      type: boardId || personId,
+      type: id,
+      important: false,
     };
-
     try {
       await dispatch(addPost(postData));
-      navigate("/");
+      switch (id) {
+        case "free":
+        case "notice":
+        case "questions":
+          navigate("/");
+          break;
+        default:
+          await dispatch(getPosts(id));
+          break;
+      }
     } catch (e) {
       alert(e.msg);
     }
@@ -98,36 +106,22 @@ const PostWriteC = ({ type }) => {
 
   return (
     <>
-      {type === "full" && (
-        <PostWriteTemplate
+      <PostWriteTemplate
+        onPostSubmit={onPostSubmit}
+        onTitleChange={onTitleChange}
+        title={title}
+        navigate={navigate}
+        editorRef={editorRef}
+        shape={shape}
+      >
+        <PostTagsArea
+          onCurTagChange={onCurTagChange}
+          currentTag={currentTag}
           onTagPush={onTagPush}
           onTagDelete={onTagDelete}
-          onPostSubmit={onPostSubmit}
-          onCurTagChange={onCurTagChange}
-          onTitleChange={onTitleChange}
-          title={title}
-          currentTag={currentTag}
           tags={tags}
-          navigate={navigate}
-          boardId={boardId}
-          editorRef={editorRef}
         />
-      )}
-      {type === "half" && (
-        <PersonalPostWrite
-          onTagPush={onTagPush}
-          onTagDelete={onTagDelete}
-          onPostSubmit={onPostSubmit}
-          onCurTagChange={onCurTagChange}
-          onTitleChange={onTitleChange}
-          title={title}
-          currentTag={currentTag}
-          tags={tags}
-          navigate={navigate}
-          boardId={boardId}
-          editorRef={editorRef}
-        />
-      )}
+      </PostWriteTemplate>
     </>
   );
 };

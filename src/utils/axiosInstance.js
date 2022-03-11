@@ -32,7 +32,7 @@ axiosInstance.interceptors.request.use(async req => {
   // console.log("isExpired", isExpired, dayjs.unix(user.exp).diff(dayjs()));
 
   if (!isExpired) {
-    console.log(req);
+    // console.log(req);
     return req;
   } else {
     const response = await axios.post(`${baseURL}/v1/reissue`, {

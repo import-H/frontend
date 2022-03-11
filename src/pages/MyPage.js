@@ -525,16 +525,16 @@ const MyPage = () => {
               <div className="leaveBtnArea flex flex-jc-e">
                 {user.oauthId ? (
                   <>
-                    <Link to="/changepw" className="linkBtn">
-                      비밀번호 변경
-                    </Link>
-                    <Link to="/leave/oauth" className="linkBtn">
+                    <Link to="/leave/auth" className="linkBtn">
                       회원 탈퇴
                     </Link>
                   </>
                 ) : (
                   <>
-                    <Link to="/leave/auth" className="linkBtn">
+                    <Link to="/changepw" className="linkBtn">
+                      비밀번호 변경
+                    </Link>
+                    <Link to="/leave/oauth" className="linkBtn">
                       회원 탈퇴
                     </Link>
                   </>
