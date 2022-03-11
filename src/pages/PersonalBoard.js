@@ -18,6 +18,8 @@ import WritePersonalPost from "../components/WritePersonalPost.js";
 import { useDispatch, useSelector } from "react-redux";
 import { getPost, getPosts } from "../redux/slices/postSlice.js";
 import { timeElapsed } from "../utils/tools.js";
+import PersonalPostWrite from "../components/postEdit/PersonalPostWrite.js";
+import PostWriteC from "../containters/postEdit/PostWriteC.js";
 
 // style
 const BoardWrap = styled.div`
@@ -161,7 +163,7 @@ const PersonalBoard = () => {
           ) : (
             <FirstAction>첫 활동을 기록해주세요 📄 </FirstAction>
           ))}
-        <WritePersonalPost personId={personId} userPathId={userPathId} />
+        <PostWriteC type="half" />
       </BoardWrap>
     </Container>
   );
