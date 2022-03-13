@@ -37,6 +37,7 @@ export const getPosts = createAsyncThunk(
 export const addPost = createAsyncThunk(
   "post/addPost",
   async (postData, dispatch, getState) => {
+    console.log(postData);
     const response = await axiosInstance.post(`${API_URL}/v1/posts`, {
       ...postData,
     });

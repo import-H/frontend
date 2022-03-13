@@ -7,6 +7,7 @@ import { API_URL } from "../../config";
 import { addPost, getPosts } from "../../redux/slices/postSlice";
 import PersonalPostWrite from "../../components/postEdit/PersonalPostWrite";
 import PostTagsArea from "../../components/postEdit/PostTagsArea";
+import useEditorRef from "../../hooks/useEditorRef";
 
 const PostWriteC = ({ shape, id }) => {
   // config
@@ -14,7 +15,7 @@ const PostWriteC = ({ shape, id }) => {
   const navigate = useNavigate();
 
   // inputs
-  const editorRef = useRef(null);
+  const editorRef = useEditorRef();
 
   const [title, setTitle] = useState("");
   const [currentTag, setCurrentTag] = useState("");
@@ -76,33 +77,7 @@ const PostWriteC = ({ shape, id }) => {
       alert(e.msg);
     }
   };
-  console.log(title, tags, editorRef?.current?.getInstance()?.getMarkdown());
-
-  // addImageBlobHook
-  useEffect(() => {
-    if (editorRef.current) {
-      editorRef.current.getInstance().removeHook("addImageBlobHook");
-      editorRef.current
-        .getInstance()
-        .addHook("addImageBlobHook", (blob, callback) => {
-          (async function () {
-            let formData = new FormData();
-            formData.append("image", blob);
-
-            const response = await axiosInstance.post(
-              `${API_URL}/v1/file/upload`,
-              formData,
-              { header: { "content-type": "multipart/formdata" } },
-            );
-
-            const url = `${API_URL}${response.data.data.imageURL}`;
-            callback(url, "Image");
-          })();
-          return false;
-        });
-    }
-    return () => {};
-  }, [editorRef]);
+  // console.log(title, tags, editorRef?.current?.getInstance()?.getMarkdown());
 
   return (
     <>

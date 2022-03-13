@@ -13,7 +13,7 @@ const GlobalStyle = createGlobalStyle`
 
     #root {
       position: relative;
-      height: 100%;;
+      height: 100%;
     }
     
     *{
@@ -355,6 +355,5 @@ header {
  }
   
 `;
-
 
 export default GlobalStyle;
