@@ -13,11 +13,13 @@ import { Link, useParams } from "react-router-dom";
 // icon
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faCommentAlt } from "@fortawesome/free-solid-svg-icons";
-import Comment from "../components/Comment.js";
+import Comment from "../components/post/Comment.js";
 import WritePersonalPost from "../components/WritePersonalPost.js";
 import { useDispatch, useSelector } from "react-redux";
 import { getPost, getPosts } from "../redux/slices/postSlice.js";
 import { timeElapsed } from "../utils/tools.js";
+import PersonalPostWrite from "../components/postEdit/PersonalPostWrite.js";
+import PostWriteC from "../containters/postEdit/PostWriteC.js";
 
 // style
 const BoardWrap = styled.div`
@@ -83,6 +85,44 @@ const FirstAction = styled.div`
   align-items: center;
   justify-content: center;
   font-size: 2.5rem;
+`;
+
+// style
+const WriteContainer = styled(Container)`
+  & .tagCon {
+    margin: 10px 0;
+    margin-top: 25px;
+    & .tagArea {
+      margin: 10px 0;
+      font-size: 1.2em;
+      flex-wrap: wrap;
+
+      & .postTag {
+        padding: 5px 7px;
+        margin-bottom: 7px;
+        margin-right: 15px;
+        border-radius: 5px;
+        background: #ddd;
+        color: #666;
+        font-size: 1.1em;
+      }
+    }
+  }
+
+  & .toastui-editor-defaultUI {
+    margin: 12px 0;
+  }
+
+  & .submitArea {
+    @media (max-width: 768px) {
+      justify-content: center;
+    }
+  }
+
+  & .linkBtn {
+    padding: 7px 30px;
+    font-size: 1.2em;
+  }
 `;
 
 const PersonalBoard = () => {
@@ -161,7 +201,9 @@ const PersonalBoard = () => {
           ) : (
             <FirstAction>첫 활동을 기록해주세요 📄 </FirstAction>
           ))}
-        <WritePersonalPost personId={personId} userPathId={userPathId} />
+        <WriteContainer>
+          <PostWriteC shape="half" id={personId} />
+        </WriteContainer>
       </BoardWrap>
     </Container>
   );

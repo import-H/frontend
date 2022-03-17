@@ -23,7 +23,6 @@ import {
   Main,
 } from "./pages";
 import Footer from "./components/Footer";
-import WritePost from "./components/WritePost";
 import EditPost from "./components/EditPost";
 import NavbarC from "./containters/navbar/NavbarC";
 
@@ -38,6 +37,7 @@ import { store } from "./redux/store";
 
 // style
 import "./index.css";
+import PostWrite from "./pages/PostWrite";
 
 let persistor = persistStore(store);
 
@@ -62,7 +62,7 @@ ReactDOM.render(
           {/* only login user access */}
           <Route
             path="/write/:boardId"
-            element={<PrivateRoute component={WritePost} />}
+            element={<PrivateRoute component={PostWrite} />}
           />
           <Route
             path="/edit/:boardId/:postId"
