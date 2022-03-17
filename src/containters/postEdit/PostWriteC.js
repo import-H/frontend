@@ -62,7 +62,7 @@ const PostWriteC = ({ shape, id }) => {
       important: false,
     };
     try {
-      await dispatch(addPost(postData));
+      await dispatch(addPost(postData)).unwrap();
       switch (id) {
         case "free":
         case "notice":
@@ -74,6 +74,7 @@ const PostWriteC = ({ shape, id }) => {
           break;
       }
     } catch (e) {
+      console.log(e);
       alert(e.msg);
     }
   };

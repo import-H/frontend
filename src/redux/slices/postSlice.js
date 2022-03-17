@@ -36,13 +36,21 @@ export const getPosts = createAsyncThunk(
 // 게시글 추가하기
 export const addPost = createAsyncThunk(
   "post/addPost",
-  async (postData, dispatch, getState) => {
-    console.log(postData);
-    const response = await axiosInstance.post(`${API_URL}/v1/posts`, {
-      ...postData,
-    });
-    console.log(postData);
-    return response.data.data;
+  async (postData, { rejectWithValue }) => {
+    try {
+      console.log(postData);
+      const response = await axiosInstance.post(`${API_URL}/v1/posts`, {
+        ...postData,
+      });
+
+      return response.data.data;
+    } catch (err) {
+      let error = err; // cast the error for access
+      if (!error.response) {
+        throw err;
+      }
+      return rejectWithValue(error.response.data);
+    }
   },
 );
 
