@@ -189,30 +189,29 @@ const Banner = ({ banners, onDotClick, slideRef, currentSlide }) => {
     <BannerWrapper>
       <BannerInner>
         <div ref={slideRef}>
-          {banners?.length &&
-            banners.map(banner => (
-              <BannerArea key={banner.bannerId} href={banner.url}>
-                <div className="BannerSetting">
-                  <div className="img-box">
-                    <img src={banner.imgUrl} />
-                  </div>
-                  <Content>
-                    <div className="title">{banner.title}</div>
-                    <div className="explain">{banner.content}</div>
-                    <div className="tags">
-                      {banner.tags?.map(tag => (
-                        <div key={tag.name}>{tag.name}</div>
-                      ))}
-                    </div>
-                    <div className="author">자몽</div>
-                  </Content>
+          {banners?.map(banner => (
+            <BannerArea key={banner.bannerId} href={banner.url}>
+              <div className="BannerSetting">
+                <div className="img-box">
+                  <img src={banner.imgUrl} />
                 </div>
-              </BannerArea>
-            ))}
+                <Content>
+                  <div className="title">{banner.title}</div>
+                  <div className="explain">{banner.content}</div>
+                  <div className="tags">
+                    {banner.tags?.map(tag => (
+                      <div key={tag.name}>{tag.name}</div>
+                    ))}
+                  </div>
+                  <div className="author">자몽</div>
+                </Content>
+              </div>
+            </BannerArea>
+          ))}
         </div>
       </BannerInner>
       <SliderDot currentSlide={currentSlide + 1}>
-        {banners?.length &&
+        {banners &&
           Array(banners.length)
             .fill(null)
             .map((_, index) => (

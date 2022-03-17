@@ -1,13 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import { Container } from "../styles/theme";
 
-import PostTitleInput from "./postEdit/PostTitleInput";
-import PostTagsArea from "./postEdit/PostTagsArea";
-import PostContentInput from "./postEdit/PostContentInput";
-import PostSubmitBtn from "./postEdit/PostSubmitBtn";
+import PostTitleInput from "./PostTitleInput";
+import PostTagsArea from "./PostTagsArea";
+import PostContentInput from "./PostContentInput";
+import PostSubmitBtn from "./PostSubmitBtn";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { Container } from "../../styles/theme";
 
 const WriteContainer = styled(Container)`
   padding-top: 50px;
@@ -54,7 +54,7 @@ const WriteContainer = styled(Container)`
   }
 `;
 
-const WritePersonalPost = ({
+const PersonalPostWrite = ({
   onPostSubmit,
   tags,
   onTagDelete,
@@ -90,4 +90,4 @@ const WritePersonalPost = ({
   );
 };
 
-export default WritePersonalPost;
+export default PersonalPostWrite;

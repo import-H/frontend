@@ -10,9 +10,8 @@ import { Container } from "../styles/theme";
 import styled from "styled-components";
 
 // component
-import BoardForm from "../components/BoardForm.js";
+import BoardFormC from "../containters/board/BoardFormC.js";
 
-// style-compoents
 const MenuBar = styled.div`
   width: 80%;
   margin: 0 auto;
@@ -92,7 +91,7 @@ const Board = () => {
           <Link to={{ pathname: "/board/questions" }}>qna 게시판</Link>
           <Link to={{ pathname: "/board/notice" }}>공지사항</Link>
         </MenuBar>
-        <BoardForm />
+        <BoardFormC />
       </BoardWrapper>
     </Container>
   );
