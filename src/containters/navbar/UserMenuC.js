@@ -8,7 +8,11 @@ import { checkMessage } from "../../redux/slices/userSlice";
 // components
 import UserMenu from "../../components/navbar/UserMenu";
 
+// react-router-dom
+import { useNavigate } from "react-router-dom";
+
 const UserMenuC = ({ auth }) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const profile = useSelector(state => state.user.profile);
   const messages = useSelector(state => state.user.messages);
