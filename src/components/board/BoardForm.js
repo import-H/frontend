@@ -32,12 +32,12 @@ const BoardList = styled.div`
   display: flex;
   width: 100%;
   margin: 0 auto;
-  padding: 20px 0;
+  padding: 20px 20px;
   box-sizing: border-box;
   border-bottom: 1px solid #ddd;
   margin-bottom: 2em;
-
-  & .toastui-editor-contents p {
+  background: ${props => (props.type === "notice" ? "#f9f9f7" : "#fff")};
+  .toastui-editor-contents p {
     font-size: 1.1em;
     margin: 15px 0;
     color: #888;
@@ -81,7 +81,7 @@ const BoardForm = ({ posts, boardId, isAuth, simplyContent }) => {
               }}
               key={post.responseInfo.postId}
             >
-              <BoardList>
+              <BoardList type={post.responseInfo.boardId}>
                 {post.thumbnail && <PostThumbnail post={post} />}
                 <PostSummary post={post} simplyContent={simplyContent} />
               </BoardList>
