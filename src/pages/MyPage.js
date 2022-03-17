@@ -252,6 +252,21 @@ const MyPage = () => {
   const onChangeIntroduce = e => setNewIntroduceValue(e.currentTarget.value);
   const onChangePersonalUrl = e => setNewPersonalUrl(e.currentTarget.value);
 
+  const change = (key, data) => {
+    const userData = {
+      infoByEmail: user.infoByEmail,
+      infoByWeb: user.infoByWeb,
+      introduction: user.introduction,
+      nickname: user.nickname,
+      personalUrl: user.personalUrl,
+      profileImage: user.profileImage,
+    };
+    userData[key] = data;
+    console.log("uu", userData);
+    dispatch(editProfile({ userId: userId, userData }));
+    dispatch(updateUser());
+  };
+
   const changeNickname = async e => {
     e.preventDefault();
     const data = changeData(user, "nickname", newNicknameValue);
@@ -263,18 +278,13 @@ const MyPage = () => {
 
   const changeIntroduce = async e => {
     e.preventDefault();
-    if (newIntroduceValue !== "") {
-      const userData = {
-        nickname: user.nickname,
-        introduction: newIntroduceValue,
-        personalUrl: user.personalUrl,
-        infoByEmail: user.infoByEmail,
-        infoByWeb: true,
-        profileImage: profileImg,
-      };
-      dispatch(editProfile({ userId: userId, userData }));
-      dispatch(updateUser());
-    }
+
+    change("introduction", newIntroduceValue);
+    // if (newIntroduceValue !== "") {
+
+    //   dispatch(editProfile({ userId: userId, userData }));
+    //   dispatch(updateUser());
+    // }
     setIsIntroduceChange(false);
   };
   const introduceDelete = async e => {

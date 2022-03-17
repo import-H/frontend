@@ -36,7 +36,7 @@ const BoardList = styled.div`
   box-sizing: border-box;
   border-bottom: 1px solid #ddd;
   margin-bottom: 2em;
-  background: ${props => (props.type === "notice" ? "#f9f9f7" : "#fff")};
+  background: ${props => (props.important ? "#f9f9f7" : "#fff")};
   .toastui-editor-contents p {
     font-size: 1.1em;
     margin: 15px 0;
@@ -81,7 +81,7 @@ const BoardForm = ({ posts, boardId, isAuth, simplyContent }) => {
               }}
               key={post.responseInfo.postId}
             >
-              <BoardList type={post.responseInfo.boardId}>
+              <BoardList important={post.responseInfo.important}>
                 {post.thumbnail && <PostThumbnail post={post} />}
                 <PostSummary post={post} simplyContent={simplyContent} />
               </BoardList>

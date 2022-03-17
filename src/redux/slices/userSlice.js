@@ -30,10 +30,9 @@ export const getProfile = createAsyncThunk("user/getProfile", async userId => {
 });
 
 // 프로필 수정하기
-export const editProfile = createAsyncThunk(
-  "user/editProfile",
-  async (data, thunkAPI) => {
-    const { userId, userData } = data;
+export const editProfile = createAsyncThunk("user/editProfile", async data => {
+  const { userId, userData } = data;
+  try {
     const response = await axiosInstance.put(
       `${API_URL}/v1/users/${userId}`,
       userData,
@@ -41,8 +40,15 @@ export const editProfile = createAsyncThunk(
     // const re = await thunkAPI.dispatch(refresh());
     // console.log("re", re);
     return response.data.data;
-  },
-);
+  } catch (err) {
+    let error = err; // cast the error for access
+    console.log(error.response.data);
+    if (!error.response) {
+      throw err;
+    }
+    return rejectWithValue(error.response.data);
+  }
+});
 
 // 유저 목록 가져오기
 export const getUsers = createAsyncThunk("user/getUsers", async () => {

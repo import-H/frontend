@@ -41,11 +41,16 @@ const EditPost = () => {
   const [initText, setInitText] = useState("");
 
   const [currentTag, setCurrentTag] = useState("");
+  const [notice, setNotice] = useState(false);
 
   // 태그 입력
   const onTagPush = () => {
     if (!tags.includes(currentTag)) setTags([...tags, currentTag]);
     setCurrentTag("");
+  };
+
+  const onToggleNotice = e => {
+    setNotice(!notice);
   };
 
   // post 제출
@@ -68,7 +73,8 @@ const EditPost = () => {
       tags: tags,
       content: instance, //setPost에서 content 수정하면 바로 반영안되는 문제로 이렇게 해결함
       images: imgUrls,
-      type: boardId,
+      type: notice ? "notice" : boardId,
+      important: notice,
     };
 
     try {
@@ -86,7 +92,8 @@ const EditPost = () => {
       const data = res.payload.responseInfo;
       setTitle(data.title);
       setInitText(data.content);
-      setTags(data.tags);
+      setTags(data.tags.map(tag => tag.name));
+      setNotice(data.important);
     } catch (e) {
       alert("error");
     }
@@ -132,16 +139,26 @@ const EditPost = () => {
           <div className="tagArea flex flex-ai-c">
             {tags.map((tag, id) => (
               <div
-                key={tag.name}
+                key={tag}
                 className="postTag"
                 onClick={() => {
                   setTags(tags.filter(t => t !== tag));
                 }}
               >
-                {tag.name}
+                {tag}
               </div>
             ))}
           </div>
+        </div>
+        <div>
+          <label>
+            공지사항
+            <input
+              type="checkbox"
+              onChange={onToggleNotice}
+              checked={notice}
+            ></input>
+          </label>
         </div>
         {/* post 제출 */}
         <div className="submitArea flex flex-jc-e">

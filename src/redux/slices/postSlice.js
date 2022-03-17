@@ -88,6 +88,7 @@ export const deletePost = createAsyncThunk(
 // 게시글 수정하기
 export const editPost = createAsyncThunk("post/editPost", async data => {
   const { postId, postData } = data;
+  console.log(postData);
   const response = await axiosInstance.put(
     // `${API_URL}/v1/boards/${boardId}/posts/${postId}`,
     `${API_URL}/v1/posts/${postId}`,
@@ -195,8 +196,8 @@ const slice = createSlice({
       const { posts, boardId } = action.payload;
       state.addPost = "";
       state.status = "success";
-      if (boardId === "notice") state.notice = posts;
-      else state.posts = posts;
+      // if (boardId === "notice") state.notice = posts else ;
+      state.posts = posts;
     },
     [getPosts.rejected]: (state, action) => {
       state.status = "failed";
