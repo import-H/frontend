@@ -246,13 +246,13 @@ const MyPage = () => {
       .then(res => setUserIp(res.ip));
 
     dispatch(getProfile(userId));
-  }, [status]);
+  }, []);
 
   const onChangeNickname = e => setNewNicknameValue(e.currentTarget.value);
   const onChangeIntroduce = e => setNewIntroduceValue(e.currentTarget.value);
   const onChangePersonalUrl = e => setNewPersonalUrl(e.currentTarget.value);
 
-  const change = (key, data) => {
+  const changeInfo = (key, data) => {
     const userData = {
       infoByEmail: user.infoByEmail,
       infoByWeb: user.infoByWeb,
@@ -279,7 +279,7 @@ const MyPage = () => {
   const changeIntroduce = async e => {
     e.preventDefault();
 
-    change("introduction", newIntroduceValue);
+    changeInfo("introduction", newIntroduceValue);
     // if (newIntroduceValue !== "") {
 
     //   dispatch(editProfile({ userId: userId, userData }));
@@ -290,65 +290,27 @@ const MyPage = () => {
   const introduceDelete = async e => {
     if (window.confirm("자기소개를 삭제할까요?")) {
       e.preventDefault();
-      const userData = {
-        nickname: user.nickname,
-        introduction: null,
-        personalUrl: user.personalUrl,
-        infoByEmail: user.infoByEmail,
-        infoByWeb: user.infoByWeb,
-        profileImage: user.profileImage,
-      };
-      dispatch(editProfile({ userId: userId, userData }));
-      dispatch(updateUser());
-      alert("삭제가 완료되었습니다.");
+      changeInfo("introduction", newIntroduceValue);
+
     }
   };
 
   const changePersonalUrl = async e => {
     e.preventDefault();
-    const userData = {
-      nickname: user.nickname,
-      introduction: user.introduction,
-      personalUrl: newPersonalUrl,
-      infoByEmail: user.infoByEmail,
-      infoByWeb: user.infoByWeb,
-      profileImage: profileImg,
-    };
-    dispatch(editProfile({ userId: userId, userData }));
-    dispatch(updateUser());
+    changeInfo("personalUrl", newIntroduceValue);
     setIsPersonalUrlChange(false);
   };
   const personalUrlDelete = async e => {
     if (window.confirm("홈페이지 주소를 삭제할까요?")) {
       e.preventDefault();
-      const userData = {
-        nickname: user.nickname,
-        introduction: user.introduction,
-        personalUrl: null,
-        infoByEmail: user.infoByEmail,
-        infoByWeb: user.infoByWeb,
-        profileImage: user.profileImage,
-      };
-      dispatch(editProfile({ userId: userId, userData }));
-      dispatch(updateUser());
-      alert("삭제가 완료되었습니다.");
+      changeInfo("personalUrl", newIntroduceValue);
     }
   };
 
   const profileImgDelete = async e => {
     if (window.confirm("프로필 사진을 삭제할까요?")) {
       e.preventDefault();
-      const userData = {
-        nickname: user.nickname,
-        introduction: user.introduction,
-        personalUrl: user.personalUrl,
-        infoByEmail: user.infoByEmail,
-        infoByWeb: user.infoByWeb,
-        profileImage: "N",
-      };
-      dispatch(editProfile({ userId: userId, userData }));
-      dispatch(updateUser());
-      alert("삭제가 완료되었습니다.");
+      changeInfo("profileImage", newIntroduceValue);
     }
   };
 
