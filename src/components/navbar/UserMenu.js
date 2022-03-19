@@ -34,6 +34,8 @@ const Alarm = styled(Dropdown)`
   }
 `;
 
+
+
 const AuthorImg = styled.div`
   cursor: pointer;
   width: 30px;
@@ -80,7 +82,7 @@ function UserMenu({
       {auth && (
         <span>
           {auth.isAuth ? (
-            <span role="afterLogin" className="flex">
+            <span role="afterLogin" className="flex flex-ai-c">
               {!(profile?.emailVerified || profile?.oauthId) && (
                 <Caution className="element" onClick={onEmailAuth}>
                   ⚠ 이메일 인증을 진행해주세요
