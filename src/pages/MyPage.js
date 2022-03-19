@@ -35,6 +35,12 @@ import noneProfileImg from "../images/none_profile_image.png";
 import useMyPage from "../hooks/useMypage";
 
 // style
+const ImgInput = styled.input`
+  position: relative;
+  bottom: -0.5rem;
+  left: 0rem;
+`;
+
 const MyPageWrapper = styled(Container)`
   & .cardWrap {
     @media (max-width: 768px) {
@@ -226,15 +232,10 @@ const MyPage = () => {
   const profileImg = user?.profileImage;
 
   const [isChange, setIsChange] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
-  const [data, setData] = useState({
-    infoByEmail: user?.infoByEmail || "",
-    infoByWeb: user?.infoByWeb || "",
-    introduction: user?.introduction || "",
-    nickname: user?.nickname || "",
-    personalUrl: user?.personalUrl || "",
-    profileImage: user?.profileImage || "",
-  });
+  const [data, setData] = useState();
+  console.log(data);
 
   const onChange = e => {
     const { value, name } = e.target;
@@ -256,7 +257,14 @@ const MyPage = () => {
   }, []);
 
   useEffect(() => {
-    setData(user);
+    setData({
+      infoByEmail: user?.infoByEmail || "",
+      infoByWeb: user?.infoByWeb || "",
+      introduction: user?.introduction || "",
+      nickname: user?.nickname || "",
+      personalUrl: user?.personalUrl || "",
+      profileImage: user?.profileImage || "",
+    });
   }, [user]);
 
   const onSubmit = () => {
@@ -267,6 +275,21 @@ const MyPage = () => {
     } else {
       setIsChange(true);
     }
+  };
+
+  const onImageChage = async e => {
+    const img = e.target.files[0];
+    const formData = new FormData();
+    formData.append("image", img);
+
+    const response = await axiosInstance.post(
+      `${API_URL}/v1/file/upload`,
+      formData,
+      { header: { "content-type": "multipart/formdata" } },
+    );
+
+    const url = `${API_URL}${response.data.data.imageURL}`;
+    setData({ ...data, profileImage: url });
   };
 
   return (
@@ -322,7 +345,7 @@ const MyPage = () => {
                   이름
                   {isChange ? (
                     <Input
-                      value={data?.nickname}
+                      value={data.nickname}
                       name="nickname"
                       onChange={onChange}
                     />
@@ -336,7 +359,7 @@ const MyPage = () => {
                   자기소개
                   {isChange ? (
                     <Input
-                      value={data?.introduction}
+                      value={data.introduction}
                       name="introduction"
                       onChange={onChange}
                     />
@@ -350,7 +373,7 @@ const MyPage = () => {
                   웹사이트
                   {isChange ? (
                     <Input
-                      value={data?.personalUrl}
+                      value={data.personalUrl}
                       name="personalUrl"
                       onChange={onChange}
                     />
@@ -360,6 +383,35 @@ const MyPage = () => {
                 </label>
               </div>
               <div>프로필 이미지</div>
+              {isChange && (
+                <div>
+                  <img src={data.profileImage} alt="프로필 이미지" />
+                  {showModal && (
+                    <ImgInput
+                      type="file"
+                      accept="image/jpg,image/png,image/jpeg,image/gif"
+                      name="imgUrl"
+                      onChange={onImageChage}
+                    />
+                  )}
+                  <button
+                    className="linkBtn"
+                    onClick={() => {
+                      setShowModal(true);
+                    }}
+                  >
+                    변경
+                  </button>
+                  <button
+                    className="linkBtn"
+                    onClick={() => {
+                      setData({ ...data, profileImage: "" });
+                    }}
+                  >
+                    삭제
+                  </button>
+                </div>
+              )}
 
               <div className="linkBtn" onClick={onSubmit}>
                 설정 변경

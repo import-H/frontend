@@ -16,7 +16,7 @@ const useMyPage = user => {
   };
   console.log(data);
 
-  return { data, onChange };
+  return { data, onChange, setData };
 };
 
 export default useMyPage;
