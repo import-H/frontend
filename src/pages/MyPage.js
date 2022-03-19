@@ -280,18 +280,12 @@ const MyPage = () => {
     e.preventDefault();
 
     changeInfo("introduction", newIntroduceValue);
-    // if (newIntroduceValue !== "") {
-
-    //   dispatch(editProfile({ userId: userId, userData }));
-    //   dispatch(updateUser());
-    // }
     setIsIntroduceChange(false);
   };
   const introduceDelete = async e => {
     if (window.confirm("자기소개를 삭제할까요?")) {
       e.preventDefault();
       changeInfo("introduction", newIntroduceValue);
-
     }
   };
 
