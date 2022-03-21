@@ -58,7 +58,7 @@ const LikeWrap = styled.div`
   }
 `;
 
-const PostSidebar = ({ like, likeCount, onClickLike }) => {
+const PostSidebar = ({ scrap, like, likeCount, onClickLike, onClickScrap }) => {
   return (
     <Wrapper>
       {/* 좋아요 */}
@@ -66,6 +66,10 @@ const PostSidebar = ({ like, likeCount, onClickLike }) => {
         <FontAwesomeIcon icon={faHeart} />
         <span className="num"> {likeCount}</span>
       </LikeWrap>
+      <div>
+        <button onClick={onClickScrap}>스크랩</button>
+        <div>{scrap ? "true" : "false"}</div>
+      </div>
     </Wrapper>
   );
 };

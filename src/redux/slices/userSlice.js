@@ -70,6 +70,12 @@ export const checkMessage = createAsyncThunk("user/checkMessage", async id => {
   return response.data.data;
 });
 
+// 스크랩 가져오기
+export const getScrap = createAsyncThunk("user/getScrap", async id => {
+  const response = await axiosInstance.get(`${API_URL}/v1/users/${id}/scrap`);
+  return response.data.list;
+});
+
 const slice = createSlice({
   name: "user",
   initialState,
@@ -115,6 +121,13 @@ const slice = createSlice({
     },
     [getMessages.fulfilled]: (state, action) => {
       state.messages = action.payload;
+    },
+    [getScrap.rejected]: (state, action) => {
+      state.status = "failed";
+      state.error = action.error;
+    },
+    [getScrap.fulfilled]: (state, action) => {
+      state.scrap = action.payload;
     },
   },
 });

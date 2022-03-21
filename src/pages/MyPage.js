@@ -33,6 +33,7 @@ import { API_URL } from "../config";
 
 import noneProfileImg from "../images/none_profile_image.png";
 import useMyPage from "../hooks/useMypage";
+import Scrap from "../components/mypage/Scrap";
 
 // style
 const ImgInput = styled.input`
@@ -436,6 +437,9 @@ const MyPage = () => {
                 )}
               </div>
             </div>
+          </div>
+          <div className="cardWrap flex flex-jc-c">
+            <Scrap userId={userId} />
           </div>
         </>
       )}

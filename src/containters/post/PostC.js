@@ -2,8 +2,10 @@ import React, { useEffect } from "react";
 import PostTemplate from "../../components/post/PostTemplate";
 import {
   addLike,
+  addScrap,
   deleteLike,
   deletePost,
+  deleteScrap,
   getPost,
 } from "../../redux/slices/postSlice";
 import { useSelector, useDispatch } from "react-redux";
@@ -35,6 +37,16 @@ const PostC = () => {
     }
   };
 
+  const onClickScrap = async e => {
+    e.preventDefault();
+    if (isAuth) {
+      post.scrap
+        ? await dispatch(deleteScrap(postId))
+        : await dispatch(addScrap(postId));
+      await dispatch(getPost(postId));
+    }
+  };
+
   useEffect(async () => {
     await dispatch(getPost(postId));
   }, []);
@@ -47,6 +59,7 @@ const PostC = () => {
       onClickLike={onClickLike}
       postId={postId}
       boardId={boardId}
+      onClickScrap={onClickScrap}
     />
   );
 };

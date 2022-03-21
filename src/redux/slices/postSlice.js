@@ -170,6 +170,25 @@ export const uploadFile = createAsyncThunk(
   },
 );
 
+// 스크랩 누르기
+export const addScrap = createAsyncThunk("post/addScrap", async postId => {
+  const response = await axiosInstance.post(
+    `${API_URL}/v1/posts/${postId}/scrap`,
+  );
+  return response.data.data;
+});
+
+// 스크랩 취소
+export const deleteScrap = createAsyncThunk(
+  "post/deleteScrap",
+  async postId => {
+    const response = await axiosInstance.delete(
+      `${API_URL}/v1/posts/${postId}/scrap`,
+    );
+    return response.data.data;
+  },
+);
+
 // createSlice
 const slice = createSlice({
   name: "post",
