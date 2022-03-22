@@ -7,7 +7,6 @@ import axios from "axios";
 // axios with auth
 import axiosInstance from "../../utils/axiosInstance";
 import { API_URL } from "../../config";
-import jwt_decode from "jwt-decode";
 
 const initialState = {
   status: null,
@@ -73,6 +72,14 @@ export const checkMessage = createAsyncThunk("user/checkMessage", async id => {
 // 스크랩 가져오기
 export const getScrap = createAsyncThunk("user/getScrap", async id => {
   const response = await axiosInstance.get(`${API_URL}/v1/users/${id}/scrap`);
+  console.log("scrap", response.data.list);
+  return response.data.list;
+});
+
+// 좋아요 가져오기
+export const getLike = createAsyncThunk("user/getLike", async id => {
+  const response = await axiosInstance.get(`${API_URL}/v1/users/${id}/like`);
+  console.log("like", response.data.list);
   return response.data.list;
 });
 
@@ -120,6 +127,7 @@ const slice = createSlice({
       state.error = action.error;
     },
     [getMessages.fulfilled]: (state, action) => {
+      state.status = "success";
       state.messages = action.payload;
     },
     [getScrap.rejected]: (state, action) => {
@@ -127,7 +135,16 @@ const slice = createSlice({
       state.error = action.error;
     },
     [getScrap.fulfilled]: (state, action) => {
+      state.status = "success";
       state.scrap = action.payload;
+    },
+    [getLike.rejected]: (state, action) => {
+      state.status = "failed";
+      state.error = action.error;
+    },
+    [getLike.fulfilled]: (state, action) => {
+      state.status = "success";
+      state.like = action.payload;
     },
   },
 });

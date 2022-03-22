@@ -34,6 +34,7 @@ import { API_URL } from "../config";
 import noneProfileImg from "../images/none_profile_image.png";
 import useMyPage from "../hooks/useMypage";
 import Scrap from "../components/mypage/Scrap";
+import Like from "../components/mypage/Like";
 
 // style
 const ImgInput = styled.input`
@@ -236,7 +237,7 @@ const MyPage = () => {
   const [showModal, setShowModal] = useState(false);
 
   const [data, setData] = useState();
-  console.log(data);
+  //console.log(data);
 
   const onChange = e => {
     const { value, name } = e.target;
@@ -440,6 +441,7 @@ const MyPage = () => {
           </div>
           <div className="cardWrap flex flex-jc-c">
             <Scrap userId={userId} />
+            <Like userId={userId} />
           </div>
         </>
       )}

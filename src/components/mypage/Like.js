@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getScrap } from "../../redux/slices/userSlice";
+import { getLike } from "../../redux/slices/userSlice";
 
-const Scrap = ({ userId }) => {
+const Like = ({ userId }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const scraps = useSelector(state => state.user.scrap);
+  const likes = useSelector(state => state.user.like);
 
   const onClickMessage = async postUri => {
     try {
@@ -27,23 +27,22 @@ const Scrap = ({ userId }) => {
     }
   };
   useEffect(async () => {
-    await dispatch(getScrap(userId));
+    await dispatch(getLike(userId));
   }, []);
 
   return (
     <div>
-      <h1>Scrap</h1>
-      {scraps &&
-        scraps.map(scrap => (
-          <div key={scrap.postUri}>
+      <h1>Like</h1>
+      {likes &&
+        likes.map(like => (
+          <div key={like.postUri}>
             <div
               onClick={() => {
-                onClickMessage(scrap.postUri);
+                onClickMessage(like.postUri);
               }}
             >
-              <div>{scrap.title}</div>
-              <div>{scrap.author}</div>
-              <div>{scrap.postUri}</div>
+              <div>{like.title}</div>
+              <div>{like.author}</div>
             </div>
           </div>
         ))}
@@ -51,4 +50,4 @@ const Scrap = ({ userId }) => {
   );
 };
 
-export default Scrap;
+export default Like;
