@@ -9,7 +9,7 @@ import { Menu } from "antd";
 
 
 const StyledMenu = styled(Menu)`
-   text-align: center;
+  text-align: center;
   border-radius: 0.4rem;
   position: relative;
   margin-top: 2rem;
@@ -49,29 +49,35 @@ const StyledMenu = styled(Menu)`
   & li{
     margin: 0 !important;
     border-radius: 0.4rem;
-
+    font-size: 1.3rem;
+     min-width: 240px;
+     display: block;    
     &.ant-menu-item-selected{
-      background-color: #7973ce20 !important;
+      background-color: #FF6C2620 !important;
     }
-
     &.ant-menu-item-selected a{
-      color: var(--secondary-color);
+      color: var(--point-color-orange);
     }
-
+    &:hover,&.ant-menu-item-selected, &.ant-menu:not(.ant-menu-horizontal){
+      color: var(--point-color-orange) !important;
+    }
     &:active{
-      background-color: #7973ce20;
-    }
-  }
-   
-  & a{
-     font-size: 1.3rem;
-     min-width: 200px;
-     display: block;
-
-     &:hover, &.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected{
-       color: var(--secondary-color);
-     }
-   }
+      background-color: #FF6C2620;
+    } 
+    & .ant-menu-title-content{
+      & .red-dot{
+        /* red dot */
+        display: inline-block;   
+        margin-right: 1rem;     
+        width: 0.4rem;
+        height: 0.4rem;
+        border-radius: 100%;
+        background: var(--point-color-orange);        
+      }
+      }
+     }  
+  }   
+  
 `;
 
 const Messages = ({ messages, onClickMessage }) => {
@@ -89,7 +95,10 @@ const Messages = ({ messages, onClickMessage }) => {
               onClickMessage(message.id);
             }}
           >
-            <div>{message.title}</div>
+            <div className="flex flex-ai-c">
+              <span class="red-dot"/>
+              {message.title}
+            </div>
             <div>{message.createdAt}</div>
           </StyledMenu.Item>
         ))}
