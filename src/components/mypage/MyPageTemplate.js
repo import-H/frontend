@@ -6,31 +6,6 @@ import Setting from "./Setting";
 import Scrap from "./Scrap";
 import Like from "./Like";
 
-const StyledModal = styled(Modal)`
-  & .btnArea {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 3em;
-
-    & .linkBtn {
-      font-size: 1.4rem;
-      margin-right: 1.5rem;
-      width: 50%;
-      max-width: 120px;
-      &:last-child {
-        margin-right: 0;
-      }
-      &.cancel {
-        background-color: #000;
-      }
-      &.cancel:hover {
-        background-color: var(--point-color-orange);
-        color: #fff;
-      }
-    }
-  }
-`;
-
 const MyPageTemplate = ({
   onSubmit,
   onImageChange,
