@@ -7,7 +7,6 @@ import axios from "axios";
 // axios with auth
 import axiosInstance from "../../utils/axiosInstance";
 import { API_URL } from "../../config";
-import jwt_decode from "jwt-decode";
 
 const initialState = {
   status: null,
@@ -30,10 +29,9 @@ export const getProfile = createAsyncThunk("user/getProfile", async userId => {
 });
 
 // 프로필 수정하기
-export const editProfile = createAsyncThunk(
-  "user/editProfile",
-  async (data, thunkAPI) => {
-    const { userId, userData } = data;
+export const editProfile = createAsyncThunk("user/editProfile", async data => {
+  const { userId, userData } = data;
+  try {
     const response = await axiosInstance.put(
       `${API_URL}/v1/users/${userId}`,
       userData,
@@ -41,8 +39,15 @@ export const editProfile = createAsyncThunk(
     // const re = await thunkAPI.dispatch(refresh());
     // console.log("re", re);
     return response.data.data;
-  },
-);
+  } catch (err) {
+    let error = err; // cast the error for access
+    console.log(error.response.data);
+    if (!error.response) {
+      throw err;
+    }
+    return rejectWithValue(error.response.data);
+  }
+});
 
 // 유저 목록 가져오기
 export const getUsers = createAsyncThunk("user/getUsers", async () => {
@@ -62,6 +67,20 @@ export const getMessages = createAsyncThunk("user/getMessages", async () => {
 export const checkMessage = createAsyncThunk("user/checkMessage", async id => {
   const response = await axiosInstance.get(`${API_URL}/v1/messages/${id}`);
   return response.data.data;
+});
+
+// 스크랩 가져오기
+export const getScrap = createAsyncThunk("user/getScrap", async id => {
+  const response = await axiosInstance.get(`${API_URL}/v1/users/${id}/scrap`);
+  console.log("scrap", response.data.list);
+  return response.data.list;
+});
+
+// 좋아요 가져오기
+export const getLike = createAsyncThunk("user/getLike", async id => {
+  const response = await axiosInstance.get(`${API_URL}/v1/users/${id}/like`);
+  console.log("like", response.data.list);
+  return response.data.list;
 });
 
 const slice = createSlice({
@@ -108,7 +127,24 @@ const slice = createSlice({
       state.error = action.error;
     },
     [getMessages.fulfilled]: (state, action) => {
+      state.status = "success";
       state.messages = action.payload;
+    },
+    [getScrap.rejected]: (state, action) => {
+      state.status = "failed";
+      state.error = action.error;
+    },
+    [getScrap.fulfilled]: (state, action) => {
+      state.status = "success";
+      state.scrap = action.payload;
+    },
+    [getLike.rejected]: (state, action) => {
+      state.status = "failed";
+      state.error = action.error;
+    },
+    [getLike.fulfilled]: (state, action) => {
+      state.status = "success";
+      state.like = action.payload;
     },
   },
 });

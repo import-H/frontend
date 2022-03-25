@@ -46,6 +46,7 @@ const PostTemplate = ({
   onClickLike,
   postId,
   boardId,
+  onClickScrap,
 }) => {
   return (
     <>
@@ -72,9 +73,11 @@ const PostTemplate = ({
           )}
           {/* 사이드바 */}
           <PostSidebar
+            scrap={post.scrap}
             like={post.like}
             likeCount={post.responseInfo.likeCount}
             onClickLike={onClickLike}
+            onClickScrap={onClickScrap}
           />
           {/* 수정, 삭제버튼 */}
           {isAuth && (

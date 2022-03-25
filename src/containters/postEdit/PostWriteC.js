@@ -61,8 +61,11 @@ const PostWriteC = ({ shape, id }) => {
       type: id,
       important: false,
     };
+
     try {
-      await dispatch(addPost(postData)).unwrap();
+      if (id === "notice")
+        await dispatch(addPost({ ...postData, important: true })).unwrap();
+      else await dispatch(addPost(postData)).unwrap();
       switch (id) {
         case "free":
         case "notice":
