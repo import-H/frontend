@@ -145,8 +145,8 @@ const PersonalBoard = () => {
   useEffect(async () => {
     try {
       const postdata = await dispatch(getPosts(personId)).unwrap();
-
-      setPosts(postdata);
+      // console.log("data", postdata);
+      setPosts(postdata.posts);
     } catch (e) {
       alert(e);
     }

@@ -27,9 +27,8 @@ export const getPosts = createAsyncThunk(
   "post/getPosts",
   async (boardId, dispatch, getState) => {
     // const response = await axios.get(`${API_URL}/v1/boards/${boardId}/posts`);
-
     const response = await axios.get(`${API_URL}/v1/boards/${boardId}`);
-    return response.data.list;
+    return { posts: response.data.list, boardId: boardId };
   },
 );
 
@@ -38,7 +37,6 @@ export const addPost = createAsyncThunk(
   "post/addPost",
   async (postData, { rejectWithValue }) => {
     try {
-      console.log(postData);
       const response = await axiosInstance.post(`${API_URL}/v1/posts`, {
         ...postData,
       });
@@ -90,6 +88,7 @@ export const deletePost = createAsyncThunk(
 // 게시글 수정하기
 export const editPost = createAsyncThunk("post/editPost", async data => {
   const { postId, postData } = data;
+  console.log(postData);
   const response = await axiosInstance.put(
     // `${API_URL}/v1/boards/${boardId}/posts/${postId}`,
     `${API_URL}/v1/posts/${postId}`,
@@ -171,6 +170,25 @@ export const uploadFile = createAsyncThunk(
   },
 );
 
+// 스크랩 누르기
+export const addScrap = createAsyncThunk("post/addScrap", async postId => {
+  const response = await axiosInstance.post(
+    `${API_URL}/v1/posts/${postId}/scrap`,
+  );
+  return response.data.data;
+});
+
+// 스크랩 취소
+export const deleteScrap = createAsyncThunk(
+  "post/deleteScrap",
+  async postId => {
+    const response = await axiosInstance.delete(
+      `${API_URL}/v1/posts/${postId}/scrap`,
+    );
+    return response.data.data;
+  },
+);
+
 // createSlice
 const slice = createSlice({
   name: "post",
@@ -194,9 +212,11 @@ const slice = createSlice({
       state.status = "loading";
     },
     [getPosts.fulfilled]: (state, action) => {
+      const { posts, boardId } = action.payload;
       state.addPost = "";
       state.status = "success";
-      state.posts = action.payload;
+      // if (boardId === "notice") state.notice = posts else ;
+      state.posts = posts;
     },
     [getPosts.rejected]: (state, action) => {
       state.status = "failed";
