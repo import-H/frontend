@@ -56,11 +56,8 @@ const Leave = () => {
         email: email,
         password: authInfo.password,
       };
-      if (
-        window.confirm(
-          "정말로 탈퇴할까요? 데이터는 다시 복구되지 않습니다. 신중히 선택해주세요.",
-        )
-      ) {
+
+      if (window.confirm("정말로 탈퇴할까요? 데이터는 다시 복구되지 않습니다. 신중히 선택해주세요.",)) {
         try {
           const ers = await dispatch(login(data)).unwrap();
           console.log("rs", ers);

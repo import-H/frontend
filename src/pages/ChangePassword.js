@@ -50,34 +50,31 @@ const ChangePassword = () => {
     e.preventDefault();
 
     if (authInfo.newPassword === authInfo.newConfirmPassword) {
-      if (
-        authInfo.newPassword.length >= 8 &&
-        authInfo.newPassword.length <= 50
-      ) {
+      if (authInfo.newPassword.length >= 8 && authInfo.newPassword.length <= 50) {
         // form 검사
         if (Object.values(authInfo).includes("") === true) {
           alert("입력하지 않은 정보가 있습니다.");
         } else {
-          const data = {
-            email: email,
-            password: authInfo.password,
-          };
-          const newPasswordData = {
-            password: authInfo.newPassword,
-            confirmPassword: authInfo.newConfirmPassword,
-          };
-          try {
-            const ers = await dispatch(login(data)).unwrap();
-            console.log("rs", ers);
-            await axiosInstance.put(
-              `${API_URL}/v1/users/${userId}/updatePassword`,
-              { ...newPasswordData },
-            );
-            alert("비밀번호 변경이 완료되었습니다. 다시 로그인해주세요.");
-            dispatch(logout());
-            navigate("/");
+            const data = {
+              email: email,
+              password: authInfo.password,
+            };
+            const newPasswordData = {
+              password: authInfo.newPassword,
+              confirmPassword: authInfo.newConfirmPassword,
+            };
+            try {
+              const ers = await dispatch(login(data)).unwrap();
+              console.log("rs", ers);
+              await axiosInstance.put(
+                `${API_URL}/v1/users/${userId}/updatePassword`,
+                { ...newPasswordData },
+              );
+              alert("비밀번호 변경이 완료되었습니다. 다시 로그인해주세요.");
+              dispatch(logout());
+              navigate("/");
           } catch (e) {
-            alert("틀린 비밀번호를 입력했습니다. 비밀번호를 확인해주세요.");
+              alert("틀린 비밀번호를 입력했습니다. 비밀번호를 확인해주세요.");
           }
         }
       } else {
